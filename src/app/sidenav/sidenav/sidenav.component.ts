@@ -191,10 +191,7 @@ export class SidenavComponent {
       this.databaseStorageService.getData(NameModuleDatabase.BANKS, 'server'),
       this.databaseStorageService.getData(NameModuleDatabase.BOX_OPENINGS, 'server'),
       this.databaseStorageService.getData(NameModuleDatabase.SURRENDER_BOX_OPENINGS, 'server'),
-      this.databaseStorageService.getData(NameModuleDatabase.COST_CENTER_TYPES, 'server'),
-      this.databaseStorageService.getData(NameModuleDatabase.CODE_COUNTRIES, 'server'),
       this.databaseStorageService.getData(NameModuleDatabase.CUSTOMERS, 'server'),
-      this.databaseStorageService.getData(NameModuleDatabase.MEASUREMENT_UNITS, 'server'),
       this.databaseStorageService.getData(NameModuleDatabase.TAXES, 'server'),
       this.databaseStorageService.getData(NameModuleDatabase.DOCUMENT_TYPES, 'server'),
     ])
@@ -205,12 +202,12 @@ export class SidenavComponent {
 
 const DRAWER_LINKS: GroupDrawerLink[] = [
   {
-    label: 'Stakeholders',
+    label: 'Organización',
     links: [
       {
-        label: 'Leads',
+        label: 'Clientes',
         icon: 'supervised_user_circle',
-        route: '/lead',
+        route: '/organization/client',
       },
       {
         label: 'Clientes',
@@ -222,131 +219,6 @@ const DRAWER_LINKS: GroupDrawerLink[] = [
         icon: 'diversity_3',
         route: '/provider',
       }
-    ]
-  },
-  {
-    label: 'Colaboradores',
-    links: [
-      {
-        label: 'Usuarios',
-        icon: 'person_add',
-        route: '/user',
-      },
-      {
-        label: 'Recursos humanos',
-        icon: 'admin_panel_settings',
-        route: '/human-resource',
-      },
-    ]
-  },
-  {
-    label: 'Ventas',
-    links: [
-      {
-        label: 'Cotizaciones',
-        icon: 'dashboard',
-        route: '/quotation',
-      },
-      {
-        label: 'Proyectos',
-        icon: 'work',
-        route: '/project',
-      },
-    ]
-  },
-  {
-    label: 'Administración',
-    links: [
-      {
-        label: 'Caja',
-        icon: 'flowsheet',
-        route: '/box/list',
-      },
-      {
-        label: 'Movimientos',
-        icon: 'right_click',
-        route: '/box/box-movement',
-      },
-    ]
-  },
-  {
-    label: 'Costos',
-    links: [
-      {
-        label: 'Tipo de centro de costos',
-        icon: 'arrow_and_edge',
-        route: '/cost-center/cost-center-type',
-      },
-      {
-        label: 'Lista de gastos',
-        icon: 'receipt_long',
-        route: '/cost-center/expense-list-general',
-      },
-      {
-        label: 'Centro de costos',
-        icon: 'price_check',
-        route: '/cost-center/panel',
-      },
-    ]
-  },
-  {
-    label: 'Compras',
-    links: [
-      {
-        label: 'Orden de compra',
-        icon: 'sell',
-        route: '/purchase-order',
-      },
-      {
-        label: 'Requerimientos',
-        route: '/requirement',
-        icon: 'last_page',
-      },
-      {
-        label: 'Registro de actas',
-        route: '/record-meeting',
-        icon: 'auto_videocam',
-      },
-    ]
-  },
-  {
-    label: 'Inversiones',
-    links: [
-      {
-        label: 'Inversionistas',
-        route: '/investor/list',
-        icon: 'recent_patient',
-      },
-      {
-        label: 'Inversiones',
-        route: '/investor/investment',
-        icon: 'insights',
-      },
-      {
-        label: 'Retiro de inversiones',
-        route: '/investor/investment-withdrawal',
-        icon: 'real_estate_agent',
-      },
-    ]
-  },
-  {
-    label: 'Kardex',
-    links: [
-      {
-        label: 'Productos',
-        route: '/product',
-        icon: 'widgets',
-      },
-      {
-        label: 'Marcas',
-        route: '/brand',
-        icon: 'label_important',
-      },
-      {
-        label: 'Categorias',
-        route: '/category',
-        icon: 'category',
-      },
     ]
   },
   {
