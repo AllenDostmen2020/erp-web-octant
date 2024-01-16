@@ -1,6 +1,6 @@
 import { Component, Input, inject, signal } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { ItemFormConfiguration } from '@interface/itemForm';
+import { ItemFormConfiguration } from 'src/app/shared/interfaces/itemForm';
 import { FetchService } from '@service/fetch.service';
 import { EventsService } from '@service/events.service';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -14,7 +14,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { SelectFileComponent } from '../select-file/select-file.component';
 import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
 import { ActivatedRoute } from '@angular/router';
-import { FetchErrorResponse, RequestInitFetch } from '@interface/fetch';
+import { FetchErrorResponse, RequestInitFetch } from 'src/app/shared/interfaces/fetch';
 import { ErrorTemplateComponent } from '../error-template/error-template.component';
 import { GetKeyItemPipe } from '@pipe/get-key-item.pipe';
 import { ExecuteFunctionPipe } from '@pipe/execute-function.pipe';

@@ -2,7 +2,7 @@ import { Component, Input, WritableSignal, inject, signal } from '@angular/core'
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { PaginatorData } from '@interface/paginator';
+import { PaginatorData } from 'src/app/shared/interfaces/paginator';
 import { GetMixedValuePipe } from '@pipe/get-mixed-value.pipe';
 import { DatabaseStorageService } from '@service/database-storage.service';
 import { FetchService } from '@service/fetch.service';

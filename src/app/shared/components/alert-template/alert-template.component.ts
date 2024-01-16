@@ -1,6 +1,17 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AlertConfiguration } from '@interface/alertTemplate';
+
+export interface AlertConfiguration {
+  title?: string;
+  description: string;
+  icon?: string;
+  showCloseButton?: boolean;
+  actionButton?: {
+      icon?: string;
+      text: string;
+      fn: () => void
+  };
+}
 
 @Component({
   selector: 'app-alert-template',

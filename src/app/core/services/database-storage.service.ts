@@ -1,7 +1,7 @@
 import { inject, Injectable, Injector } from '@angular/core';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { FetchService } from './fetch.service';
-import { PaginatorData } from '@interface/paginator';
+import { PaginatorData } from 'src/app/shared/interfaces/paginator';
 
 interface IServerModule {
     key: NameModuleDatabase;

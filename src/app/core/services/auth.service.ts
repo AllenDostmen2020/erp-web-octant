@@ -1,6 +1,6 @@
 import { Injectable, inject, WritableSignal, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { NAME_TOKEN } from '@interface/fetch';
+import { NAME_TOKEN } from 'src/app/shared/interfaces/fetch';
 import { User } from '@interface/user';
 
 @Injectable({

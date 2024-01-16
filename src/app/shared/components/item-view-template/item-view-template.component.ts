@@ -8,7 +8,7 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
-import { ItemViewConfiguration } from '@interface/itemView';
+import { ItemViewConfiguration } from 'src/app/shared/interfaces/itemView';
 import {
   animate,
   animateChild,
@@ -19,7 +19,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { FetchService } from '@service/fetch.service';
-import { FetchErrorResponse } from '@interface/fetch';
+import { FetchErrorResponse } from 'src/app/shared/interfaces/fetch';
 import { objectToURLSearchParams } from '@utility/queryParams';
 import { GetMixedValuePipe } from '@pipe/get-mixed-value.pipe';
 

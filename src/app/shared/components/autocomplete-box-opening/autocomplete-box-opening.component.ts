@@ -4,7 +4,7 @@ import { AbstractControl, FormControl, ReactiveFormsModule } from '@angular/form
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { BoxOpening } from '@interface/boxOpening';
+import { BoxOpening } from 'src/app/shared/interfaces/boxOpening';
 import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
 
 @Component({

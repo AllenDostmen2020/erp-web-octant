@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FetchErrorResponse, HTTP_ERROR_CODES } from '@interface/fetch';
+import { FetchErrorResponse, HTTP_ERROR_CODES } from 'src/app/shared/interfaces/fetch';
 import { RouterLink } from '@angular/router';
 
 @Component({

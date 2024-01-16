@@ -33,14 +33,14 @@ import { GetKeyItemPipe } from '@pipe/get-key-item.pipe';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import { DiffDatePipe } from '@pipe/diff-date.pipe';
-import { PaginatorData } from '@interface/paginator';
+import { PaginatorData } from 'src/app/shared/interfaces/paginator';
 import { EventsService } from '@service/events.service';
 import {
   ItemListConfiguration,
   KEY_GET_ITEMS_PAGINATOR_LIST,
   KEY_GET_TOTAL_ITEMS_PAGINATOR_LIST,
   DATA_TYPE_LIST,
-} from '@interface/itemList';
+} from 'src/app/shared/interfaces/itemList';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { HiddenOptionButtonRowPipe } from '@pipe/hidden-option-button-row.pipe';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -50,7 +50,7 @@ import { ListFormatPipe } from '@pipe/list-format.pipe';
 import { LoadImagePrivateDirective } from '@directive/load-image-private.directive';
 import { FirstLetterUppercasePipe } from '@pipe/first-letter-uppercase.pipe';
 import { NavigateLateralPanelOutletDirective } from '@directive/navigate-lateral-panel-outlet.directive';
-import { FetchErrorType } from '@interface/fetch';
+import { FetchErrorType } from 'src/app/shared/interfaces/fetch';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { EventGlobalSearch, NAME_EVENT_GLOBAL_SEARCH } from 'src/app/control-panel/sidenav-panel/sidenav/sidenav.component';
 import { ExecuteFunctionPipe } from '@pipe/execute-function.pipe';
@@ -60,7 +60,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
-import { FormInput, dateRangeFormInput, switchFormInput } from '@interface/itemForm';
+import { FormInput, dateRangeFormInput, switchFormInput } from 'src/app/shared/interfaces/itemForm';
 import { InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
 import { InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 

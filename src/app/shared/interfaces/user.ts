@@ -1,6 +1,4 @@
 import { BaseModel } from "./baseModel";
-import { DocumentType } from "./documentType";
-import { UserType } from "./userType";
 
 export interface User extends BaseModel {
   id:number;
@@ -16,9 +14,6 @@ export interface User extends BaseModel {
   email_verified_at?: string;
 
   level: UserlevelEnum;
-
-  user_type: UserType;
-  document_type: DocumentType;
 
 }
 

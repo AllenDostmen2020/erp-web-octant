@@ -8,7 +8,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { SelectFileComponent } from '../select-file/select-file.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NameModuleDatabase } from '@service/database-storage.service';
-import { BoxMovement, BoxMovementTypeEnum } from '@interface/boxMovement';
+import { BoxMovement, BoxMovementTypeEnum } from 'src/app/shared/interfaces/boxMovement';
 import { InputAutocompleteLocalConfiguration } from '@component/input-autocomplete-template/input-autocomplete-template.component';
 import { InputSelectConfiguration, InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 

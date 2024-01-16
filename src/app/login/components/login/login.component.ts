@@ -9,7 +9,7 @@ import { SpinnerDefaultComponent } from '../../../shared/components/spinner-defa
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgClass } from '@angular/common';
-import { FetchErrorResponse } from '@interface/fetch';
+import { FetchErrorResponse } from 'src/app/shared/interfaces/fetch';
 
 interface ResponseLogin {
   access_token: string;

@@ -9,7 +9,7 @@ import { CommonModule, Location } from '@angular/common';
 import {
     ItemDetailConfiguration,
     ItemDetailGroup,
-} from '@interface/itemDetail';
+} from 'src/app/shared/interfaces/itemDetail';
 import { FetchService } from '@service/fetch.service';
 import { SpinnerDefaultComponent } from '../spinner-default/spinner-default.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -17,7 +17,7 @@ import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
 import { GetUserByIdPipe } from '@pipe/get-user-by-id.pipe';
 import { DiffDatePipe } from '@pipe/diff-date.pipe';
 import { ErrorTemplateComponent } from '../error-template/error-template.component';
-import { FetchErrorResponse, RequestInitFetch } from '@interface/fetch';
+import { FetchErrorResponse, RequestInitFetch } from 'src/app/shared/interfaces/fetch';
 import { ListFormatPipe } from '@pipe/list-format.pipe';
 import { FirstLetterUppercasePipe } from '@pipe/first-letter-uppercase.pipe';
 import { ScrollingModule } from '@angular/cdk/scrolling';

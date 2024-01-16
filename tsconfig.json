@@ -28,7 +28,7 @@
         "src/app/shared/helpers/*"
       ],
       "@interface/*": [
-        "src/app/shared/interface/*"
+        "src/app/shared/interfaces/*"
       ],
       "@service/*": [
         "src/app/core/services/*"

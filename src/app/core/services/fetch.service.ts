@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { ConfirmDialogData } from '@interface/confirmDialog';
-import { FetchErrorResponse, FetchErrorType, HTTP_ERROR_CODES, NAME_TOKEN, RequestInitFetch as RequestInit, defaultMessageDialogCreateItem, defaultMessageDialogDeleteItem, defaultMessageDialogUpdateItem } from '@interface/fetch';
+import { FetchErrorResponse, FetchErrorType, HTTP_ERROR_CODES, NAME_TOKEN, RequestInitFetch as RequestInit, defaultMessageDialogCreateItem, defaultMessageDialogDeleteItem, defaultMessageDialogUpdateItem } from 'src/app/shared/interfaces/fetch';
 import { FetchBase } from '@utility/fetchBase';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastService } from './toast.service';

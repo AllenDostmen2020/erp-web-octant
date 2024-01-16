@@ -4,7 +4,7 @@ import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FetchService } from '@service/fetch.service';
 import { Notification } from '@interface/notification';
-import { PaginatorData } from '@interface/paginator';
+import { PaginatorData } from 'src/app/shared/interfaces/paginator';
 
 @Component({
   selector: 'app-notifications-menu',

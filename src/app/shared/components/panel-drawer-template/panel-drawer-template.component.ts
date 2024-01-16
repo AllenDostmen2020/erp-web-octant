@@ -1,7 +1,29 @@
 import { Component, Input, ViewEncapsulation, WritableSignal, signal } from '@angular/core';
-import { CommonModule, NgClass } from '@angular/common';
-import { PanelSidenavConfiguration, PanelSidenavLink } from '@interface/secondaryPanelSidenav';
+import { NgClass } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+
+export interface PanelSidenavConfiguration {
+  title?: string;
+  groups: PanelSidenavGroup[];
+}
+
+export interface PanelSidenavGroup {
+  title?: string;
+  icon?: string;
+  links: PanelSidenavLink[];
+}
+
+export interface PanelSidenavLink {
+  title: string;
+  icon?: string;
+  routerLink: PanelSidenavLinkRouter;
+  children?: PanelSidenavLink[];
+}
+
+export interface PanelSidenavLinkRouter {
+  url: string;
+  queryParams?: { [key: string]: any };
+}
 
 @Component({
   selector: 'app-panel-drawer-template',
