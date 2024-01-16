@@ -10,7 +10,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    loadComponent: () => import('./control-panel/sidenav-panel/sidenav/sidenav.component').then(m => m.SidenavComponent),
+    loadComponent: () => import('./sidenav/sidenav/sidenav.component').then(m => m.SidenavComponent),
     children: panelRoutes,
     canActivate: [isLoggedGuard]
   },
