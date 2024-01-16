@@ -11,4 +11,4 @@ export const organizationRoutes: Routes = [
         path: 'user',
         children: userRoutes,
     },
-]
+];
