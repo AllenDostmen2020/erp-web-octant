@@ -52,7 +52,6 @@ import { FirstLetterUppercasePipe } from '@pipe/first-letter-uppercase.pipe';
 import { NavigateLateralPanelOutletDirective } from '@directive/navigate-lateral-panel-outlet.directive';
 import { FetchErrorType } from 'src/app/shared/interfaces/fetch';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
-import { EventGlobalSearch, NAME_EVENT_GLOBAL_SEARCH } from 'src/app/control-panel/sidenav-panel/sidenav/sidenav.component';
 import { ExecuteFunctionPipe } from '@pipe/execute-function.pipe';
 import { GetMixedValuePipe } from '@pipe/get-mixed-value.pipe';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -63,6 +62,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormInput, dateRangeFormInput, switchFormInput } from 'src/app/shared/interfaces/itemForm';
 import { InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
 import { InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
+import { EventGlobalSearch, NAME_EVENT_GLOBAL_SEARCH } from 'src/app/sidenav/sidenav/sidenav.component';
 
 export const defaultListFilterInputs = (): FormInput[] => [
   dateRangeFormInput({

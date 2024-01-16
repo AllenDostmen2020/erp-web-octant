@@ -1,6 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { ConfirmDialogData } from '@interface/confirmDialog';
+
+export interface ConfirmDialogData {
+  title: string;
+  description: string;
+  icon?: string;
+}
 
 @Component({
   selector: 'app-confirm-dialog-template',

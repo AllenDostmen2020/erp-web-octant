@@ -22,13 +22,13 @@ import { ListFormatPipe } from '@pipe/list-format.pipe';
 import { FirstLetterUppercasePipe } from '@pipe/first-letter-uppercase.pipe';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NavigateLateralPanelOutletDirective } from '@directive/navigate-lateral-panel-outlet.directive';
-import { ConfirmDialogData } from '@interface/confirmDialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { GeneratePathUrlPipe } from '@pipe/generate-path-url.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ExecuteFunctionPipe } from '@pipe/execute-function.pipe';
 import { GetMixedValuePipe } from '@pipe/get-mixed-value.pipe';
 import { objectToURLSearchParams } from '@utility/queryParams';
+import { ConfirmDialogData } from '@component/confirm-dialog-template/confirm-dialog-template.component';
 
 export const registerDataGroupDetail = (): ItemDetailGroup<any> => {
     return {

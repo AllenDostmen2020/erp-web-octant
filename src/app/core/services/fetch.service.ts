@@ -1,5 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { ConfirmDialogData } from '@interface/confirmDialog';
 import { FetchErrorResponse, FetchErrorType, HTTP_ERROR_CODES, NAME_TOKEN, RequestInitFetch as RequestInit, defaultMessageDialogCreateItem, defaultMessageDialogDeleteItem, defaultMessageDialogUpdateItem } from 'src/app/shared/interfaces/fetch';
 import { FetchBase } from '@utility/fetchBase';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,7 +7,7 @@ import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { ToastDataPromise } from '@interface/toast';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
-import { ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
+import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
 import { environment } from 'src/environments/environment';
 
 interface ToastForFecth extends Omit<ToastDataPromise, 'promise' | 'success' | 'error'> {

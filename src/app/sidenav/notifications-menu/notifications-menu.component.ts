@@ -22,16 +22,16 @@ import { PaginatorData } from 'src/app/shared/interfaces/paginator';
 export class NotificationsMenuComponent {
   @ViewChild(MatMenuTrigger) private menuTrigger!: MatMenuTrigger;
   private fetch = inject(FetchService);
-  public type: WritableSignal<'read'| 'unread'> = signal('unread');
+  public type: WritableSignal<'read' | 'unread'> = signal('unread');
   public notifications: WritableSignal<Notification[]> = signal([]);
 
   ngOnInit() {
     this.fetchNotifications();
   }
-  
+
   private async fetchNotifications() {
     const notifications = await this.fetch.get<PaginatorData<Notification>>('auth/notification');
-   this.notifications.set(notifications.data);
+    this.notifications.set(notifications.data);
 
   }
 }
