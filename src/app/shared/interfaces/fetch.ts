@@ -1,4 +1,4 @@
-import { ConfirmDialogData } from "./confirmDialog";
+import { ConfirmDialogData } from "@component/confirm-dialog-template/confirm-dialog-template.component";
 
 export const NAME_TOKEN = 'access_token';
 
