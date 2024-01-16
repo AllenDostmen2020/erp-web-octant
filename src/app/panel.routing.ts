@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
 import { lateralPanelRouting } from './lateral-panel.routing';
-import { clientRoutes } from './modules/clients/clients.routes';
+import { clientRoutes } from './modules/organization/clients/clients.routes';
+import { organizationRoutes } from './modules/organization/organization.routes';
 
 export const panelRoutes: Routes =[
     {
-        path: 'client',
-        children: clientRoutes,
+        path: 'organization',
+        children: organizationRoutes,
         title: 'Clientes | ERP'
     },
 

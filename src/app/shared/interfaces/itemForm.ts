@@ -1,8 +1,6 @@
 import { FormGroup } from "@angular/forms";
 import { FetchErrorResponse } from "./fetch";
 import { WritableSignal } from "@angular/core";
-import { AutocompleteLocalConfiguration } from "./autocompleteLocalTemplate";
-import { AutocompleteServerConfiguration } from "./autocompleteServerTemplate";
 import { InputAutocompleteConfiguration, InputAutocompleteLocalConfiguration, InputAutocompleteServerConfiguration } from "@component/input-autocomplete-template/input-autocomplete-template.component";
 import { InputSelectConfiguration, InputSelectLocalConfiguration, InputSelectServerConfiguration } from "@component/input-select-template/input-select-template.component";
 
