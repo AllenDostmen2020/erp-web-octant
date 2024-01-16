@@ -1,0 +1,19 @@
+<div class="dialog__container">
+
+    @if (data.icon) {
+    <div class="dialog__icon">
+        <span class="material-icons">{{data.icon}}</span>
+    </div>
+    }
+
+    <div class="dialog__title dialog__title-center">{{ data.title }}</div>
+
+    <div class="dialog__content">
+        <p class="text-on-surface-variant body-medium">{{ data.description }}</p>
+    </div>
+
+    <div class="dialog__actions">
+        <button class="text-button" mat-dialog-close>Cancelar</button>
+        <button class="text-button" [mat-dialog-close]="true" cdkFocusInitial>Aceptar</button>
+    </div>
+</div>

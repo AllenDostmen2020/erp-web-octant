@@ -1,0 +1,8 @@
+.mdc-tooltip__surface {
+    --mdc-plain-tooltip-supporting-text-font: var(--label-small-font-family-name);
+    --mdc-plain-tooltip-supporting-text-size: var(--label-small-font-size);
+    --mdc-plain-tooltip-supporting-text-weight: var(--label-small-font-weight);
+    --mdc-plain-tooltip-supporting-text-tracking: var(--label-small-letter-spacing); 
+    --mdc-plain-tooltip-supporting-text-color: rgb(var(--rgb-inverse-on-surface));
+    --mdc-plain-tooltip-container-color: rgb(var(--rgb-inverse-surface));
+}

@@ -1,0 +1,41 @@
+<mat-form-field>
+    <mat-label>{{ label }}</mat-label>
+    <input #inputHtml type="text" matInput [placeholder]="placeholder ? placeholder : 'Buscar...'"
+        [formControl]="autocompleteCtrl" [matAutocomplete]="auto" />
+    <button matSuffix class="icon-button" (click)="clearInput()" [disabled]="control.disabled" type="button">
+        <span class="material-icons">close</span>
+    </button>
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        @if (!box_openings.length&&loading) {
+        <mat-option disabled>Buscando...</mat-option>
+        }
+        @if (!box_openings.length&&!loading) {
+        <mat-option disabled>
+            <div class="flex gap-2 items-center justify-between">
+                <span>No hay resultados...</span>
+            </div>
+        </mat-option>
+        }
+        @for (box_opening of box_openings; track box_opening) {
+        <mat-option [value]="box_opening">
+            <div class="grid">
+                <div class="label-large">
+                    {{box_opening?.box?.name}}
+                    <span class="label-medium">({{box_opening?.box?.type | titlecase}})</span>
+                </div>
+                <div class="body-small flex gap-2">
+                    <span class="py-px px-2 rounded-full bg-tertiary-container text-on-tertiary-container">
+                        {{(box_opening?.box?.account?.coin ?? box_opening?.box?.coin)|titlecase}}
+                    </span>
+                    @if (box_opening?.box?.account) {
+
+                    <span>Cuenta: {{box_opening?.box?.account?.number}} |
+                        {{box_opening?.box?.account?.bank?.name}}</span>
+
+                    }
+                </div>
+            </div>
+        </mat-option>
+        }
+    </mat-autocomplete>
+</mat-form-field>

@@ -1,0 +1,148 @@
+
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.*/
+input,
+select,
+mat-select,
+textarea {
+  border-style: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px !important;
+  width: auto;
+  color: rgba(var(--rgb-on-surface), 1) !important;
+
+  &::placeholder {
+    color: var(--color-text-placeholder-input);
+  }
+}
+
+// select,
+input[type=date] {
+  &:invalid:required {
+    color: var(--color-text-placeholder-input) !important;
+  }
+}
+
+select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 11px 11px;
+  appearance: none;
+  padding-right: 28px !important;
+
+  option {
+    background: rgba(var(--rgb-color-elevation), 1) !important;
+    color: rgba(var(--rgb-color-text-primary), 1) !important;
+
+    &:hover {
+      background: rgba(var(--rgb-color-text-primary), .125) !important;
+    }
+
+    &[value=""][disabled] {
+      display: none;
+    }
+  }
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity .12s;
+  width: 20px;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1
+}
+
+
+.checkbox-style {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  cursor: pointer;
+
+  input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked {
+      ~.checkbox {
+        background-color: rgba(var(--color-primary), 1);
+        border-color: rgba(var(--color-primary), 1);
+        color: rgba(var(--rgb-contrast-color-primary), 1);
+        transition-property: background-color, border-color;
+
+        app-ion-icon {
+          transform: scale(1);
+          transition-property: transform;
+          transition-duration: .2s;
+          transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+      }
+    }
+
+    &:focus {
+      &:checked~.checkbox::after {
+        background: rgba(var(--color-primary), 1);
+      }
+
+      &:not(:checked)~.checkbox::after {
+        background: rgba(var(--rgb-color-text-primary), .525);
+      }
+    }
+
+    &:target,
+    &:active {
+      ~.checkbox::after {
+        transform: scale(.9);
+      }
+    }
+
+
+    ~.checkbox {
+      position: relative;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(var(--rgb-color-text-secondary), 1);
+      border-radius: 4px;
+      transition-property: border-color;
+      transition-duration: .2s;
+      --width-ion-icon: 16px;
+      --ionicon-stroke-width: 48px;
+      cursor: pointer;
+      overflow: visible;
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: -10px;
+        bottom: -10px;
+        left: -10px;
+        right: -10px;
+        border-radius: 50%;
+        opacity: .125;
+        background: transparent;
+        transition-property: background, transform;
+        transition-duration: .12s;
+      }
+
+      app-ion-icon {
+        transform: scale(0);
+      }
+    }
+
+    ~span {
+      user-select: none;
+      margin-left: 8px;
+    }
+  }
+
+}

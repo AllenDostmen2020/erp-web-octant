@@ -1,0 +1,163 @@
+.panel {
+    display: flex;
+    gap: var(--padding-x-card);
+    height: 100%;
+}
+
+/* ---------------------------------------- */
+/* ---------------------------------------- */
+/* ---------------------------------------- */
+.panel__drawer {
+    height: 100%;
+    width: 240px;
+    position: relative;
+    margin-left: -12px;
+    padding-left: 12px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.panel__drawer__container {
+    position: relative;
+}
+
+.panel__drawer__title {
+    font-family: var(--title-large-font-family-name);
+    font-style: var(--title-large-font-family-style);
+    font-weight: var(--title-large-font-weight);
+    font-size: var(--title-large-font-size);
+    letter-spacing: var(--title-large-letter-spacing);
+    line-height: var(--title-large-line-height);
+    text-transform: var(--title-large-text-transform);
+    text-decoration: var(--title-large-text-decoration);
+    color: var(--color-on-surface);
+    margin-bottom: 24px;
+
+}
+
+// .panel__drawer__block {
+//     margin-left: -2px;
+//     padding-left: 2px;
+// }
+
+.panel__drawer__block+.panel__drawer__block {
+    margin-top: var(--padding-y-card);
+}
+
+.panel__drawer__block__title {
+    font-family: var(--title-small-font-family-name);
+    font-style: var(--title-small-font-family-style);
+    font-weight: var(--title-small-font-weight);
+    font-size: var(--title-small-font-size);
+    letter-spacing: var(--title-small-letter-spacing);
+    line-height: var(--title-small-line-height);
+    text-transform: var(--title-small-text-transform);
+    text-decoration: var(--title-small-text-decoration);
+    color: var(--color-on-surface);
+    margin-bottom: 16px;
+}
+
+.panel__drawer__block__links {
+    display: grid;
+}
+
+.panel__drawer__block__links__item {
+    font-family: var(--label-large-font-family-name);
+    font-style: var(--label-large-font-family-style);
+    font-weight: var(--label-large-font-weight);
+    font-size: var(--label-large-font-size);
+    letter-spacing: var(--label-large-letter-spacing);
+    line-height: var(--label-large-line-height);
+    text-transform: var(--label-large-text-transform);
+    text-decoration: var(--label-large-text-decoration);
+    color: rgb(var(--rgb-on-surface), 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-left: 1px solid var(--color-outline-variant);
+    cursor: pointer;
+    transition: background .25s ease;
+    position: relative;
+}
+
+.panel__drawer__block__links__item:not(.active):hover {
+    color: rgb(var(--rgb-on-surface), 1);
+}
+
+.panel__drawer__block__links__item::after,
+.panel__drawer__block__links__item::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    right: 100%;
+    opacity: 0;
+}
+
+.panel__drawer__block__links__item::before {
+    background: rgb(var(--rgb-on-surface), 0.4);
+    height: calc(100% - 18px);
+    height: 50%;
+    transition: opacity .25s ease;
+}
+
+.panel__drawer__block__links__item::after {
+    height: 72.5%;
+    background: linear-gradient(to bottom, rgba(var(--rgb-primary), .5), var(--color-primary));
+    transition: opacity .25s ease, height .25s ease;
+}
+
+.panel__drawer__block__links__item:not(.active):hover::before {
+    opacity: 1;
+}
+
+.panel__drawer__block__links__item.active {
+    color: var(--color-primary);
+}
+
+.panel__drawer__block__links__item.active::after {
+    opacity: 1;
+}
+
+.panel__drawer__block__links__item.active:hover::after {
+    height: 83.33%;
+}
+
+.panel__drawer__subtitle {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 16px;
+    margin-left: -12px;
+}
+
+/* ---------------------------------------- */
+/* ---------------------------------------- */
+/* ---------------------------------------- */
+.panel__content {
+    flex: 1 1 0%;
+    position: relative;
+    height: 100%;
+}
+
+.enter-element {
+    width: 100%;
+    transform: translateX(0);
+    transition: transform .4s ease, visibility .4s ease;
+}
+
+.enter-element.__hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.enter-element-one.__hidden {
+    transform: translateX(-100%);
+    visibility: hidden;
+}
+
+.enter-element-two.__hidden {
+    transform: translateX(100%);
+    visibility: hidden;
+}

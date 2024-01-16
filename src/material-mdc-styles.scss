@@ -1,0 +1,195 @@
+body {
+  --mdc-theme-surface: rgb(var(--rgb-surface));
+  --mdc-theme-on-surface: rgb(var(--rgb-on-surface));
+
+  --mat-option-selected-state-label-text-color: rgba(var(--rgb-primary));
+  --mat-option-label-text-color: rgba(var(--rgb-on-surface), 0.87);
+  --mat-option-hover-state-layer-color: rgba(var(--rgb-on-surface), 0.04);
+  --mat-option-focus-state-layer-color: rgba(var(--rgb-on-surface), 0.04);
+  --mat-option-selected-state-layer-color: rgba(var(--rgb-on-surface), 0.04);
+
+
+  --mat-select-panel-background-color: rgba(var(--rgb-surface));
+  --mat-select-enabled-trigger-text-color: rgba(var(--rgb-on-surface), 0.87);
+  --mat-select-disabled-trigger-text-color: rgba(var(--rgb-on-surface), 0.38);
+  --mat-select-placeholder-text-color: rgba(var(--rgb-on-surface), 0.6);
+  --mat-select-enabled-arrow-color: rgba(var(--rgb-on-surface), 0.54);
+  --mat-select-disabled-arrow-color: rgba(var(--rgb-on-surface), 0.38);
+  --mat-select-focused-arrow-color: rgba(var(--rgb-primary));
+  --mat-select-invalid-arrow-color: rgba(var(--rgb-error));
+
+
+  --mat-option-label-text-font: var(--body-medium-font-family-name);
+  --mat-option-label-text-line-height: var(--body-medium-line-height);
+  --mat-option-label-text-size: var(--body-medium-font-size);
+  --mat-option-label-text-tracking: var(--body-medium-letter-spacing);
+  --mat-option-label-text-weight: var(--body-medium-font-weight);
+  --mat-optgroup-label-text-font: var(--body-medium-font-family-name);
+  --mat-optgroup-label-text-line-height: var(--body-medium-line-height);
+  --mat-optgroup-label-text-size: var(--body-medium-font-size);
+  --mat-optgroup-label-text-tracking: var(--body-medium-letter-spacing);
+  --mat-optgroup-label-text-weight: var(--body-medium-font-weight);
+
+  --mat-select-trigger-text-font: var(--body-medium-font-family-name);
+  --mat-select-trigger-text-line-height: var(--body-medium-line-height);
+  --mat-select-trigger-text-size: var(--body-medium-font-size);
+  --mat-select-trigger-text-tracking: var(--body-medium-letter-spacing);
+  --mat-select-trigger-text-weight: var(--body-medium-font-weight);
+  --mat-autocomplete-background-color: rgb(var(--rgb-surface));
+
+  --mat-menu-item-label-text-color: var(--color-on-surface);
+  --mat-menu-item-icon-color: var(--color-on-surface);
+  --mat-menu-item-hover-state-layer-color: rgba(var(--rgb-on-surface), 0.04);
+  --mat-menu-item-focus-state-layer-color: rgba(var(--rgb-on-surface), 0.04);
+  --mat-menu-container-color: var(--color-surface);
+  --mat-menu-item-label-text-font: var(--label-large-font-family-name);
+  --mat-menu-item-label-text-size: var(--label-large-font-size);
+  --mat-menu-item-label-text-tracking: var(--label-large-letter-spacing);
+  --mat-menu-item-label-text-line-height: var(--label-large-line-height);
+  --mat-menu-item-label-text-weight: var(--label-large-font-weight);
+
+
+  --mat-datepicker-calendar-text-font: var(--body-medium-font-family-name);
+  --mat-datepicker-calendar-text-size: var(--body-small-font-size);
+
+  --mat-datepicker-calendar-body-label-text-size: var(--body-small-font-size);
+  --mat-datepicker-calendar-body-label-text-weight: var(--body-small-font-weight);
+
+  --mat-datepicker-calendar-period-button-text-size: var(--body-medium-font-size);
+  --mat-datepicker-calendar-period-button-text-weight: var(--body-medium-font-weight);
+
+  --mat-datepicker-calendar-header-text-size: var(--label-small-font-size);
+  --mat-datepicker-calendar-header-text-weight: var(--label-small-font-weight);
+
+  --mat-datepicker-calendar-date-selected-state-text-color: var(--color-on-primary);
+  --mat-datepicker-calendar-date-selected-state-background-color: var(--color-primary);
+  --mat-datepicker-calendar-date-selected-disabled-state-background-color: rgba(var(--rgb-primary), 0.4);
+  --mat-datepicker-calendar-date-today-selected-state-outline-color: var(--color-surface);
+  --mat-datepicker-calendar-date-focus-state-background-color: rgba(var(--rgb-primary), 0.3);
+  --mat-datepicker-calendar-date-hover-state-background-color: rgba(var(--rgb-primary), 0.3);
+  --mat-datepicker-toggle-active-state-icon-color: #3f51b5;
+  --mat-datepicker-calendar-date-in-range-state-background-color: rgba(var(--rgb-primary), 0.2);
+  --mat-datepicker-calendar-date-in-comparison-range-state-background-color: rgba(249, 171, 0, 0.2);
+  --mat-datepicker-calendar-date-in-overlap-range-state-background-color: #a8dab5;
+  --mat-datepicker-calendar-date-in-overlap-range-selected-state-background-color: #46a35e;
+  --mat-datepicker-toggle-icon-color: rgba(var(--rgb-on-surface), 0.54);
+  --mat-datepicker-calendar-body-label-text-color: rgba(var(--rgb-on-surface), 0.54);
+  --mat-datepicker-calendar-period-button-icon-color: rgba(var(--rgb-on-surface), 0.54);
+  --mat-datepicker-calendar-navigation-button-icon-color: rgba(var(--rgb-on-surface), 0.54);
+  --mat-datepicker-calendar-header-divider-color: rgba(var(--rgb-on-surface), 0.12);
+  --mat-datepicker-calendar-header-text-color: rgba(var(--rgb-on-surface), 0.54);
+  --mat-datepicker-calendar-date-today-outline-color: rgba(var(--rgb-on-surface), 0.38);
+  --mat-datepicker-calendar-date-today-disabled-state-outline-color: rgba(var(--rgb-on-surface), 0.18);
+  --mat-datepicker-calendar-date-text-color: rgba(var(--rgb-on-surface), 0.87);
+  --mat-datepicker-calendar-date-outline-color: transparent;
+  --mat-datepicker-calendar-date-disabled-state-text-color: rgba(var(--rgb-on-surface), 0.38);
+  --mat-datepicker-calendar-date-preview-state-outline-color: rgba(var(--rgb-on-surface), 0.24);
+  --mat-datepicker-range-input-separator-color: rgba(var(--rgb-on-surface), 0.87);
+  --mat-datepicker-range-input-disabled-state-separator-color: rgba(var(--rgb-on-surface), 0.38);
+  --mat-datepicker-range-input-disabled-state-text-color: rgba(var(--rgb-on-surface), 0.38);
+  --mat-datepicker-calendar-container-background-color: var(--color-surface);
+  --mat-datepicker-calendar-container-text-color: rgba(var(--rgb-on-surface), 0.87);
+
+
+
+  --mdc-filled-text-field-label-text-font: var(--body-medium-font-family-name);
+  --mdc-filled-text-field-label-text-size: var(--body-medium-font-size);
+  --mdc-filled-text-field-label-text-tracking: var(--body-medium-letter-spacing);
+  --mdc-filled-text-field-label-text-weight: var(--body-medium-font-weight);
+  --mdc-outlined-text-field-label-text-font: var(--body-medium-font-family-name);
+  --mdc-outlined-text-field-label-text-size: var(--body-medium-font-size);
+  --mdc-outlined-text-field-label-text-tracking: var(--body-medium-letter-spacing);
+  --mdc-outlined-text-field-label-text-weight: var(--body-medium-font-weight);
+  --mat-form-field-container-text-font: var(--body-medium-font-family-name);
+  --mat-form-field-container-text-line-height: var(--body-medium-line-height);
+  --mat-form-field-container-text-size: var(--body-medium-font-size);
+  --mat-form-field-container-text-tracking: var(--body-medium-letter-spacing);
+  --mat-form-field-container-text-weight: var(--body-medium-font-weight);
+  --mat-form-field-outlined-label-text-populated-size: var(--body-medium-font-size);
+
+  --mat-form-field-subscript-text-font: var(--body-small-font-family-name);
+  --mat-form-field-subscript-text-line-height: var(--body-small-line-height);
+  --mat-form-field-subscript-text-size: var(--body-small-font-size);
+  --mat-form-field-subscript-text-tracking: var(--body-small-letter-spacing);
+  --mat-form-field-subscript-text-weight: var(--body-small-font-weight);
+
+  --mdc-filled-text-field-caret-color: var(--color-primary);
+  --mdc-filled-text-field-focus-active-indicator-color: var(--color-primary);
+  --mdc-filled-text-field-focus-label-text-color: rgba(var(--rgb-primary), 0.87);
+  --mdc-filled-text-field-container-color: var(--color-surface-variant);
+  --mdc-filled-text-field-disabled-container-color: var(--color-surface);
+  --mdc-filled-text-field-label-text-color: rgba(var(--rgb-on-surface), 0.6);
+  --mdc-filled-text-field-disabled-label-text-color: rgba(var(--rgb-on-surface), 0.38);
+  --mdc-filled-text-field-input-text-color: rgba(var(--rgb-on-surface), 0.87);
+  --mdc-filled-text-field-disabled-input-text-color: rgba(var(--rgb-on-surface), 0.38);
+  --mdc-filled-text-field-input-text-placeholder-color: rgba(var(--rgb-on-surface), 0.6);
+  --mdc-filled-text-field-error-focus-label-text-color: var(--color-error);
+  --mdc-filled-text-field-error-label-text-color: var(--color-error);
+  --mdc-filled-text-field-error-caret-color: var(--color-error);
+  --mdc-filled-text-field-active-indicator-color: rgba(var(--rgb-on-surface), 0.42);
+  --mdc-filled-text-field-disabled-active-indicator-color: rgba(var(--rgb-on-surface), 0.06);
+  --mdc-filled-text-field-hover-active-indicator-color: rgba(var(--rgb-on-surface), 0.87);
+  --mdc-filled-text-field-error-active-indicator-color: var(--color-error);
+  --mdc-filled-text-field-error-focus-active-indicator-color: var(--color-error);
+  --mdc-filled-text-field-error-hover-active-indicator-color: var(--color-error);
+  --mdc-outlined-text-field-caret-color: var(--color-primary);
+  --mdc-outlined-text-field-focus-outline-color: var(--color-primary);
+  --mdc-outlined-text-field-focus-label-text-color: rgba(var(--rgb-primary), 0.87);
+  --mdc-outlined-text-field-label-text-color: rgba(var(--rgb-on-surface), 0.6);
+  --mdc-outlined-text-field-disabled-label-text-color: rgba(var(--rgb-on-surface), 0.38);
+  --mdc-outlined-text-field-input-text-color: rgba(var(--rgb-on-surface), 0.87);
+  --mdc-outlined-text-field-disabled-input-text-color: rgba(var(--rgb-on-surface), 0.38);
+  --mdc-outlined-text-field-input-text-placeholder-color: rgba(var(--rgb-on-surface), 0.6);
+  --mdc-outlined-text-field-error-caret-color: var(--color-error);
+  --mdc-outlined-text-field-error-focus-label-text-color: var(--color-error);
+  --mdc-outlined-text-field-error-label-text-color: var(--color-error);
+  --mdc-outlined-text-field-outline-color: rgba(var(--rgb-on-surface), 0.38);
+  --mdc-outlined-text-field-disabled-outline-color: rgba(var(--rgb-on-surface), 0.06);
+  --mdc-outlined-text-field-hover-outline-color: rgba(var(--rgb-on-surface), 0.87);
+  --mdc-outlined-text-field-error-focus-outline-color: var(--color-error);
+  --mdc-outlined-text-field-error-hover-outline-color: var(--color-error);
+  --mdc-outlined-text-field-error-outline-color: var(--color-error);
+  --mat-form-field-disabled-input-text-placeholder-color: rgba(var(--rgb-on-surface), 0.38);
+}
+
+
+.mat-datepicker-content,
+.mat-mdc-menu-panel,
+.mat-mdc-select-panel,
+.mat-mdc-autocomplete-panel {
+background: linear-gradient(0deg,
+    rgba(var(--rgb-primary), 0.11),
+    rgba(var(--rgb-primary), 0.11)),
+  linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface))) !important;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3),  0px 2px 6px 2px rgba(0, 0, 0, 0.15) !important;
+}
+
+.mdc-dialog__surface {
+background: linear-gradient(0deg,
+    rgba(var(--rgb-primary), 0.11),
+    rgba(var(--rgb-primary), 0.11)),
+  linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface))) !important;
+}
+
+.mat-datepicker-content {
+border-radius: 16px !important;
+}
+
+.icon-button[matsuffix] {
+scale: .85;
+}
+
+.mat-mdc-progress-spinner {
+--mdc-circular-progress-active-indicator-color: rgb(var(--rgb-primary)) !important;
+}
+
+.mat-mdc-datepicker-content,
+.mat-mdc-select-panel {
+border-radius: 6px !important;
+}
+
+.mat-mdc-button {
+--mdc-text-button-label-text-color: var(--color-on-surface) !important;
+--mat-mdc-button-persistent-ripple-color: var(--color-on-surface) !important;
+--mat-mdc-button-ripple-color: rgba(var(--rgb-on-surface), 0.1);
+}

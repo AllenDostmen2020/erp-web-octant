@@ -1,0 +1,47 @@
+<button class="icon-button" [matMenuTriggerFor]="appsMenu">
+    <span class="material-icons">apps</span>
+</button>
+
+
+<mat-menu class="apps-menu" #appsMenu="matMenu">
+    <div class="apps__menu__container" (click)="$event.stopPropagation()">
+        <div class="apps__menu__content">
+            <div class="apps__menu__content__item">
+                <button class="apps__menu__content__item__button icon-button">
+                    <span class="apps__menu__content__item__button__icon material-icons">account_circle</span>
+                    <span class="apps__menu__content__item__button__text body-small">Usuarios</span>
+                </button>
+            </div>
+            <div class="apps__menu__content__item">
+                <button class="apps__menu__content__item__button icon-button">
+                    <span class="apps__menu__content__item__button__icon material-icons">date_range</span>
+                    <span class="apps__menu__content__item__button__text body-small">Calendario</span>
+                </button>
+            </div>
+            <div class="apps__menu__content__item">
+                <button class="apps__menu__content__item__button icon-button">
+                    <span class="apps__menu__content__item__button__icon material-icons">apps</span>
+                    <span class="apps__menu__content__item__button__text body-small">Inicio</span>
+                </button>
+            </div>
+            <div class="apps__menu__content__item">
+                <button class="apps__menu__content__item__button icon-button">
+                    <span class="apps__menu__content__item__button__icon material-icons">apps</span>
+                    <span class="apps__menu__content__item__button__text body-small">Aplicaciones</span>
+                </button>
+            </div>
+            <div class="apps__menu__content__item">
+                <button class="apps__menu__content__item__button icon-button">
+                    <span class="apps__menu__content__item__button__icon material-icons">apps</span>
+                    <span class="apps__menu__content__item__button__text body-small">Aplicaciones</span>
+                </button>
+            </div>
+            <div class="apps__menu__content__item">
+                <button class="apps__menu__content__item__button icon-button">
+                    <span class="apps__menu__content__item__button__icon material-icons">apps</span>
+                    <span class="apps__menu__content__item__button__text body-small">Aplicaciones de escritorio</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</mat-menu>

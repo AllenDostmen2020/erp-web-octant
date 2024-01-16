@@ -1,0 +1,57 @@
+body, .mat-mdc-checkbox.mat-primary, .mat-mdc-checkbox.mat-accent {
+    --mdc-checkbox-disabled-selected-icon-color: rgba(var(--rgb-on-surface), 0.38);
+    --mdc-checkbox-disabled-unselected-icon-color: rgba(var(--rgb-on-surface), 0.38);
+    --mdc-checkbox-selected-checkmark-color: rgba(var(--rgb-on-primary), 1);
+    --mdc-checkbox-selected-focus-icon-color: rgba(var(--rgb-primary), 1);
+    --mdc-checkbox-selected-hover-icon-color: rgba(var(--rgb-primary), 1);
+    --mdc-checkbox-selected-icon-color: rgba(var(--rgb-primary), 1);
+    --mdc-checkbox-selected-pressed-icon-color: rgba(var(--rgb-primary), 1);
+    --mdc-checkbox-unselected-focus-icon-color: rgba(var(--rgb-on-surface), 1);
+    --mdc-checkbox-unselected-hover-icon-color: rgba(var(--rgb-on-surface), 1);
+    --mdc-checkbox-unselected-icon-color: rgba(var(--rgb-on-surface), 0.54);
+    --mdc-checkbox-unselected-pressed-icon-color: rgba(var(--rgb-on-surface), 0.54);
+    --mdc-checkbox-selected-focus-state-layer-color: rgba(var(--rgb-primary), 1);
+    --mdc-checkbox-selected-hover-state-layer-color: rgba(var(--rgb-primary), 1);
+    --mdc-checkbox-selected-pressed-state-layer-color: rgba(var(--rgb-primary), 1);
+    --mdc-checkbox-unselected-focus-state-layer-color: rgba(var(--rgb-on-surface), 1);
+    --mdc-checkbox-unselected-hover-state-layer-color: rgba(var(--rgb-on-surface), 1);
+    --mdc-checkbox-unselected-pressed-state-layer-color: rgba(var(--rgb-on-surface), 1);
+
+    --mdc-checkbox-disabled-selected-checkmark-color: rgba(var(--rgb-on-surface), 1);
+    --mdc-checkbox-selected-focus-state-layer-opacity: 0.16;
+    --mdc-checkbox-selected-hover-state-layer-opacity: 0.04;
+    --mdc-checkbox-selected-pressed-state-layer-opacity: 0.16;
+    --mdc-checkbox-unselected-focus-state-layer-opacity: 0.16;
+    --mdc-checkbox-unselected-hover-state-layer-opacity: 0.04;
+    --mdc-checkbox-unselected-pressed-state-layer-opacity: 0.16;
+}
+
+.mat-pseudo-checkbox-checked:not(.mat-pseudo-checkbox-minimal), 
+.mat-pseudo-checkbox-indeterminate, 
+.mat-accent .mat-pseudo-checkbox-checked, 
+.mat-accent .mat-pseudo-checkbox-indeterminate {
+    background: var(--color-primary) !important;
+}
+
+.mat-pseudo-checkbox {
+    color: var(--color-on-surface-variant) !important;
+}
+
+.mat-pseudo-checkbox::after {
+    color: var(--color-on-primary) !important;
+}
+
+.mat-mdc-option .mat-pseudo-checkbox-minimal, .mat-pseudo-checkbox::after,
+.mat-primary .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-minimal::after,
+.mat-primary .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-minimal::after {
+  color: var(--color-primary) !important;
+}
+
+.mat-pseudo-checkbox {
+    width: 14px !important;
+    height: 14px !important;
+}
+.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after {
+    width: 12px !important;
+    height: 5px !important;
+}

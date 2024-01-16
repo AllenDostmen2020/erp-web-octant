@@ -1,0 +1,29 @@
+
+    @if (configuration.icon; as icon) {
+    <div class="alert__icon">
+        <span class="material-icons icon-small">{{icon}}</span>
+    </div>
+    }
+
+    <div class="alert__content">
+        @if (configuration.title; as title) {
+        <div class="alert__content__title">
+            {{title}}
+        </div>
+        }
+        <div class="alert__content__description" [innerHTML]="configuration.description"></div>
+    </div>
+
+    @if (configuration.actionButton; as actionButton) {
+    <div class="alert__action">
+        <button class="outlined-button" (click)="actionButton.fn()">
+            {{actionButton.text}}
+        </button>
+    </div>
+    }
+
+    @if (configuration.showCloseButton) {
+    <div class="alert__close">
+        <span class="material-icons alert__close__icon" (click)="close.emit(true)">close</span>
+    </div>
+    }

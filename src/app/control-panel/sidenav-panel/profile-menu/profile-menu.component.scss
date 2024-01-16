@@ -1,0 +1,138 @@
+/* ---------------------------------- */
+
+.profile-avatar>img,
+.profile-avatar>div {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    object-fit: cover;
+    background: var(--color-surface);
+    color: var(--color-on-surface);
+}
+
+/* --------------------------------------------------------------------- */
+/* ----------------------    PROFILE MENU    --------------------------- */
+/* --------------------------------------------------------------------- */
+
+.profile-menu {
+    border-radius: 20px !important;
+    max-width: 300px !important;
+    min-width: 300px !important;
+}
+
+.profile__menu__container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 24px 12px 24px;
+    align-items: center;
+    position: relative;
+}
+
+/* -------------------------------------------------- */
+/* -------------------------------------------------- */
+.profile__menu__image {
+    width: 60px;
+    height: 60px;
+    padding: 2px;
+    border-radius: 50%;
+    background: var(--color-surface);
+    color: var(--color-on-surface);
+    margin-bottom: 12px;
+    position: relative;
+}
+
+/* -------------------------------------------------- */
+/* -------------------------------------------------- */
+.profile__menu__name>div {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* -------------------------------------------------- */
+/* -------------------------------------------------- */
+.profile__menu__options {
+    margin: 24px 0;
+    width: 100%;
+}
+
+.profile__menu__option__item {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 6px 0;
+    font-family: var(--body-medium-font-family-name);
+    font-style: var(--body-medium-font-family-style);
+    font-weight: var(--body-medium-font-weight);
+    font-size: var(--body-medium-font-size);
+    line-height: var(--body-medium-line-height);
+    letter-spacing: var(--body-medium-letter-spacing);
+    color: var(--color-on-surface-variant);
+    align-items: center;
+}
+
+.profile__menu__option__item__themes {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 3px;
+}
+
+.profile__menu__option__item__themes__item {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: rgb(var(--rgb-primary));
+    transition: border-width .12s ease;
+}
+
+.profile__menu__option__item__themes__item.active {
+    border: 2px solid rgb(var(--rgb-surface));
+}
+
+/* -------------------------------------------------- */
+/* -------------------------------------------------- */
+.profile__menu__actions {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    height: 56px;
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.profile__menu__action__button {
+    height: 56px !important;
+    border-radius: 4px !important;
+    --bg-button: var(--color-surface);
+    --bg-button-focused: var(--color-surface);
+    --bg-button-hovered: var(--color-surface);
+    --bg-state-layer-button-hovered: rgba(var(--rgb-primary), 0.225);
+    --bg-state-layer-button-focused: rgba(var(--rgb-primary), 0.2 );
+}
+
+/* -------------------------------------------------- */
+/* -------------------------------------------------- */
+.profile__menu__copyright {
+    margin-top: 12px;
+    text-align: center;
+    color: var(--color-on-surface-variant);
+    font-family: var(--body-small-font-family-name);
+    font-style: var(--body-small-font-family-style);
+    font-weight: var(--body-small-font-weight);
+    font-size: var(--body-small-font-size);
+    line-height: var(--body-small-line-height);
+    letter-spacing: var(--body-small-letter-spacing);
+    opacity: .75;
+}

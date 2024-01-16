@@ -1,0 +1,12 @@
+.mat-mdc-icon-button {
+    --mdc-icon-button-icon-color: rgba(var(--rgb-on-surface-variant), 1) !important;
+    --mat-mdc-button-persistent-ripple-color: rgba(var(--rgb-on-surface-variant), 1);
+    --mat-mdc-button-ripple-color: rgba(var(--rgb-on-surface-variant), 0.1);
+}
+.mat-mdc-icon-button[disabled] {
+    --mdc-icon-button-icon-color: rgba(var(--rgb-on-surface-variant), 0.38) !important;
+    --mdc-icon-button-disabled-icon-color: rgba(var(--rgb-on-surface-variant), 0.38) !important;
+}
+.mat-mdc-paginator-icon {
+    fill: currentColor !important;
+}

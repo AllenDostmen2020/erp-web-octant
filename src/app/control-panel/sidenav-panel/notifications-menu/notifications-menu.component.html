@@ -1,0 +1,26 @@
+<button class="icon-button" [matMenuTriggerFor]="notificationMenu">
+    <span class="material-icons">notifications</span>
+</button>
+
+
+<mat-menu class="notifications-menu" #notificationMenu="matMenu">
+    <div class="notifications__container" (click)="$event.stopPropagation()">
+
+        <div class="notifications__header">
+            <h4 class="notifications__header__title title-small">Notificaciones</h4>
+        </div>
+
+        <div class="notifications__content custom-scroll">
+            @for (notification of notifications(); track notification) {
+            <button mat-menu-item class="notifications__item">
+                <div>
+                    <p class="notifications__item__description body-medium">{{ notification.data.message }}</p>
+                    <p class="notifications__item__date body-small">{{notification.created_at | date: 'dd/MM/yyyy' }}
+                    </p>
+                </div>
+            </button>
+            }
+        </div>
+
+    </div>
+</mat-menu>

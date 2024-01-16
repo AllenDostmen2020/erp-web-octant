@@ -1,0 +1,554 @@
+<div class="list" cdkScrollable>
+  <!-- ----------------------------------------- -->
+  <!-- ----------------------------------------- -->
+  <div class="list__header">
+    <div class="list__header__title">
+
+      @if (configuration.showBackButton) {
+        <button class="list__header__title__back-button icon-button" (click)="location.back()">
+          <span class="material-icons">arrow_back</span>
+        </button>
+      }
+
+      @if (configuration.title) {
+        <span>{{ configuration.title }}</span>
+      }
+
+      <ng-content select="[listHeaderTitle]"></ng-content>
+
+    </div>
+
+    <ng-content select="[listHeaderMiddle]"></ng-content>
+
+    <div class="list__header__actions">
+      @if (configuration.disableFiltersInQueryParams) {
+        <div class="list__header__actions__search">
+          <input class="list__header__actions__search__input" type="search" placeholder="Buscar..." [formControl]="searchCtrl" />
+          <span class="list__header__actions__search__icon material-icons icon-small">search</span>
+        </div>
+      }
+
+      @if (!configuration.hideUpdateList) {
+        <button class="text-button" (click)="callGetData()">
+          <span class="material-icons">refresh</span>
+          <span>Actualizar</span>
+        </button>
+      }
+
+      @if (!configuration.hideFilters) {
+        <button class="text-button" [matMenuTriggerFor]="filterMenu">
+          <span class="material-icons">tune</span>
+          <span>Filtros</span>
+        </button>
+      }
+
+      <ng-content select="[headerButtons]"></ng-content>
+
+      @if (configuration.createButton != false) {
+
+        @if (configuration.createButton; as createButton) {
+
+          @if (createButton.outlet == 'route-lateral') {
+            <button class="list__header__actions__create-button filled-button" appNavigateLateralPanelOutlet
+              [navigateUrl]="createButton.routerLink" [routeState]="createButton.state ?? null">
+              <span class="material-icons">add</span>
+              <span>{{ createButton?.text ?? 'Agregar' }}</span>
+            </button>
+          } @else {
+            <button class="list__header__actions__create-button filled-button" [routerLink]="createButton.routerLink" [state]="createButton.state ?? null">
+              <span class="material-icons">add</span>
+              <span>{{ createButton?.text ?? 'Agregar' }}</span>
+            </button>
+          }
+
+        } @else {
+          <button class="list__header__actions__create-button filled-button" (click)="navigateCreateView()">
+            <span class="material-icons">add</span>
+            <span>Agregar</span>
+          </button>
+        }
+
+      }
+    </div>
+  </div>
+  <!-- ----------------------------------------- -->
+  <!-- ----------------------------------------- -->
+  <ng-content select="list-information"/>
+  <!-- ----------------------------------------- -->
+  <!-- ----------------------------------------- -->
+  <div #divListItems class="list__items" [ngClass]="{ 'container-loading': loading() }">
+    <!-- ---------------------------- -->
+    @if (configuration.columns(); as columns) {
+
+      <div class="list__items__header" matSort>
+
+        @if (configuration.selectable) {
+          <div class="list__items__header__cell list__items__header__cell-select">
+            <mat-checkbox (change)="selectedAllItems($event.checked)" [checked]="allSelectedItems()" [indeterminate]="someSelectedItems()" />
+          </div>
+        }
+
+        @if (!configuration.hideIndexColumn) {
+          <div class="list__items__header__cell">Índex</div>
+        }
+
+        @for (column of columns; track column) {
+          @if (!column.hidden) {
+            <div class="list__items__header__cell" [attr.data-align]="column.align" [attr.data-type]="column.type">
+              @if (column.sort; as sort) { <span [mat-sort-header]="sort.key">{{ column.title }}</span> }
+              @else { <span>{{ column.title }}</span> }
+            </div>
+          }
+        }
+
+        @if (configuration.actionButtons){
+          <div class="list__items__header__cell actions">Acciones</div>
+        }
+
+        @if (!configuration.hideOptionsColumn) {
+          <div class="list__items__header__cell options">
+            <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="optionsColumnMenu">
+              <span class="material-icons">settings</span>
+            </button>
+          </div>
+        }
+      </div>
+
+      @for (row of data(); track row; let index = $index;) {
+        <ng-container *ngTemplateOutlet="rowList || rowDefault; context: { 
+            $implicit: row,
+            index,
+            columns,
+            optionsRowMenu,
+            pageIndex: paginator.pageIndex,
+            pageSize: paginator.pageSize,
+          }" />
+      }
+
+    }
+    <!-- ---------------------------- -->
+    @if (!loading() && !lengthData()) {
+      <div class="list__not-results">
+        Sin resultados...
+      </div>
+    }
+    <!-- ---------------------------- -->
+    @if (loading() && !lengthData()) {
+      <app-spinner-default class="list__spinner-loading" />
+    }
+    <!-- ---------------------------- -->
+  </div>
+  <!-- ----------------------------------------- -->
+  <!-- ----------------------------------------- -->
+  <div class="list__footer">
+    <div class="list__footer__selectable">
+      @if (lengthSelectedItems(); as lengthSelected) {
+
+      <div class="list__footer__selectable__info">
+        {{lengthSelected | number:'2.0-0'}} Ítems seleccionados :
+      </div>
+
+      <div class="list__footer__selectable__actions">
+        <ng-content select="[listItemsFooterMoreButtonsForSelectableList]"></ng-content>
+      </div>
+
+      }
+    </div>
+    <mat-paginator class="list__footer__paginator"></mat-paginator>
+  </div>
+  <!-- ----------------------------------------- -->
+  <!-- ----------------------------------------- -->
+</div>
+
+<!-- --------------------------------------------- -->
+<!-- --------------------------------------------- -->
+<ng-template #rowDefault let-item let-columns="columns" let-index="index" let-rowMenu="optionsRowMenu" let-pageSize="pageSize" let-pageIndex="pageIndex">
+  <div class="list__items__row" [ngClass]="{ 'container-loading': item?.__loading_status__ }">
+    @if (configuration.selectable) {
+      <div class="list__items__row__cell list__items__row__cell-select">
+        <mat-checkbox (change)="selectedItem(item, $event.checked)" [checked]="item.__selected__" />
+      </div>
+    }
+
+    @if (!configuration.hideIndexColumn) {
+      <div class="list__items__row__cell list__items__row__cell-index">
+        <div class="list__items__row__cell__value">{{ index | indexList : [pageIndex, pageSize] }}</div>
+      </div>
+    }
+
+    @for (column of columns; track column;) {
+      @if (!column.hidden) {
+        <div class="list__items__row__cell {{(column.cssClass | getMixedValue: item) ?? ''}}" [attr.data-align]="column.align" [attr.data-type]="column.type">
+              @if(column.displayValueFn; as displayValueFn){
+                <div data-type="value-row" class="list__items__row__cell__value {{(column.cssClassDisplayValue | getMixedValue: item) ?? ''}}" [ngStyle]="column.cssStyleDisplayValue | getMixedValue: item">
+                  <ng-container [ngTemplateOutlet]="renderColumn" [ngTemplateOutletContext]="{ $implicit: column, value:( displayValueFn | executeFunction:item), item, routerLink: column.routerLinkValue, clickEvent: column.clickEventValue }" />
+                </div>
+              }
+
+              @if(column.displayAdditionalValueFn; as displayAdditionalValueFn){
+                <div data-type="additional-value-row" class="list__items__row__cell__value {{(column.cssClassDisplayAdditionalValue | getMixedValue: item )}}" [ngStyle]="column.cssStyleDisplayAdditionalValue | getMixedValue: item">
+                  <ng-container [ngTemplateOutlet]="renderColumn" [ngTemplateOutletContext]="{ $implicit: column, value: (displayAdditionalValueFn | executeFunction:item), item, routerLink: column.routerLinkAdditionalValue, clickEvent: column.clickEventAdditionalValue }" />
+                </div>
+              }
+        </div>
+      }
+    }
+
+    @if (configuration.actionButtons; as actionButtons) {
+      <div class="list__items__row__cell list__items__row__cell-actions">
+        @for (bAction of actionButtons; track bAction.id) {
+          @if (!(bAction.id | hiddenOptionButtonRow: item.__hidden_action_buttons__ ?? [])) {
+            <button [class]="bAction.style" (click)="bAction.clickEvent(item)" [disabled]="(bAction.id | hiddenOptionButtonRow: item.__disabled_action_buttons__ ?? [])"  [title]="bAction.title??''">
+              @if (bAction.icon; as icon) {<span class="material-icons">{{icon}}</span>}
+              @if (bAction.text; as text) {<span>{{text}}</span>}
+            </button>
+          }
+        }
+      </div>
+    }
+    
+    @if (!configuration.hideOptionsColumn) {
+      <div class="list__items__row__cell list__items__row__cell-settings">
+        <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="rowMenu" [matMenuTriggerData]="{item, index}">
+          <span class="material-icons">more_horiz</span>
+        </button>
+      </div>
+    }
+  </div>
+</ng-template>
+
+<!-- --------------------------------------------- -->
+<!-- --------------------------------------------- -->
+<ng-template #renderColumn let-column let-value="value" let-item="item" let-routerLink="routerLink" let-clickEvent="clickEvent">
+  @switch (column.type ?? '') {
+    <!-- --------------------------------- -->
+    @case ('email') { <a href="mailto:{{value}}">{{value}}</a> }
+    <!-- --------------------------------- -->
+    @case ('phone') { <a href="tel:{{value}}">{{value}}</a> }
+    <!-- --------------------------------- -->
+    @case ('html') { <ng-container [ngTemplateOutlet]="renderValueHtml" [ngTemplateOutletContext]="{ $implicit: value, item, routerLink, clickEvent, tooltip: column.tooltip}" /> }
+    <!-- --------------------------------- -->
+    @case ('number') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | number: column.numberFormat ?? '.2-2'), item, routerLink, clickEvent, tooltip: column.tooltip}" /> }
+    <!-- --------------------------------- -->
+    @case ('titlecase') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | titlecase), item, routerLink, clickEvent, tooltip: column.tooltip}" /> }
+    <!-- --------------------------------- -->
+    @case ('uppercase') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | uppercase), item, routerLink, clickEvent, tooltip: column.tooltip}" /> }
+    <!-- --------------------------------- -->
+    @case ('first-letter-uppercase') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | firstLetterUppercase), item, routerLink, clickEvent, tooltip: column.tooltip}" /> }
+    <!-- --------------------------------- -->
+    @case ('lowercase') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | lowercase), item, routerLink, clickEvent, tooltip: column.tooltip}" /> }
+    <!-- --------------------------------- -->
+    @case ('date') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | date: column.dateFormat ??'dd/MM/yyyy'), item, routerLink, clickEvent, tooltip: column.tooltip}" /> }
+    <!-- --------------------------------- -->
+    @case ('diff-date') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | diffDate | firstLetterUppercase), item, routerLink, clickEvent, tooltip: column.tooltip}" /> }
+    <!-- --------------------------------- -->
+    @case ('currency') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | currency), item, routerLink, clickEvent, tooltip: column.tooltip}" /> }
+    <!-- --------------------------------- -->
+    @case ('list-format') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | listFormat), item, routerLink, clickEvent, tooltip: column.tooltip}" /> }
+    <!-- --------------------------------- -->
+    @case ('user') { @if ((value | getUserById | async); as user) { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: user.name, item, routerLink, clickEvent, tooltip: column.tooltip}" /> } }
+    <!-- --------------------------------- -->
+    @default { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: value, item, routerLink, clickEvent, tooltip: column.tooltip}" /> }
+    <!-- --------------------------------- -->
+}
+</ng-template>
+
+<ng-template #renderValue let-value let-tooltip="tooltip" let-item="item" let-routerLink="routerLink" let-clickEvent="clickEvent">
+  @if (routerLink; as rLink) {
+    @if (rLink.outlet == 'route-lateral') { <a [matTooltip]="tooltip | getMixedValue:item" class="list__items__row__cell__value__hovered" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | getMixedValue:item" [routeState]="rLink.state | getMixedValue:item">{{value}}</a> } 
+    @else { <a [matTooltip]="tooltip | getMixedValue:item" class="list__items__row__cell__value__hovered" [routerLink]="rLink.url | getMixedValue:item" [state]="rLink.state | getMixedValue:item">{{value}}</a> }
+  } @else if(clickEvent) {
+      <a [matTooltip]="tooltip | getMixedValue:item" class="list__items__row__cell__value__hovered" (click)="clickEvent(item)">{{value}}</a>
+  } @else {
+      <span [title]="value" [matTooltip]="tooltip | getMixedValue:item">{{ value }}</span>
+  }
+</ng-template>
+
+<ng-template #renderValueHtml let-value let-tooltip="tooltip" let-item="item" let-routerLink="routerLink" let-clickEvent="clickEvent">
+  @if (routerLink; as rLink) {
+    @if (rLink.outlet == 'route-lateral') { <div [matTooltip]="tooltip | getMixedValue:item" class="list__items__row__cell__value__hovered" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | getMixedValue:item" [routeState]="rLink.state | getMixedValue:item" [innerHTML]="value"></div> } 
+    @else { <div [matTooltip]="tooltip | getMixedValue:item" class="list__items__row__cell__value__hovered" [routerLink]="rLink.url | getMixedValue:item" [innerHTML]="value" [state]="rLink.state | getMixedValue:item"></div> }
+  } @else if(clickEvent) {
+      <div [matTooltip]="tooltip | getMixedValue:item" class="list__items__row__cell__value__hovered" (click)="clickEvent(item)" [innerHTML]="value"></div>
+  } @else {
+      <div [title]="value" [matTooltip]="tooltip | getMixedValue:item" [innerHTML]="value"></div>
+  }
+</ng-template>
+
+<!-- --------------------------------------------- -->
+<!-- --------------------------------------------- -->
+<mat-menu #optionsRowMenu="matMenu" xPosition="before">
+  <ng-template matMenuContent let-item="item" let-index="index">
+    @if (!configuration.menuItem?.hiddenOptionView && !('option_view' | hiddenOptionButtonRow:item.__hidden_option_buttons__ ?? [])) {
+      <a mat-menu-item routerLink="{{ configuration.menuItem?.prefixRouterLinkView ?? '../view/' }}{{ item.id }}" [disabled]="('option_view' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
+        <span class="material-icons">visibility</span>
+        <span>Ver detalle</span>
+      </a>
+    }
+
+    @if (!configuration.menuItem?.hiddenOptionEdit && !item.deleted_at && !('option_edit' | hiddenOptionButtonRow:item.__hidden_option_buttons__ ?? [])) {
+      <a mat-menu-item routerLink="../edit/{{ item.id }}" [disabled]="('option_edit' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
+        <span class="material-icons">edit</span>
+        <span>Editar</span>
+      </a>
+    }
+
+    @if (!configuration.menuItem?.hiddenOptionDelete && !item.deleted_at && !('option_delete' | hiddenOptionButtonRow:item.__hidden_option_buttons__ ?? [])) {
+      <button mat-menu-item (click)="deleteItem(item, index)" [disabled]="('option_delete' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
+        <span class="material-icons">delete</span>
+        <span>Eliminar</span>
+      </button>
+    }
+
+    @if (!configuration.menuItem?.hiddenOptionDelete && item.deleted_at && !('option_restore' | hiddenOptionButtonRow:item.__hidden_option_buttons__ ?? [])) {
+      <button mat-menu-item (click)="restoreItem(item, index)"
+        [disabled]="('option_restore' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
+        <span class="material-icons">autorenew</span>
+        <span>Restaurar</span>
+      </button>
+    }
+
+    @for (customOption of configuration.menuItem?.options; track customOption) {
+      @switch (customOption.type) {
+        @case ('view_item') {
+          @if (!('option_view' | hiddenOptionButtonRow: item.__hidden_option_buttons__ ?? [])) {
+            <a mat-menu-item routerLink="{{configuration.menuItem?.prefixRouterLinkView ?? '../view/'}}{{ item.id }}"
+              [disabled]="('option_view' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
+              <span class="material-icons">visibility</span>
+              <span>Ver detalle</span>
+            </a>
+          }
+        }
+        @case ('edit_item') {
+          @if (!('option_edit' | hiddenOptionButtonRow: item.__hidden_option_buttons__ ?? [])) {
+            <a mat-menu-item routerLink="../edit/{{ item.id }}"
+              [disabled]="('option_edit' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
+              <span class="material-icons">edit</span>
+              <span>Editar</span>
+            </a>
+          }
+        }
+        @case ('delete_item') {
+          @if (!('option_delete' | hiddenOptionButtonRow: item.__hidden_option_buttons__ ?? []) && !item.deleted_at) {
+            <button mat-menu-item (click)="deleteItem(item, index)"
+              [disabled]="('option_delete' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
+              <span class="material-icons">delete</span>
+              <span>Eliminar</span>
+            </button>
+          }
+        }
+        @case ('restore_item') {
+          @if (!('option_restore' | hiddenOptionButtonRow: item.__hidden_option_buttons__ ?? []) && item.deleted_at) {
+            <button mat-menu-item (click)="restoreItem(item, index)"
+              [disabled]="('option_restore' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
+              <span class="material-icons">autorenew</span>
+              <span>Restaurar</span>
+            </button>
+          }
+        }
+        @case ('clickEvent') {
+          @if (!(customOption.id | hiddenOptionButtonRow: item.__hidden_option_buttons__ ?? [])) {
+            <button mat-menu-item (click)="customOption?.clickEvent(item)"
+              [disabled]="(customOption.id | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
+              <span class="material-icons">{{ customOption.icon }}</span>
+              <span>{{ customOption.text }}</span>
+            </button>
+          }
+        }
+      }
+    }
+  </ng-template>
+</mat-menu>
+
+<!-- --------------------------------------------- -->
+<!-- --------------------------------------------- -->
+<mat-menu #optionsColumnMenu="matMenu">
+  <button mat-menu-item [matMenuTriggerFor]="columnsMenu">
+    Columnas
+  </button>
+</mat-menu>
+
+<mat-menu #columnsMenu="matMenu" xPosition="before">
+  @for (column of configuration.columns(); track column; let i = $index;) {
+    <div class="flex gap-2 items-center py-1 pl-2 pr-4" (click)="$event.stopPropagation()">
+      <mat-checkbox [checked]="!column.hidden" (change)="hiddenToggleColumn($event, i)" color="primary">
+        {{ column.title }}
+      </mat-checkbox>
+    </div>
+  }
+</mat-menu>
+
+<!-- --------------------------------------------- -->
+<!-- --------------------------------------------- -->
+<mat-menu class="filter-list-menu" #filterMenu="matMenu" xPosition="before" [hasBackdrop]="false">
+    <div class="filter__title" (click)="$event.stopPropagation()">
+      Filtros
+    </div>
+
+    @if (formFilters) {
+      <div class="filter__form" [formGroup]="formFilters" (click)="$event.stopPropagation()">
+        @if (configuration.filters; as fields) {
+          @for (field of fields; track field) {
+              @switch (field.type) {
+                  @case ('date-range') {
+                      @if (field.dateRange; as input) {
+                          <mat-form-field [attr.data-form-input-name]="input.formControlNameFrom">
+                              <mat-label>{{ input.textLabel }}</mat-label>
+                              <mat-date-range-input [rangePicker]="pickerRange1">
+                                  <input matStartDate [formControlName]="input.formControlNameFrom">
+                                  <input matEndDate [formControlName]="input.formControlNameTo">
+                              </mat-date-range-input>
+                              <button class="icon-button" matSuffix type="button" (click)="pickerRange1.open()" [disabled]="getControlFormFilter(input.formControlNameFrom).disabled">
+                                  <span class="material-icons">calendar_month</span>
+                              </button>
+                              <mat-date-range-picker #pickerRange1></mat-date-range-picker>
+                          </mat-form-field>
+                      }
+                  }
+                  @case ('date') {
+                      @if (field.date; as input) {
+                          <mat-form-field [attr.data-form-input-name]="input.formControlName">
+                              <mat-label>{{ input.textLabel }}</mat-label>
+                              <input matInput [matDatepicker]="pickerDate" [formControlName]="input.formControlName">
+                              <button class="icon-button" type="button" matSuffix (click)="pickerDate.open()" [disabled]="getControlFormFilter(input.formControlName).disabled">
+                                  <span class="material-icons">calendar_month</span>
+                              </button>
+                              <mat-datepicker #pickerDate></mat-datepicker>
+                              @if (getControlFormFilter(input.formControlName).hasError('required')) {
+                                  <mat-error>Campo requerido</mat-error>
+                              } @else if (getControlFormFilter(input.formControlName).hasError('min')) {
+                                  <mat-error>Error fecha mínima</mat-error>
+                              } @else if (getControlFormFilter(input.formControlName).hasError('max')) {
+                                  <mat-error>Error fecha máxima</mat-error>
+                              } @else {
+                                  <mat-error>Inválido</mat-error>
+                              }
+                          </mat-form-field>
+                      }
+                      
+                  }
+                  @case ('number') {
+                      @if (field.number; as input) {
+                          <mat-form-field [attr.data-form-input-name]="input.formControlName">
+                              <mat-label>{{ input.textLabel}}</mat-label>
+                              <input type="number" matInput [formControlName]="input.formControlName"
+                                  [min]="input.min ? +input.min : 0" [max]="input.max ? +input.max : null">
+                              @if (getControlFormFilter(input.formControlName).hasError('required')) {
+                                  <mat-error>Campo requerido</mat-error>
+                              } @else if (getControlFormFilter(input.formControlName).hasError('min')) {
+                                  <mat-error>Mínimo {{input.min ? +input.min : 0}}</mat-error>
+                              } @else if (getControlFormFilter(input.formControlName).hasError('max')) {
+                                  <mat-error>Máximo {{input.max ? +input.max : 'superado'}}</mat-error>
+                              } @else {
+                                  <mat-error>Inválido</mat-error>
+                              }
+                          </mat-form-field>
+                      }
+                  }
+                  @case ('text') {
+                      @if (field.text; as input) {
+                          <mat-form-field [attr.data-form-input-name]="input.formControlName">
+                              <mat-label>{{ input.textLabel}}</mat-label>
+                              <input type="text" matInput [formControlName]="input.formControlName"
+                                  [placeholder]="input.placeholder ?? input.textLabel" [maxlength]="input.maxLength ?? 255">
+                              @if (getControlFormFilter(input.formControlName).hasError('required')) {
+                                  <mat-error>Campo requerido</mat-error>
+                              } @else if (getControlFormFilter(input.formControlName).hasError('email')) {
+                                  <mat-error>Email no válido</mat-error>
+                              } @else if (getControlFormFilter(input.formControlName).hasError('pattern')) {
+                                  <mat-error>Contenido no válido</mat-error>
+                              } @else {
+                                  <mat-error>Inválido</mat-error>
+                              }
+                          </mat-form-field>
+                      }
+                  }
+                  @case ('textarea') {
+                      @if (field.textarea; as input) {
+                          <mat-form-field [attr.data-form-input-name]="input.formControlName">
+                              <mat-label>{{ input.textLabel}}</mat-label>
+                              <textarea matInput [formControlName]="input.formControlName"
+                                  [placeholder]="input.placeholder ?? input.textLabel"
+                                  [maxlength]="input.maxLength ?? 2500"></textarea>
+                              @if (getControlFormFilter(input.formControlName).hasError('required')) {
+                                  <mat-error>Campo requerido</mat-error>
+                              } @else if (getControlFormFilter(input.formControlName).hasError('email')) {
+                                  <mat-error>Email no válido</mat-error>
+                              } @else if (getControlFormFilter(input.formControlName).hasError('pattern')) {
+                                  <mat-error>Contenido no válido</mat-error>
+                              } @else {
+                                  <mat-error>Inválido</mat-error>
+                              }
+                          </mat-form-field>
+                      }
+                  }
+                  @case ('select') {
+                      @if (field.select; as input) {
+                          <app-input-select-template [attr.data-form-input-name]="input.formControlName"
+                              [control]="getControlFormFilter(input.formControlName)"
+                              [configuration]="input"
+                              />
+                      }
+                  }
+                  @case ('select-local') {
+                      @if (field.selectLocal; as input) {
+                          <app-input-select-template [attr.data-form-input-name]="input.formControlName"
+                              [control]="getControlFormFilter(input.formControlName)"
+                              [configuration]="input"
+                              />
+                      }
+                  }
+                  @case ('select-server') {
+                      @if (field.selectServer; as input) {
+                          <app-input-select-template [attr.data-form-input-name]="input.formControlName"
+                              [control]="getControlFormFilter(input.formControlName)"
+                              [configuration]="input"
+                              />
+                      }
+                  }
+                  @case ('autocomplete') {
+                      @if (field.autocomplete; as input) {
+                          <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
+                              [idControl]="getControlFormFilter(input.formControlName)"
+                              [configuration]="input" />
+                      }
+                  }
+                  @case ('autocomplete-local') {
+                      @if (field.autocompleteLocal; as input) {
+                          <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
+                              [idControl]="getControlFormFilter(input.formControlName)"
+                              [configuration]="input" />
+                      }
+                  }
+                  @case ('autocomplete-server') {
+                      @if (field.autocompleteServer; as input) {
+                          <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
+                              [idControl]="getControlFormFilter(input.formControlName)"
+                              [configuration]="input" />
+                      }
+                  }
+                  @case ('checkbox') {
+                      @if (field.checkbox; as input) {
+                          <div [attr.data-form-input-name]="input.formControlName">
+                              <mat-checkbox [formControlName]="input.formControlName">{{ input.textLabel }}</mat-checkbox>
+                          </div>
+                      }
+                  }
+                  @case ('switch') {
+                      @if (field.switch; as input) {
+                          <div [attr.data-form-input-name]="input.formControlName">
+                              <mat-slide-toggle [formControlName]="input.formControlName">{{ input.textLabel }}</mat-slide-toggle>
+                          </div>
+                      }
+                  }
+              }
+          }
+        }
+      </div>
+    }
+
+    <div class="filter__actions" (click)="$event.stopPropagation()">
+      <button class="text-button" (click)="filterMenu.closed.emit()">Descartar</button>
+      <button class="text-button">Aplicar</button>
+    </div>
+</mat-menu>

@@ -1,0 +1,42 @@
+<button class="icon-button" [matMenuTriggerFor]="settingsMenu">
+    <span class="material-icons">settings</span>
+</button>
+
+
+<mat-menu class="settings-menu" #settingsMenu="matMenu">
+    <div class="settings__menu__container" (click)="$event.stopPropagation()">
+        <!-- -------------------------------------------------- -->
+        <div class="settings__menu__subtitle">
+            Opciones generales
+        </div>
+        <div class="settings__menu__item settings__menu__item__items-center">
+            <div class="settings__menu__item__text">
+                Opción 1
+            </div>
+            <div class="settings__menu__item__options">
+                <mat-slide-toggle checked />
+            </div>
+        </div>
+        <div class="settings__menu__item settings__menu__item__items-center">
+            <div class="settings__menu__item__text">
+                Opción 2
+            </div>
+            <div class="settings__menu__item__options">
+                <mat-slide-toggle checked />
+            </div>
+        </div>
+        <!-- -------------------------------------------------- -->
+        <div class="settings__menu__subtitle">
+            Opciones de color
+        </div>
+        <div class="settings__menu__item settings__menu__item__items-center">
+            <div class="settings__menu__item__text">
+                Tema oscuro
+            </div>
+            <div class="settings__menu__item__options">
+                <mat-slide-toggle [checked]="true" />
+            </div>
+        </div>
+        <!-- -------------------------------------------------- -->
+    </div>
+</mat-menu>

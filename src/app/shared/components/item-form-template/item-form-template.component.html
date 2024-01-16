@@ -1,0 +1,264 @@
+<form [formGroup]="configuration.formGroup" class="form" (submit)="submitForm()" [ngClass]="{ 'container-loading': configuration.loading }" cdkScrollable>
+    <!-- -------------------------- -->
+    <div class="form__header">
+
+        <button class="form__header__back-button icon-button" type="button" (click)="location.back()">
+            <span class="material-icons">arrow_back</span>
+        </button>
+
+        <div class="form__header__title">
+            <div>
+                {{ configuration.title ?? ((configuration.type == 'update' ? 'Actualizar ' : 'Crear ') + configuration.titleModule) }}
+            </div>
+
+            @if(configuration.dataItem; as dataItem) {
+                @if (dataItem(); as item) {
+                    @if(this.configuration.subtitle != false) {
+                        @if (configuration.subtitle; as subtitleFn) {
+                            @if ((subtitleFn | executeFunction:item); as subtitle) {
+                                <div class="form__header__title__sub">{{subtitle}}</div>
+                            }
+                        } @else {
+                            @if (item?.name; as name) {
+                                <div class="form__header__title__sub">{{name}}</div>
+                            }
+                        }
+                    }
+                }
+            }
+
+        </div>
+
+        <div class="form__header__actions">
+            <button class="text-button" type="submit" [disabled]="configuration.loading">
+                {{configuration.saveButton?.text ?? 'Guardar'}}
+            </button>
+        </div>
+    </div>
+    <!-- -------------------------- -->
+    <div #divContent class="form__content">
+        @if (!configuration.hiddeFields) {
+        <ng-content select="[beforeContent]" />
+        <ng-content />
+        @if (configuration.fields;as fields) {
+            <div class="form__content__autogenerate-form-fields">
+                @for (field of fields; track field) {
+                    @switch (field.type) {
+                        @case ('date-range') {
+                            @if (field.dateRange; as input) {
+                                <mat-form-field [attr.data-form-input-name]="input.formControlNameFrom" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'">
+                                    <mat-label>{{ input.textLabel }}</mat-label>
+                                    <mat-date-range-input [rangePicker]="pickerRange1">
+                                        <input matStartDate [formControlName]="input.formControlNameFrom">
+                                        <input matEndDate [formControlName]="input.formControlNameTo">
+                                    </mat-date-range-input>
+                                    <button class="icon-button" matSuffix type="button" (click)="pickerRange1.open()" [disabled]="getControl(input.formControlNameFrom).disabled">
+                                        <span class="material-icons">calendar_month</span>
+                                    </button>
+                                    <mat-date-range-picker #pickerRange1></mat-date-range-picker>
+                                </mat-form-field>
+                            }
+                        }
+                        @case ('date') {
+                            @if (field.date; as input) {
+                                <mat-form-field [attr.data-form-input-name]="input.formControlName" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'">
+                                    <mat-label>{{ input.textLabel }}</mat-label>
+                                    <input matInput [matDatepicker]="pickerDate" [formControlName]="input.formControlName">
+                                    <button class="icon-button" type="button" matSuffix (click)="pickerDate.open()" [disabled]="getControl(input.formControlName).disabled">
+                                        <span class="material-icons">calendar_month</span>
+                                    </button>
+                                    <mat-datepicker #pickerDate></mat-datepicker>
+                                    @if (getControl(input.formControlName).hasError('required')) {
+                                        <mat-error>Campo requerido</mat-error>
+                                    } @else if (getControl(input.formControlName).hasError('min')) {
+                                        <mat-error>Error fecha mínima</mat-error>
+                                    } @else if (getControl(input.formControlName).hasError('max')) {
+                                        <mat-error>Error fecha máxima</mat-error>
+                                    } @else {
+                                        <mat-error>Inválido</mat-error>
+                                    }
+                                </mat-form-field>
+                            }
+                            
+                        }
+                        @case ('number') {
+                            @if (field.number; as input) {
+                                <mat-form-field [attr.data-form-input-name]="input.formControlName" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'">
+                                    <mat-label>{{ input.textLabel}}</mat-label>
+                                    <input type="number" matInput [formControlName]="input.formControlName"
+                                        [min]="input.min ? +input.min : 0" [max]="input.max ? +input.max : null">
+                                    @if (getControl(input.formControlName).hasError('required')) {
+                                        <mat-error>Campo requerido</mat-error>
+                                    } @else if (getControl(input.formControlName).hasError('min')) {
+                                        <mat-error>Mínimo {{input.min ? +input.min : 0}}</mat-error>
+                                    } @else if (getControl(input.formControlName).hasError('max')) {
+                                        <mat-error>Máximo {{input.max ? +input.max : 'superado'}}</mat-error>
+                                    } @else {
+                                        <mat-error>Inválido</mat-error>
+                                    }
+                                </mat-form-field>
+                            }
+                        }
+                        @case ('text') {
+                            @if (field.text; as input) {
+                                <mat-form-field [attr.data-form-input-name]="input.formControlName" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'">
+                                    <mat-label>{{ input.textLabel}}</mat-label>
+                                    <input type="text" matInput [formControlName]="input.formControlName"
+                                        [placeholder]="input.placeholder ?? input.textLabel" [maxlength]="input.maxLength ?? 255">
+                                    @if (getControl(input.formControlName).hasError('required')) {
+                                        <mat-error>Campo requerido</mat-error>
+                                    } @else if (getControl(input.formControlName).hasError('email')) {
+                                        <mat-error>Email no válido</mat-error>
+                                    } @else if (getControl(input.formControlName).hasError('pattern')) {
+                                        <mat-error>Contenido no válido</mat-error>
+                                    } @else {
+                                        <mat-error>Inválido</mat-error>
+                                    }
+                                </mat-form-field>
+                            }
+                        }
+                        @case ('textarea') {
+                            @if (field.textarea; as input) {
+                                <mat-form-field [attr.data-form-input-name]="input.formControlName" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'">
+                                    <mat-label>{{ input.textLabel}}</mat-label>
+                                    <textarea matInput [formControlName]="input.formControlName"
+                                        [placeholder]="input.placeholder ?? input.textLabel"
+                                        [maxlength]="input.maxLength ?? 2500"></textarea>
+                                    @if (getControl(input.formControlName).hasError('required')) {
+                                        <mat-error>Campo requerido</mat-error>
+                                    } @else if (getControl(input.formControlName).hasError('email')) {
+                                        <mat-error>Email no válido</mat-error>
+                                    } @else if (getControl(input.formControlName).hasError('pattern')) {
+                                        <mat-error>Contenido no válido</mat-error>
+                                    } @else {
+                                        <mat-error>Inválido</mat-error>
+                                    }
+                                </mat-form-field>
+                            }
+                        } 
+                        @case ('select') {
+                            @if (field.select; as input) {
+                                <app-input-select-template [attr.data-form-input-name]="input.formControlName"
+                                    [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'"
+                                    [control]="getControl(input.formControlName)"
+                                    [configuration]="input"
+                                    />
+                            }
+                        }
+                        @case ('select-local') {
+                            @if (field.selectLocal; as input) {
+                                <app-input-select-template [attr.data-form-input-name]="input.formControlName"
+                                    [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'"
+                                    [control]="getControl(input.formControlName)"
+                                    [configuration]="input"
+                                    />
+                            }
+                        }
+                        @case ('select-server') {
+                            @if (field.selectServer; as input) {
+                                <app-input-select-template [attr.data-form-input-name]="input.formControlName"
+                                    [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'"
+                                    [control]="getControl(input.formControlName)"
+                                    [configuration]="input"
+                                    />
+                            }
+                        }
+                        @case ('autocomplete') {
+                            @if (field.autocomplete; as input) {
+                                <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
+                                    [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'"
+                                    [idControl]="getControl(input.formControlName)"
+                                    [configuration]="input" />
+                            }
+                        }
+                        @case ('autocomplete-local') {
+                            @if (field.autocompleteLocal; as input) {
+                                <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
+                                    [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'"
+                                    [idControl]="getControl(input.formControlName)"
+                                    [configuration]="input" />
+                            }
+                        }
+                        @case ('autocomplete-server') {
+                            @if (field.autocompleteServer; as input) {
+                                <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName" 
+                                    [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'"
+                                    [idControl]="getControl(input.formControlName)"
+                                    [configuration]="input" />
+                            }
+                        }
+                        @case ('checkbox') {
+                            @if (field.checkbox; as input) {
+                                <div [attr.data-form-input-name]="input.formControlName" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full'">
+                                    <mat-checkbox [formControlName]="input.formControlName">{{ input.textLabel }}</mat-checkbox>
+                                </div>
+                            }
+                        }
+                        @case ('switch') {
+                            @if (field.checkbox; as input) {
+                                <div [attr.data-form-input-name]="input.formControlName" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full'">
+                                    <mat-slide-toggle [formControlName]="input.formControlName">{{ input.textLabel }}</mat-slide-toggle>
+                                </div>
+                            }
+                        }
+                        <!-- @case ('file') {
+                            @if (field.checkbox; as input) {
+                                <div ILoad class="{{ input.cssClass ?? 'col-span-full' }}">
+                                    @if(configuration.dataItem; as dataItem){
+                                        @if (dataItem(); as item) {
+                                            <app-select-file [acceptFiles]="input.acceptFiles ?? '*'" [srcFileCloud]="item && input.imageKeyForGetValue ? item[input.imageKeyForGetValue] : null " [fileCtrl]="configuration.formGroup.get(input.formControlName)!" />
+                                        }
+                                    } @else {
+                                        <app-select-file [acceptFiles]="input.acceptFiles ?? '*'" [srcFileCloud]="null " [fileCtrl]="configuration.formGroup.get(input.formControlName)!" />
+                                    }
+                                </div>
+                            }
+                        } -->
+                    }
+                }
+            </div>
+        }
+        <ng-content select="[afterContent]" />
+        }
+        @if (!configuration.item && configuration.loading && configuration.type == 'update') {
+        <app-spinner-default />
+        } @else if (!configuration.item && configuration.httpError && !configuration.ignoreShowError) {
+        <app-error-template [error]="configuration.httpError" (reload)="getItem()" />
+        }
+    </div>
+
+
+    @if (configuration.type == 'create' || (configuration.type == 'update' && configuration.dataItem && configuration.dataItem())) {
+    <div class="form__actions">
+        @if (configuration.cancelButton !== false) {
+        <button class="text-button" [disabled]="configuration.loading" type="button" (click)="location.back()">
+            @if (configuration.cancelButton?.icon && configuration.cancelButton?.iconPosition !== 'right') {
+            <span class="material-icons">{{ configuration.saveButton?.icon }}</span>
+            }
+
+            <span>{{ configuration.cancelButton?.text ?? 'Cancelar' }}</span>
+
+            @if (configuration.cancelButton?.icon && configuration.cancelButton?.iconPosition === 'right') {
+            <span class="material-icons">{{ configuration.saveButton?.icon }}</span>
+            }
+        </button>
+        }
+
+        <button class="filled-button" [disabled]="configuration.loading" type="submit">
+            @if (configuration.saveButton?.icon && configuration.saveButton?.iconPosition !== 'right') {
+            <span class="material-icons">{{ configuration.saveButton?.icon }}</span>
+            }
+            <span>
+                @if (configuration.saveButton?.text; as text) { {{text}} } 
+                @else if (configuration.type == 'update') { Actualizar }
+                @else { Guardar }
+            </span>
+
+            @if (configuration.saveButton?.icon && configuration.saveButton?.iconPosition === 'right') {
+            <span class="material-icons">{{ configuration.saveButton?.icon }}</span>
+            }
+        </button>
+    </div>
+    }
+
+</form>

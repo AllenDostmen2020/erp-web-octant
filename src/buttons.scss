@@ -1,0 +1,225 @@
+// box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15); // shadow l1
+// box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15); // shadow l2
+// box-shadow: 0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3); // shadow l3
+// box-shadow: 0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3); // shadow l4
+// box-shadow: 0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3); // shadow l5
+button {
+    outline: none !important;
+}
+
+.elevated-button,
+.filled-button,
+.text-button,
+.inverted-text-button,
+.tonal-button,
+.outlined-button {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 24px;
+
+    font-family: var(--label-large-font-family);
+    font-size: var(--label-large-font-size);
+    font-weight: var(--label-large-font-weight);
+    line-height: var(--label-large-line-height);
+    letter-spacing: var(--label-large-letter-spacing);
+
+    white-space: nowrap;
+    height: 40px;
+
+    border-radius: 100px;
+
+    background: var(--bg-button, transparent);
+    color: var(--text-color-button, rgba(var(--rgb-on-surface-variant), 1));
+
+    border-width: var(--border-width-button, 0px);
+    border-color: var(--border-color-button, transparent);
+    border-style: solid;
+
+    box-shadow: var(--box-shadow-button, none);
+
+    box-sizing: border-box;
+    overflow: hidden;
+    transition-property: background, border, box-shadow, color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease;
+    z-index: 0;
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+        z-index: -1;
+        background: var(--bg-state-layer-button, transparent);
+        transition: background 0.25s ease-in-out 0s;
+    }
+
+    &:not(:disabled) {
+        cursor: pointer;
+
+        &:hover {
+            &::after {
+                background: var(--bg-state-layer-button-hovered, transparent);
+            }
+
+            background: var(--bg-button-hovered, var(--bg-button, transparent));
+            color: var(--text-color-button-hovered, var(--text-color-button));
+            border-width: var(--border-width-button-hovered,
+                var(--border-width-button, 0px));
+            border-color: var(--border-color-button-hovered,
+                var(--border-color-button, transparent));
+            box-shadow: var(--box-shadow-button-hovered, none);
+        }
+
+        &:active,
+        &:focus {
+            &::after {
+                background: var(--bg-state-layer-button-focused);
+            }
+
+            background: var(--bg-button-focused, var(--bg-button, transparent));
+            color: var(--text-color-button-focused, var(--text-color-button));
+            border-width: var(--border-width-button-focused,
+                var(--border-width-button, 0px));
+            border-color: var(--border-color-button-focused,
+                var(--border-color-button, transparent));
+            box-shadow: var(--box-shadow-button-focused, none);
+        }
+    }
+
+    &:disabled {
+        background: var(--bg-button-disabled, transparent);
+        color: var(--text-color-button-disabled);
+        border-width: var(--border-width-button-disabled, 0px);
+        border-color: var(--border-color-button-disabled, transparent);
+    }
+
+    &:focus-visible:not(:active) {
+        outline-offset: 3px;
+    }
+
+    .material-icons {
+        --size-material-symbol-icon: 18px;
+        margin-left: -8px;
+
+        +span {
+            margin-left: 8px;
+        }
+    }
+}
+
+.elevated-button {
+    --bg-button: linear-gradient(0deg,
+            rgba(var(--rgb-primary), 0.05),
+            rgba(var(--rgb-primary), 0.05)),
+        linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface)));
+    --text-color-button: rgba(var(--rgb-primary), 1);
+    --box-shadow-button: 0px 1px 2px 0px rgba(0, 0, 0, 0.3),
+        0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+
+    --bg-button-hovered: linear-gradient(0deg,
+            rgba(var(--rgb-primary), 0.08),
+            rgba(var(--rgb-primary), 0.08));
+    --bg-state-layer-button-hovered: rgba(var(--rgb-primary), 0.08);
+    --box-shadow-button-hovered: 0px 1px 2px 0px rgba(0, 0, 0, 0.3),
+        0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+
+    --bg-button-focused: linear-gradient(0deg,
+            rgba(var(--rgb-primary), 0.05),
+            rgba(var(--rgb-primary), 0.05)),
+        linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface)));
+    --bg-state-layer-button-focused: rgba(var(--rgb-primary), 0.12);
+    --box-shadow-button-focused: 0px 1px 2px 0px rgba(0, 0, 0, 0.3),
+        0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+
+    --bg-button-disabled: rgba(var(--rgb-on-surface), 0.125);
+    --text-color-button-disabled: rgba(var(--rgb-on-surface), 0.38);
+
+    &:disabled {
+        box-shadow: none;
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
+.tonal-button {
+    --bg-button: rgb(var(--rgb-secondary-container), 1);
+    --text-color-button: rgba(var(--rgb-on-secondary-container), 1);
+
+    --bg-state-layer-button-hovered: rgba(var(--rgb-on-secondary-container), 0.08);
+    --box-shadow-button-hovered: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+
+    --bg-state-layer-button-focused: rgba(var(--rgb-on-secondary-container), 0.12);
+    --box-shadow-button-focused: none;
+
+    --bg-button-disabled: rgba(var(--rgb-on-surface), 0.125);
+    --text-color-button-disabled: rgba(var(--rgb-on-surface), 0.38);
+}
+
+/* ------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
+.filled-button {
+    --bg-button: rgba(var(--rgb-primary), 1);
+    --text-color-button: rgba(var(--rgb-on-primary), 1);
+
+    --bg-state-layer-button-hovered: rgba(var(--rgb-on-primary), 0.08);
+    --box-shadow-button-hovered: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+
+    --bg-state-layer-button-focused: rgba(var(--rgb-on-primary), 0.12);
+    --box-shadow-button-focused: none;
+
+    --bg-button-disabled: rgba(var(--rgb-on-surface), 0.125);
+    --text-color-button-disabled: rgba(var(--rgb-on-surface), 0.38);
+}
+
+/* ------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
+.text-button {
+    --text-color-button: rgba(var(--rgb-primary), 1);
+    --bg-state-layer-button-hovered: rgba(var(--rgb-primary), 0.08);
+    --bg-state-layer-button-focused: rgba(var(--rgb-primary), 0.12);
+    --text-color-button-disabled: rgba(var(--rgb-on-surface), 0.38);
+
+    padding: 10px 16px;
+
+    .material-icons {
+        margin-left: -4px;
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
+.inverted-text-button {
+    --text-color-button: rgba(var(--rgb-inverse-primary), 1);
+
+    --bg-button-hovered: rgba(var(--rgb-inverse-primary), 0.08);
+
+    --bg-button-focused: rgba(var(--rgb-inverse-primary), 0.12);
+
+    --text-color-button-disabled: rgba(var(--rgb-inverse-on-surface), 0.38);
+
+    padding: 10px 12px;
+
+    &.with-icon {
+        padding: 10px 16px 10px 12px;
+        gap: 8px;
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
+.outlined-button {
+    --text-color-button: rgba(var(--rgb-primary), 1);
+    --bg-button: rgba(var(--rgb-surface), 1);
+    --border-width-button: 1px;
+    --border-color-button: rgba(var(--rgb-outline), 1);
+    --bg-state-layer-button-hovered: rgba(var(--rgb-primary), 0.08);
+    --bg-state-layer-button-focused: rgba(var(--rgb-primary), 0.12);
+    --text-color-button-disabled: rgba(var(--rgb-on-surface-variant), 0.38);
+    --border-width-button-disabled: 1px;
+    --border-color-button-disabled: rgba(var(--rgb-outline), 0.125);
+}

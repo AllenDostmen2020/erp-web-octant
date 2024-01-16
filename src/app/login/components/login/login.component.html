@@ -1,0 +1,108 @@
+<section [ngClass]="{login: isLogin, register: !isLogin}" class="
+  __container
+  relative grid bg-surface overflow-hidden shadow-lg rounded-lg z-10
+  ">
+  <!-- -------------------------------------------------------------------------------------------------------------- -->
+  <!-- -------------------------------------------------------------------------------------------------------------- -->
+  <div class="
+    _container_form relative z-10 grid content-start  py-4 px-16
+    sm:content-center
+    ">
+    <!-- -------------------------------------- -->
+    <!-- -------------------------------------- -->
+    @if (isLogin) {
+    <form form-apareance="filled" data-form="x1" [formGroup]="formLogin" (submit)="submitFormLogin()"
+      class="relative grid gap-2">
+      <h3 class="font-semibold mb-2 text-left sm:text-center">LOGIN</h3>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" placeholder="Email.." />
+        <mat-error>Campo requerido</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Contraseña</mat-label>
+        <input matInput name="password" type="password" formControlName="password" placeholder="Contraseña.." />
+        <mat-error>Campo requerido</mat-error>
+      </mat-form-field>
+      <re-captcha formControlName="recaptchaToken" name="captcha" #captcha></re-captcha>
+      <button class="filled-button" type="submit">
+        Ingresar
+      </button>
+      @if (loading()) {
+        <app-spinner-default class="absolute top-0 left-0 right-0 bottom-0 z-10">
+        </app-spinner-default>
+      }
+    </form>
+    }
+    <!-- -------------------------------------- -->
+    <!-- -------------------------------------- -->
+    @if (!isLogin) {
+    <form form-apareance="filled" data-form="x2" [formGroup]="formResetPassword" (submit)="submitFormResetPassword()" class="relative grid">
+      <h3 class="font-semibold mb-2 text-left sm:text-center">RECUPERAR CONTRASEÑA</h3>
+      <mat-form-field label="Email">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" placeholder="Email.." />
+        <mat-error>Campo requerido</mat-error>
+      </mat-form-field>
+      <button class="filled-button" type="submit">
+        Recuperar
+      </button>
+    </form>
+    }
+    <!-- -------------------------------------- -->
+    <!-- -------------------------------------- -->
+  </div>
+  <!-- -------------------------------------------------------------------------------------------------------------- -->
+  <!-- -------------------------------------------------------------------------------------------------------------- -->
+  <div class="
+    _container_title
+    top-0 left-0 bottom-0 grid py-4 px-16
+    content-start sm:content-center
+    relative sm:absolute
+    gap-y-0 sm:gap-y-1
+    overflow-visible sm:overflow-hidden
+    ">
+    <!-- -------------------------------------- -->
+    <!-- -------------------------------------- -->
+    <h3 class="!text-contrast-primary font-semibold mb-1 text-left sm:text-center">PANEL DE CONTROL</h3>
+    <!-- -------------------------------------- -->
+    <!-- -------------------------------------- -->
+    @if (isLogin) {
+    <p class="!text-contrast-primary/80 h-11 text-left sm:text-center">
+      Ingresa tus datos de sesión para acceder al panel de control
+    </p>
+    }
+    @if (!isLogin) {
+    <p class="!text-contrast-primary/80 h-11 text-left sm:text-center">
+      Ingresar el correo donde se enviarán las instrucciones de recuperación
+    </p>
+    }
+    <!-- -------------------------------------- -->
+    <!-- -------------------------------------- -->
+    <div class="relative | items-center justify-center gap-x-2 hidden sm:flex">
+      <div class="!bg-current w-8 h-px"></div>
+      <span class="leading-none">o</span>
+      <div class="!bg-current w-8 h-px"></div>
+    </div>
+    <!-- -------------------------------------- -->
+    <!-- -------------------------------------- -->
+    <button class="outlined-button" (click)="changeType()">
+      {{isLogin ? 'Olvidé la contraseña' : 'Inicia sesión'}}
+    </button>
+    <!-- -------------------------------------- -->
+    <!-- -------------------------------------- -->
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none"
+      class="absolute top-0 left-0 bottom-0 pointer-events-none -z-1">
+      <path class="mobile" d="M 0 0 H100 V0 H100 V85 C 66 109 30 50 0 72" />
+      <path class="desktop" [attr.d]="
+          isLogin
+            ? 'M 100 0 H 0 V 100 H 70 C 70 100 50 10 100 0'
+            : 'M 0 0 H 100 V 100 H 30 C 30 100 50 10 0 0'
+        " />
+    </svg>
+    <!-- -------------------------------------- -->
+    <!-- -------------------------------------- -->
+  </div>
+  <!-- -------------------------------------------------------------------------------------------------------------- -->
+  <!-- -------------------------------------------------------------------------------------------------------------- -->
+</section>

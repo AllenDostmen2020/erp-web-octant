@@ -1,0 +1,23 @@
+body {
+    --height-header-card: 48px;
+    --height-footer-card: 48px;
+    --padding-x-card: 24px;
+    --padding-y-card: 24px;
+    --border-radius-card: 24px;
+    --background-card: rgba(var(--rgb-surface), 1);
+    --on-background-card: rgba(var(--rgb-on-surface), 1);
+}
+
+@container (width <=42rem) {
+
+    .sidenav__lateral__panel__content,
+    .item-detail,
+    .item-view,
+    .list,
+    .form {
+        --border-radius-card: 16px;
+        --padding-x-card: 16px;
+        --padding-y-card: 16px;
+        --border-radius-card: 12px;
+    }
+}

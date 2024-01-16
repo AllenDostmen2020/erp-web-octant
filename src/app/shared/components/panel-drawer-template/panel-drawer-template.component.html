@@ -1,0 +1,52 @@
+<div class="panel">
+    <div class="panel__drawer">
+        @if (configuration.title; as title) {
+        <h2 class="panel__drawer__title">{{title}}</h2>
+        }
+        <div class="panel__drawer__container">
+
+            <div class="enter-element enter-element-two" [ngClass]="{__show: showChildren(), __hidden: !showChildren()}">
+                @if (panelSidenavLinkSelected(); as link) {
+                <div class="panel__drawer__subtitle">
+                    <button class="icon-button" (click)="showChildren.set(false)">
+                        <span class="material-icons">arrow_back</span>
+                    </button>
+                    <div class="label-large">{{link.title}}</div>
+                </div>
+                @for (link of link.children; track link) {
+                <a class="panel__drawer__block__links__item" [routerLink]="link.routerLink.url"
+                    routerLinkActive="active">
+                    {{link.title}}
+                </a>
+                }
+                }
+            </div>
+
+            <div class="enter-element enter-element-one" [ngClass]="{__show: !showChildren(), __hidden: showChildren()}">
+                @for (group of configuration.groups; track group) {
+                    <div class="panel__drawer__block">
+                        <h4 class="panel__drawer__block__title">{{group.title}}</h4>
+                        <div class="panel__drawer__block__links">
+                            @for (link of group.links; track link) {
+                                @if (link.children?.length) {
+                                    <a class="panel__drawer__block__links__item" (click)="selectedLink(link)">
+                                        {{link.title}}
+                                    </a>
+                                } @else {
+                                    <a class="panel__drawer__block__links__item" [routerLink]="link.routerLink.url"
+                                        routerLinkActive="active">
+                                        {{link.title}}
+                                    </a>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                <ng-content select="afterLinks" />
+            </div>
+        </div>
+    </div>
+    <div class="panel__content">
+        <router-outlet />
+    </div>
+</div>

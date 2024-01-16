@@ -1,0 +1,13 @@
+.fake-scroll-top-element,
+.fake-scroll-bottom-element{
+  grid-column: 1 / -1;
+  pointer-events: none;
+  user-select: none;
+  height: 3px;
+}
+.fake-scroll-top-element {
+  margin-bottom: -3px;
+}
+.fake-scroll-bottom-element {
+  margin-top: -3px;
+}

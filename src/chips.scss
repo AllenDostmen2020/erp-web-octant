@@ -1,0 +1,81 @@
+.outlined-chip,
+.tonal-chip {
+  position: relative;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  height: 32px;
+  width: auto;
+  padding: var(--padding-top-chip, 0px) var(--padding-right-chip, 12px) var(--padding-bottom-chip, 0px) var(--padding-left-chip, 12px);
+
+  border-radius: var(--border-radius-chip, 8px);
+  background: var(--bg-chip, transparent);
+  color: var(--text-color-chip);
+
+  border-style: solid;
+  border-width: var(--border-width-chip, 0px);
+  border-color: var(--border-color-chip, transparent);
+
+  overflow: hidden;
+  z-index: 0;
+
+  user-select: none;
+
+  transition: background .2s;
+
+  font-family: var(--label-medium-font-family-name);
+  font-style: var(--label-medium-font-family-style);
+  font-weight: var(--label-medium-font-weight);
+  font-size: var(--label-medium-font-size);
+  letter-spacing: var(--label-medium-letter-spacing);
+  line-height: var(--label-medium-line-height);
+  text-transform: var(--label-medium-text-transform);
+  text-decoration: var(--label-medium-text-decoration);
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-state-layer-chip);
+    transition: background .2s;
+    z-index: -1;
+  }
+
+  &:hover {
+    &::after {
+      background: var(--bg-state-layer-chip-hovered);
+    }
+
+    background: var(--bg-chip-hovered, var(--bg-chip, transparent));
+    color: var(--text-color-chip-hovered, var(--text-color-chip));
+    border-width: var(--border-width-chip-hovered, var(--border-width-chip, 0px));
+    border-color: var(--border-color-chip-hovered, var(--border-color-chip, transparent));
+  }
+
+  &.with-icon {
+    --padding-right-chip: 8px;
+    gap: var(--space-x-chip, 8px);
+
+    .material-icons.close-icon-chip {
+      cursor: pointer;
+      --size-material-symbol-icon: 18px;
+    }
+  }
+}
+
+.tonal-chip {
+  --bg-chip: rgba(var(--rgb-secondary-container), 1);
+  --text-color-chip: rgba(var(--rgb-on-secondary-container), 1);
+  --bg-state-layer-chip-hovered: rgba(var(--rgb-on-secondary-container), 0.08);
+}
+
+.outlined-chip {
+  // --bg-chip: rgba(var(--rgb-secondary-container), 1);
+  --bg-chip-hovered: rgba(var(--rgb-on-secondary-container), 0.08);
+  --text-color-chip: rgba(var(--rgb-on-surface-variant), 1);
+  --border-width-chip: 1px;
+  --border-color-chip: rgba(var(--rgb-outline), 1);
+}

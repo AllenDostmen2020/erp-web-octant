@@ -1,0 +1,149 @@
+
+
+// .drawer {
+//   position                  : fixed;
+//   top                       : 0;
+//   left                      : 0;
+//   bottom                    : 0;
+//   width                     : var(--width-sidenav, 280px);
+//   margin-left               : var(--margin-left-drawer, 0px);
+//   transform                 : translateX(var(--translate-x-drawer, 0px));
+//   transition-property       : width, margin-left, transform;
+//   transition-duration       : var(--transition-duration-drawer);
+//   transition-timing-function: var(--transition-timing-function-drawer);
+//   overflow                  : visible;
+//   z-index                   : 100;
+//   box-shadow                : -1px 0 0 var(--color-line) inset;
+// }
+
+// ------------------------------ //
+// ------------------------------ //
+// ------------------------------ //
+// .bloque-menu {
+
+// }
+// .link-menu {
+//   display    : flex;
+//   align-items: center;
+//   padding    : 0 .5rem;
+//   height     : var(--height-menu);
+
+//   a {
+//     white-space    : nowrap;
+//     text-decoration: none;
+//     transition     : opacity 0.25s;
+//     color          : rgba(var(--rgb-color-text-primary), 1);
+//     opacity        : var(--opacity-items);
+
+//     &:hover {
+//       opacity: .75;
+//     }
+//   }
+// }
+
+// ------------------------------ //
+// ------------------------------ //
+// ------------------------------ //
+// .sidenav.open .drawer .perfil:hover {
+//   background-color: var(--color-hover);
+// }
+// .sidenav.open .bloque-logo {
+//   opacity: 1;
+// }
+
+// .nav-link,
+// .drawer nav [nav-link],
+// .drawer nav app-nav-link a {
+//   border-radius: var(--border-radius-default, 4px) !important;
+//   padding      : 0px 16px 0px 8px !important;
+//   text-align   : left !important;
+//   line-height  : 40px !important;
+//   height       : 40px;
+//   min-width    : 40px !important;
+//   color        : rgba(var(--rgb-color-text-primary), 1);
+//   font-weight  : 400;
+
+//   .mat-button-wrapper {
+//     display    : flex !important;
+//     align-items: center !important;
+//     gap        : 8px !important;
+//   }
+
+// }
+
+/* SEPARATOR LINKS */
+// div[indicator] {
+//   display    : flex;
+//   align-items: center;
+//   gap        : 4px;
+//   font-size  : 13px;
+//   margin     : 6px 0px;
+//   color      : rgba(var(--rgb-color-text-secondary), 1);
+
+//   &::after,
+//   &::before {
+//     content   : '';
+//     height    : 1px;
+//     background: var(--color-line);
+//   }
+
+//   &::before {
+//     min-width: 8px;
+//   }
+
+//   &::after {
+//     flex: 1;
+//   }
+// }
+
+// .sidenav:not(.over) div[indicator] {
+//   margin                    : 0px 0px;
+//   color                     : transparent;
+//   transition-duration       : 0.25s;
+//   transition-timing-function: var(--cubic-bezier-x1);
+//   transition-property       : color, margin;
+//   user-select               : none;
+
+//   &::before {
+//     min-width                 : 8px;
+//     width                     : 40px;
+//     transition-property       : width, height, background;
+//     transition-duration       : 0.25s;
+//     transition-timing-function: var(--cubic-bezier-x1);
+//   }
+// }
+
+// .sidenav:not(.over):not(.open) div[indicator]::before {
+//   height       : 1px;
+//   border-radius: 50%;
+//   background   : linear-gradient(45deg, transparent, rgba(var(--rgb-color-text-secondary), 1), transparent);
+// }
+
+// .sidenav:not(.over):not(.open) app-nav-link .title-html {
+//   visibility    : visible;
+//   pointer-events: initial;
+// }
+
+// .sidenav:not(.over).open div[indicator] {
+//   color : rgba(var(--rgb-color-text-secondary), 1);
+//   margin: 6px 0px;
+
+//   &::before {
+//     width: 8px;
+//   }
+// }
+
+// ------------------------------ //
+// ------------------------------ //
+// ------------------------------ //
+// [nav-link].link-active,
+// app-nav-link a.link-active {
+//   .mat-button-wrapper * {
+//     color: rgba(var(--color-primary), 1);
+//   }
+// }
+
+// app-nav-link a.link-active {
+//   background: rgba(var(--rgb-color-text-primary), .1) !important;
+// }
+

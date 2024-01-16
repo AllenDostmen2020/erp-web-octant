@@ -1,0 +1,51 @@
+.container-loading [ILoad],
+.container-loading .parent-load [ChildLoad] {
+    position: relative;
+    background-color: rgba(var(--rgb-on-surface), 0.1) !important;
+    overflow: hidden !important;
+    animation: bg-animation-loading-2 1.5s ease-in-out infinite;
+    box-shadow: none !important;
+    transition: none !important;
+
+    &,
+    * {
+        color: transparent !important;
+        pointer-events: none !important;
+        user-select: none !important;
+    }
+    
+    * {
+        opacity: 0 !important;
+        transition: none !important;
+    }
+
+    img {
+        opacity: 0;
+    }
+}
+
+@keyframes bg-animation-loading {
+    0% {
+        top: -100%;
+        left: -100%;
+    }
+
+    100% {
+        top: 150%;
+        left: 150%;
+    }
+}
+
+@keyframes bg-animation-loading-2 {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

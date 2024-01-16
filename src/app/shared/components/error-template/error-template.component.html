@@ -1,0 +1,26 @@
+<div class="error">
+    <div class="error__image">
+        <span class="material-icons">{{errorInfo?.icon ?? 'error'}}</span>
+        <!-- <img src="/assets/images/robot-error.png" width="120" alt=""> -->
+    </div>
+    <h1 class="error__status display-small">
+        {{ errorInfo?.status }} <!-- - {{ error?.statusText }} -->
+    </h1>
+    <p class="error__title title-small">
+        {{ errorInfo?.title }}
+    </p>
+    <p class="error__text body-medium">
+        {{ errorInfo?.description }}
+    </p>
+    <div class="error__content__actions">
+        <button class="tonal-button" (click)="reload.emit()">
+            <span class="material-icons">autorenew</span>
+            <span>Volver a cargar</span>
+        </button>
+        <button class="tonal-button" routerLink="/">
+            <span class="material-icons">home</span>
+            <span>Ir al inicio</span>
+        </button>
+    </div>
+
+</div>

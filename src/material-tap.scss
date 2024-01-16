@@ -1,0 +1,24 @@
+.mat-mdc-tab-group,
+.mat-mdc-tab-nav-bar {
+    --mdc-tab-indicator-active-indicator-color: rgba(var(--rgb-primary), 1);
+    --mat-tab-header-disabled-ripple-color: rgba(var(--rgb-on-surface), .38);
+    --mat-tab-header-pagination-icon-color: rgb(var(--rgb-on-surface));
+    --mat-tab-header-inactive-label-text-color: rgba(var(--rgb-on-surface), .6);
+    --mat-tab-header-active-label-text-color: rgba(var(--rgb-primary), 1);
+    --mat-tab-header-active-ripple-color: rgba(var(--rgb-primary), 1);
+    --mat-tab-header-inactive-ripple-color: rgba(var(--rgb-primary), 1);
+    --mat-tab-header-inactive-focus-label-text-color: rgba(var(--rgb-on-surface), .6);
+    --mat-tab-header-inactive-hover-label-text-color: rgba(var(--rgb-on-surface), .6);
+    --mat-tab-header-active-focus-label-text-color: rgba(var(--rgb-primary), 1);
+    --mat-tab-header-active-hover-label-text-color: rgba(var(--rgb-primary), 1);
+    --mat-tab-header-active-focus-indicator-color: rgba(var(--rgb-primary), 1);
+    --mat-tab-header-active-hover-indicator-color: rgba(var(--rgb-primary), 1);
+}
+
+.mat-mdc-tab-header {
+    --mdc-secondary-navigation-tab-container-height: 44px !important;
+    --mat-tab-header-label-text-size: var(--label-large-font-size);
+    --mat-tab-header-label-text-letter-spacing: var(--label-large-letter-spacing);
+    --mat-tab-header-label-text-line-height: var(--label-large-line-height);
+    --mat-tab-header-label-text-weight: var(--label-large-font-weight);
+}

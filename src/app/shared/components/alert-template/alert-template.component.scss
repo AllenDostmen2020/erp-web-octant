@@ -1,0 +1,77 @@
+:host {
+    display: flex;
+    gap: 16px;
+    padding: 16px var(--padding-x-card, 12px);
+    background: rgba(var(--rgb-color-alert, var(--rgb-error)), 0.08);
+    position: relative;
+    border: var(--border-alert);
+}
+
+:host::after {
+    content: '';
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    width: 3px;
+    background: linear-gradient(to top, rgb(var(--rgb-color-alert, var(--rgb-error))) 35%, rgba(var(--rgb-color-alert, var(--rgb-error)), .5));
+    transition: background .2s ease;
+}
+
+.alert__icon {
+    margin-left: -4px;
+    margin-right: -4px;
+    color: rgb(var(--rgb-color-alert, var(--rgb-error)));
+}
+
+.alert__content {
+    height: 100%;
+    display: grid;
+    align-items: center;
+    flex: 1;
+}
+
+.alert__content__title {
+    font-family: var(--label-large-font-family-name);
+    font-style: var(--label-large-font-family-style);
+    font-weight: var(--label-large-font-weight);
+    font-size: var(--label-large-font-size);
+    letter-spacing: var(--label-large-letter-spacing);
+    line-height: var(--label-large-line-height);
+    text-transform: var(--label-large-text-transform);
+    text-decoration: var(--label-large-text-decoration);
+    color: var(--color-on-surface);
+}
+
+.alert__content__title+.alert__content__description {
+    margin-top: 4px;
+}
+
+.alert__content__description {
+    font-family: var(--body-medium-font-family-name);
+    font-style: var(--body-medium-font-family-style);
+    font-weight: var(--body-medium-font-weight);
+    font-size: var(--body-medium-font-size);
+    letter-spacing: var(--body-medium-letter-spacing);
+    line-height: var(--body-medium-line-height);
+    text-transform: var(--body-medium-text-transform);
+    text-decoration: var(--body-medium-text-decoration);
+    color: var(--color-on-surface-variant);
+    text-wrap: balance;
+}
+
+.alert__close {
+    margin-right: -8px;
+}
+
+.alert__close__icon {
+    --size-material-symbol-icon: 20px;
+    cursor: pointer;
+    color: rgb(var(--rgb-on-surface));
+    opacity: .75;
+    transition: opacity .2 ease;
+}
+
+.alert__close__icon:hover {
+    opacity: 1;
+}

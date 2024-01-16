@@ -1,0 +1,11 @@
+.mat-mdc-menu-item-text {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    width: 100%;
+}
+
+.mat-mdc-menu-item-text span:not(.material-icons) {
+    flex: 1;
+}

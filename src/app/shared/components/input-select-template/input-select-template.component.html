@@ -1,0 +1,38 @@
+<mat-form-field>
+    <mat-label>{{configuration.textLabel}}</mat-label>
+    <mat-select [formControl]="control">
+        @for (item of data; track item.id) {
+            <mat-option 
+                [class]="(configuration.cssClassOption | getMixedValue: item) ?? ''"
+                [ngStyle]="configuration.cssStyleOption | getMixedValue: item"
+                [value]="configuration.displayValueFn ? (configuration.displayValueFn|getMixedValue:item) : item.id"
+                [disabled]="configuration.disableOptionFn ? (configuration.disableOptionFn|getMixedValue:item) : false">
+                <div [innerHtml]="configuration.displayTextFn ? (configuration.displayTextFn|getMixedValue:item) : item.name"></div>
+            </mat-option>
+        } @empty {
+            @if (loading()) {
+                <mat-option>
+                    <div class="mat-autocomplete-empty">
+                        Buscando resultados...
+                    </div>
+                </mat-option>
+            } @else {
+                <mat-option>
+                    <div class="mat-autocomplete-empty">
+                        <span class="mat-autocomplete-empty__icon material-icons icon-xsmall">search_off</span>
+                        <p class="mat-autocomplete-empty__text">
+                            <span>Sin resultados. </span>
+                            @if (configuration.addButton; as addButton) {
+                                @if (addButton.outlet == 'route-lateral') { <a class="mat-autocomplete-empty__text__link" appNavigateLateralPanelOutlet [navigateUrl]="addButton.url">Crear nuevo registro</a> } 
+                                @else { <a class="mat-autocomplete-empty__text__link" [routerLink]="addButton.url" [state]="addButton.state">Crear nuevo registro</a> }
+                            }
+                        </p>
+                    </div>
+                </mat-option>
+            }
+        }
+    </mat-select>
+    @if (control.hasError('required')) {
+        <mat-error>*Requerido</mat-error>
+    }
+</mat-form-field>

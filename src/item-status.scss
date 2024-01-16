@@ -1,0 +1,17 @@
+.status-chip {
+  background: rgb(var(--rgb-secondary-container));
+  color: rgb(var(--rgb-on-secondary-container));
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.status-chip.eliminado,
+.status-chip.anulado {
+  background: rgb(var(--rgb-error-container));
+  color: rgb(var(--rgb-on-error-container));
+}

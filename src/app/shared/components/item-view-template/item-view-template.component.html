@@ -1,0 +1,39 @@
+<div class="item-view" [ngClass]="{ 'container-loading': configuration.loading }">
+
+    <div class="item-view__header">
+
+        <div class="item-view__header__actions">
+            <ng-content select="[itemActions]"></ng-content>
+        </div>
+
+        <a ILoad class="item-view__header__subtitle" routerLink="../../">
+            {{ titleModule }}
+        </a>
+
+        <h1 ILoad class="item-view__header__title">
+            {{ item ? (nameItemFn | getMixedValue: item) : "########" }}
+        </h1>
+
+        <ng-content select="[information-under-title]"></ng-content>
+
+        <nav class="item-view__header__nav" ILoad fitInkBarToContent mat-tab-nav-bar mat-stretch-tabs="false"
+            mat-align-tabs="start" [tabPanel]="tabPanel">
+            @for (link of links; track link) {
+            <a mat-tab-link [routerLink]="link.routerLink"
+                [routerLinkActiveOptions]="link?.routerLinkActiveOptions ?? { exact: false }" routerLinkActive="active"
+                [active]="link0.isActive" #link0="routerLinkActive" [disabled]="link.disabled ?? false" [state]="item">
+                {{ link.text }}
+            </a>
+            }
+        </nav>
+        <mat-tab-nav-panel class="contents" #tabPanel></mat-tab-nav-panel>
+    </div>
+
+    <div class="item-view__content">
+        @if (item && !configuration.loading) {
+        <div class="item-view__content__router">
+            <router-outlet class="hidden"></router-outlet>
+        </div>
+        }
+    </div>
+</div>

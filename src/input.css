@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .card {
+    @apply bg-surface text-on-surface;
+  }
+  .card__header {
+    @apply bg-on-surface/[0.0275] dark:bg-on-surface/[0.04];
+  }
+  .card__body {
+
+  }
+  .bg-surface1 {
+    background: linear-gradient(0deg, rgba(var(--rgb-primary), 0.05), rgba(var(--rgb-primary), 0.05)), linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface)));
+  }
+  .bg-surface2 {
+    background: linear-gradient(0deg, rgba(var(--rgb-primary), 0.08), rgba(var(--rgb-primary), 0.08)), linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface)));
+  }
+  .bg-surface3 {
+    background: linear-gradient(0deg, rgba(var(--rgb-primary), 0.11), rgba(var(--rgb-primary), 0.11)), linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface)));
+  }
+  .bg-surface4 {
+    background: linear-gradient(0deg, rgba(var(--rgb-primary), 0.12), rgba(var(--rgb-primary), 0.12)), linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface)));
+  }
+  .bg-surface5 {
+    background: linear-gradient(0deg, rgba(var(--rgb-primary), 0.14), rgba(var(--rgb-primary), 0.14)), linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface)));
+  }
+}

@@ -1,0 +1,12 @@
+.mat-mdc-snack-bar-container {
+    --mdc-snackbar-supporting-text-font: Roboto, sans-serif;
+    --mdc-snackbar-supporting-text-line-height: 20px;
+    --mdc-snackbar-supporting-text-size: 14px;
+    --mdc-snackbar-supporting-text-weight: 400;
+}
+
+.mat-mdc-snack-bar-container {
+    --mdc-snackbar-container-color: var(--color-inverse-surface);
+    --mdc-snackbar-supporting-text-color: var(--color-inverse-on-surface);
+    --mat-snack-bar-button-color: rgba(0, 0, 0, 0.87);
+}

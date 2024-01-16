@@ -1,0 +1,52 @@
+.dialog__container {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    max-height: 85vh;
+    max-width: var(--max-width-container-dialog, 100%);
+}
+
+.dialog__icon {
+    padding: 24px 24px 12px 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.dialog__title {
+    padding: 24px;
+    font-family: var(--font-family-title-dialog, var(--headline-small-font-family-name));
+    font-style: var(--font-style-title-dialog, var(--headline-small-font-family-style));
+    font-weight: var(--font-weight-title-dialog, var(--headline-small-font-weight));
+    font-size: var(--font-size-title-dialog, var(--headline-small-font-size));
+    line-height: var(--line-height-title-dialog, var(--headline-small-line-height));
+    letter-spacing: var(--letter-spacing-title-dialog, var(--headline-small-letter-spacing));
+    color: var(--color-title-dialog, var(--color-on-surface));
+}
+
+.dialog__icon + .dialog__title {
+    padding-top: 0;
+}
+
+.dialog__title.dialog__title-center {
+    text-align: center;
+}
+
+.dialog__content {
+    font-family: var(--font-family-content-dialog, var(--body-medium-font-family-name));
+    font-style: var(--font-style-content-dialog, var(--body-medium-font-family-style));
+    font-weight: var(--font-weight-content-dialog, var(--body-medium-font-weight));
+    font-size: var(--font-size-content-dialog, var(--body-medium-font-size));
+    line-height: var(--line-height-content-dialog, var(--body-medium-line-height));
+    letter-spacing: var(--letter-spacing-content-dialog, var(--body-medium-letter-spacing));
+    color: var(--color-content-dialog, var(--color-on-surface-variant));
+    padding: 0 24px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: grid;
+}
+
+.dialog__actions {
+    padding: 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px;
+}

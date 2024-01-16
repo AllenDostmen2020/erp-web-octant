@@ -1,0 +1,288 @@
+.mat-mdc-datepicker-content,
+.mat-mdc-select-panel {
+    border-radius: 6px !important;
+}
+
+.mat-mdc-select-panel,
+.mat-mdc-autocomplete-panel {
+    background: linear-gradient(
+            0deg,
+            rgba(var(--rgb-primary), 0.11),
+            rgba(var(--rgb-primary), 0.11)
+        ),
+        linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface))) !important;
+}
+
+.mdc-dialog__surface {
+    background: linear-gradient(
+            0deg,
+            rgba(var(--rgb-primary), 0.11),
+            rgba(var(--rgb-primary), 0.11)
+        ),
+        linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface))) !important;
+}
+
+.mat-mdc-option.mat-mdc-selected {
+    background: rgba(var(--rgb-primary), 0.175) !important;
+    color: rgba(var(--rgb-primary), 1) !important;
+}
+
+.mat-mdc-option,
+.mat-mdc-menu-item .mdc-list-item__primary-text {
+    height: 40px !important;
+    display: flex !important;
+    align-items: center;
+}
+
+.cdk-overlay-pane {
+    font-size: 14px;
+}
+
+.mat-mdc-icon-button {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 40px !important;
+    height: 40px !important;
+    padding: 8px !important;
+    --mdc-icon-button-icon-color: rgb(var(--rgb-on-surface)) !important;
+    --mdc-icon-button-disabled-icon-color: rgba(
+        var(--rgb-on-surface),
+        0.38
+    ) !important;
+    --mat-mdc-button-persistent-ripple-color: rgb(
+        var(--rgb-on-surface)
+    ) !important;
+    --mat-mdc-button-ripple-color: rgba(var(--rgb-on-surface), 1) !important;
+
+    &:disabled .mat-mdc-paginator-icon {
+        fill: rgba(var(--rgb-on-surface), 0.12);
+    }
+
+    .mat-mdc-paginator-icon {
+        fill: rgba(var(--rgb-on-surface), 0.6);
+    }
+}
+
+a.mat-mdc-icon-button {
+    .mat-mdc-button-wrapper {
+        height: 100%;
+    }
+}
+
+.mat-mdc-expansion-indicator::after {
+    border-color: currentColor !important;
+}
+
+.mat-mdc-slide-toggle {
+    height: 28px !important;
+
+    .mat-mdc-slide-toggle-bar {
+        width: 48px !important;
+        height: 28px !important;
+        border-radius: 15px !important;
+        background-color: rgba(var(--rgb-surface-variant), 1) !important;
+        box-shadow: 0 0 0 2px rgba(var(--rgb-outline), 1) inset !important;
+
+        .mat-mdc-slide-toggle-thumb-container {
+            width: 20px !important;
+            height: 20px !important;
+            top: 4px !important;
+            left: 6px !important;
+            transform: translate3d(0, 0, 0) scale(0.8) !important;
+        }
+
+        .mat-mdc-slide-toggle-thumb {
+            box-shadow: none !important;
+            background: rgba(var(--rgb-outline), 1) !important;
+        }
+    }
+}
+
+.mat-mdc-slide-toggle.mat-mdc-checked {
+    .mat-mdc-slide-toggle-bar {
+        box-shadow: none !important;
+    }
+
+    .mat-mdc-slide-toggle-thumb-container {
+        transform: translate3d(16px, 0, 0) scale(1) !important;
+    }
+}
+
+.mat-mdc-slide-toggle.mat-mdc-primary.mat-mdc-checked
+    .mat-mdc-slide-toggle-bar {
+    background-color: rgba(var(--rgb-primary), 1) !important;
+}
+
+.mat-mdc-slide-toggle.mat-mdc-primary.mat-mdc-checked
+    .mat-mdc-slide-toggle-thumb {
+    background-color: rgba(var(--rgb-on-primary), 1) !important;
+}
+
+.mat-mdc-slide-toggle.mat-mdc-accent.mat-mdc-checked .mat-mdc-slide-toggle-bar {
+    background-color: rgba(var(--rgb-secondary), 1) !important;
+}
+
+.mat-mdc-slide-toggle.mat-mdc-accent.mat-mdc-checked
+    .mat-mdc-slide-toggle-thumb {
+    background-color: rgba(var(--rgb-on-secondary), 1) !important;
+}
+
+.mat-mdc-slide-toggle.mat-mdc-warn.mat-mdc-checked .mat-mdc-slide-toggle-bar {
+    background-color: rgba(var(--rgb-error), 1) !important;
+}
+
+.mat-mdc-slide-toggle.mat-mdc-warn.mat-mdc-checked .mat-mdc-slide-toggle-thumb {
+    background-color: rgba(var(--rgb-on-error), 1) !important;
+}
+
+.mat-datepicker-content {
+    background: linear-gradient(
+            0deg,
+            rgba(var(--rgb-primary), 0.11),
+            rgba(var(--rgb-primary), 0.11)
+        ),
+        linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface))) !important;
+    border-radius: 16px !important;
+}
+
+.cdk-keyboard-focused
+    .mat-calendar-body-active
+    > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(
+        .mat-calendar-body-comparison-identical
+    ),
+.cdk-program-focused
+    .mat-calendar-body-active
+    > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(
+        .mat-calendar-body-comparison-identical
+    ),
+.mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover
+    > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(
+        .mat-calendar-body-comparison-identical
+    ) {
+    background: rgba(var(--rgb-primary), 0.3);
+}
+
+.mat-calendar-body-today:not(.mat-calendar-body-selected):not(
+        .mat-calendar-body-comparison-identical
+    ) {
+    border-color: rgba(var(--rgb-primary), 1);
+}
+
+.mat-calendar-body-today.mat-calendar-body-selected {
+    box-shadow: inset 0 0 0 1px rgba(var(--rgb-on-primary), 1);
+}
+
+.mat-calendar-body-in-range::before {
+    background: rgba(var(--rgb-primary), 0.2);
+}
+
+.mat-calendar-body-selected {
+    background: rgb(var(--rgb-primary)) !important;
+    color: rgb(var(--rgb-on-primary)) !important;
+}
+
+.mat-datepicker-toggle-active {
+    color: rgb(var(--rgb-primary));
+}
+
+.mat-datepicker-toggle,
+.mat-datepicker-content .mat-calendar-next-button,
+.mat-datepicker-content .mat-calendar-previous-button {
+    color: rgba(var(--rgb-on-surface-variant), 1);
+}
+
+.mat-calendar-arrow {
+    fill: rgba(var(--rgb-on-surface-variant), 1);
+}
+
+.mat-calendar-table-header,
+.mat-calendar-body-label {
+    color: rgba(var(--rgb-on-surface), 1);
+}
+
+.mat-calendar-table-header-divider::after {
+    background: rgba(var(--rgb-outline-variant), 1);
+}
+
+.mat-mdc-button.mat-unthemed {
+    --mdc-text-button-label-text-color: rgba(
+        var(--rgb-on-surface-variant)
+    ) !important;
+}
+
+.mat-calendar-body-cell-content,
+.mat-date-range-input-separator {
+    color: rgba(var(--rgb-on-surface), 1);
+}
+
+.mat-mdc-checkbox.mat-primary {
+    --mdc-checkbox-selected-checkmark-color: rgba(
+        var(--rgb-on-primary),
+        1
+    ) !important;
+    --mdc-checkbox-selected-focus-icon-color: rgba(
+        var(--rgb-primary),
+        1
+    ) !important;
+    --mdc-checkbox-selected-hover-icon-color: rgba(
+        var(--rgb-primary),
+        1
+    ) !important;
+    --mdc-checkbox-selected-icon-color: rgba(var(--rgb-primary), 1) !important;
+    --mdc-checkbox-selected-pressed-icon-color: rgba(
+        var(--rgb-primary),
+        1
+    ) !important;
+    --mdc-checkbox-unselected-focus-icon-color: rgba(
+        var(--rgb-on-surface-variant),
+        1
+    ) !important;
+    --mdc-checkbox-unselected-hover-icon-color: rgba(
+        var(--rgb-on-surface-variant),
+        1
+    ) !important;
+    --mdc-checkbox-disabled-selected-icon-color: rgba(
+        var(--rgb-on-surface-variant),
+        0.38
+    );
+    --mdc-checkbox-disabled-unselected-icon-color: rgba(
+        var(--rgb-on-surface-variant),
+        0.38
+    );
+    --mdc-checkbox-unselected-icon-color: rgba(
+        var(--rgb-on-surface-variant),
+        0.54
+    );
+    --mdc-checkbox-unselected-pressed-icon-color: rgba(
+        var(--rgb-on-surface-variant),
+        0.54
+    );
+}
+
+.mat-mdc-checkbox .mdc-checkbox__ripple {
+    background: rgba(var(--rgb-on-surface-variant), 1);
+}
+
+.mat-mdc-checkbox.mat-primary .mdc-checkbox--selected ~ .mdc-checkbox__ripple {
+    background: rgba(var(--rgb-primary), 1) !important;
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+    --mdc-snackbar-container-color: rgb(var(--rgb-inverse-surface)) !important;
+}
+
+.mat-mdc-progress-spinner {
+    --mdc-circular-progress-active-indicator-color: rgb(
+        var(--rgb-primary)
+    ) !important;
+}
+
+.mat-mdc-option:hover:not(.mdc-list-item--disabled),
+.mat-mdc-option:focus:not(.mdc-list-item--disabled),
+.mat-mdc-option.mat-mdc-option-active,
+.mat-mdc-option.mdc-list-item--selected:not(.mat-mdc-option-multiple):not(
+        .mdc-list-item--disabled
+    ) {
+      background: rgba(var(--rgb-on-surface), 0.04);
+}

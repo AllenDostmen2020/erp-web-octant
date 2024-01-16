@@ -1,0 +1,22 @@
+<span matSnackBarLabel>
+    <div class="snackbar__content">
+        <div class="snackbar__icon" [ngClass]="{loading: loading()}" *ngIf="icon() as value">
+            <span class="material-icons">{{ value }}</span>
+        </div>
+        <div class="snackbar__text">
+            <span class="snackbar__title label-large">{{ message() }}</span>
+        </div>
+    </div>
+</span>
+<span matSnackBarActions>
+    <ng-container *ngIf="dialogData.simple?.action as action">
+        <button class="inverted-text-button" matSnackBarAction (click)="snackBarRef.dismissWithAction()">
+            <span class="">{{ action.text }}</span>
+        </button>
+    </ng-container>
+    <ng-container *ngIf="dialogData.simple">
+        <button class="inverted-icon-button" matSnackBarAction (click)="snackBarRef.dismiss()">
+            <span class="material-icons">close</span>
+        </button>
+    </ng-container>
+</span>

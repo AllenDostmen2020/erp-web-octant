@@ -1,0 +1,15 @@
+.mat-mdc-radio-button.mat-primary,
+.mat-mdc-radio-button.mat-accent {
+    --mdc-radio-disabled-selected-icon-color: rgba(var(--rgb-on-surface), 1);
+    --mdc-radio-disabled-unselected-icon-color: rgba(var(--rgb-on-surface), 1);
+    --mdc-radio-unselected-focus-icon-color: rgba(var(--rgb-on-surface-variant), 1);
+    --mdc-radio-unselected-hover-icon-color: rgba(var(--rgb-on-surface-variant), 1);
+    --mdc-radio-unselected-icon-color: rgba(var(--rgb-on-surface), 0.54);
+    --mdc-radio-unselected-pressed-icon-color: rgba(var(--rgb-on-surface), 0.54);
+    --mdc-radio-selected-focus-icon-color: rgba(var(--rgb-primary), 1);
+    --mdc-radio-selected-hover-icon-color: rgba(var(--rgb-primary), 1);
+    --mdc-radio-selected-icon-color: rgba(var(--rgb-primary), 1);
+    --mdc-radio-selected-pressed-icon-color: rgba(var(--rgb-primary), 1);
+    --mat-mdc-radio-ripple-color: rgba(var(--rgb-on-surface), 1);
+    --mat-mdc-radio-checked-ripple-color: rgba(var(--rgb-primary), 1);
+}

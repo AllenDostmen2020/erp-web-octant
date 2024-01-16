@@ -1,0 +1,95 @@
+.timepicker-header {
+  background: transparent !important;
+  padding: 12px 24px !important;
+  height: auto !important;
+}
+
+.timepicker-dial__time {
+    font-style: var(--display-large-font-family-style) !important;
+    font-weight: var(--display-large-font-weight) !important;
+    font-size: var(--display-large-font-size) !important;
+    line-height: var(--display-large-line-height) !important;
+    letter-spacing: var(--display-large-letter-spacing) !important;
+    color: rgba(var(--rgb-on-surface-variant), 1) !important;
+}
+.timepicker-dial__time span {
+    width: 24px;
+}
+.timepicker-dial__container + div {
+    display: none !important;
+}
+
+.timepicker-dial__control {
+    background: rgba(var(--rgb-surface-variant), 1) !important;
+    height: 80px !important;
+    width: 96px !important;
+    border-radius: 8px !important;
+}
+
+.timepicker-dial__control.active {
+    background: rgba(var(--rgb-primary-container), 1) !important;
+    color: rgba(var(--rgb-on-primary-container), 1) !important;
+}
+
+.timepicker-dial__control:focus {
+    border: 2px solid rgba(var(--rgb-primary), 1) !important;
+}
+
+.timepicker-period {
+    border: 1px solid rgba(var(--rgb-outline), 1) !important;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 52px !important;
+}
+
+.timepicker-period__btn {
+    font-style: var(--title-medium-font-family-style) !important;
+    font-weight: var(--title-medium-font-weight) !important;
+    font-size: var(--title-medium-font-size) !important;
+    line-height: var(--title-medium-line-height) !important;
+    letter-spacing: var(--title-medium-letter-spacing) !important;
+    color: rgba(var(--rgb-on-surface-variant), 1) !important;
+    border-radius: 0 !important;
+    opacity: 1 !important;
+    padding: 4px 8px !important;
+    text-align: center !important;
+    height: 40px !important;
+}
+
+.timepicker-period__btn:first-of-type {
+    border-bottom: 1px solid rgba(var(--rgb-outline), 1) !important;
+}
+
+.timepicker-period__btn.active {
+    background: rgba(var(--rgb-tertiary-container), 1) !important;;
+    color: rgba(var(--rgb-on-tertiary-container), 1) !important;
+}
+
+ngx-mat-timepicker-face .clock-face {
+    width: 256px !important;
+    height: 256px !important;
+    background-image: linear-gradient(45deg, rgba(var(--rgb-surface-variant), 1), rgba(var(--rgb-surface-variant), 1)) !important;
+    margin: 16px auto !important;
+}
+
+.clock-face__center,
+.clock-face__clock-hand {
+    background: rgba(var(--rgb-primary), 1) !important;
+    color: rgba(var(--rgb-on-primary), 1) !important;
+}
+
+ngx-mat-timepicker-face .clock-face [mat-mini-fab] {
+    box-shadow: none !important;
+    background: rgba(var(--rgb-primary), 1) !important;
+    color: rgba(var(--rgb-on-primary), 1) !important;
+}
+
+ngx-mat-timepicker-face .clock-face [mat-mini-fab].mat-void {
+    background: transparent !important;
+}
+ngx-mat-timepicker-face .clock-face [mat-mini-fab].mat-void:not(:disabled){
+    color: rgba(var(--rgb-on-surface-variant), 1) !important;
+}
+ngx-mat-timepicker-face .clock-face [mat-mini-fab]:disabled{
+    color: rgba(var(--rgb-on-surface-variant), .5) !important;
+}

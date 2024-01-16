@@ -1,0 +1,202 @@
+:host {
+    --height-card-login: 380px;
+    position: relative;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    height: 100vh;
+    overflow: hidden;
+    font-size: 14px;
+    background: linear-gradient(
+            0deg,
+            rgba(var(--rgb-primary), 0.05),
+            rgba(var(--rgb-primary), 0.05)
+        ),
+        linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface)));
+    background-size: 16px 16px;
+    background-position: 50% 50%;
+}
+
+section {
+    width: 880px;
+    height: var(--height-card-login);
+    padding-left: 27%;
+
+    /* -------------------------------------------- */
+    &.login {
+        > div {
+            &:first-of-type {
+                [data-form="x1"] {
+                    animation: right_ 0.75s;
+                }
+
+                [data-form="x2"] {
+                    position: absolute;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    opacity: 0;
+                }
+            }
+
+            &:last-of-type {
+                padding-right: 30%;
+                transition: left 0.325s, right 0.75s;
+                filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.275));
+
+                > div,
+                > h3,
+                > p,
+                > button {
+                    animation: left_ 0.75s ease;
+                }
+            }
+        }
+    }
+
+    /* -------------------------------------------- */
+    &.register {
+        padding-left: 0%;
+        padding-right: 27%;
+
+        > div {
+            &:first-of-type {
+                [data-form="x1"] {
+                    position: absolute;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    opacity: 0;
+                }
+
+                [data-form="x2"] {
+                    animation: left_ 0.75s;
+                }
+            }
+
+            &:last-of-type {
+                left: 35%;
+                right: 0;
+                padding-left: 30%;
+                transition: left 0.75s, right 0.325s;
+                filter: drop-shadow(-1px -1px 4px rgba(0, 0, 0, 0.275));
+
+                > div,
+                > h3,
+                > p,
+                > button {
+                    animation: right_ 0.75s ease;
+                }
+
+                &::after {
+                    left: 35%;
+                }
+            }
+        }
+    }
+
+    /* -------------------------------------------- */
+}
+
+._container_title {
+    height: var(--height-card-login);
+    right: 35%;
+    --color-background-title: rgba(var(--rgb-primary-container, (0, 0, 0)), 1);
+    color: rgba(var(--rgb-on-primary-container, (0, 0, 0)), 1);
+    z-index: 1;
+
+    @media screen and (min-width: 640px) {
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 65%;
+            top: 0;
+            bottom: 0;
+            background-color: var(--color-background-title);
+            transition: all 0.35s;
+            z-index: -1;
+            pointer-events: none;
+        }
+    }
+
+    > button {
+        margin-top: 0.75rem !important;
+    }
+}
+
+svg {
+    width: 100%;
+    height: var(--height-card-login);
+
+    path {
+        transition: all 0.7s;
+        fill: var(--color-background-title);
+
+        &.mobile {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .__container {
+        width: 85%;
+        height: auto !important;
+        min-height: 480px;
+        padding: 0 !important;
+        grid-template-rows: auto 1fr;
+    }
+
+    ._container_form {
+        padding: 0rem 2rem 2rem !important;
+        height: auto;
+        margin-top: -2.5rem;
+    }
+
+    ._container_title {
+        height: max-content !important;
+        padding: 2rem 2rem 8rem !important;
+        left: 0 !important;
+        right: 0 !important;
+        grid-row-start: 1;
+
+        button {
+            position: absolute !important;
+            bottom: 5rem !important;
+            right: 2rem !important;
+            padding: 0.5rem 1rem !important;
+            line-height: 1 !important;
+        }
+
+        svg {
+            height: 100% !important;
+
+            path.mobile {
+                display: initial !important;
+            }
+
+            path.desktop {
+                display: none;
+            }
+        }
+    }
+}
+
+@keyframes left_ {
+    from {
+        transform: translateX(-200%);
+    }
+
+    to {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes right_ {
+    from {
+        transform: translateX(140%);
+    }
+
+    to {
+        transform: translateX(0%);
+    }
+}

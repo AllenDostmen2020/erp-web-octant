@@ -1,0 +1,73 @@
+// @use "./font-open-sans-local.scss";
+@use "./font-roboto-local.scss";
+
+@use "./theme.scss";
+@use "./output.scss";
+
+@use "./status-loading.scss";
+@use "./fakes-scrolling.scss";
+@use "./item-status.scss";
+@use "./items.scss";
+@use "./card-config.scss";
+
+@use "./general-styles.scss";
+@use "./buttons.scss";
+@use "./button-group.scss";
+@use "./icon-buttons.scss";
+@use "./chips.scss";
+@use "./dialog.scss";
+@use "./material-symbol-icon.scss";
+@use "./cdk-menu.scss";
+
+
+@use "./material-expanded.scss";
+@use "./material-form-field.scss";
+@use "./material-checkbox.scss";
+@use "./material-expansion-panel.scss";
+@use "./material-menu.scss";
+@use "./material-tap.scss";
+@use "./material-radio.scss";
+@use "./material-slide-toggle.scss";
+@use "./material-tooltip.scss";
+@use "./material-badge.scss";
+@use "./material-dialog.scss";
+@use "./material-paginator.scss";
+@use "./material-datepicker.scss";
+@use "./material-snackbar.scss";
+
+@use "./material-mdc-styles.scss";
+
+
+/* -------------------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------- */
+
+html {
+  --font-family-app: "Roboto", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-app);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+}
+
+pre {
+  font-family: var(--font-family-app) !important;
+  white-space: pre-line;
+}

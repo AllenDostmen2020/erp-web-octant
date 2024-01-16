@@ -1,0 +1,63 @@
+<div class="flex gap-2 w-auto max-w-full rounded-lg p-4 border border-solid border-outline">
+    @if (srcFileCloud && !fileCtrl.value) {
+    <div>
+        <img [src]="srcFileCloud | imageMimeTypeFile" class="max-h-24 rounded-md overflow-hidden"
+            [ngClass]="{'opacity-40 mr-1': fileCtrl.value}">
+    </div>
+    }
+    @if (fileCtrl.value) {
+    <div>
+        @if (getImageFile) {
+        <img [src]="getImageFile" class="max-h-24 rounded-md overflow-hidden">
+        }
+    </div>
+    }
+    <div class="grid flex-1 overflow-hidden">
+        @if (srcFileCloud && !fileCtrl.value) {
+        <div class="grid gap-x-1 grid-cols-[auto,auto,1fr] text-xs text-on-surface-variant">
+            <div class="contents">
+                <span>ID File</span>
+                <span>:</span>
+                <span class="text-ellipsis">{{srcFileCloud.split('/').pop()}}</span>
+            </div>
+            <div class="contents">
+                <span>Estado</span>
+                <span>:</span>
+                <span class="text-ellipsis">Subido</span>
+            </div>
+        </div>
+        }
+        @if (fileCtrl.value; as file) {
+        <div class="grid gap-x-1 grid-cols-[auto,auto,1fr] text-xs text-on-surface-variant">
+            <div class="contents">
+                <span>Nombre</span>
+                <span>:</span>
+                <span class="text-ellipsis">{{file.name_file}}</span>
+            </div>
+            <div class="contents">
+                <span>Tipo</span>
+                <span>:</span>
+                <span class="text-ellipsis">{{file.type_file}}</span>
+            </div>
+            <div class="contents">
+                <span>Tamaño</span>
+                <span>:</span>
+                <span class="text-ellipsis">{{(file.size_file / 1024) | number: '.2-2'}} KB</span>
+            </div>
+            <div class="contents">
+                <span>Estado</span>
+                <span>:</span>
+                <span class="text-ellipsis">Por subir</span>
+            </div>
+        </div>
+        }
+        <label class="flex my-2">
+            <input class="hidden" [accept]="acceptFiles" appHandleFileInput (handleFile)="fileCtrl.setValue($event)"
+                type="file">
+            <span class="outlined-button">
+                <span class="material-icons">upload</span>
+                <span>{{(srcFileCloud || fileCtrl.value) ? 'Cambiar' : 'Seleccionar'}} archivo</span>
+            </span>
+        </label>
+    </div>
+</div>

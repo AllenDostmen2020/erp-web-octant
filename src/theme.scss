@@ -1,0 +1,671 @@
+html {
+    margin: 0;
+    position: relative;
+    max-height: 100%;
+    width: 100%;
+    color: rgba(var(--rgb-on-surface-variant), 1);
+    background: var(--color-surface);
+    color: rgba(var(--rgb-on-surface-variant), 1);
+    transition: background .25s ease;
+
+    --color-primary: rgba(var(--rgb-primary), 1);
+    --color-primary-container: rgba(var(--rgb-primary-container), 1);
+    --color-on-primary: rgba(var(--rgb-on-primary), 1);
+    --color-on-primary-container: rgba(var(--rgb-on-primary-container), 1);
+    --color-secondary: rgba(var(--rgb-secondary), 1);
+    --color-secondary-container: rgba(var(--rgb-secondary-container), 1);
+    --color-on-secondary: rgba(var(--rgb-on-secondary), 1);
+    --color-on-secondary-container: rgba(var(--rgb-on-secondary-container), 1);
+    --color-tertiary: rgba(var(--rgb-tertiary), 1);
+    --color-tertiary-container: rgba(var(--rgb-tertiary-container), 1);
+    --color-on-tertiary: rgba(var(--rgb-on-tertiary), 1);
+    --color-on-tertiary-container: rgba(var(--rgb-on-tertiary-container), 1);
+    --color-error: rgba(var(--rgb-error), 1);
+    --color-error-container: rgba(var(--rgb-error-container), 1);
+    --color-on-error: rgba(var(--rgb-on-error), 1);
+    --color-on-error-container: rgba(var(--rgb-on-error-container), 1);
+    --color-background: rgba(var(--rgb-background), 1);
+    --color-on-background: rgba(var(--rgb-on-background), 1);
+    --color-surface: rgba(var(--rgb-surface), 1);
+    --color-on-surface: rgba(var(--rgb-on-surface), 1);
+    --color-surface-variant: rgba(var(--rgb-surface-variant), 1);
+    --color-on-surface-variant: rgba(var(--rgb-on-surface-variant), 1);
+    --color-outline: rgba(var(--rgb-outline), 1);
+    --color-outline-variant: rgba(var(--rgb-outline-variant), 1);
+    --color-inverse-on-surface: rgba(var(--rgb-inverse-on-surface), 1);
+    --color-inverse-surface: rgba(var(--rgb-inverse-surface), 1);
+    --color-inverse-primary: rgba(var(--rgb-inverse-primary), 1);
+    --color-shadow: rgba(var(--rgb-shadow), 1);
+    --color-scrim: rgba(var(--rgb-scrim), 1);
+    --color-surface-tint: rgba(var(--rgb-surface-tint), 1);
+
+}
+
+.dark {
+    --grad-material-symbol-icon: -25;
+    --wght-material-symbol-icon: 300;
+}
+
+/* ------------------------ */
+/* ------------------------ */
+.theme-color-orange {
+    --rgb-primary: 139, 80, 0;
+    --rgb-on-primary: 255, 255, 255;
+    --rgb-primary-container: 255, 221, 191;
+    --rgb-on-primary-container: 45, 22, 0;
+    --rgb-secondary: 115, 90, 66;
+    --rgb-on-secondary: 255, 255, 255;
+    --rgb-secondary-container: 255, 220, 190;
+    --rgb-on-secondary-container: 41, 24, 6;
+    --rgb-tertiary: 88, 99, 57;
+    --rgb-on-tertiary: 255, 255, 255;
+    --rgb-tertiary-container: 220, 232, 180;
+    --rgb-on-tertiary-container: 22, 30, 0;
+    --rgb-error: 186, 26, 26;
+    --rgb-error-container: 255, 218, 214;
+    --rgb-on-error: 255, 255, 255;
+    --rgb-on-error-container: 65, 0, 2;
+    --rgb-background: 255, 251, 255;
+    --rgb-on-background: 32, 27, 22;
+    --rgb-surface: 255, 251, 255;
+    --rgb-on-surface: 32, 27, 22;
+    --rgb-surface-variant: 242, 223, 209;
+    --rgb-on-surface-variant: 81, 69, 58;
+    --rgb-outline: 131, 116, 104;
+    --rgb-inverse-on-surface: 250, 239, 231;
+    --rgb-inverse-surface: 53, 47, 43;
+    --rgb-inverse-primary: 255, 184, 113;
+    --rgb-shadow: 0, 0, 0;
+    --rgb-surface-tint: 139, 80, 0;
+    --rgb-outline-variant: 213, 195, 181;
+    --rgb-scrim: 0, 0, 0;
+}
+
+.dark .theme-color-orange,
+.dark.theme-color-orange {
+    --rgb-primary: 255, 184, 113;
+    --rgb-on-primary: 74, 40, 0;
+    --rgb-primary-container: 106, 60, 0;
+    --rgb-on-primary-container: 255, 220, 190;
+    --rgb-secondary: 225, 193, 164;
+    --rgb-on-secondary: 64, 44, 24;
+    --rgb-secondary-container: 89, 66, 44;
+    --rgb-on-secondary-container: 255, 220, 190;
+    --rgb-tertiary: 192, 204, 154;
+    --rgb-on-tertiary: 43, 52, 16;
+    --rgb-tertiary-container: 65, 75, 36;
+    --rgb-on-tertiary-container: 220, 232, 180;
+    --rgb-error: 255, 180, 171;
+    --rgb-error-container: 147, 0, 10;
+    --rgb-on-error: 105, 0, 5;
+    --rgb-on-error-container: 255, 218, 214;
+    --rgb-background: 32, 27, 22;
+    --rgb-on-background: 235, 224, 217;
+    --rgb-surface: 32, 27, 22;
+    --rgb-on-surface: 235, 224, 217;
+    --rgb-surface-variant: 81, 69, 58;
+    --rgb-on-surface-variant: 213, 195, 181;
+    --rgb-outline: 157, 142, 129;
+    --rgb-inverse-on-surface: 32, 27, 22;
+    --rgb-inverse-surface: 235, 224, 217;
+    --rgb-inverse-primary: 139, 80, 0;
+    --rgb-shadow: 0, 0, 0;
+    --rgb-surface-tint: 255, 184, 113;
+    --rgb-outline-variant: 81, 69, 58;
+    --rgb-scrim: 0, 0, 0;
+}
+
+/* ------------------------ */
+/* ------------------------ */
+.theme-color-blue {
+    --rgb-primary: 37, 95, 164;
+    --rgb-on-primary: 255, 255, 255;
+    --rgb-primary-container: 213, 227, 255;
+    --rgb-on-primary-container: 0, 28, 59;
+    --rgb-secondary: 85, 95, 112;
+    --rgb-on-secondary: 255, 255, 255;
+    --rgb-secondary-container: 217, 227, 248;
+    --rgb-on-secondary-container: 18, 28, 43;
+    --rgb-tertiary: 110, 86, 117;
+    --rgb-on-tertiary: 255, 255, 255;
+    --rgb-tertiary-container: 247, 216, 254;
+    --rgb-on-tertiary-container: 39, 20, 47;
+    --rgb-error: 186, 26, 26;
+    --rgb-on-error: 255, 255, 255;
+    --rgb-error-container: 255, 218, 214;
+    --rgb-on-error-container: 65, 0, 2;
+    --rgb-background: 253, 251, 255;
+    --rgb-on-background: 26, 28, 30;
+    --rgb-surface: 253, 251, 255;
+    --rgb-on-surface: 26, 28, 30;
+    --rgb-surface-variant: 224, 226, 235;
+    --rgb-on-surface-variant: 67, 71, 78;
+    --rgb-outline: 116, 119, 127;
+    --rgb-outline-variant: 196, 198, 207;
+    --rgb-shadow: 0, 0, 0;
+    --rgb-scrim: 0, 0, 0;
+    --rgb-inverse-surface: 46, 47, 51;
+    --rgb-inverse-on-surface: 241, 240, 244;
+    --rgb-inverse-primary: 166, 200, 255;
+    --rgb-surface-tint: 37, 95, 164;
+    --rgb-surface-tint-color: 37, 95, 164;
+
+}
+
+.dark.theme-color-blue,
+.dark .theme-color-blue {
+    --rgb-primary: 166, 200, 255;
+    --rgb-on-primary: 0, 48, 96;
+    --rgb-primary-container: 0, 71, 135;
+    --rgb-on-primary-container: 213, 227, 255;
+    --rgb-secondary: 189, 199, 219;
+    --rgb-on-secondary: 39, 49, 65;
+    --rgb-secondary-container: 61, 71, 88;
+    --rgb-on-secondary-container: 217, 227, 248;
+    --rgb-tertiary: 218, 189, 225;
+    --rgb-on-tertiary: 61, 41, 69;
+    --rgb-tertiary-container: 85, 63, 93;
+    --rgb-on-tertiary-container: 247, 216, 254;
+    --rgb-error: 255, 180, 171;
+    --rgb-on-error: 105, 0, 5;
+    --rgb-error-container: 147, 0, 10;
+    --rgb-on-error-container: 255, 180, 171;
+    --rgb-background: 26, 28, 30;
+    --rgb-on-background: 227, 226, 230;
+    --rgb-surface: 26, 28, 30;
+    --rgb-on-surface: 227, 226, 230;
+    --rgb-surface-variant: 67, 71, 78;
+    --rgb-on-surface-variant: 196, 198, 207;
+    --rgb-outline: 142, 145, 153;
+    --rgb-outline-variant: 67, 71, 78;
+    --rgb-shadow: 0, 0, 0;
+    --rgb-scrim: 0, 0, 0;
+    --rgb-inverse-surface: 227, 226, 230;
+    --rgb-inverse-on-surface: 47, 48, 51;
+    --rgb-inverse-primary: 37, 95, 164;
+    --rgb-surface-tint: 166, 200, 255;
+    --rgb-surface-tint-color: 166, 200, 255;
+}
+
+/* ------------------------ */
+/* ------------------------ */
+.theme-color-pink {
+    --rgb-primary: 188, 0, 82;
+    --rgb-on-primary: 255, 255, 255;
+    --rgb-primary-container: 255, 217, 223;
+    --rgb-on-primary-container: 63, 0, 23;
+    --rgb-secondary: 117, 86, 92;
+    --rgb-on-secondary: 255, 255, 255;
+    --rgb-secondary-container: 255, 217, 223;
+    --rgb-on-secondary-container: 43, 21, 26;
+    --rgb-tertiary: 122, 87, 50;
+    --rgb-on-tertiary: 255, 255, 255;
+    --rgb-tertiary-container: 255, 220, 188;
+    --rgb-on-tertiary-container: 44, 23, 0;
+    --rgb-error: 186, 26, 26;
+    --rgb-error-container: 255, 218, 214;
+    --rgb-on-error: 255, 255, 255;
+    --rgb-on-error-container: 65, 0, 2;
+    --rgb-background: 255, 251, 255;
+    --rgb-on-background: 32, 26, 27;
+    --rgb-surface: 255, 251, 255;
+    --rgb-on-surface: 32, 26, 27;
+    --rgb-surface-variant: 243, 221, 224;
+    --rgb-on-surface-variant: 82, 67, 69;
+    --rgb-outline: 132, 115, 117;
+    --rgb-inverse-on-surface: 250, 238, 239;
+    --rgb-inverse-surface: 53, 47, 48;
+    --rgb-inverse-primary: 255, 177, 192;
+    --rgb-shadow: 0, 0, 0;
+    --rgb-surface-tint: 188, 0, 82;
+    --rgb-outline-variant: 214, 194, 196;
+    --rgb-scrim: 0, 0, 0;
+}
+
+.dark.theme-color-pink,
+.dark .theme-color-pink {
+    --rgb-primary: 255, 177, 192;
+    --rgb-on-primary: 102, 0, 41;
+    --rgb-primary-container: 144, 0, 61;
+    --rgb-on-primary-container: 255, 217, 223;
+    --rgb-secondary: 228, 189, 195;
+    --rgb-on-secondary: 67, 41, 46;
+    --rgb-secondary-container: 91, 63, 68;
+    --rgb-on-secondary-container: 255, 217, 223;
+    --rgb-tertiary: 236, 190, 145;
+    --rgb-on-tertiary: 70, 42, 9;
+    --rgb-tertiary-container: 95, 64, 29;
+    --rgb-on-tertiary-container: 255, 220, 188;
+    --rgb-error: 255, 179, 171;
+    --rgb-error-container: 148, 0, 10;
+    --rgb-on-error: 105, 0, 5;
+    --rgb-on-error-container: 255, 218, 214;
+    --rgb-background: 32, 26, 27;
+    --rgb-on-background: 236, 224, 224;
+    --rgb-surface: 32, 26, 27;
+    --rgb-on-surface: 236, 224, 224;
+    --rgb-surface-variant: 82, 67, 69;
+    --rgb-on-surface-variant: 214, 194, 196;
+    --rgb-outline: 159, 140, 143;
+    --rgb-inverse-on-surface: 32, 26, 27;
+    --rgb-inverse-surface: 236, 224, 224;
+    --rgb-inverse-primary: 188, 0, 82;
+    --rgb-shadow: 0, 0, 0;
+    --rgb-surface-tint: 255, 177, 192;
+    --rgb-outline-variant: 82, 67, 69;
+}
+
+/* ------------------------ */
+/* ------------------------ */
+.theme-color-green {
+    --rgb-primary: 65, 105, 0;
+    --rgb-on-primary: 255, 255, 255;
+    --rgb-primary-container: 183, 245, 106;
+    --rgb-on-primary-container: 16, 32, 0;
+    --rgb-secondary: 85, 99, 66;
+    --rgb-on-secondary: 255, 255, 255;
+    --rgb-secondary-container: 216, 232, 190;
+    --rgb-on-secondary-container: 19, 31, 5;
+    --rgb-tertiary: 27, 105, 101;
+    --rgb-on-tertiary: 255, 255, 255;
+    --rgb-tertiary-container: 168, 240, 234;
+    --rgb-on-tertiary-container: 0, 32, 30;
+    --rgb-error: 186, 26, 26;
+    --rgb-on-error: 255, 255, 255;
+    --rgb-error-container: 255, 218, 214;
+    --rgb-on-error-container: 65, 0, 2;
+    --rgb-background: 253, 252, 245;
+    --rgb-on-background: 27, 28, 24;
+    --rgb-surface: 253, 252, 245;
+    --rgb-on-surface: 27, 28, 24;
+    --rgb-surface-variant: 225, 228, 213;
+    --rgb-on-surface-variant: 68, 72, 61;
+    --rgb-outline: 117, 121, 108;
+    --rgb-outline-variant: 197, 200, 186;
+    --rgb-shadow: 0, 0, 0;
+    --rgb-scrim: 0, 0, 0;
+    --rgb-inverse-surface: 48, 49, 44;
+    --rgb-inverse-on-surface: 242, 241, 233;
+    --rgb-inverse-primary: 156, 216, 81;
+    --rgb-surface-tint: 65, 105, 0;
+    --rgb-surface-tint-color: 65, 105, 0;
+}
+
+.dark.theme-color-green,
+.dark .theme-color-green {
+    --rgb-primary: 156, 216, 81;
+    --rgb-on-primary: 31, 55, 0;
+    --rgb-primary-container: 48, 79, 0;
+    --rgb-on-primary-container: 183, 245, 106;
+    --rgb-secondary: 188, 204, 163;
+    --rgb-on-secondary: 40, 52, 23;
+    --rgb-secondary-container: 62, 75, 44;
+    --rgb-on-secondary-container: 216, 232, 190;
+    --rgb-tertiary: 140, 211, 205;
+    --rgb-on-tertiary: 0, 55, 52;
+    --rgb-tertiary-container: 0, 80, 76;
+    --rgb-on-tertiary-container: 168, 240, 234;
+    --rgb-error: 255, 180, 171;
+    --rgb-on-error: 105, 0, 5;
+    --rgb-error-container: 147, 0, 10;
+    --rgb-on-error-container: 255, 180, 171;
+    --rgb-background: 27, 28, 24;
+    --rgb-on-background: 227, 227, 219;
+    --rgb-surface: 27, 28, 24;
+    --rgb-on-surface: 227, 227, 219;
+    --rgb-surface-variant: 68, 72, 61;
+    --rgb-on-surface-variant: 197, 200, 186;
+    --rgb-outline: 143, 146, 133;
+    --rgb-outline-variant: 68, 72, 61;
+    --rgb-shadow: 0, 0, 0;
+    --rgb-scrim: 0, 0, 0;
+    --rgb-inverse-surface: 227, 227, 219;
+    --rgb-inverse-on-surface: 48, 49, 44;
+    --rgb-inverse-primary: 65, 105, 0;
+    --rgb-surface-tint: 156, 216, 81;
+    --rgb-surface-tint-color: 156, 216, 81;
+}
+
+/* ------------------------ */
+/* ------------------------ */
+.theme-color-purple {
+    --rgb-primary: 151, 44, 171;
+    --rgb-on-primary: 255, 255, 255;
+    --rgb-primary-container: 255, 214, 255;
+    --rgb-on-primary-container: 53, 0, 64;
+    --rgb-secondary: 107, 88, 107;
+    --rgb-on-secondary: 255, 255, 255;
+    --rgb-secondary-container: 244, 219, 241;
+    --rgb-on-secondary-container: 37, 23, 38;
+    --rgb-tertiary: 130, 82, 75;
+    --rgb-on-tertiary: 255, 255, 255;
+    --rgb-tertiary-container: 255, 218, 212;
+    --rgb-on-tertiary-container: 51, 17, 12;
+    --rgb-error: 186, 26, 26;
+    --rgb-error-container: 255, 218, 214;
+    --rgb-on-error: 255, 255, 255;
+    --rgb-on-error-container: 65, 0, 2;
+    --rgb-background: 255, 251, 255;
+    --rgb-on-background: 30, 26, 30;
+    --rgb-surface: 255, 251, 255;
+    --rgb-on-surface: 30, 26, 30;
+    --rgb-surface-variant: 236, 223, 232;
+    --rgb-on-surface-variant: 77, 68, 76;
+    --rgb-outline: 126, 116, 125;
+    --rgb-inverse-on-surface: 247, 238, 243;
+    --rgb-inverse-surface: 51, 47, 50;
+    --rgb-inverse-primary: 248, 172, 255;
+    --rgb-shadow: 0, 0, 0;
+    --rgb-surface-tint: 151, 44, 171;
+    --rgb-outline-variant: 208, 195, 204;
+    --rgb-scrim: 0, 0, 0;
+}
+
+.dark.theme-color-purple,
+.dark .theme-color-purple {
+    --rgb-primary: 248, 172, 255;
+    --rgb-on-primary: 87, 0, 103;
+    --rgb-primary-container: 123, 1, 144;
+    --rgb-on-primary-container: 255, 214, 255;
+    --rgb-secondary: 215, 191, 213;
+    --rgb-on-secondary: 59, 43, 60;
+    --rgb-secondary-container: 83, 65, 83;
+    --rgb-on-secondary-container: 244, 219, 241;
+    --rgb-tertiary: 246, 184, 174;
+    --rgb-on-tertiary: 76, 37, 32;
+    --rgb-tertiary-container: 103, 59, 52;
+    --rgb-on-tertiary-container: 255, 218, 212;
+    --rgb-error: 255, 180, 171;
+    --rgb-error-container: 147, 0, 10;
+    --rgb-on-error: 105, 0, 5;
+    --rgb-on-error-container: 255, 218, 214;
+    --rgb-background: 30, 26, 30;
+    --rgb-on-background: 233, 224, 228;
+    --rgb-surface: 30, 26, 30;
+    --rgb-on-surface: 233, 224, 228;
+    --rgb-surface-variant: 77, 68, 76;
+    --rgb-on-surface-variant: 208, 195, 204;
+    --rgb-outline: 153, 141, 150;
+    --rgb-inverse-on-surface: 30, 26, 30;
+    --rgb-inverse-surface: 233, 224, 228;
+    --rgb-inverse-primary: 151, 44, 171;
+    --rgb-shadow: 0, 0, 0;
+    --rgb-surface-tint: 248, 172, 255;
+    --rgb-outline-variant: 77, 68, 76;
+    --rgb-scrim: 0, 0, 0;
+}
+
+/* ------------------------ */
+/* ------------------------ */
+.theme-color-cyan {
+    --rgb-primary: 0, 104, 119;
+    --rgb-on-primary: 255, 255, 255;
+    --rgb-primary-container: 162, 238, 255;
+    --rgb-on-primary-container: 0, 31, 37;
+    --rgb-secondary: 74, 98, 104;
+    --rgb-on-secondary: 255, 255, 255;
+    --rgb-secondary-container: 205, 231, 237;
+    --rgb-on-secondary-container: 5, 31, 36;
+    --rgb-tertiary: 84, 93, 126;
+    --rgb-on-tertiary: 255, 255, 255;
+    --rgb-tertiary-container: 219, 225, 255;
+    --rgb-on-tertiary-container: 16, 26, 55;
+    --rgb-error: 186, 26, 26;
+    --rgb-error-container: 255, 218, 214;
+    --rgb-on-error: 255, 255, 255;
+    --rgb-on-error-container: 65, 0, 2;
+    --rgb-background: 251, 252, 253;
+    --rgb-on-background: 25, 28, 29;
+    --rgb-surface: 251, 252, 253;
+    --rgb-on-surface: 25, 28, 29;
+    --rgb-surface-variant: 219, 228, 231;
+    --rgb-on-surface-variant: 63, 72, 74;
+    --rgb-outline: 111, 121, 123;
+    --rgb-inverse-on-surface: 239, 241, 242;
+    --rgb-inverse-surface: 46, 49, 50;
+    --rgb-inverse-primary: 47, 217, 244;
+    --rgb-shadow: 0, 0, 0;
+    --rgb-surface-tint: 0, 104, 119;
+    --rgb-outline-variant: 191, 200, 203;
+    --rgb-scrim: 0, 0, 0;
+}
+
+.dark.theme-color-cyan,
+.dark .theme-color-cyan {
+    --rgb-primary: 47, 217, 244;
+    --rgb-on-primary: 0, 54, 62;
+    --rgb-primary-container: 0, 78, 90;
+    --rgb-on-primary-container: 162, 238, 255;
+    --rgb-secondary: 177, 203, 209;
+    --rgb-on-secondary: 28, 52, 57;
+    --rgb-secondary-container: 51, 74, 80;
+    --rgb-on-secondary-container: 205, 231, 237;
+    --rgb-tertiary: 188, 197, 235;
+    --rgb-on-tertiary: 38, 47, 77;
+    --rgb-tertiary-container: 61, 70, 101;
+    --rgb-on-tertiary-container: 219, 225, 255;
+    --rgb-error: 255, 180, 171;
+    --rgb-error-container: 147, 0, 10;
+    --rgb-on-error: 105, 0, 5;
+    --rgb-on-error-container: 255, 218, 214;
+    --rgb-background: 25, 28, 29;
+    --rgb-on-background: 225, 227, 227;
+    --rgb-surface: 25, 28, 29;
+    --rgb-on-surface: 225, 227, 227;
+    --rgb-surface-variant: 63, 72, 74;
+    --rgb-on-surface-variant: 191, 200, 203;
+    --rgb-outline: 137, 146, 149;
+    --rgb-inverse-on-surface: 25, 28, 29;
+    --rgb-inverse-surface: 225, 227, 227;
+    --rgb-inverse-primary: 0, 104, 119;
+    --rgb-shadow: 0, 0, 0;
+    --rgb-surface-tint: 47, 217, 244;
+    --rgb-outline-variant: 63, 72, 74;
+    --rgb-scrim: 0, 0, 0;
+}
+
+/* ------------------------ */
+/* ------------------------ */
+/* .theme-color-emerald {
+    --rgb-primary: 0, 108, 75;
+    --rgb-on-primary: 255, 255, 255;
+    --rgb-primary-container: 104, 252, 191;
+    --rgb-on-primary-container: 0, 33, 20;
+    --rgb-secondary: 77, 99, 87;
+    --rgb-on-secondary: 255, 255, 255;
+    --rgb-secondary-container: 207, 233, 217;
+    --rgb-on-secondary-container: 10, 31, 22;
+    --rgb-tertiary: 61, 100, 115;
+    --rgb-on-tertiary: 255, 255, 255;
+    --rgb-tertiary-container: 193, 233, 251;
+    --rgb-on-tertiary-container: 0, 31, 41;
+    --rgb-error: 186, 26, 26;
+    --rgb-error-container: 255, 218, 214;
+    --rgb-on-error: 255, 255, 255;
+    --rgb-on-error-container: 65, 0, 2;
+    --rgb-background: 251, 253, 249;
+    --rgb-on-background: 25, 28, 26;
+    --rgb-surface: 251, 253, 249;
+    --rgb-on-surface: 25, 28, 26;
+    --rgb-surface-variant: 220, 229, 221;
+    --rgb-on-surface-variant: 64, 73, 67;
+    --rgb-outline: 112, 121, 115;
+    --rgb-inverse-on-surface: 239, 241, 237;
+    --rgb-inverse-surface: 46, 49, 47;
+    --rgb-inverse-primary: 69, 223, 164;
+    --rgb-shadow: 0, 0, 0;
+    --rgb-surface-tint: 0, 108, 75;
+    --rgb-outline-variant: 191, 201, 193;
+    --rgb-scrim: 0, 0, 0;
+}
+.dark.theme-color-emerald,
+.dark .theme-color-emerald {
+    --rgb-primary: 69, 223, 164;
+    --rgb-on-primary: 0, 56, 37;
+    --rgb-primary-container: 0, 81, 55;
+    --rgb-on-primary-container: 104, 252, 191;
+    --rgb-secondary: 180, 204, 189;
+    --rgb-on-secondary: 31, 53, 42;
+    --rgb-secondary-container: 54, 75, 64;
+    --rgb-on-secondary-container: 207, 233, 217;
+    --rgb-tertiary: 165, 204, 222;
+    --rgb-on-tertiary: 7, 53, 67;
+    --rgb-tertiary-container: 36, 76, 90;
+    --rgb-on-tertiary-container: 193, 233, 251;
+    --rgb-error: 255, 180, 171;
+    --rgb-error-container: 147, 0, 10;
+    --rgb-on-error: 105, 0, 5;
+    --rgb-on-error-container: 255, 218, 214;
+    --rgb-background: 25, 28, 26;
+    --rgb-on-background: 225, 227, 223;
+    --rgb-surface: 25, 28, 26;
+    --rgb-on-surface: 225, 227, 223;
+    --rgb-surface-variant: 64, 73, 67;
+    --rgb-on-surface-variant: 191, 201, 193;
+    --rgb-outline: 138, 147, 140;
+    --rgb-inverse-on-surface: 25, 28, 26;
+    --rgb-inverse-surface: 225, 227, 223;
+    --rgb-inverse-primary: 0, 108, 75;
+    --rgb-shadow: 0, 0, 0;
+    --rgb-surface-tint: 69, 223, 164;
+    --rgb-outline-variant: 64, 73, 67;
+} */
+
+[class*="theme-color"] {
+    --box-shadow-level-1: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15); // shadow l1
+    --box-shadow-level-2: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15); // shadow l2
+    --box-shadow-level-3: 0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3); // shadow l3
+    --box-shadow-level-4: 0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3); // shadow l4
+    --box-shadow-level-5: 0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3); // shadow l5
+
+    --mdc-theme-text-primary-on-background: rgba(var(--rgb-on-surface));
+    --mdc-icon-button-icon-color: rgba(var(--rgb-on-surface));
+    --mdc-checkbox-selected-icon-color: rgba(var(--rgb-primary), 1) !important;
+    --mdc-checkbox-selected-checkmark-color: rgba(var(--rgb-on-primary), 1) !important;
+
+    --mdc-theme-primary: rgb(var(--rgb-primary));
+    --mdc-theme-error: rgb(var(--rgb-error));
+    --mdc-theme-secondary: rgb(var(--rgb-tertiary));
+}
+
+/* --------------------------------------- */
+/* --------------------------------------- */
+/* --------------------------------------- */
+body {
+    /* display - large */
+    --display-large-font-family-name: var(--font-family-app);
+    --display-large-font-family-style: Regular;
+    --display-large-font-weight: 400;
+    --display-large-font-size: 57px;
+    --display-large-line-height: 64px;
+    --display-large-letter-spacing: -0.25px;
+    /* display - medium */
+    --display-medium-font-family-name: var(--font-family-app);
+    --display-medium-font-family-style: Regular;
+    --display-medium-font-weight: 400;
+    --display-medium-font-size: 45px;
+    --display-medium-line-height: 52px;
+    --display-medium-letter-spacing: 0px;
+    /* display - small */
+    --display-small-font-family-name: var(--font-family-app);
+    --display-small-font-family-style: Regular;
+    --display-small-font-weight: 400;
+    --display-small-font-size: 36px;
+    --display-small-line-height: 44px;
+    --display-small-letter-spacing: 0px;
+    /* headline - large */
+    --headline-large-font-family-name: var(--font-family-app);
+    --headline-large-font-family-style: Regular;
+    --headline-large-font-weight: 400;
+    --headline-large-font-size: 32px;
+    --headline-large-line-height: 40px;
+    --headline-large-letter-spacing: 0px;
+    /* headline - medium */
+    --headline-medium-font-family-name: var(--font-family-app);
+    --headline-medium-font-family-style: Regular;
+    --headline-medium-font-weight: 400;
+    --headline-medium-font-size: 28px;
+    --headline-medium-line-height: 36px;
+    --headline-medium-letter-spacing: 0px;
+    /* headline - small */
+    --headline-small-font-family-name: var(--font-family-app);
+    --headline-small-font-family-style: Regular;
+    --headline-small-font-weight: 400;
+    --headline-small-font-size: 24px;
+    --headline-small-line-height: 32px;
+    --headline-small-letter-spacing: 0px;
+    /* body - large */
+    --body-large-font-family-name: var(--font-family-app);
+    --body-large-font-family-style: Regular;
+    --body-large-font-weight: 400;
+    --body-large-font-size: 16px;
+    --body-large-line-height: 24px;
+    --body-large-letter-spacing: 0.5px;
+    /* body - medium */
+    --body-medium-font-family-name: var(--font-family-app);
+    --body-medium-font-family-style: Regular;
+    --body-medium-font-weight: 400;
+    --body-medium-font-size: 14px;
+    --body-medium-line-height: 20px;
+    --body-medium-letter-spacing: 0.25px;
+    /* body - small */
+    --body-small-font-family-name: var(--font-family-app);
+    --body-small-font-family-style: Regular;
+    --body-small-font-weight: 400;
+    --body-small-font-size: 12px;
+    --body-small-line-height: 16px;
+    --body-small-letter-spacing: 0.4px;
+    /* label - large */
+    --label-large-font-family-name: var(--font-family-app);
+    --label-large-font-family-style: Medium;
+    --label-large-font-weight: 500;
+    --label-large-font-size: 14px;
+    --label-large-line-height: 20px;
+    --label-large-letter-spacing: 0.1px;
+    /* label - medium */
+    --label-medium-font-family-name: var(--font-family-app);
+    --label-medium-font-family-style: Medium;
+    --label-medium-font-weight: 500;
+    --label-medium-font-size: 12px;
+    --label-medium-line-height: 16px;
+    --label-medium-letter-spacing: 0.5px;
+    /* label - small */
+    --label-small-font-family-name: var(--font-family-app);
+    --label-small-font-family-style: Medium;
+    --label-small-font-weight: 500;
+    --label-small-font-size: 11px;
+    --label-small-line-height: 16px;
+    --label-small-letter-spacing: 0.5px;
+    /* title - large */
+    --title-large-font-family-name: var(--font-family-app);
+    --title-large-font-family-style: Regular;
+    --title-large-font-weight: 400;
+    --title-large-font-size: 22px;
+    --title-large-line-height: 28px;
+    --title-large-letter-spacing: 0px;
+    /* title - medium */
+    --title-medium-font-family-name: var(--font-family-app);
+    --title-medium-font-family-style: Medium;
+    --title-medium-font-weight: 500;
+    --title-medium-font-size: 16px;
+    --title-medium-line-height: 24px;
+    --title-medium-letter-spacing: 0.15px;
+    /* title - small */
+    --title-small-font-family-name: var(--font-family-app);
+    --title-small-font-family-style: Medium;
+    --title-small-font-weight: 500;
+    --title-small-font-size: 14px;
+    --title-small-line-height: 20px;
+    --title-small-letter-spacing: 0.1px;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    height: 13px;
+    width: 13px;
+    background: url("data:image/svg+xml;charset=UTF-8,%3csvg viewPort='0 0 12 12' version='1.1' xmlns='http://www.w3.org/2000/svg'%3e%3cline x1='1' y1='11' x2='11' y2='1' stroke='currentColor' stroke-width='1'/%3e%3cline x1='1' y1='1' x2='11' y2='11' stroke='currentColor' stroke-width='1'/%3e%3c/svg%3e");
+}
+
+.dark input[type="search"]::-webkit-search-cancel-button {
+    background: url("data:image/svg+xml;charset=UTF-8,%3csvg viewPort='0 0 12 12' version='1.1' xmlns='http://www.w3.org/2000/svg'%3e%3cline x1='1' y1='11' x2='11' y2='1' stroke='white' stroke-width='1'/%3e%3cline x1='1' y1='1' x2='11' y2='11' stroke='white' stroke-width='1'/%3e%3c/svg%3e");
+}

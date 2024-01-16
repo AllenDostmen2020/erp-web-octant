@@ -1,0 +1,78 @@
+<button class="icon-button" [matMenuTriggerFor]="menuProfile">
+    <div class="profile-avatar">
+        @if (user.image) {
+        <img [src]="(user.image | pathFilesServer)" alt="" />
+        } @else {
+        <div class="title-medium">
+            {{user.name | firstLetterName}}
+        </div>
+        }
+    </div>
+</button>
+
+
+<mat-menu class="profile-menu custom-scroll" #menuProfile="matMenu">
+    <div class="profile__menu__container" (click)="$event.stopPropagation()">
+
+        <div class="profile__menu__image">
+            <div class="profile-avatar">
+                @if (user.image) {
+                <img [src]="(user.image | pathFilesServer)" alt="" />
+                } @else {
+                <div class="headline-medium">
+                    {{user.name | firstLetterName}}
+                </div>
+                }
+            </div>
+        </div>
+
+        <div class="profile__menu__name">
+            <div class="title-medium">{{user.name}}</div>
+            <div class="body-small">
+                {{user.role | firstLetterUppercase}} - {{ user | nameLevelUser }}
+            </div>
+        </div>
+
+        @if (configuration(); as config) {
+        <div class="profile__menu__options">
+            <div class="profile__menu__option__item">
+                <div class="profile__menu__option__item__text">
+                    Tema oscuro:
+                </div>
+                <div class="profile__menu__option__item__options">
+                    <mat-slide-toggle (change)="setTheme($event.checked ? 'dark' : 'light')"
+                        [checked]="config.theme == 'dark'" />
+                </div>
+            </div>
+            <div class="profile__menu__option__item">
+                <div class="profile__menu__option__item__text">
+                    Color:
+                </div>
+                <div class="profile__menu__option__item__options">
+                    <div class="profile__menu__option__item__themes">
+                        @for (item of themeColors; track item) {
+                        <div [title]="item" [ngClass]="{'active': config.color == item}" (click)="setColor(item)" class="profile__menu__option__item__themes__item {{item}}">
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+        <div class="profile__menu__actions">
+            <button class="profile__menu__action__button text-button" (click)="closeMenu()">
+                <span class="material-icons">account_circle</span>
+                <span>Perfil</span>
+            </button>
+            <button class="profile__menu__action__button text-button" (click)="logout(); closeMenu()">
+                <span class="material-icons">logout</span>
+                <span>Salir</span>
+            </button>
+        </div>
+
+        <div class="profile__menu__copyright body-small">
+            Allendostmen©2023
+        </div>
+    </div>
+</mat-menu>

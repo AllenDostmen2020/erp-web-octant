@@ -1,0 +1,47 @@
+.notifications-menu {
+    border-radius: 20px !important;
+    max-width: 300px !important;
+    min-width: 300px !important;
+}
+.notifications-menu .mat-mdc-menu-content {
+    position: relative;
+    display: grid;
+    overflow: hidden;
+    height: 100%;
+}
+
+.notifications__container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100%;
+    overflow: hidden;
+}
+
+.notifications__header {
+    padding: 16px 24px 12px 24px;
+}
+
+.notifications__content {
+    overflow-y: auto;
+}
+
+.notifications__item {
+    position: relative;
+    padding: 4px 24px !important;
+    height: auto !important;
+}
+
+
+.notifications__item__description {
+    // line clamp 3
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--color-on-surface);
+}
+
+.notifications__item__date {
+    margin-top: 4px;
+    color: var(--color-on-surface-variant);
+}

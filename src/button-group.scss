@@ -1,0 +1,73 @@
+.list-button-group {
+    --button-group-item-height: 40px;
+    display: flex;
+
+    .list-button-group-item {
+        height: var(--button-group-item-height);
+        padding: 0 24px;
+        border: 1px solid rgba(var(--rgb-outline), 1);
+        border-radius: 0;
+        background-color: rgba(var(--rgb-surface), 1);
+        color: rgba(var(--rgb-on-surface), 1);
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--label-large-font-family-name);
+        font-style: var(--label-large-font-family-style);
+        font-weight: var(--label-large-font-weight);
+        font-size: var(--label-large-font-size);
+        letter-spacing: var(--label-large-letter-spacing);
+        line-height: var(--label-large-line-height);
+        text-transform: var(--label-large-text-transform);
+        text-decoration: var(--label-large-text-decoration);
+        position: relative;
+        flex: 1 1 0%;
+        white-space: nowrap;
+        transition-property: background;
+        transition-duration: 0.25s;
+        transition-timing-function: ease;
+
+        &:nth-child(odd) {
+            border-left: none;
+            border-right: none;
+        }
+
+        &:first-child {
+            border-top-left-radius: var(--button-group-item-height);
+            border-bottom-left-radius: var(--button-group-item-height);
+            border-left: 1px solid rgba(var(--rgb-outline), 1);
+        }
+
+        &:last-child {
+            border-top-right-radius: var(--button-group-item-height);
+            border-bottom-right-radius: var(--button-group-item-height);
+            border-right: 1px solid rgba(var(--rgb-outline), 1);
+        }
+
+        &.active {
+            background-color: rgba(var(--rgb-secondary-container), 1);
+            color: rgba(var(--rgb-on-secondary-container), 1);
+            padding-left: 12px;
+            padding-right: 12px;
+
+            &::before {
+                margin-left: 0px;
+                margin-right: 6px;
+                content: "done";
+                font-family: "Material Symbols Rounded";
+                color: currentColor;
+                font-size: 18px;
+                color: currentColor;
+                font-variation-settings: "FILL" var(--fill, 0),
+                    "wght" var(--wght, 300), "GRAD" var(--grad, 0),
+                    "opsz" var(--opsz, 18px);
+                -webkit-font-smoothing: antialiased;
+                width: 18px;
+                height: 18px;
+                line-height: 19px;
+            }
+        }
+    }
+}
