@@ -187,13 +187,12 @@ export class SidenavComponent {
 
   private async loadConfigurations() {
     await Promise.allSettled([
-      this.databaseStorageService.getData(NameModuleDatabase.USERS, 'server'),
-      this.databaseStorageService.getData(NameModuleDatabase.BANKS, 'server'),
-      this.databaseStorageService.getData(NameModuleDatabase.BOX_OPENINGS, 'server'),
-      this.databaseStorageService.getData(NameModuleDatabase.SURRENDER_BOX_OPENINGS, 'server'),
-      this.databaseStorageService.getData(NameModuleDatabase.CUSTOMERS, 'server'),
-      this.databaseStorageService.getData(NameModuleDatabase.TAXES, 'server'),
-      this.databaseStorageService.getData(NameModuleDatabase.DOCUMENT_TYPES, 'server'),
+      this.databaseStorageService.getData(NameModuleDatabase.Users),
+      this.databaseStorageService.getData(NameModuleDatabase.Banks),
+      // this.databaseStorageService.getData(NameModuleDatabase.Taxes),
+      // this.databaseStorageService.getData(NameModuleDatabase.DocumentTypes),
+      this.databaseStorageService.getData(NameModuleDatabase.Plans),
+      this.databaseStorageService.getData(NameModuleDatabase.VehicleTypes),
     ])
   }
 
