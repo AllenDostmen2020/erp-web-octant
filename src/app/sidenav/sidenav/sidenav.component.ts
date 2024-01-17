@@ -219,12 +219,12 @@ const DRAWER_LINKS: GroupDrawerLink[] = [
     ]
   },
   {
-    label: 'APPS',
+    label: 'Opciones de la APP',
     links: [
       {
-        label: 'Octant ERP',
-        route: '/octant',
-        icon: 'pin_drop',
+        label: 'Settings',
+        route: '/settings',
+        icon: 'settings',
       },
     ]
   },
