@@ -82,7 +82,7 @@ export class SidenavComponent {
   public showDrawer: WritableSignal<boolean> = signal(false);
   public groupDrawerLinks: WritableSignal<GroupDrawerLink[]> = signal([]);
 
-  public lateralPanelType: WritableSignal<LateralPanelType> = signal('minimum');
+  public lateralPanelType: WritableSignal<LateralPanelType> = signal('maximum');
   public showLateralPanel: WritableSignal<boolean> = signal(false);
 
   @ViewChild('inputSearch') inputSearch!: ElementRef<HTMLInputElement>;
@@ -92,8 +92,6 @@ export class SidenavComponent {
 
   @HostListener('window:keydown.esc', ['$event'])
   keyEvent(event: KeyboardEvent) {
-    console.log();
-    
     if ((event.target as HTMLElement).nodeName.toUpperCase() !== 'INPUT' && this.showLateralPanel()) {
       this.location.back();
     }
@@ -127,10 +125,10 @@ export class SidenavComponent {
   public setShowLateralPanel(status: boolean, data: any = null) {
     this.showLateralPanel.set(status);
     if (status) {
-      if ((data.lateralPanelType ?? null) == 'maximum') {
-        this.lateralPanelType.set('maximum');
-      } else {
+      if ((data.lateralPanelType ?? null) == 'minimum') {
         this.lateralPanelType.set('minimum');
+      } else {
+        this.lateralPanelType.set('maximum');
       }
     }
   }

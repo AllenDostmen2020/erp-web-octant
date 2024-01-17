@@ -1,4 +1,4 @@
-import { inject, Injectable, Injector } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { FetchService } from './fetch.service';
 import { PaginatorData } from 'src/app/shared/interfaces/paginator';
