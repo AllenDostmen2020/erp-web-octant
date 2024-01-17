@@ -3,8 +3,9 @@ import { lateralPanelRouting } from './lateral-panel.routing';
 import { organizationRoutes } from './modules/organization/organization.routes';
 import { administrationRoutes } from './modules/administration/administration.routes';
 import { configurationRoutes } from './modules/configuration/configuration.routes';
+import { settingsRoutes } from './modules/settings/settings.routes';
 
-export const panelRoutes: Routes =[
+export const panelRoutes: Routes = [
     {
         path: 'organization',
         children: organizationRoutes,
@@ -21,6 +22,11 @@ export const panelRoutes: Routes =[
         title: 'Bancos | ERP'
     },
 
+    {
+        path: 'settings',
+        children: settingsRoutes,
+        title: 'Configuración | ERP',
+    },
 
     /* LATERAL ROUTING */
     ...lateralPanelRouting,
