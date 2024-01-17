@@ -1,4 +1,4 @@
-import { User } from "./user";
+import { User, UserRoleEnum } from "./user";
 
 export interface BaseModel {
   id: number;
@@ -26,14 +26,20 @@ export enum DocumentTypeEnum {
   PASAPORTE = 'pasaporte',
   OTRO = 'otro',
 }
+export enum CoinEnum {
+  SOLES = 'soles',
+  DOLARES = 'dolares',
+}
 
-export const DOCUMENT_TYPES = Object.values(DocumentTypeEnum); // ['dni', 'ruc']
+export const DOCUMENT_TYPES = Object.values(DocumentTypeEnum);
+export const USER_ROLES = Object.values(UserRoleEnum);
+export const COIN = Object.values(CoinEnum);
 
 export enum StatusModel {
   Activo = 'activo',
   Inactivo = 'inactivo',
   Pediente = 'pendiente',
-  Aprobado = 'aprobado', 
+  Aprobado = 'aprobado',
   Enviado = 'enviado',
   Entregado = 'entregado',
   Recibido = 'recibido',

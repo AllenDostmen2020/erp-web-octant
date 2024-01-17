@@ -1,24 +1,26 @@
-import { BaseModel } from "./baseModel";
+import { BaseModel, DocumentTypeEnum } from "./baseModel";
 
 export interface User extends BaseModel {
-  id:number;
-  document_number: string;
-  name: string;
-  email: string;
-  role: UserRoleEnum;
-  code: string;
-  address: string;
-  phone: string;
-  cellphone: string;
-  image?: string
-  email_verified_at?: string;
+    id: number;
+    document_number: string;
+    document_type: DocumentTypeEnum;
+    name: string;
+    email: string;
+    role: UserRoleEnum;
+    code: string;
+    address: string;
+    phone: string;
+    cellphone: string;
+    birth_date: string;
+    image?: string
+    email_verified_at?: string;
 
-  level: UserlevelEnum;
+    level: UserlevelEnum;
 
 }
 
 export interface DataRUC {
-    document_type_id:number;
+    document_type_id: number;
     direccion: string;
     direccion_completa: string;
     ruc: string;
@@ -55,11 +57,11 @@ export enum UserlevelEnum {
 }
 
 export interface RepresentanteLegal {
-  tipodoc: string;
-  numdoc: string;
-  nombre: string;
-  cargo: string;
-  desde: string;
+    tipodoc: string;
+    numdoc: string;
+    nombre: string;
+    cargo: string;
+    desde: string;
 }
 
 
@@ -69,7 +71,7 @@ export interface DataDNI {
     apellidoPaterno: string;
     apellidoMaterno: string;
     codVerifica: string;
-    document_type_id:number;
+    document_type_id: number;
 
 }
 
@@ -79,4 +81,5 @@ export interface UserToken {
     created_at: string;
     updated_at: string;
     last_used_at: string;
-  }
+}
+
