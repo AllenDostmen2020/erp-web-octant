@@ -82,22 +82,22 @@ export class SidenavComponent {
     public showDrawer: WritableSignal<boolean> = signal(false);
     public groupDrawerLinks: WritableSignal<GroupDrawerLink[]> = signal([]);
 
-  public lateralPanelType: WritableSignal<LateralPanelType> = signal('minimum');
-  public showLateralPanel: WritableSignal<boolean> = signal(false);
+    public lateralPanelType: WritableSignal<LateralPanelType> = signal('minimum');
+    public showLateralPanel: WritableSignal<boolean> = signal(false);
 
     @ViewChild('inputSearch') inputSearch!: ElementRef<HTMLInputElement>;
     public searchCtrl: FormControl = new FormControl('');
     public optionsSearchCtrl: FormControl = new FormControl('');
     public speakingMicrophone: WritableSignal<boolean> = signal(false);
 
-  @HostListener('window:keydown.esc', ['$event'])
-  keyEvent(event: KeyboardEvent) {
-    console.log();
+    @HostListener('window:keydown.esc', ['$event'])
+    keyEvent(event: KeyboardEvent) {
+        console.log();
 
-    if ((event.target as HTMLElement).nodeName.toUpperCase() !== 'INPUT' && this.showLateralPanel()) {
-      this.location.back();
+        if ((event.target as HTMLElement).nodeName.toUpperCase() !== 'INPUT' && this.showLateralPanel()) {
+            this.location.back();
+        }
     }
-  }
 
     ngOnInit(): void {
         this.getValidatedLinks(DRAWER_LINKS, this.user()!.role);
@@ -124,16 +124,16 @@ export class SidenavComponent {
         return parseLinks;
     }
 
-  public setShowLateralPanel(status: boolean, data: any = null) {
-    this.showLateralPanel.set(status);
-    if (status) {
-      if ((data.lateralPanelType ?? null) == 'maximum') {
-        this.lateralPanelType.set('maximum');
-      } else {
-        this.lateralPanelType.set('minimum');
-      }
+    public setShowLateralPanel(status: boolean, data: any = null) {
+        this.showLateralPanel.set(status);
+        if (status) {
+            if ((data.lateralPanelType ?? null) == 'maximum') {
+                this.lateralPanelType.set('maximum');
+            } else {
+                this.lateralPanelType.set('minimum');
+            }
+        }
     }
-  }
 
     private getAccessMicrophone(): Promise<boolean> {
         return new Promise((resolve, reject) => {
@@ -145,7 +145,6 @@ export class SidenavComponent {
 
     public async requestAccessMicrophone(): Promise<void> {
         if (this.speakingMicrophone()) return;
-
         const permission = await this.getAccessMicrophone();
 
         if (permission) {
@@ -185,52 +184,77 @@ export class SidenavComponent {
         this.eventService.emitEvent<EventGlobalSearch>(NAME_EVENT_GLOBAL_SEARCH, { type: 'enter', value: this.searchCtrl.value });
     }
 
-  private async loadConfigurations() {
-    await Promise.allSettled([
-      this.databaseStorageService.getData(NameModuleDatabase.USERS, 'server'),
-      this.databaseStorageService.getData(NameModuleDatabase.BANKS, 'server'),
-      this.databaseStorageService.getData(NameModuleDatabase.BOX_OPENINGS, 'server'),
-      this.databaseStorageService.getData(NameModuleDatabase.SURRENDER_BOX_OPENINGS, 'server'),
-      this.databaseStorageService.getData(NameModuleDatabase.CUSTOMERS, 'server'),
-      this.databaseStorageService.getData(NameModuleDatabase.TAXES, 'server'),
-      this.databaseStorageService.getData(NameModuleDatabase.DOCUMENT_TYPES, 'server'),
-    ])
-  }
+
+    private async loadConfigurations() {
+        await Promise.allSettled([
+            this.databaseStorageService.getData(NameModuleDatabase.Users),
+            this.databaseStorageService.getData(NameModuleDatabase.Banks),
+            // this.databaseStorageService.getData(NameModuleDatabase.Taxes),
+            // this.databaseStorageService.getData(NameModuleDatabase.DocumentTypes),
+            this.databaseStorageService.getData(NameModuleDatabase.Plans),
+            this.databaseStorageService.getData(NameModuleDatabase.VehicleTypes),
+        ])
+    }
 
 }
 
 
 const DRAWER_LINKS: GroupDrawerLink[] = [
-  {
-    label: 'Organización',
-    links: [
-      {
-        label: 'Clientes',
-        icon: 'supervised_user_circle',
-        route: '/organization/client',
-      },
-      {
-        label: 'Clientes',
-        icon: 'groups',
-        route: '/client',
-      },
-      {
-        label: 'Proveedores',
-        icon: 'diversity_3',
-        route: '/provider',
-      }
-    ]
-  },
-  {
-    label: 'APPS',
-    links: [
-      {
-        label: 'Octant ERP',
-        route: '/octant',
-        icon: 'pin_drop',
-      },
-    ]
-  },
+    {
+        label: 'Organización',
+        links: [
+            {
+                label: 'Clientes',
+                icon: 'supervised_user_circle',
+                route: '/organization/client',
+            },
+            {
+                label: 'Usuarios',
+                icon: 'person',
+                route: '/organization/user',
+            },
+        ]
+    },
+    {
+        label: 'Administración',
+        links: [
+            {
+                label: 'Cuentas',
+                icon: 'account_balance_wallet',
+                route: '/administration/account',
+            },
+        ]
+    },
+    {
+        label: 'Configuration',
+        links: [
+            {
+                label: 'Bancos',
+                icon: 'account_balance',
+                route: '/configuration/bank',
+            },
+        ]
+    },
+    {
+        label: 'APPS',
+        links: [
+            {
+                label: 'Octant ERP',
+                route: '/octant',
+                icon: 'pin_drop',
+            },
+        ]
+    },
+    {
+        label: 'Opciones de la APP',
+        links: [
+            {
+                label: 'Settings',
+                route: '/settings',
+                icon: 'settings',
+            },
+        ]
+    },
 ];
 
 
