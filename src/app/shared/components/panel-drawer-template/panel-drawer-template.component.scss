@@ -13,12 +13,12 @@
     position: relative;
     margin-left: -12px;
     padding-left: 12px;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 .panel__drawer__container {
     position: relative;
+    height: 100%;
 }
 
 .panel__drawer__title {
@@ -34,11 +34,6 @@
     margin-bottom: 24px;
 
 }
-
-// .panel__drawer__block {
-//     margin-left: -2px;
-//     padding-left: 2px;
-// }
 
 .panel__drawer__block+.panel__drawer__block {
     margin-top: var(--padding-y-card);
@@ -79,6 +74,13 @@
     cursor: pointer;
     transition: background .25s ease;
     position: relative;
+}
+
+.panel__drawer__block__links__item__next-icon {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform:  translateY(-50%);
 }
 
 .panel__drawer__block__links__item:not(.active):hover {
@@ -144,12 +146,19 @@
     width: 100%;
     transform: translateX(0);
     transition: transform .4s ease, visibility .4s ease;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    margin-left: -12px;
+    padding-left: 12px;
 }
 
 .enter-element.__hidden {
     position: absolute;
     top: 0;
     left: 0;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .enter-element-one.__hidden {
