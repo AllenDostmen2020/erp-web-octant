@@ -100,7 +100,7 @@ export class DatabaseStorageService {
         {
             name: 'Bancos',
             key: NameModuleDatabase.Banks,
-            recurrent: Recurrent.Hourly,
+            recurrent: Recurrent.Daily,
             config: {
                 url: 'database-storage/banks'
             },
@@ -124,7 +124,7 @@ export class DatabaseStorageService {
         {
             name: 'Tipos de documento',
             key: NameModuleDatabase.DocumentTypes,
-            recurrent: Recurrent.Hourly,
+            recurrent: Recurrent.Daily,
             config: {
                 url: 'database-storage/document-types'
             },
@@ -132,7 +132,7 @@ export class DatabaseStorageService {
         {
             name: 'Planes',
             key: NameModuleDatabase.Plans,
-            recurrent: Recurrent.Hourly,
+            recurrent: Recurrent.Daily,
             config: {
                 url: 'database-storage/plans'
             },
@@ -140,7 +140,7 @@ export class DatabaseStorageService {
         {
             name: 'Tipos de vehículo',
             key: NameModuleDatabase.VehicleTypes,
-            recurrent: Recurrent.Hourly,
+            recurrent: Recurrent.Daily,
             config: {
                 url: 'database-storage/vehicle-types'
             },
