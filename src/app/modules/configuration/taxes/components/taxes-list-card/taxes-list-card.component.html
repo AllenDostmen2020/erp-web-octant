@@ -1,0 +1,28 @@
+<form [formGroup]="form" (submit)="_submitForm()" class="grid">
+    <div class="border border-solid border-primary p-4 rounded grid gap-2">
+        <h6 class="text-center">{{item.name}}</h6>
+
+        <mat-form-field>
+            <mat-label>Valor</mat-label>
+            <input matInput type="number" formControlName="value" placeholder="Valor">
+            <mat-error>Campo requerido</mat-error>
+        </mat-form-field>
+
+        <div class="text-xs text-on-surface-variant mb-2">Última actualización: {{ item.updated_at ?? item.created_at | date: 'short' }}</div>
+        @if(form.disabled) {
+            <button type="button" class="outlined-button" color="primary" (click)="form.enable()">
+                Editar
+            </button>
+        }
+        @if(form.enabled) {
+            <div class="grid grid-cols-2 gap-2">
+                <button type="button" class="outlined-button" color="primary" (click)="cancelEdit()">
+                    Cancelar
+                </button>
+                <button type="submit" class="filled-button" color="primary">
+                    Guardar
+                </button>
+            </div>
+        }
+    </div>
+</form>

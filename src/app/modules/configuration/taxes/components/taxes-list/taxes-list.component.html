@@ -1,0 +1,20 @@
+<div class="bg-surface p-6 rounded">
+  <!-- -------------------------------------- -->
+  <!-- -------------------------------------- -->
+  <div class="flex justify-between items-end mb-4">
+    <h5 class="leading-none">Impuestos</h5>
+    <div class="flex">
+      <!-- <a routerLink="../create" mat-stroked-button class="h-9">
+        <span class="material-icons">add</span>
+        <span>Crear nuevo</span>
+      </a> -->
+    </div>
+  </div>
+  <!-- -------------------------------------- -->
+  <!-- -------------------------------------- -->
+  <div class="relative grid grid-cols-3 gap-4">
+    <app-taxes-list-card *ngFor="let item of data; let i=index" [item]="item" (submitForm)="updateItem(i, $event)"></app-taxes-list-card>
+  </div>
+  <!-- -------------------------------------- -->
+  <!-- -------------------------------------- -->
+</div>
