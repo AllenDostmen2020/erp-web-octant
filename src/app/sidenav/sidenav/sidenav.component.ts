@@ -233,6 +233,16 @@ const DRAWER_LINKS: GroupDrawerLink[] = [
                 icon: 'account_balance',
                 route: '/configuration/bank',
             },
+            {
+                label: 'Planes',
+                icon: 'planner_banner_ad_pt',
+                route: '/configuration/plan',
+            },
+            {
+                label: 'Tipo de vehículos',
+                icon: 'airport_shuttle',
+                route: '/configuration/vehicle-type',
+            },
         ]
     },
     {

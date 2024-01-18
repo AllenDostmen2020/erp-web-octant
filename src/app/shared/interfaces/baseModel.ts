@@ -28,7 +28,7 @@ export enum DocumentTypeEnum {
 }
 export enum CoinEnum {
   SOLES = 'soles',
-  DOLARES = 'dolares',
+  DOLARES = 'dólares',
 }
 
 export const DOCUMENT_TYPES = Object.values(DocumentTypeEnum);
