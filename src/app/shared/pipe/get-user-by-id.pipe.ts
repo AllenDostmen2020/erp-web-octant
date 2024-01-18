@@ -13,7 +13,7 @@ export class GetUserByIdPipe implements PipeTransform {
 
   async transform(id: number | null | undefined): Promise<User | null | undefined> {
     if(!id) return null;
-    return await this.databaseStorage.getOne<User>(NameModuleDatabase.USERS, id);
+    return await this.databaseStorage.getOne<User>(NameModuleDatabase.Users, id);
   }
 
 }

@@ -18,24 +18,24 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
 
 interface GroupDrawerLink {
-  label?: string;
-  links: DrawerLink[];
-  roles?: UserRoleEnum[];
+    label?: string;
+    links: DrawerLink[];
+    roles?: UserRoleEnum[];
 }
 
 interface DrawerLink {
-  label: string;
-  icon: string;
-  route: string;
-  exact?: boolean;
-  queryParams?: { [key: string]: string | number | boolean };
-  roles?: UserRoleEnum[];
-  group_open?: boolean;
+    label: string;
+    icon: string;
+    route: string;
+    exact?: boolean;
+    queryParams?: { [key: string]: string | number | boolean };
+    roles?: UserRoleEnum[];
+    group_open?: boolean;
 }
 
 export interface EventGlobalSearch {
-  type: 'enter' | 'change';
-  value: string;
+    type: 'enter' | 'change';
+    value: string;
 }
 
 export const NAME_EVENT_GLOBAL_SEARCH = 'global_search';
@@ -43,191 +43,218 @@ export const NAME_EVENT_GLOBAL_SEARCH = 'global_search';
 export declare type LateralPanelType = 'maximum' | 'minimum';
 
 @Component({
-  selector: 'app-sidenav',
-  standalone: true,
-  imports: [
-    CommonModule,
+    selector: 'app-sidenav',
+    standalone: true,
+    imports: [
+        CommonModule,
 
-    RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
-    ReactiveFormsModule,
+        RouterOutlet,
+        RouterLink,
+        RouterLinkActive,
+        ReactiveFormsModule,
 
-    MatMenuModule,
-    MatSelectModule,
-    MatTooltipModule,
-    MatAutocompleteModule,
+        MatMenuModule,
+        MatSelectModule,
+        MatTooltipModule,
+        MatAutocompleteModule,
 
-    PathFilesServerPipe,
-    FirstLetterNamePipe,
+        PathFilesServerPipe,
+        FirstLetterNamePipe,
 
-    ProfileMenuComponent,
-    AppsMenuComponent,
-    SettingsMenuComponent,
-    NotificationsMenuComponent,
-  ],
-  templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+        ProfileMenuComponent,
+        AppsMenuComponent,
+        SettingsMenuComponent,
+        NotificationsMenuComponent,
+    ],
+    templateUrl: './sidenav.component.html',
+    styleUrls: ['./sidenav.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class SidenavComponent {
-  private authService = inject(AuthService);
-  private renderer2 = inject(Renderer2);
-  private eventService = inject(EventsService);
-  public location = inject(Location);
-  public databaseStorageService = inject(DatabaseStorageService);
+    private authService = inject(AuthService);
+    private renderer2 = inject(Renderer2);
+    private eventService = inject(EventsService);
+    public location = inject(Location);
+    public databaseStorageService = inject(DatabaseStorageService);
 
-  public user: Signal<User | null> = this.authService.user;
-  public sidenavDrawerMode: WritableSignal<'over' | 'push' | 'side'> = signal('side');
-  public showDrawer: WritableSignal<boolean> = signal(false);
-  public groupDrawerLinks: WritableSignal<GroupDrawerLink[]> = signal([]);
+    public user: Signal<User | null> = this.authService.user;
+    public sidenavDrawerMode: WritableSignal<'over' | 'push' | 'side'> = signal('side');
+    public showDrawer: WritableSignal<boolean> = signal(false);
+    public groupDrawerLinks: WritableSignal<GroupDrawerLink[]> = signal([]);
 
-  public lateralPanelType: WritableSignal<LateralPanelType> = signal('maximum');
-  public showLateralPanel: WritableSignal<boolean> = signal(false);
+    public lateralPanelType: WritableSignal<LateralPanelType> = signal('minimum');
+    public showLateralPanel: WritableSignal<boolean> = signal(false);
 
-  @ViewChild('inputSearch') inputSearch!: ElementRef<HTMLInputElement>;
-  public searchCtrl: FormControl = new FormControl('');
-  public optionsSearchCtrl: FormControl = new FormControl('');
-  public speakingMicrophone: WritableSignal<boolean> = signal(false);
+    @ViewChild('inputSearch') inputSearch!: ElementRef<HTMLInputElement>;
+    public searchCtrl: FormControl = new FormControl('');
+    public optionsSearchCtrl: FormControl = new FormControl('');
+    public speakingMicrophone: WritableSignal<boolean> = signal(false);
 
-  @HostListener('window:keydown.esc', ['$event'])
-  keyEvent(event: KeyboardEvent) {
-    if ((event.target as HTMLElement).nodeName.toUpperCase() !== 'INPUT' && this.showLateralPanel()) {
-      this.location.back();
+    @HostListener('window:keydown.esc', ['$event'])
+    keyEvent(event: KeyboardEvent) {
+        console.log();
+
+        if ((event.target as HTMLElement).nodeName.toUpperCase() !== 'INPUT' && this.showLateralPanel()) {
+            this.location.back();
+        }
     }
-  }
 
-  ngOnInit(): void {
-    this.getValidatedLinks(DRAWER_LINKS, this.user()!.role);
-    this.watchSearchCtrl();
-    this.loadConfigurations();
-  }
-
-  private async getValidatedLinks(links: GroupDrawerLink[], role: UserRoleEnum): Promise<void> {
-    const linksFiltered: GroupDrawerLink[] = [];
-    for await (const link of links) {
-      if (link.roles && !link.roles.includes(role)) continue;
-      if (link.links.length) link.links = await this.filteredLinks(link.links, role);
-      linksFiltered.push(link);
+    ngOnInit(): void {
+        this.getValidatedLinks(DRAWER_LINKS, this.user()!.role);
+        this.watchSearchCtrl();
+        this.loadConfigurations();
     }
-    this.groupDrawerLinks.set(linksFiltered);
-  }
 
-  public async filteredLinks(links: DrawerLink[], role: UserRoleEnum): Promise<DrawerLink[]> {
-    const parseLinks = [];
-    for await (const link of links) {
-      if (link.roles && !link.roles.includes(role)) continue;
-      parseLinks.push(link);
+    private async getValidatedLinks(links: GroupDrawerLink[], role: UserRoleEnum): Promise<void> {
+        const linksFiltered: GroupDrawerLink[] = [];
+        for await (const link of links) {
+            if (link.roles && !link.roles.includes(role)) continue;
+            if (link.links.length) link.links = await this.filteredLinks(link.links, role);
+            linksFiltered.push(link);
+        }
+        this.groupDrawerLinks.set(linksFiltered);
     }
-    return parseLinks;
-  }
 
-  public setShowLateralPanel(status: boolean, data: any = null) {
-    this.showLateralPanel.set(status);
-    if (status) {
-      if ((data.lateralPanelType ?? null) == 'minimum') {
-        this.lateralPanelType.set('minimum');
-      } else {
-        this.lateralPanelType.set('maximum');
-      }
+    public async filteredLinks(links: DrawerLink[], role: UserRoleEnum): Promise<DrawerLink[]> {
+        const parseLinks = [];
+        for await (const link of links) {
+            if (link.roles && !link.roles.includes(role)) continue;
+            parseLinks.push(link);
+        }
+        return parseLinks;
     }
-  }
 
-  private getAccessMicrophone(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(() => resolve(true))
-        .catch(() => resolve(false));
-    });
-  }
-
-  public async requestAccessMicrophone(): Promise<void> {
-    if (this.speakingMicrophone()) return;
-
-    const permission = await this.getAccessMicrophone();
-
-    if (permission) {
-
-      if (!('webkitSpeechRecognition' in window)) return;
-
-      const recognition = new ((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition)();
-      recognition.lang = 'es-ES';
-
-      this.speakingMicrophone.set(true);
-
-      recognition.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
-        this.searchCtrl.setValue(transcript || this.searchCtrl.value);
-        this.speakingMicrophone.set(false);
-        this.renderer2.selectRootElement(this.inputSearch.nativeElement).focus();
-      };
-
-      recognition.onend = () => {
-        this.speakingMicrophone.set(false);
-        this.renderer2.selectRootElement(this.inputSearch.nativeElement).focus();
-      }
-
-      recognition.start();
-    } else {
-      this.speakingMicrophone.set(false);
+    public setShowLateralPanel(status: boolean, data: any = null) {
+        this.showLateralPanel.set(status);
+        if (status) {
+            if ((data.lateralPanelType ?? null) == 'maximum') {
+                this.lateralPanelType.set('maximum');
+            } else {
+                this.lateralPanelType.set('minimum');
+            }
+        }
     }
-  }
 
-  private watchSearchCtrl(): void {
-    this.searchCtrl.valueChanges.subscribe((value) => {
-      this.eventService.emitEvent<EventGlobalSearch>(NAME_EVENT_GLOBAL_SEARCH, { type: 'change', value });
-    });
-  }
+    private getAccessMicrophone(): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(() => resolve(true))
+                .catch(() => resolve(false));
+        });
+    }
 
-  public enterSearch(): void {
-    this.eventService.emitEvent<EventGlobalSearch>(NAME_EVENT_GLOBAL_SEARCH, { type: 'enter', value: this.searchCtrl.value });
-  }
+    public async requestAccessMicrophone(): Promise<void> {
+        if (this.speakingMicrophone()) return;
+        const permission = await this.getAccessMicrophone();
 
-  private async loadConfigurations() {
-    await Promise.allSettled([
-      this.databaseStorageService.getData(NameModuleDatabase.Users),
-      this.databaseStorageService.getData(NameModuleDatabase.Banks),
-      // this.databaseStorageService.getData(NameModuleDatabase.Taxes),
-      // this.databaseStorageService.getData(NameModuleDatabase.DocumentTypes),
-      this.databaseStorageService.getData(NameModuleDatabase.Plans),
-      this.databaseStorageService.getData(NameModuleDatabase.VehicleTypes),
-    ])
-  }
+        if (permission) {
+
+            if (!('webkitSpeechRecognition' in window)) return;
+
+            const recognition = new ((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition)();
+            recognition.lang = 'es-ES';
+
+            this.speakingMicrophone.set(true);
+
+            recognition.onresult = (event: any) => {
+                const transcript = event.results[0][0].transcript;
+                this.searchCtrl.setValue(transcript || this.searchCtrl.value);
+                this.speakingMicrophone.set(false);
+                this.renderer2.selectRootElement(this.inputSearch.nativeElement).focus();
+            };
+
+            recognition.onend = () => {
+                this.speakingMicrophone.set(false);
+                this.renderer2.selectRootElement(this.inputSearch.nativeElement).focus();
+            }
+
+            recognition.start();
+        } else {
+            this.speakingMicrophone.set(false);
+        }
+    }
+
+    private watchSearchCtrl(): void {
+        this.searchCtrl.valueChanges.subscribe((value) => {
+            this.eventService.emitEvent<EventGlobalSearch>(NAME_EVENT_GLOBAL_SEARCH, { type: 'change', value });
+        });
+    }
+
+    public enterSearch(): void {
+        this.eventService.emitEvent<EventGlobalSearch>(NAME_EVENT_GLOBAL_SEARCH, { type: 'enter', value: this.searchCtrl.value });
+    }
+
+
+    private async loadConfigurations() {
+        await Promise.allSettled([
+            this.databaseStorageService.getData(NameModuleDatabase.Users),
+            this.databaseStorageService.getData(NameModuleDatabase.Banks),
+            // this.databaseStorageService.getData(NameModuleDatabase.Taxes),
+            // this.databaseStorageService.getData(NameModuleDatabase.DocumentTypes),
+            this.databaseStorageService.getData(NameModuleDatabase.Plans),
+            this.databaseStorageService.getData(NameModuleDatabase.VehicleTypes),
+        ])
+    }
 
 }
 
 
 const DRAWER_LINKS: GroupDrawerLink[] = [
-  {
-    label: 'Organización',
-    links: [
-      {
-        label: 'Clientes',
-        icon: 'supervised_user_circle',
-        route: '/organization/client',
-      },
-      {
-        label: 'Clientes',
-        icon: 'groups',
-        route: '/client',
-      },
-      {
-        label: 'Proveedores',
-        icon: 'diversity_3',
-        route: '/provider',
-      }
-    ]
-  },
-  {
-    label: 'Opciones de la APP',
-    links: [
-      {
-        label: 'Settings',
-        route: '/settings',
-        icon: 'settings',
-      },
-    ]
-  },
+    {
+        label: 'Organización',
+        links: [
+            {
+                label: 'Clientes',
+                icon: 'supervised_user_circle',
+                route: '/organization/client',
+            },
+            {
+                label: 'Usuarios',
+                icon: 'person',
+                route: '/organization/user',
+            },
+        ]
+    },
+    {
+        label: 'Administración',
+        links: [
+            {
+                label: 'Cuentas',
+                icon: 'account_balance_wallet',
+                route: '/administration/account',
+            },
+        ]
+    },
+    {
+        label: 'Configuration',
+        links: [
+            {
+                label: 'Bancos',
+                icon: 'account_balance',
+                route: '/configuration/bank',
+            },
+        ]
+    },
+    {
+        label: 'APPS',
+        links: [
+            {
+                label: 'Octant ERP',
+                route: '/octant',
+                icon: 'pin_drop',
+            },
+        ]
+    },
+    {
+        label: 'Opciones de la APP',
+        links: [
+            {
+                label: 'Settings',
+                route: '/settings',
+                icon: 'settings',
+            },
+        ]
+    },
 ];
 
 
