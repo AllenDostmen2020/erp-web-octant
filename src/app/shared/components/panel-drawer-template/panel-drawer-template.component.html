@@ -31,10 +31,10 @@
                                 @if (link.children?.length) {
                                     <a class="panel__drawer__block__links__item" (click)="selectedLink(link)">
                                         {{link.title}}
+                                        <span class="panel__drawer__block__links__item__next-icon material-icons">chevron_right</span>
                                     </a>
                                 } @else {
-                                    <a class="panel__drawer__block__links__item" [routerLink]="link.routerLink.url"
-                                        routerLinkActive="active">
+                                    <a class="panel__drawer__block__links__item" [routerLink]="link.routerLink.url" routerLinkActive="active">
                                         {{link.title}}
                                     </a>
                                 }

@@ -72,84 +72,99 @@ interface StorageConfiguration<T = any> {
 }
 
 interface ModuleConfiguration {
-    key: NameModuleDatabase;
-    config: {
+    readonly key: NameModuleDatabase;
+    readonly recurrent: Recurrent;
+    readonly name: string;
+    readonly config: {
         url: string;
         queryParams?: string;
     };
-    recurrent: Recurrent;
+    lastUpdate?: Date;
 }
-
-const MODULES: ModuleConfiguration[] = [
-    {
-        key: NameModuleDatabase.BoxOpenings,
-        recurrent: Recurrent.Hourly,
-        config: {
-            url: 'box-opening',
-            queryParams: 'relations=box.account.bank&box_status=abierto&limit=100'
-        },
-    },
-    {
-        key: NameModuleDatabase.Banks,
-        recurrent: Recurrent.Hourly,
-        config: {
-            url: 'database-storage/banks'
-        },
-    },
-    {
-        key: NameModuleDatabase.Users,
-        recurrent: Recurrent.Hourly,
-        config: {
-            url: 'database-storage/users'
-        },
-    },
-    {
-        key: NameModuleDatabase.Taxes,
-        recurrent: Recurrent.Hourly,
-        config: {
-            url: 'database-storage/taxes'
-        },
-    },
-    {
-        key: NameModuleDatabase.DocumentTypes,
-        recurrent: Recurrent.Hourly,
-        config: {
-            url: 'database-storage/document-types'
-        },
-    },
-    {
-        key: NameModuleDatabase.Plans,
-        recurrent: Recurrent.Hourly,
-        config: {
-            url: 'database-storage/plans'
-        },
-    },
-    {
-        key: NameModuleDatabase.VehicleTypes,
-        recurrent: Recurrent.Hourly,
-        config: {
-            url: 'database-storage/vehicle-types'
-        },
-    },
-]
 
 @Injectable({ providedIn: 'root' })
 export class DatabaseStorageService {
 
     private storageMap = inject(StorageMap);
     private fetch = inject(FetchService);
-    private modules: ModuleConfiguration[] = MODULES;
+    public readonly modules: ModuleConfiguration[] = [
+        {
+            name: 'Aperturas de caja',
+            key: NameModuleDatabase.BoxOpenings,
+            recurrent: Recurrent.Hourly,
+            config: {
+                url: 'box-opening',
+                queryParams: 'relations=box.account.bank&box_status=abierto&limit=100'
+            },
+        },
+        {
+            name: 'Bancos',
+            key: NameModuleDatabase.Banks,
+            recurrent: Recurrent.Daily,
+            config: {
+                url: 'database-storage/banks'
+            },
+        },
+        {
+            name: 'Usuarios',
+            key: NameModuleDatabase.Users,
+            recurrent: Recurrent.Hourly,
+            config: {
+                url: 'database-storage/users'
+            },
+        },
+        {
+            name: 'Valores de impuestos',
+            key: NameModuleDatabase.Taxes,
+            recurrent: Recurrent.Hourly,
+            config: {
+                url: 'database-storage/taxes'
+            },
+        },
+        {
+            name: 'Tipos de documento',
+            key: NameModuleDatabase.DocumentTypes,
+            recurrent: Recurrent.Daily,
+            config: {
+                url: 'database-storage/document-types'
+            },
+        },
+        {
+            name: 'Planes',
+            key: NameModuleDatabase.Plans,
+            recurrent: Recurrent.Daily,
+            config: {
+                url: 'database-storage/plans'
+            },
+        },
+        {
+            name: 'Tipos de vehículo',
+            key: NameModuleDatabase.VehicleTypes,
+            recurrent: Recurrent.Daily,
+            config: {
+                url: 'database-storage/vehicle-types'
+            },
+        },
+    ];
+
+    constructor() {
+        this.modules.forEach(module => {
+            this.storageMap.get(module.key).subscribe((response) => {
+                if(response) module.lastUpdate = (response as StorageConfiguration).lastUpdate;
+            })
+        });
+    }
 
     public async getOne<T = any>(key: NameModuleDatabase, id: number): Promise<T | undefined> {
         return (await this.getData<any>(key)).find((item) => item.id == id);
     }
 
     public async getData<T>(key: NameModuleDatabase): Promise<T[]> {
-        const config = this.modules.find((e) => e.key == key)!;
+        const module = this.modules.find((e) => e.key == key)!;
         return new Promise(async (resolve) => {
-            this.storageMap.get(key).subscribe(async (res) => {
-                if (res) {
-                    const { recurrent, lastUpdate } = res as StorageConfiguration<T>;
+            this.storageMap.get(key).subscribe(async (response) => {
+                if (response) {
+                    const { recurrent, lastUpdate } = response as StorageConfiguration<T>;
 
                     const c_year = new Date().getFullYear();
                     const c_month = new Date().getMonth();
@@ -163,16 +178,16 @@ export class DatabaseStorageService {
                     const u_week = getWeek(lastUpdate, { weekStartsOn: 1 });
                     const u_hour = lastUpdate.getHours();
 
-                    if (recurrent == Recurrent.Hourly && (c_year != u_year || c_month != u_month || c_date != u_date || c_hour != u_hour)) resolve(await this.getDataServer(config));
-                    else if (recurrent == Recurrent.Daily && (c_year != u_year || c_month != u_month || c_date != u_date)) resolve(await this.getDataServer(config));
-                    else if (recurrent == Recurrent.Weekly && (c_year != u_year || c_week != u_week)) resolve(await this.getDataServer(config));
-                    else if (recurrent == Recurrent.Monthly && (c_year != u_year || c_month != u_month)) resolve(await this.getDataServer(config));
-                    else if (recurrent == Recurrent.Yearly && c_year != u_year) resolve(await this.getDataServer(config));
+                    if (recurrent == Recurrent.Hourly && (c_year != u_year || c_month != u_month || c_date != u_date || c_hour != u_hour)) resolve(await this.getDataServer(module));
+                    else if (recurrent == Recurrent.Daily && (c_year != u_year || c_month != u_month || c_date != u_date)) resolve(await this.getDataServer(module));
+                    else if (recurrent == Recurrent.Weekly && (c_year != u_year || c_week != u_week)) resolve(await this.getDataServer(module));
+                    else if (recurrent == Recurrent.Monthly && (c_year != u_year || c_month != u_month)) resolve(await this.getDataServer(module));
+                    else if (recurrent == Recurrent.Yearly && c_year != u_year) resolve(await this.getDataServer(module));
 
-                    const decode = await decrypt('0123456', (res as StorageConfiguration<T>).data);
+                    const decode = await decrypt('0123456', (response as StorageConfiguration<T>).data);
                     resolve(JSON.parse(decode));
                 } else {
-                    resolve(this.getDataServer(config));
+                    resolve(this.getDataServer(module));
                 }
             });
         });
@@ -184,15 +199,16 @@ export class DatabaseStorageService {
         this.getDataServer(config);
     }
 
-    private async getDataServer<T>(module: ModuleConfiguration, ignoreRecurrent?: boolean): Promise<T[]> {
+    private async getDataServer<T>(module: ModuleConfiguration): Promise<T[]> {
         const { config, key, recurrent } = module;
         const url = `${config.url}?${config.queryParams ? config.queryParams : ''}`;
         const result = await this.fetch.get<T[] | PaginatorData<T>>(url);
         const data = result instanceof Array ? result : result.data;
+        module.lastUpdate = new Date();
         const storageConfig: StorageConfiguration<T> = {
             data: await encrypt('0123456', JSON.stringify(data)),
             recurrent,
-            lastUpdate: new Date(),
+            lastUpdate: module.lastUpdate,
         }
         this.storageMap.set(key, storageConfig).subscribe(() => { });
         return data;

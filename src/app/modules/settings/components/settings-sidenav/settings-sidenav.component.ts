@@ -12,34 +12,65 @@ export class SettingsSidenavComponent {
   public configuration: PanelSidenavConfiguration = {
     groups: [
       {
-        title: 'Cotizaciones',
+        title: 'Principal',
         links: [
           {
-            title: 'Nueva cotización',
-            routerLink: { url: '/quotation/create' },
+            title: 'Perfil',
+            routerLink: { url: './application' },
           },
           {
-            title: 'Recientes',
-            routerLink: { url: './abc' },
+            title: 'Aplicación',
+            routerLink: { url: './application' },
           },
           {
-            title: 'Almacenamiento',
+            title: 'Tablas maestras',
+            routerLink: { url: './master-table' },
+            children: [
+              {
+                title: 'Guía',
+                routerLink: { url: './master-table/guide' },
+              },
+              {
+                title: 'Tipos de usuario',
+                routerLink: { url: './master-table/user-type' },
+              },
+              {
+                title: 'Tipos de cliente',
+                routerLink: { url: './master-table/document-type' },
+              },
+              {
+                title: 'Tipos de documento',
+                routerLink: { url: './master-table/document-type' },
+              },
+            ]
+          },
+        ]
+      },
+      {
+        title: 'Seguridad',
+        links: [
+          {
+            title: 'Contraseña',
+            routerLink: { url: './password' },
+          },
+          {
+            title: 'Almacenamiento de datos',
             routerLink: { url: './storage' },
             children: [
               {
-                title: 'Cotizaciones',
-                routerLink: { url: './storage/quotation' },
+                title: 'Guía',
+                routerLink: { url: './storage/guide' },
               },
               {
-                title: 'Clientes',
+                title: 'Datos locales',
                 routerLink: { url: './storage/customer' },
               },
               {
-                title: 'Proveedores',
+                title: 'Datos en servidor',
                 routerLink: { url: './storage/provider' },
               },
             ]
-          }
+          },
         ]
       }
     ]

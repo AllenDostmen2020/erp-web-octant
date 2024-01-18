@@ -22,9 +22,22 @@ export const clientRoutes: Routes = [
                 loadComponent: () => import('./pages/client-detail-page/client-detail-page.component').then(m => m.ClientDetailPageComponent),
             },
             {
+                pathMatch: 'full',
+                path: 'contact',
+                children: []
+            },
+            {
+                path: 'business-unit',
+                children: []
+            },
+            {
+                path: 'options',
+                children: []
+            },
+            {
                 path: '**',
                 redirectTo: 'detail',
-                pathMatch: 'full'
+                pathMatch: 'full',
             }
         ]
     },
@@ -32,5 +45,5 @@ export const clientRoutes: Routes = [
         path: '**',
         redirectTo: 'list',
         pathMatch: 'full'
-    }
+    },
 ];
