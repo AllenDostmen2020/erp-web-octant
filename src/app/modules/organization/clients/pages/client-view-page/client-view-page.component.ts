@@ -18,6 +18,18 @@ export class ClientViewPageComponent {
                 routerLink: './detail',
                 text: 'Detalle',
             },
+            {
+                routerLink: './contact',
+                text: 'Contactos',
+            },
+            {
+                routerLink: './business-unit',
+                text: 'Unidades de negocio',
+            },
+            {
+                routerLink: 'options',
+                text: 'Opciones',
+            }
         ]
     }
 }
