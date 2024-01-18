@@ -23,8 +23,26 @@ export class SettingsSidenavComponent {
             routerLink: { url: './application' },
           },
           {
-            title: 'Notificaciones',
-            routerLink: { url: './notifications' },
+            title: 'Tablas maestras',
+            routerLink: { url: './master-table' },
+            children: [
+              {
+                title: 'Guía',
+                routerLink: { url: './master-table/guide' },
+              },
+              {
+                title: 'Tipos de usuario',
+                routerLink: { url: './master-table/user-type' },
+              },
+              {
+                title: 'Tipos de cliente',
+                routerLink: { url: './master-table/document-type' },
+              },
+              {
+                title: 'Tipos de documento',
+                routerLink: { url: './master-table/document-type' },
+              },
+            ]
           },
         ]
       },

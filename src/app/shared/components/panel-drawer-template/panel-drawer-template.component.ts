@@ -17,7 +17,7 @@ export interface PanelSidenavLink {
   title: string;
   icon?: string;
   routerLink: PanelSidenavLinkRouter;
-  children?: PanelSidenavLink[];
+  children?: Omit<PanelSidenavLink, 'children'>[];
 }
 
 export interface PanelSidenavLinkRouter {
