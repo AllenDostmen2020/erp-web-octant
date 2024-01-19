@@ -1,0 +1,208 @@
+<div [formGroup]="form" class="grid grid-cols-12 gap-2 items-start">
+
+    <app-input-autocomplete-template class="col-span-full @2xl:col-span-6" [idControl]="clientIdCtrl" [autocompleteControl]="clientCtrl" [configuration]="clientAutocompleteConfiguration" />
+
+    <app-input-select-template class="col-span-full @2xl:col-span-3" [control]="clientBusinessUnitIdCtrl" [configuration]="{ textLabel: 'Unidad de negocio', data: clientCtrl.value?.client_business_units ?? [] }" />
+
+    <app-input-autocomplete-template class="col-span-full @2xl:col-span-3" [idControl]="planIdCtrl" [autocompleteControl]="planCtrl" [configuration]="planAutocompleteConfiguration" />
+
+    <mat-form-field class="col-span-full @2xl:col-span-2">
+        <mat-label>Precio instalación Und.</mat-label>
+        <input matInput type="number" formControlName="installation_price" />
+        <span matTextPrefix>S/.&nbsp;</span>
+        <mat-error>*Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-2">
+        <mat-label>Total instalación</mat-label>
+        <input matInput type="text"
+            [value]="((quantityCtrl.value ?? 0) * (installationPriceCtrl.value ?? 0)) | number:'.2-2'"
+            [disabled]="true" />
+        <span matTextPrefix>S/.&nbsp;</span>
+        <mat-error>*Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-2">
+        <mat-label>Precio compra Und.</mat-label>
+        <input matInput type="number" formControlName="sale_price" />
+        <span matTextPrefix>S/.&nbsp;</span>
+        <mat-error>*Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-2">
+        <mat-label>Precio venta Und.</mat-label>
+        <input matInput type="number" formControlName="buy_price" />
+        <span matTextPrefix>S/.&nbsp;</span>
+        <mat-error>*Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-2">
+        <mat-label>Cantidad</mat-label>
+        <input matInput type="number" formControlName="quantity" />
+        <mat-error>*Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-2">
+        <mat-label>Recurrente mensual</mat-label>
+        <input matInput type="text" [value]="((quantityCtrl.value ?? 0) * (buyPriceCtrl.value ?? 0)) | number:'.2-2'" [disabled]="true" />
+        <span matTextPrefix>S/.</span>
+        <mat-error>*Requerido</mat-error>
+    </mat-form-field>
+
+    
+
+
+
+    <div class="grid gap-1 col-span-full bg-tertiary-container rounded-xl p-4" [ngClass]="{ 'grid-cols-2': vehicleDetail() == 'full', 'grid-cols-3': vehicleDetail() == 'single' }">
+        
+        <div class="col-span-full flex gap-x-2 justify-between items-center py-1">
+            <div class="label-large">Vehículos ({{(quantityCtrl.value ?? 0) | number:'2.0'}})</div>
+            <div class="list-button-group">
+                <button type="button" class="list-button-group-item" [ngClass]="{'active': vehicleDetail() == 'single'}"
+                    (click)="vehicleDetail.set('single')">
+                    Simple
+                </button>
+                <button type="button" class="list-button-group-item" [ngClass]="{'active': vehicleDetail() == 'full'}"
+                    (click)="vehicleDetail.set('full')">
+                    Full
+                </button>
+            </div>
+        </div>
+
+        @if (vehicleDetail() == 'full') {
+            @for (formGroupContractVehicle of contractVehiclesFormArray.controls; track formGroupContractVehicle; let i = $index) {
+                <div class="flex gap-x-2 bg-surface p-2 rounded-lg" [formGroup]="formGroupContractVehicle">
+
+                    <div class="flex-1 grid grid-cols-[40px,2fr,1fr,1fr,1fr] gap-x-1 gap-y-2 items-start"
+                        formGroupName="vehicle">
+                        <div class="w-10 h-10 relative rounded overflow-hidden mt-2">
+                            @if(getVehicleTypeFormGroup(formGroupContractVehicle).value?.id) {
+                            <img class="absolute inset-0 object-fill" appLoadImagePrivate
+                                [imageUrl]="getVehicleTypeFormGroup(formGroupContractVehicle) && getVehicleTypeFormGroup(formGroupContractVehicle).value?.image">
+                            }
+                        </div>
+
+                        <app-input-autocomplete-template [idControl]="getVehicleTypeIdFormGroup(formGroupContractVehicle)" [configuration]="{ textLabel: 'Tipo de vehículo', local: { nameModuleDatabase: nameModuleDatabase.VehicleTypes } }" />
+
+                        <mat-form-field>
+                            <mat-label>Placa</mat-label>
+                            <input matInput type="text" formControlName="plate"
+                                (ngModelChange)="changesContractVehiclesFormArray()" />
+                            @if (formGroupContractVehicle.get('vehicle')?.get('plate')?.hasError('required')) {
+                            <mat-error>*Requerido</mat-error>
+                            } @else if (formGroupContractVehicle.get('vehicle')?.get('plate')?.hasError('pattern')) {
+                            <mat-error>*Placa ya existe</mat-error>
+                            }
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Modelo</mat-label>
+                            <input matInput type="text" formControlName="model" />
+                            <mat-error>*Requerido</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Marca</mat-label>
+                            <input matInput type="text" formControlName="brand" />
+                            <mat-error>*Requerido</mat-error>
+                        </mat-form-field>
+
+                    </div>
+
+                    <button class="tonal-icon-button mt-2" (click)="deleteContractVehicle(i)">
+                        <span class="material-icons">delete</span>
+                    </button>
+                </div>
+            }
+        } @else {
+            @for (formGroupContractVehicle of contractVehiclesFormArray.controls; track formGroupContractVehicle; let i = $index) {
+                <div class="flex gap-x-1 bg-surface p-2 rounded-lg" [formGroup]="formGroupContractVehicle">
+
+                    <div class="flex-1 grid grid-cols-2 gap-x-1 gap-y-2 items-start" formGroupName="vehicle">
+
+                        <app-input-autocomplete-template [idControl]="getVehicleTypeIdFormGroup(formGroupContractVehicle)"
+                            [configuration]="{ textLabel: 'Tipo de vehículo', local: { nameModuleDatabase: nameModuleDatabase.VehicleTypes } }" />
+
+                        <mat-form-field>
+                            <mat-label>Placa</mat-label>
+                            <input matInput type="text" formControlName="plate"
+                                (ngModelChange)="changesContractVehiclesFormArray()" />
+                            @if (formGroupContractVehicle.get('vehicle')?.get('plate')?.hasError('required')) {
+                            <mat-error>*Requerido</mat-error>
+                            } @else if (formGroupContractVehicle.get('vehicle')?.get('plate')?.hasError('pattern')) {
+                            <mat-error>*Placa ya existe</mat-error>
+                            }
+                        </mat-form-field>
+
+                    </div>
+
+                    <button class="tonal-icon-button mt-2" (click)="deleteContractVehicle(i)">
+                        <span class="material-icons">delete</span>
+                    </button>
+                </div>
+            }
+        }
+    </div>
+
+
+
+
+
+
+    <div class="col-span-full label-medium mt-4 mb-2 text-primary">Detalles contractuales</div>
+
+    <app-input-select-template class="col-span-full @2xl:col-span-2" [control]="recurrentTypeCtrl" [configuration]="recurrentTypeSelectConfiguration" />
+
+    <app-input-select-template class="col-span-full @2xl:col-span-2" [control]="periodCtrl" [configuration]="periodSelectConfiguration" />
+
+    <app-datepicker-template class="col-span-full @2xl:col-span-2" [configuration]="{ label: 'Fecha de instalación' }" formControlName="installation_date" />
+
+    <mat-form-field class="col-span-full @2xl:col-span-2">
+        <mat-label>Fecha de inicio</mat-label>
+        <input matInput type="text" formControlName="start_date" />
+        <mat-error>*Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-2">
+        <mat-label>Fecha de fin</mat-label>
+        <input matInput type="text" formControlName="end_date" />
+        <mat-error>*Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-2">
+        <mat-label>Días de prorrateo</mat-label>
+        <input matInput type="text" formControlName="proration_days" />
+        <mat-error>*Requerido</mat-error>
+    </mat-form-field>
+
+
+    
+    <div class="col-span-full label-medium mt-4 mb-2 text-primary">Detalles del cierre de la venta</div>
+
+    <mat-form-field class="col-span-full @2xl:col-span-2">
+        <mat-label>N° Doc. del contacto</mat-label>
+        <input matInput type="text" formControlName="client_responsible_document_number" />
+        <mat-error>*Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-6">
+        <mat-label>Nombre del contacto</mat-label>
+        <input matInput type="text" formControlName="client_responsible_name" />
+        <mat-error>*Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-2">
+        <mat-label>Teléfono del contacto</mat-label>
+        <input matInput type="text" formControlName="client_responsible_phone" />
+        <mat-error>*Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-2">
+        <mat-label>Email del contacto</mat-label>
+        <input matInput type="text" formControlName="client_responsible_email" />
+        <mat-error>*Requerido</mat-error>
+    </mat-form-field>
+
+    <app-input-autocomplete-template class="col-span-full" [idControl]="saleUserIdCtrl" [configuration]="saleUserAutocompleteConfiguration" />
+
+</div>

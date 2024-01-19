@@ -1,105 +1,12 @@
 import { Component, Input, inject, ViewEncapsulation } from '@angular/core';
 import { Location, NgClass, NgFor, NgIf } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
-import {
-  ActivatedRoute,
-  Router,
-  RouterLink,
-  RouterLinkActive,
-  RouterOutlet,
-} from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ItemViewConfiguration } from 'src/app/shared/interfaces/itemView';
-import {
-  animate,
-  animateChild,
-  group,
-  query,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { FetchService } from '@service/fetch.service';
 import { FetchErrorResponse } from 'src/app/shared/interfaces/fetch';
 import { objectToURLSearchParams } from '@utility/queryParams';
 import { GetMixedValuePipe } from '@pipe/get-mixed-value.pipe';
-
-export const slideInAnimation = trigger('routeAnimations', [
-  transition('* <=> *', [
-    style({ position: 'relative' }),
-    query(
-      ':enter, :leave',
-      [
-        style({
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-        }),
-      ],
-      { optional: true }
-    ),
-    query(
-      ':enter',
-      [
-        style({
-          position: 'relative',
-        }),
-      ],
-      { optional: true }
-    ),
-    query(':leave', animateChild(), { optional: true }),
-    group([
-      query(
-        ':leave',
-        [
-          animate(
-            '250ms ease-out',
-            style({
-              opacity: 0.25,
-              transform: 'translateY(100px) scale(0.85)',
-            })
-          ),
-        ],
-        { optional: true }
-      ),
-      query(
-        ':enter > *',
-        [
-          style({
-            opacity: 0,
-            // transform: 'translateX(60%)',
-          }),
-          animate(
-            '250ms ease-out',
-            style({
-              opacity: 1,
-              // transform: 'translateX(0%)',
-            })
-          ),
-        ],
-        { optional: true }
-      ),
-      query(
-        ':enter > * > *',
-        [
-          style({
-            opacity: 0,
-            // transform: 'translateX(-60%)',
-          }),
-          animate(
-            '250ms ease-out',
-            style({
-              opacity: 1,
-              // transform: 'translateX(0%)',
-            })
-          ),
-        ],
-        { optional: true }
-      ),
-      query('@*', animateChild(), { optional: true }),
-    ]),
-  ]),
-]);
 
 @Component({
   selector: 'app-item-view-template',

@@ -1,0 +1,6 @@
+
+<app-item-detail-template [configuration]="configuration">
+    @if(notRegisterData()) {
+        <ng-container beforeContent><app-alert-template [configuration]="alertConfiguration" /></ng-container>
+    }
+</app-item-detail-template>

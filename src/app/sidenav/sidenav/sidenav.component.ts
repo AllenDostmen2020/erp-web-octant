@@ -226,6 +226,16 @@ const DRAWER_LINKS: GroupDrawerLink[] = [
         ]
     },
     {
+        label: 'Tracking',
+        links: [
+            {
+                label: 'Contratos',
+                icon: 'account_balance_wallet',
+                route: '/tracking/contract',
+            },
+        ]
+    },
+    {
         label: 'Configuration',
         links: [
             {
