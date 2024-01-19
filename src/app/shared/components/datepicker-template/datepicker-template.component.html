@@ -1,0 +1,11 @@
+<mat-form-field class="col-span-full @2xl:col-span-3">
+    <mat-label>{{configuration.label}}</mat-label>
+    <input [formControl]="formCtrl" matInput type="text" [matDatepicker]="dp" [min]="configuration.min" [max]="configuration.max">
+    <button matSuffix class="icon-button" (click)="dp.open()" [disabled]="formCtrl.disabled" type="button">
+        <span class="material-icons">calendar_month</span>
+    </button>
+    <mat-error *ngIf="formCtrl.hasError('required')">*Requerido</mat-error>
+    <mat-error *ngIf="formCtrl.hasError('min')">*La fecha mínima es {{configuration.min | date:'dd/MM/yyyy'}}</mat-error>
+    <mat-error *ngIf="formCtrl.hasError('max')">*La fecha máxima es {{configuration.max | date:'dd/MM/yyyy'}}</mat-error>
+    <mat-datepicker #dp="matDatepicker"/>
+</mat-form-field>
