@@ -34,6 +34,7 @@ export class ContractListComponent {
       numberColumn({
         title: 'Unidades',
         displayValueFn: (item) => item.quantity,
+        numberFormat: '2.0-0',
       }),
       numberColumn({
         title: 'Precio Und.',
