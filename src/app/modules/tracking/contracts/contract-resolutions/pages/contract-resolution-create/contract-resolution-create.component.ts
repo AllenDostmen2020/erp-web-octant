@@ -1,13 +1,20 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { ContractResolution, ContractResolutionEntityEnum, ContractResolutionTypeEnum } from '@interface/contractResolution';
 import { ItemFormConfiguration } from '@interface/itemForm';
+import { ContractResolutionFormComponent } from '../../components/contract-resolution-form/contract-resolution-form.component';
 
 @Component({
   selector: 'app-contract-resolution-create',
   templateUrl: './contract-resolution-create.component.html',
   styleUrls: ['./contract-resolution-create.component.css'],
+  standalone: true,
+  imports: [
+    ItemFormTemplateComponent,
+    ContractResolutionFormComponent,
+  ],
 })
 export class ContractResolutionCreateComponent {
   private activatedRoute = inject(ActivatedRoute)

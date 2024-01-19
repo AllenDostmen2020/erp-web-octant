@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, WritableSignal, inject, signal } from '@angular/core';
+import { Component, WritableSignal, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ItemDetailTemplateComponent } from '@component/item-detail-template/item-detail-template.component';
 import { ContractResolution } from '@interface/contractResolution';
 import { ItemDetailConfiguration } from '@interface/itemDetail';
 
@@ -7,7 +8,8 @@ import { ItemDetailConfiguration } from '@interface/itemDetail';
   selector: 'app-contract-resolution-detail',
   templateUrl: './contract-resolution-detail.component.html',
   styleUrls: ['./contract-resolution-detail.component.css'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [ItemDetailTemplateComponent],
 })
 export class ContractResolutionDetailComponent {
   private activatedRoute = inject(ActivatedRoute);

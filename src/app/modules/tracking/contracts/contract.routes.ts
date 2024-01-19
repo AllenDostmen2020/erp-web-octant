@@ -1,4 +1,5 @@
 import { Routes } from "@angular/router";
+import { contractResolutionRoutes } from "./contract-resolutions/contractResolution.rutes";
 
 export const contractRoutes: Routes = [
     {
@@ -31,9 +32,10 @@ export const contractRoutes: Routes = [
                     }
                 ]
             },
-            // {
-            //     path: 'vehicle',
-            // },
+            {
+                path: 'resolution',
+                children: contractResolutionRoutes,
+            },
             {
                 path: '**',
                 redirectTo: 'detail',

@@ -3,9 +3,11 @@
     <mat-form-field class="col-span-full @2xl:col-span-6">
         <mat-label>Tipo de resolución</mat-label>
         <mat-select formControlName="type">
-            <mat-option *ngFor="let type of contractResolutionTypes" [value]="type">
-                {{ type | firstLetterUppercase }}
-            </mat-option>
+            @for (type of contractResolutionTypes; track $index) {
+                <mat-option [value]="type">
+                    {{ type | firstLetterUppercase }}
+                </mat-option>
+            }
         </mat-select>
         <mat-error>*Campo requerido</mat-error>
     </mat-form-field>
@@ -13,9 +15,11 @@
     <mat-form-field class="col-span-full @2xl:col-span-6" *ngIf="typeCtrl.value == contractResolutionType.Unilateral">
         <mat-label>Entidad que resuelve</mat-label>
         <mat-select formControlName="resolution_entity">
-            <mat-option *ngFor="let entity of contractResolutionEntities" [value]="entity">
-                {{ entity | firstLetterUppercase }}
-            </mat-option>
+            @for (entity of contractResolutionEntities; track $index) {
+                <mat-option [value]="entity">
+                    {{ entity | firstLetterUppercase }}
+                </mat-option>
+            }
         </mat-select>
         <mat-error>*Campo requerido</mat-error>
     </mat-form-field>
@@ -67,9 +71,9 @@
 
     <div class="col-span-full mb-1 mt-2 label-small">Responsable por parte dea empresa</div>
 
-    <app-autocomplete-local-template class="col-span-full" formControlName="responsible_user_id" [configuration]="{
+    <!-- <app-autocomplete-local-template class="col-span-full" formControlName="responsible_user_id" [configuration]="{
         label: 'Usuario',
         nameModuleDatabase: nameModuleDatabase.USERS,
-      }" />
+      }" /> -->
 
 </div>

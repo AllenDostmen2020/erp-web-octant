@@ -1,12 +1,24 @@
 import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { ContractResolutionEntityEnum, ContractResolutionTypeEnum } from '@interface/contractResolution';
+import { FirstLetterUppercasePipe } from '@pipe/first-letter-uppercase.pipe';
 import { NameModuleDatabase } from '@service/database-storage.service';
 
 @Component({
   selector: 'app-contract-resolution-form',
   templateUrl: './contract-resolution-form.component.html',
-  styleUrls: ['./contract-resolution-form.component.css']
+  styleUrls: ['./contract-resolution-form.component.css'],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FirstLetterUppercasePipe,
+    MatSelectModule,
+  ],
 })
 export class ContractResolutionFormComponent {
   @Input({required: true}) public form!: FormGroup;
