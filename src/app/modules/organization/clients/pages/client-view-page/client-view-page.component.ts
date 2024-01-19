@@ -31,7 +31,7 @@ export class ClientViewPageComponent {
                 text: 'Unidades de negocio',
             },
             {
-                routerLink: 'options',
+                routerLink: 'billing-option',
                 text: 'Opciones',
             }
         ]

@@ -1,5 +1,7 @@
 import { Routes } from "@angular/router";
 import { clientAccountRoutes } from "./client-accounts/client-accounts.routes";
+import { clientBillingOptionsRoutes } from "./client-billing-options/client-billing-options.routes";
+import { clientContactRoutes } from "./client-contacts/client-contacts.routes";
 
 export const clientRoutes: Routes = [
     {
@@ -24,11 +26,11 @@ export const clientRoutes: Routes = [
             },
             {
                 path: 'account',
-                children: clientAccountRoutes
+                children: clientAccountRoutes,
             },
             {
                 path: 'contact',
-                children: []
+                children: clientContactRoutes,
             },
             {
                 path: 'business-unit',
@@ -36,7 +38,7 @@ export const clientRoutes: Routes = [
             },
             {
                 path: 'billing-option',
-                children: []
+                children: clientBillingOptionsRoutes,
             },
             {
                 path: '**',
