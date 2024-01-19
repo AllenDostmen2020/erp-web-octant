@@ -19,6 +19,10 @@ export class ClientViewPageComponent {
                 text: 'Detalle',
             },
             {
+                routerLink: './account',
+                text: 'Cuentas',
+            },
+            {
                 routerLink: './contact',
                 text: 'Contactos',
             },
