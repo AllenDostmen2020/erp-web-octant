@@ -67,7 +67,7 @@ export class ContractFormComponent {
     data: RECURRENT_TYPE_VALUES.map((recurrentType: string) => ({ id: recurrentType, name: recurrentType.toUpperCase() })),
   };
 
-  public readonly durationSelectConfiguration: InputSelectConfiguration = {
+  public readonly periodSelectConfiguration: InputSelectConfiguration = {
     textLabel: 'Duración',
     data: [
       { id: 12, name: '1 año' },
@@ -124,10 +124,6 @@ export class ContractFormComponent {
 
   get recurrentTypeCtrl(): FormControl {
     return this.form.get('recurrent_type') as FormControl;
-  }
-
-  get durationCtrl(): FormControl {
-    return this.form.get('duration') as FormControl;
   }
 
   get saleUserIdCtrl(): FormControl {
