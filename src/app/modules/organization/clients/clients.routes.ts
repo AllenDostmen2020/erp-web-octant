@@ -22,7 +22,6 @@ export const clientRoutes: Routes = [
                 loadComponent: () => import('./pages/client-detail-page/client-detail-page.component').then(m => m.ClientDetailPageComponent),
             },
             {
-                pathMatch: 'full',
                 path: 'contact',
                 children: []
             },
