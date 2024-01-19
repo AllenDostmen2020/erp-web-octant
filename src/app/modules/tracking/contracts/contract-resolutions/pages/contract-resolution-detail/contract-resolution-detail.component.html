@@ -1,0 +1,15 @@
+
+<app-item-detail-template [configuration]="configuration">
+    <ng-container beforeContent *ngIf="notRegisterData()">
+        <div class="bg-tertiary-container text-on-tertiary-container rounded-2xl p-8 flex items-center justify-between gap-6">
+            <div class="body-medium">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi soluta magni, libero vel possimus est facilis modi placeat ea quam obcaecati provident consequatur dicta odit ex iure aliquam. Et, sit!
+            </div>
+            <div>
+                <button class="outlined-button" routerLink="./create">
+                    Resolver contrato
+                </button>
+            </div>
+        </div>
+    </ng-container>
+</app-item-detail-template>

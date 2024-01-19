@@ -1,0 +1,75 @@
+<div [formGroup]="form" class="grid grid-cols-12 gap-2">
+
+    <mat-form-field class="col-span-full @2xl:col-span-6">
+        <mat-label>Tipo de resolución</mat-label>
+        <mat-select formControlName="type">
+            <mat-option *ngFor="let type of contractResolutionTypes" [value]="type">
+                {{ type | firstLetterUppercase }}
+            </mat-option>
+        </mat-select>
+        <mat-error>*Campo requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-6" *ngIf="typeCtrl.value == contractResolutionType.Unilateral">
+        <mat-label>Entidad que resuelve</mat-label>
+        <mat-select formControlName="resolution_entity">
+            <mat-option *ngFor="let entity of contractResolutionEntities" [value]="entity">
+                {{ entity | firstLetterUppercase }}
+            </mat-option>
+        </mat-select>
+        <mat-error>*Campo requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-4 !col-start-1">
+        <mat-label>Causal</mat-label>
+        <textarea matInput formControlName="reason" rows="4" placeholder="Describir causal..."></textarea>
+        <mat-error>*Campo requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-4" *ngIf="typeCtrl.value == contractResolutionType.MutuoAcuerdo">
+        <mat-label>Mutuo acuerdo</mat-label>
+        <textarea matInput formControlName="mutual_agreement" rows="4" placeholder="Describir el mutuo acuerdo..."></textarea>
+        <mat-error>*Campo requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-4" *ngIf="typeCtrl.value == contractResolutionType.Unilateral">
+        <mat-label>Descargo de la otra parte</mat-label>
+        <textarea matInput formControlName="discharge_from_other_party" rows="4" placeholder="Describir el descargo de la otra parte..."></textarea>
+        <mat-error>*Campo requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-4">
+        <mat-label>Acuerdo final</mat-label>
+        <textarea matInput formControlName="final_agreement" rows="4" placeholder="Describir acuerdo final..."></textarea>
+        <mat-error>*Campo requerido</mat-error>
+    </mat-form-field>
+
+    <div class="col-span-full mb-1 mt-2 label-small">Responsable por parte del cliente</div>
+
+    <mat-form-field class="col-span-full @2xl:col-span-3">
+        <mat-label>N° de documento</mat-label>
+        <input matInput formControlName="client_responsible_document_number" placeholder="N° de documento...">
+        <mat-error>*Campo requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-6">
+        <mat-label>Nombre completo</mat-label>
+        <input matInput formControlName="client_responsible_name" placeholder="Nombre completo...">
+        <mat-error>*Campo requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-span-full @2xl:col-span-3">
+        <mat-label>Rol / Cargo</mat-label>
+        <input matInput formControlName="client_responsible_role" placeholder="Rol / Cargo...">
+        <mat-error>*Campo requerido</mat-error>
+    </mat-form-field>
+
+
+    <div class="col-span-full mb-1 mt-2 label-small">Responsable por parte dea empresa</div>
+
+    <app-autocomplete-local-template class="col-span-full" formControlName="responsible_user_id" [configuration]="{
+        label: 'Usuario',
+        nameModuleDatabase: nameModuleDatabase.USERS,
+      }" />
+
+</div>
