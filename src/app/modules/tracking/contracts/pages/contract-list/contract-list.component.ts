@@ -21,11 +21,18 @@ export class ContractListComponent {
       textColumn({
         title: 'Código',
         displayValueFn: (item) => item.code,
+        routerLinkValue: {
+          url: (item) => `/tracking/contract/view/${item.id}`,
+        }
       }),
       textColumn({
         title: 'Cliente / Unidad de negocio',
         displayValueFn: (item) => item.client?.name,
         displayAdditionalValueFn: (item) => item.client_business_unit?.name,
+        gridColumn: '1fr',
+        routerLinkValue: {
+          url: (item) => `/organization/client/view/${item.id}`,
+        }
       }),
       textColumn({
         title: 'Plan',
