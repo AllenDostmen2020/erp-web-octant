@@ -30,7 +30,7 @@ export const clientRoutes: Routes = [
                 children: []
             },
             {
-                path: 'options',
+                path: 'billing-option',
                 children: []
             },
             {
