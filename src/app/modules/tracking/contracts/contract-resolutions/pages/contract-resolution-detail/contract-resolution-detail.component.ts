@@ -1,5 +1,5 @@
 import { Component, WritableSignal, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-template/alert-template.component';
 import { ItemDetailTemplateComponent } from '@component/item-detail-template/item-detail-template.component';
 import { ContractResolution } from '@interface/contractResolution';
@@ -14,15 +14,14 @@ import { ItemDetailConfiguration } from '@interface/itemDetail';
 })
 export class ContractResolutionDetailComponent {
   private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
   public notRegisterData: WritableSignal<boolean> = signal(false);
   public alertConfiguration: AlertConfiguration = {
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi soluta magni, libero vel possimus est facilis modi placeat ea quam obcaecati provident consequatur dicta odit ex iure aliquam. Et, sit!',
     icon: 'warning',
     actionButton: {
       text: 'resolver contrato',
-      fn: () => {
-        console.log('Registrar resolución');
-      }
+      fn: () => this.router.navigate(['./create'], { relativeTo: this.activatedRoute }),
     }
   }
 

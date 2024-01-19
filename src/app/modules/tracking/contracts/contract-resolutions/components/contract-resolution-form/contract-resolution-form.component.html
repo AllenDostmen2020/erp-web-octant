@@ -1,4 +1,4 @@
-<div [formGroup]="form" class="grid grid-cols-12 gap-2">
+<div [formGroup]="form" class="grid grid-cols-12 gap-2 items-start">
 
     <mat-form-field class="col-span-full @2xl:col-span-6">
         <mat-label>Tipo de resolución</mat-label>
@@ -12,17 +12,20 @@
         <mat-error>*Campo requerido</mat-error>
     </mat-form-field>
 
-    <mat-form-field class="col-span-full @2xl:col-span-6" *ngIf="typeCtrl.value == contractResolutionType.Unilateral">
-        <mat-label>Entidad que resuelve</mat-label>
-        <mat-select formControlName="resolution_entity">
-            @for (entity of contractResolutionEntities; track $index) {
-                <mat-option [value]="entity">
-                    {{ entity | firstLetterUppercase }}
-                </mat-option>
-            }
-        </mat-select>
-        <mat-error>*Campo requerido</mat-error>
-    </mat-form-field>
+    @if (typeCtrl.value == contractResolutionType.Unilateral) {
+        <mat-form-field class="col-span-full @2xl:col-span-6">
+            <mat-label>Entidad que resuelve</mat-label>
+            <mat-select formControlName="resolution_entity">
+                @for (entity of contractResolutionEntities; track $index) {
+                    <mat-option [value]="entity">
+                        {{ entity | firstLetterUppercase }}
+                    </mat-option>
+                }
+            </mat-select>
+            <mat-error>*Campo requerido</mat-error>
+        </mat-form-field>
+    }
+
 
     <mat-form-field class="col-span-full @2xl:col-span-4 !col-start-1">
         <mat-label>Causal</mat-label>
