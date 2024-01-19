@@ -18,6 +18,19 @@ export class ContractViewComponent {
     itemPathServer: 'contract',
     queryParams: { relations: 'client,clientBusinessUnit,plan' },
     nameItemFn: (item) => `${item.code} - ${item.client?.name}`,
-    links: []
+    links: [
+      {
+        text: 'Detalles',
+        routerLink: './detail',
+      },
+      {
+        text: 'Vehículos',
+        routerLink: './vehicle',
+      },
+      {
+        text: 'Resolución',
+        routerLink: './resolution',
+      },
+    ]
   }
 }

@@ -31,6 +31,14 @@ export const contractRoutes: Routes = [
                     }
                 ]
             },
+            // {
+            //     path: 'vehicle',
+            // },
+            {
+                path: '**',
+                redirectTo: 'detail',
+                pathMatch: 'full',
+            }
         ]
     },
     {
