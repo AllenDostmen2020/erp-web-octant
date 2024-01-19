@@ -14,6 +14,7 @@ export interface Client extends BaseModel {
   gender: string;
   civil_status: string;
   description: string;
+  email: string;
 
   user_limit: number;
   storage_limit: number;
