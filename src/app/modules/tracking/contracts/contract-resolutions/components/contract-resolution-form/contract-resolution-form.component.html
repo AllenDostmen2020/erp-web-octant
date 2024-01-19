@@ -39,11 +39,13 @@
         <mat-error>*Campo requerido</mat-error>
     </mat-form-field>
 
-    <mat-form-field class="col-span-full @2xl:col-span-4" *ngIf="typeCtrl.value == contractResolutionType.Unilateral">
-        <mat-label>Descargo de la otra parte</mat-label>
-        <textarea matInput formControlName="discharge_from_other_party" rows="4" placeholder="Describir el descargo de la otra parte..."></textarea>
-        <mat-error>*Campo requerido</mat-error>
-    </mat-form-field>
+    @if (typeCtrl.value == contractResolutionType.Unilateral) {
+        <mat-form-field class="col-span-full @2xl:col-span-4">
+            <mat-label>Descargo de la otra parte</mat-label>
+            <textarea matInput formControlName="discharge_from_other_party" rows="4" placeholder="Describir el descargo de la otra parte..."></textarea>
+            <mat-error>*Campo requerido</mat-error>
+        </mat-form-field>
+    }
 
     <mat-form-field class="col-span-full @2xl:col-span-4">
         <mat-label>Acuerdo final</mat-label>
@@ -74,9 +76,9 @@
 
     <div class="col-span-full mb-1 mt-2 label-small">Responsable por parte dea empresa</div>
 
-    <!-- <app-autocomplete-local-template class="col-span-full" formControlName="responsible_user_id" [configuration]="{
-        label: 'Usuario',
-        nameModuleDatabase: nameModuleDatabase.USERS,
-      }" /> -->
+    <app-input-autocomplete-template class="col-span-full" [idControl]="responsibleUserIdCtrl" [configuration]="{
+        textLabel: 'Usuario',
+        local: { nameModuleDatabase: nameModuleDatabase.Users }
+    }" />
 
 </div>
