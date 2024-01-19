@@ -1,4 +1,5 @@
 import { Routes } from "@angular/router";
+import { clientAccountRoutes } from "./client-accounts/client-accounts.routes";
 
 export const clientRoutes: Routes = [
     {
@@ -20,6 +21,10 @@ export const clientRoutes: Routes = [
             {
                 path: 'detail',
                 loadComponent: () => import('./pages/client-detail-page/client-detail-page.component').then(m => m.ClientDetailPageComponent),
+            },
+            {
+                path: 'account',
+                children: clientAccountRoutes
             },
             {
                 path: 'contact',

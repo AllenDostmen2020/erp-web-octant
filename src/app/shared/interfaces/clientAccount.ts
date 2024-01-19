@@ -1,6 +1,4 @@
-import { CoinEnum } from "./account";
-import { Bank } from "./bank";
-import { BaseModel } from "./baseModel";
+import { BaseModel, CoinEnum } from "./baseModel";
 import { Client } from "./client";
 
 export interface ClientAccount extends BaseModel {
