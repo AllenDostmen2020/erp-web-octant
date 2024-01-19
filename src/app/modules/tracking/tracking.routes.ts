@@ -3,7 +3,7 @@ import { contractRoutes } from "./contracts/contract.routes";
 
 export const trackingRoutes: Routes = [
     {
-        path: 'contracts',
+        path: 'contract',
         children: contractRoutes,
-    }
+    },
 ]

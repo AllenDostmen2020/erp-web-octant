@@ -4,28 +4,28 @@ import { organizationRoutes } from './modules/organization/organization.routes';
 import { administrationRoutes } from './modules/administration/administration.routes';
 import { configurationRoutes } from './modules/configuration/configuration.routes';
 import { settingsRoutes } from './modules/settings/settings.routes';
+import { trackingRoutes } from './modules/tracking/tracking.routes';
 
 export const panelRoutes: Routes = [
     {
         path: 'organization',
         children: organizationRoutes,
-        title: 'Clientes | ERP'
     },
     {
         path: 'administration',
         children: administrationRoutes,
-        title: 'Cuentas | ERP'
     },
     {
         path: 'configuration',
         children: configurationRoutes,
-        title: 'Bancos | ERP'
     },
-
+    {
+        path: 'tracking',
+        children: trackingRoutes,
+    },
     {
         path: 'settings',
         children: settingsRoutes,
-        title: 'Configuración | ERP',
     },
 
     /* LATERAL ROUTING */
