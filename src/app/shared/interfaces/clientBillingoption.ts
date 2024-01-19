@@ -1,5 +1,4 @@
 import { BaseModel } from "./baseModel";
-
 export interface ClientBillingOption extends BaseModel {
     client_id: number;
     comprobant_type: ComprobantTypeEnum;
