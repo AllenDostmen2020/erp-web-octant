@@ -195,7 +195,7 @@
                             }
                         }
                         @case ('switch') {
-                            @if (field.checkbox; as input) {
+                            @if (field.switch; as input) {
                                 <div [attr.data-form-input-name]="input.formControlName" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full'">
                                     <mat-slide-toggle [formControlName]="input.formControlName">{{ input.textLabel }}</mat-slide-toggle>
                                 </div>

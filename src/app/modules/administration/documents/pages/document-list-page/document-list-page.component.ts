@@ -26,7 +26,7 @@ export class DocumentListPageComponent {
         gridColumn: '1fr',
       }),
       textColumn({
-        title: 'total',
+        title: 'Total',
         displayValueFn: (item) => item.total,
       }),
     ])
