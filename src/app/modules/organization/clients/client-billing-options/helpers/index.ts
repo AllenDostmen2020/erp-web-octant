@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { COMPROBANT_TYPES, ClientBillingOption } from "@interface/clientBillingOption";
+import { COMPROBANT_TYPES, ClientBillingOption } from "@interface/clientBillingOptions";
 import { FormInput, numberFormInput, selectFormInput, switchFormInput } from "@interface/itemForm";
 
 export const clientBillingOptionFormGroup = (item?: Partial<ClientBillingOption>) => new FormGroup({
