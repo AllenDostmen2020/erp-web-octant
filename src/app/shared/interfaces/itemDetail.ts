@@ -49,10 +49,11 @@ export interface ItemDetailGroup<T> {
     template?: {
         ref: TemplateRef<any>,
         position?: 'before' | 'after',
-    }
+    },
+    actions?: ActionButton<T>[]
 }
 
-interface ItemDetail<T> {
+export interface ItemDetail<T> {
     clickEvent?: (item: T) => void;
     cssClass?: ((item: T) => string) | string;
     dateFormat?: string;

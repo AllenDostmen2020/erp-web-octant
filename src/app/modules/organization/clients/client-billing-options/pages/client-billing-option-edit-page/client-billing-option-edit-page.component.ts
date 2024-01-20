@@ -6,7 +6,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @Component({
     selector: 'app-client-billing-option-edit-page',
     standalone: true,
-    imports: [ItemFormTemplateComponent, MatSlideToggleModule],
+    imports: [ItemFormTemplateComponent],
     templateUrl: './client-billing-option-edit-page.component.html',
     styleUrl: './client-billing-option-edit-page.component.scss'
 })

@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import {
+    ItemDetail,
     ItemDetailConfiguration,
     ItemDetailGroup,
 } from 'src/app/shared/interfaces/itemDetail';
@@ -87,6 +88,10 @@ export const registerDataGroupDetail = (): ItemDetailGroup<any> => {
         ],
     };
 };
+interface TextDetail<T = any> extends ItemDetail<T> {
+
+}
+export const textDetail = () => {}
 
 @Component({
     selector: 'app-item-detail-template',
