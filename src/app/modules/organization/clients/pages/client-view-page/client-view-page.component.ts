@@ -35,7 +35,7 @@ export class ClientViewPageComponent {
                 text: 'Opciones',
             },
             {
-                routerLink: './contracts',
+                routerLink: './contract',
                 text: 'Contratos',
             },
         ]
