@@ -223,6 +223,11 @@ const DRAWER_LINKS: GroupDrawerLink[] = [
                 icon: 'account_balance_wallet',
                 route: '/administration/account',
             },
+            {
+                label: 'Documentos',
+                icon: 'account_balance_wallet',
+                route: '/administration/document',
+            },
         ]
     },
     {
