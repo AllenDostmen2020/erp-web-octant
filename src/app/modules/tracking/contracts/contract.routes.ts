@@ -27,7 +27,7 @@ export const contractRoutes: Routes = [
                     },
                     {
                         path: '**',
-                        redirectTo: '',
+                        redirectTo: 'detail',
                         pathMatch: 'full',
                     }
                 ]
