@@ -31,6 +31,7 @@ export class ClientBillingOptionDetailPageComponent {
     },
     groups: [
       {
+        title: 'Detalles',
         details: [
           {
             title: 'Tipo de comprobante',
