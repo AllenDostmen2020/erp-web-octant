@@ -14,6 +14,7 @@ export class ClientBillingOptionEditPageComponent extends ClientBillingOptionCre
     constructor() {
         super();
         this.configuration.type = 'update';
+        this.configuration.itemId = this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')!;
         this.configuration.hiddeFields = true;
     }
 }

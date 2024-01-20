@@ -21,16 +21,12 @@ export class ClientBillingOptionDetailPageComponent {
     itemId: this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id')!,
     editButton: {
         routerLink: {
-            url: '.edit'
+            url: '../edit'
         }
     },
     interceptHttpErrorItemFn: (error: FetchErrorResponse) => {
-        console.log(error);
-
       if(error.status == 404) {
-        console.log('Hola');
-
-        this.router.navigate(['./create'], {relativeTo: this.activatedRoute});
+        this.router.navigate(['../create'], {relativeTo: this.activatedRoute});
       }
     },
     groups: [

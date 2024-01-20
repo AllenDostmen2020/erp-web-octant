@@ -14,7 +14,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   styleUrl: './client-billing-option-create-page.component.scss'
 })
 export class ClientBillingOptionCreatePageComponent {
-    private activatedRoute = inject(ActivatedRoute);
+    public activatedRoute = inject(ActivatedRoute);
     public configuration: ItemFormConfiguration = {
         titleModule: 'opciones de facturación',
         type: 'create',
