@@ -4,15 +4,13 @@ import { Contract } from '@interface/contract';
 import { ItemListConfiguration, dateColumn, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, numberColumn, textColumn } from '@interface/itemList';
 
 @Component({
-  selector: 'app-contract-list',
+  selector: 'app-contract-list-page',
   standalone: true,
-  imports: [
-    ItemListTemplateComponent,
-  ],
-  templateUrl: './contract-list.component.html',
-  styleUrl: './contract-list.component.scss'
+  imports: [ItemListTemplateComponent],
+  templateUrl: './contract-list-page.component.html',
+  styleUrl: './contract-list-page.component.scss'
 })
-export class ContractListComponent {
+export class ContractListPageComponent {
   public configuration: ItemListConfiguration<Contract> = {
     title: 'Contratos',
     serverUrl: 'contract',

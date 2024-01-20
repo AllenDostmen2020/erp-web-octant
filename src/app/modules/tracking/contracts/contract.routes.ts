@@ -4,26 +4,26 @@ import { contractResolutionRoutes } from "./contract-resolutions/contractResolut
 export const contractRoutes: Routes = [
     {
         path: 'list',
-        loadComponent: () => import('./pages/contract-list/contract-list.component').then(m => m.ContractListComponent),
+        loadComponent: () => import('./pages/contract-list-page/contract-list-page.component').then(m => m.ContractListPageComponent),
     },
     {
         path: 'create',
-        loadComponent: () => import('./pages/contract-create/contract-create.component').then(m => m.ContractCreateComponent),
+        loadComponent: () => import('./pages/contract-create-page/contract-create-page.component').then(m => m.ContractCreatePageComponent),
     },
     {
         path: 'view/:id',
-        loadComponent: () => import('./pages/contract-view/contract-view.component').then(m => m.ContractViewComponent),
+        loadComponent: () => import('./pages/contract-view-page/contract-view-page.component').then(m => m.ContractViewPageComponent),
         children: [
             {
                 path: 'detail',
                 children:[
                     {
                         path: '',
-                        loadComponent: () => import('./pages/contract-detail/contract-detail.component').then(m => m.ContractDetailComponent),
+                        loadComponent: () => import('./pages/contract-detail-page/contract-detail-page.component').then(m => m.ContractDetailPageComponent),
                     },
                     {
                         path: 'edit',
-                        loadComponent: () => import('./pages/contract-edit/contract-edit.component').then(m => m.ContractEditComponent),
+                        loadComponent: () => import('./pages/contract-edit-page/contract-edit-page.component').then(m => m.ContractEditPageComponent),
                     },
                     {
                         path: '**',

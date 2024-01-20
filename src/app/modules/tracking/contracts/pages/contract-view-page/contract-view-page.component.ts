@@ -4,15 +4,13 @@ import { Contract } from '@interface/contract';
 import { ItemViewConfiguration } from '@interface/itemView';
 
 @Component({
-  selector: 'app-contract-view',
+  selector: 'app-contract-view-page',
   standalone: true,
-  imports: [
-    ItemViewTemplateComponent,
-  ],
-  templateUrl: './contract-view.component.html',
-  styleUrl: './contract-view.component.scss'
+  imports: [ItemViewTemplateComponent],
+  templateUrl: './contract-view-page.component.html',
+  styleUrl: './contract-view-page.component.scss'
 })
-export class ContractViewComponent {
+export class ContractViewPageComponent {
   public configuration: ItemViewConfiguration<Contract> = {
     titleModule: 'Contrato',
     itemPathServer: 'contract',

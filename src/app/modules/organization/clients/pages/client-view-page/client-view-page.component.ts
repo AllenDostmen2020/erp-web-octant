@@ -31,9 +31,13 @@ export class ClientViewPageComponent {
                 text: 'Unidades de negocio',
             },
             {
-                routerLink: 'billing-option',
+                routerLink: './billing-option',
                 text: 'Opciones',
-            }
+            },
+            {
+                routerLink: './contracts',
+                text: 'Contratos',
+            },
         ]
     }
 }
