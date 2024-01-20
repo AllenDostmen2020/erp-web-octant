@@ -18,11 +18,7 @@ export class ClientBillingOptionCreatePageComponent {
     public configuration: ItemFormConfiguration = {
         titleModule: 'opciones de facturación',
         type: 'create',
-        formGroup: clientBillingOptionFormGroup({
-            id: Number(
-                this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id')!
-            ),
-        }),
+        formGroup: clientBillingOptionFormGroup({ id: Number(this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id')!) }),
         fields: [...DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_BILLING_OPTION],
         pathServer: 'client-billing-option',
     };
