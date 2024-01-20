@@ -1,4 +1,5 @@
 import { BaseModel } from "./baseModel";
+import { Client } from "./client";
 
 export interface Document extends BaseModel {
     additional_information: null;
@@ -40,7 +41,7 @@ export interface Document extends BaseModel {
     qr: null;
     restore_user_id: null;
     retention_percent: string;
-    series: string;
+    serie: string;
     soap_type_id: string;
     state_type_id: string;
     status_paid: number;
@@ -63,4 +64,6 @@ export interface Document extends BaseModel {
     total_value: string;
     ubl_version: string;
     warehouse_id: number;
+
+    client?: Client
 }
