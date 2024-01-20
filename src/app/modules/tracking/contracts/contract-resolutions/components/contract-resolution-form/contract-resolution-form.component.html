@@ -33,11 +33,13 @@
         <mat-error>*Campo requerido</mat-error>
     </mat-form-field>
 
-    <mat-form-field class="col-span-full @2xl:col-span-4" *ngIf="typeCtrl.value == contractResolutionType.MutuoAcuerdo">
-        <mat-label>Mutuo acuerdo</mat-label>
-        <textarea matInput formControlName="mutual_agreement" rows="4" placeholder="Describir el mutuo acuerdo..."></textarea>
-        <mat-error>*Campo requerido</mat-error>
-    </mat-form-field>
+    @if (typeCtrl.value == contractResolutionType.MutuoAcuerdo) {
+        <mat-form-field class="col-span-full @2xl:col-span-4">
+            <mat-label>Mutuo acuerdo</mat-label>
+            <textarea matInput formControlName="mutual_agreement" rows="4" placeholder="Describir el mutuo acuerdo..."></textarea>
+            <mat-error>*Campo requerido</mat-error>
+        </mat-form-field>
+    }
 
     @if (typeCtrl.value == contractResolutionType.Unilateral) {
         <mat-form-field class="col-span-full @2xl:col-span-4">
