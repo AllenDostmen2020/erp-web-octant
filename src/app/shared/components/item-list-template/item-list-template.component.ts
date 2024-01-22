@@ -1,25 +1,6 @@
 import { CommonModule, DatePipe, Location, NgOptimizedImage } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewChild,
-  Input,
-  ContentChild,
-  TemplateRef,
-  ElementRef,
-  Renderer2,
-  ViewEncapsulation,
-  signal,
-  WritableSignal,
-  computed,
-  inject,
-  Inject,
-  Optional,
-} from '@angular/core';
-import {
-  MatCheckboxChange,
-  MatCheckboxModule,
-} from '@angular/material/checkbox';
+import { ChangeDetectionStrategy, Component, ViewChild, Input, ContentChild, TemplateRef, ElementRef, Renderer2, ViewEncapsulation, signal, WritableSignal, computed, inject, Inject, Optional } from '@angular/core';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -35,12 +16,7 @@ import { debounceTime } from 'rxjs';
 import { DiffDatePipe } from '@pipe/diff-date.pipe';
 import { PaginatorData } from 'src/app/shared/interfaces/paginator';
 import { EventsService } from '@service/events.service';
-import {
-  ItemListConfiguration,
-  KEY_GET_ITEMS_PAGINATOR_LIST,
-  KEY_GET_TOTAL_ITEMS_PAGINATOR_LIST,
-  DATA_TYPE_LIST,
-} from 'src/app/shared/interfaces/itemList';
+import { ItemListConfiguration, KEY_GET_ITEMS_PAGINATOR_LIST, KEY_GET_TOTAL_ITEMS_PAGINATOR_LIST, DATA_TYPE_LIST } from 'src/app/shared/interfaces/itemList';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { HiddenOptionButtonRowPipe } from '@pipe/hidden-option-button-row.pipe';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -58,7 +34,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatSelectModule } from '@angular/material/select';
 import { FormInput, dateRangeFormInput, switchFormInput } from 'src/app/shared/interfaces/itemForm';
 import { InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
 import { InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
