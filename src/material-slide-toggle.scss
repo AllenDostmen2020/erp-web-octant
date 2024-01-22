@@ -66,6 +66,7 @@
   --mdc-switch-disabled-selected-icon-color: rgba(var(--rgb-on-primary), 1);
   --mdc-switch-disabled-unselected-icon-color: rgba(var(--rgb-on-primary), 1);
   --mdc-switch-unselected-icon-color: rgba(var(--rgb-on-primary), 1);
+  --mdc-form-field-label-text-color: var(--color-on-surface);
 }
 
 .mat-mdc-slide-toggle.mat-accent,
@@ -84,19 +85,3 @@
   --mdc-switch-selected-icon-color: rgba(var(--rgb-primary), 1);
   --mdc-switch-selected-track-border-color: rgba(var(--rgb-primary), 1);
 }
-
-// .mat-mdc-slide-toggle.mat-accent {
-//   --mdc-switch-selected-focus-state-layer-color: rgba(var(--rgb-tertiary), 1);
-//   --mdc-switch-selected-handle-color: rgba(var(--rgb-on-tertiary), 1);
-//   --mdc-switch-selected-hover-state-layer-color: rgba(var(--rgb-tertiary), 1);
-//   --mdc-switch-selected-pressed-state-layer-color: rgba(var(--rgb-tertiary), 1);
-//   --mdc-switch-selected-focus-handle-color: rgba(var(--rgb-on-tertiary), 1);
-//   --mdc-switch-selected-hover-handle-color: rgba(var(--rgb-on-tertiary), 1);
-//   --mdc-switch-selected-pressed-handle-color: rgba(var(--rgb-on-tertiary), 1);
-//   --mdc-switch-selected-focus-track-color: rgba(var(--rgb-tertiary), 1);
-//   --mdc-switch-selected-hover-track-color: rgba(var(--rgb-tertiary), 1);
-//   --mdc-switch-selected-pressed-track-color: rgba(var(--rgb-tertiary), 1);
-//   --mdc-switch-selected-track-color: rgba(var(--rgb-tertiary), 1);
-//   --mdc-switch-selected-icon-color: rgba(var(--rgb-tertiary), 1);
-//   --mdc-switch-selected-track-border-color: rgba(var(--rgb-tertiary), 1);
-// }var(--mdc-switch-handle-elevation-shadow)

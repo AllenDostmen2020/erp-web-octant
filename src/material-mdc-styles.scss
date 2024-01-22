@@ -91,6 +91,7 @@ body {
   --mat-datepicker-calendar-container-text-color: rgba(var(--rgb-on-surface), 0.87);
 
 
+  --mdc-form-field-label-text-color: var(--color-on-surface);
 
   --mdc-filled-text-field-label-text-font: var(--body-medium-font-family-name);
   --mdc-filled-text-field-label-text-size: var(--body-medium-font-size);
@@ -100,18 +101,18 @@ body {
   --mdc-outlined-text-field-label-text-size: var(--body-medium-font-size);
   --mdc-outlined-text-field-label-text-tracking: var(--body-medium-letter-spacing);
   --mdc-outlined-text-field-label-text-weight: var(--body-medium-font-weight);
-  --mat-form-field-container-text-font: var(--body-medium-font-family-name);
-  --mat-form-field-container-text-line-height: var(--body-medium-line-height);
-  --mat-form-field-container-text-size: var(--body-medium-font-size);
-  --mat-form-field-container-text-tracking: var(--body-medium-letter-spacing);
-  --mat-form-field-container-text-weight: var(--body-medium-font-weight);
-  --mat-form-field-outlined-label-text-populated-size: var(--body-medium-font-size);
+  --mdc-form-field-container-text-font: var(--body-medium-font-family-name);
+  --mdc-form-field-container-text-line-height: var(--body-medium-line-height);
+  --mdc-form-field-container-text-size: var(--body-medium-font-size);
+  --mdc-form-field-container-text-tracking: var(--body-medium-letter-spacing);
+  --mdc-form-field-container-text-weight: var(--body-medium-font-weight);
+  --mdc-form-field-outlined-label-text-populated-size: var(--body-medium-font-size);
 
-  --mat-form-field-subscript-text-font: var(--body-small-font-family-name);
-  --mat-form-field-subscript-text-line-height: var(--body-small-line-height);
-  --mat-form-field-subscript-text-size: var(--body-small-font-size);
-  --mat-form-field-subscript-text-tracking: var(--body-small-letter-spacing);
-  --mat-form-field-subscript-text-weight: var(--body-small-font-weight);
+  --mdc-form-field-subscript-text-font: var(--body-small-font-family-name);
+  --mdc-form-field-subscript-text-line-height: var(--body-small-line-height);
+  --mdc-form-field-subscript-text-size: var(--body-small-font-size);
+  --mdc-form-field-subscript-text-tracking: var(--body-small-letter-spacing);
+  --mdc-form-field-subscript-text-weight: var(--body-small-font-weight);
 
   --mdc-filled-text-field-caret-color: var(--color-primary);
   --mdc-filled-text-field-focus-active-indicator-color: var(--color-primary);
