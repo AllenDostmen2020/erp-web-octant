@@ -96,7 +96,7 @@ export const defaultListFilterInputs = (): FormInput[] => [
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    DatePipe,
+    // DatePipe,
     FirstLetterUppercasePipe,
     GetKeyItemPipe,
   ],
@@ -124,7 +124,7 @@ export class ItemListTemplateComponent {
   private eventsService = inject(EventsService);
   public location = inject(Location);
 
-  private datePipe = inject(DatePipe);
+  // private datePipe = inject(DatePipe);
   public firstLetterUppercasePipe = inject(FirstLetterUppercasePipe);
   public getKeyItemPipe = inject(GetKeyItemPipe);
 
