@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
-import { ItemListConfiguration, textColumn } from '@interface/itemList';
+import { ItemListConfiguration, clickEventActionButton, textColumn } from '@interface/itemList';
 
 @Component({
   selector: 'app-document-list-page',
@@ -15,10 +15,18 @@ export class DocumentListPageComponent {
     title: 'Documentos',
     serverUrl: 'document',
     queryParams: { relations: 'client' },
+    actions: [
+      clickEventActionButton({
+        text: 'Emitir',
+        clickEvent: (item) => {
+          console.log(item)
+        },
+      })
+    ],
     columns: signal([
       textColumn({
         title: 'Código',
-        displayValueFn: (item) => `${item.serie}-${item.correlative}`
+        displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '--',
       }),
       textColumn({
         title: 'Cliente',

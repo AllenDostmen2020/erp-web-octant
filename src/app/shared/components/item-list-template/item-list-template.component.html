@@ -48,14 +48,13 @@
 
         @if (configuration.createButton; as createButton) {
 
-          @if (createButton.outlet == 'route-lateral') {
-            <button class="list__header__actions__create-button filled-button" appNavigateLateralPanelOutlet
-              [navigateUrl]="createButton.routerLink" [routeState]="createButton.state ?? null">
+          @if (createButton.routerLink.outlet == 'route-lateral') {
+            <button class="list__header__actions__create-button filled-button" appNavigateLateralPanelOutlet [navigateUrl]="createButton.routerLink.url | getMixedValue:null" [routeState]="createButton.routerLink.state | getMixedValue:null">
               <span class="material-icons">add</span>
               <span>{{ createButton?.text ?? 'Agregar' }}</span>
             </button>
           } @else {
-            <button class="list__header__actions__create-button filled-button" [routerLink]="createButton.routerLink" [state]="createButton.state ?? null">
+            <button class="list__header__actions__create-button filled-button" [routerLink]="createButton.routerLink.url | getMixedValue:null" [state]="createButton.routerLink.state | getMixedValue:null">
               <span class="material-icons">add</span>
               <span>{{ createButton?.text ?? 'Agregar' }}</span>
             </button>
@@ -101,7 +100,7 @@
           }
         }
 
-        @if (configuration.actionButtons){
+        @if (configuration.actions){
           <div class="list__items__header__cell actions">Acciones</div>
         }
 
@@ -194,21 +193,35 @@
       }
     }
 
-    @if (configuration.actionButtons; as actionButtons) {
+    @if (configuration.actions; as actions) {
       <div class="list__items__row__cell list__items__row__cell-actions">
-        @for (bAction of actionButtons; track bAction.id) {
-          @if (!(bAction.id | hiddenOptionButtonRow: item.__hidden_action_buttons__ ?? [])) {
-            <button [class]="bAction.style" (click)="bAction.clickEvent(item)" [disabled]="(bAction.id | hiddenOptionButtonRow: item.__disabled_action_buttons__ ?? [])"  [title]="bAction.title??''">
-              @if (bAction.icon; as icon) {<span class="material-icons">{{icon}}</span>}
-              @if (bAction.text; as text) {<span>{{text}}</span>}
-            </button>
+        @for (bAction of actions; track bAction) {
+          @if (!(bAction.show | getMixedValue: item)) {
+            @if (bAction.routerLink; as rLink) {
+              @if (rLink.outlet == 'route-lateral') {
+                <a [class]="bAction.style ?? 'text-button'" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | getMixedValue:item" [routeState]="rLink.state | getMixedValue:item">
+                  @if (bAction.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+                  @if (bAction.text; as text) { <span>{{text}}</span> }
+                </a> 
+              } @else { 
+                <a [class]="bAction.style ?? 'text-button'" [routerLink]="rLink.url | getMixedValue:item" [state]="rLink.state | getMixedValue:item">
+                  @if (bAction.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+                  @if (bAction.text; as text) { <span>{{text}}</span> }
+                </a>
+              }
+            } @else if (bAction.clickEvent) {
+              <button [class]="bAction.style ?? 'text-button'" (click)="bAction.clickEvent(item)" [disabled]="bAction.disabled | getMixedValue: item"  [title]="bAction.title??''">
+                @if (bAction.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+                @if (bAction.text; as text) { <span>{{text}}</span> }
+              </button>
+            }
           }
         }
       </div>
     }
     
     @if (!configuration.hideOptionsColumn) {
-      <div class="list__items__row__cell list__items__row__cell-settings">
+      <div class="list__items__row__cell list__items__row__cell-options">
         <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="rowMenu" [matMenuTriggerData]="{item, index}">
           <span class="material-icons">more_horiz</span>
         </button>

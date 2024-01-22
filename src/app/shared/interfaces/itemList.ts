@@ -1,6 +1,6 @@
 import { EventEmitter, InjectionToken, WritableSignal } from "@angular/core";
 import { NameModuleDatabase } from "@service/database-storage.service";
-import { ActionButton, RouterLinkItem } from "./itemDetail";
+import { RouterLinkItem, StyleButton } from "./itemDetail";
 import { FormInput } from "./itemForm";
 
 export const DATA_TYPE_LIST = new InjectionToken<'array' | 'paginator'>('KEY_GET_ITEMS_PAGINATOR_LIST');
@@ -26,12 +26,11 @@ export interface ItemListConfiguration<T = any> {
     menuItem?: ItemListMenuItem<T>;
     createButton?: {
         text?: string,
-        routerLink: string,
-        state?: any,
-        outlet?: 'route-lateral' | 'principal';
+        routerLink: RouterLinkItem<T>
     } | false;
 
-    actionButtons?: ActionButton<T, ActionButtonType>[];
+    actions?: ActionButton<T, ActionButtonActionsType>[];
+    options?: ActionButton<T, ActionButtonOptionsType>[];
 
     filters?: FormInput[] | false;
 
@@ -39,6 +38,29 @@ export interface ItemListConfiguration<T = any> {
     readonly keyGetTotalItemsPaginator?: string;
     readonly dataType?: 'array' | 'paginator';
 }
+
+export declare type ActionButtonActionsType = 'clickEvent' | 'routerLink';
+export declare type ActionButtonOptionsType = 'delete' | 'restore' | 'edit' | 'view' | 'clickEvent' | 'routerLink';
+export interface ActionButton<T, ActionType = 'clickEvent'> {
+    type: ActionType;
+    icon?: string;
+    text?: string;
+    title?: string;
+    style?: StyleButton;
+    show?: boolean | ((item: T) => boolean);
+    disabled?: boolean | ((item: T) => boolean);
+    cssClass?: string | ((item: T) => string);
+    cssStyle?: ({ [key: string]: any }) | ((item: T) => ({ [key: string]: any }));
+    clickEvent?: (item: T) => void;
+    routerLink?: RouterLinkItem<T>;
+}
+
+export const clickEventActionButton = <T = any>(config: Omit<ActionButton<T>, 'type' | 'routerLink'>): ActionButton<T, ActionButtonActionsType> => ({ type: 'clickEvent', ...config });
+export const routerLinkActionButton = <T = any>(config: Omit<ActionButton<T>, 'type' | 'clickEvent'>): ActionButton<T, ActionButtonActionsType> => ({ type: 'routerLink', ...config });
+export const deleteActionButton = <T = any>(config: Omit<ActionButton<T>, 'type' | 'routerLink'>): ActionButton<T, ActionButtonOptionsType> => ({ type: 'delete', ...config });
+export const restoreActionButton = <T = any>(config: Omit<ActionButton<T>, 'type' | 'routerLink'>): ActionButton<T, ActionButtonOptionsType> => ({ type: 'restore', ...config });
+export const editActionButton = <T = any>(config: Omit<ActionButton<T>, 'type' | 'clickEvent'>): ActionButton<T, ActionButtonOptionsType> => ({ type: 'edit', ...config });
+export const viewActionButton = <T = any>(config: Omit<ActionButton<T>, 'type' | 'clickEvent'>): ActionButton<T, ActionButtonOptionsType> => ({ type: 'view', ...config });
 
 export interface ListItemExtended {
     __selected__?: boolean;
