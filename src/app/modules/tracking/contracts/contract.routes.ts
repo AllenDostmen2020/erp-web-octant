@@ -16,7 +16,7 @@ export const contractRoutes: Routes = [
         children: [
             {
                 path: 'detail',
-                children:[
+                children: [
                     {
                         path: '',
                         loadComponent: () => import('./pages/contract-detail-page/contract-detail-page.component').then(m => m.ContractDetailPageComponent),
