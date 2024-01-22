@@ -29,8 +29,8 @@ export interface ItemListConfiguration<T = any> {
         routerLink: RouterLinkItem<T>
     } | false;
 
-    actions?: ActionButton<T, ActionButtonActionsType>[];
-    options?: ActionButton<T, ActionButtonOptionsType>[];
+    itemActions?: ActionButton<T, ActionButtonActionsType>[];
+    itemOptions?: ActionButton<T, ActionButtonOptionsType>[];
 
     filters?: FormInput[] | false;
 

@@ -88,7 +88,7 @@
         }
 
         @if (!configuration.hideIndexColumn) {
-          <div class="list__items__header__cell">Índex</div>
+          <div class="list__items__header__cell">Index</div>
         }
 
         @for (column of columns; track column) {
@@ -100,7 +100,7 @@
           }
         }
 
-        @if (configuration.actions){
+        @if (configuration.itemActions){
           <div class="list__items__header__cell actions">Acciones</div>
         }
 
@@ -193,7 +193,7 @@
       }
     }
 
-    @if (configuration.actions; as actions) {
+    @if (configuration.itemActions; as actions) {
       <div class="list__items__row__cell list__items__row__cell-actions">
         @for (bAction of actions; track bAction) {
           @if (!(bAction.show | getMixedValue: item)) {

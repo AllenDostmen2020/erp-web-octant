@@ -15,7 +15,7 @@ export class DocumentListPageComponent {
     title: 'Documentos',
     serverUrl: 'document',
     queryParams: { relations: 'client' },
-    actions: [
+    itemActions: [
       clickEventActionButton({
         text: 'Emitir',
         clickEvent: (item) => {
