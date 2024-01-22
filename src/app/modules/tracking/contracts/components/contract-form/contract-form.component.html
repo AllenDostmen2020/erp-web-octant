@@ -24,21 +24,21 @@
 
     <mat-form-field class="col-span-full @2xl:col-span-2">
         <mat-label>Precio compra Und.</mat-label>
-        <input matInput type="number" formControlName="sale_price" />
+        <input matInput type="number" [min]="0" formControlName="sale_price" />
         <span matTextPrefix>S/.&nbsp;</span>
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
     <mat-form-field class="col-span-full @2xl:col-span-2">
         <mat-label>Precio venta Und.</mat-label>
-        <input matInput type="number" formControlName="buy_price" />
+        <input matInput type="number" [min]="0" formControlName="buy_price" />
         <span matTextPrefix>S/.&nbsp;</span>
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
     <mat-form-field class="col-span-full @2xl:col-span-2">
         <mat-label>Cantidad</mat-label>
-        <input matInput type="number" formControlName="quantity" />
+        <input matInput type="number" [min]="0" formControlName="quantity" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 

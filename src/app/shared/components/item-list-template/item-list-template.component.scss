@@ -186,7 +186,7 @@
   align-content: center;
 }
 
-.list__items > .list__items__row:last-child {
+.list__items>.list__items__row:last-child {
   margin-bottom: 8px;
 }
 
@@ -236,6 +236,10 @@
   display: flex;
   gap: 4px;
   align-items: center;
+}
+
+.list__items__row__cell-actions:has(+ .list__items__row__cell-options) {
+  margin-right: -12px;
 }
 
 .list__not-results,
