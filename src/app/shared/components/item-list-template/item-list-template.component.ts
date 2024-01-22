@@ -293,7 +293,7 @@ export class ItemListTemplateComponent {
   private verifyQueryParams(): void {
     const queryParams = JSON.parse(JSON.stringify(this.activatedRoute.snapshot.queryParams ?? {}));
     const { page, per_page, order, search, ...filters } = queryParams;
-    this.paginator.pageIndex = Number(page) - 1 ?? 0;
+    this.paginator.pageIndex = Number(page ?? 1) - 1;
     this.paginator.pageSize = Number(per_page) ?? 20;
     this.sort.active = order?.split('|')[0] ?? '';
     this.sort.direction = order?.split('|')[1] == 'asc' ? 'asc' : 'desc';
