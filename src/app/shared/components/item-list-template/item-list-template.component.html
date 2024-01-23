@@ -199,18 +199,18 @@
           @if (!(bAction.show | getMixedValue: item)) {
             @if (bAction.routerLink; as rLink) {
               @if (rLink.outlet == 'route-lateral') {
-                <a [class]="bAction.style ?? 'text-button'" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | getMixedValue:item" [routeState]="rLink.state | getMixedValue:item">
+                <a class="{{bAction.style ?? 'text-button'}} {{(bAction.cssClass | getMixedValue: item) ?? ''}}" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | getMixedValue:item" [routeState]="rLink.state | getMixedValue:item">
                   @if (bAction.icon; as icon) { <span class="material-icons">{{icon}}</span> }
                   @if (bAction.text; as text) { <span>{{text}}</span> }
                 </a> 
               } @else { 
-                <a [class]="bAction.style ?? 'text-button'" [routerLink]="rLink.url | getMixedValue:item" [state]="rLink.state | getMixedValue:item">
+                <a class="{{bAction.style ?? 'text-button'}} {{(bAction.cssClass | getMixedValue: item) ?? ''}}" [routerLink]="rLink.url | getMixedValue:item" [state]="rLink.state | getMixedValue:item">
                   @if (bAction.icon; as icon) { <span class="material-icons">{{icon}}</span> }
                   @if (bAction.text; as text) { <span>{{text}}</span> }
                 </a>
               }
             } @else if (bAction.clickEvent) {
-              <button [class]="bAction.style ?? 'text-button'" (click)="bAction.clickEvent(item)" [disabled]="bAction.disabled | getMixedValue: item"  [title]="bAction.title??''">
+              <button class="{{bAction.style ?? 'text-button'}} {{(bAction.cssClass | getMixedValue: item) ?? ''}}" (click)="bAction.clickEvent(item)" [disabled]="bAction.disabled | getMixedValue: item"  [title]="bAction.title??''">
                 @if (bAction.icon; as icon) { <span class="material-icons">{{icon}}</span> }
                 @if (bAction.text; as text) { <span>{{text}}</span> }
               </button>
@@ -293,30 +293,28 @@
 <mat-menu #optionsRowMenu="matMenu" xPosition="before">
   <ng-template matMenuContent let-item="item" let-index="index">
     @if (configuration.itemOptions; as options) {
-      <div class="list__items__row__cell list__items__row__cell-actions">
         @for (bOption of options; track bOption) {
-          @if (!(bOption.show | getMixedValue: item)) {
+          @if ((bOption.show ?? true) | getMixedValue: item) {
             @if (bOption.routerLink; as rLink) {
               @if (rLink.outlet == 'route-lateral') {
-                <a mat-menu-item appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | getMixedValue:item" [routeState]="rLink.state | getMixedValue:item">
+                <a mat-menu-item [class]="bOption.cssClass | getMixedValue: item" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | getMixedValue:item" [routeState]="rLink.state | getMixedValue:item">
                   @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
                   @if (bOption.text; as text) { <span>{{text}}</span> }
                 </a> 
               } @else { 
-                <a mat-menu-item [routerLink]="rLink.url | getMixedValue:item" [state]="rLink.state | getMixedValue:item">
+                <a mat-menu-item [class]="bOption.cssClass | getMixedValue: item" [routerLink]="rLink.url | getMixedValue:item" [state]="rLink.state | getMixedValue:item">
                   @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
                   @if (bOption.text; as text) { <span>{{text}}</span> }
                 </a>
               }
             } @else if (bOption.clickEvent) {
-              <button mat-menu-item (click)="bOption.clickEvent(item)" [disabled]="bOption.disabled | getMixedValue: item"  [title]="bOption.title??''">
+              <button mat-menu-item [class]="bOption.cssClass | getMixedValue: item" (click)="bOption.clickEvent(item, deleteItem, restoreItem)" [disabled]="bOption.disabled | getMixedValue: item"  [title]="bOption.title??''">
                 @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
                 @if (bOption.text; as text) { <span>{{text}}</span> }
               </button>
             }
           }
         }
-      </div>
     }
   </ng-template>
 </mat-menu>

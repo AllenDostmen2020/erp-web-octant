@@ -1,6 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
-import { ItemListConfiguration, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, emailColumn, phoneColumn, textColumn } from '@interface/itemList';
+import { ItemListTemplateComponent, ItemListConfiguration, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, emailColumn, phoneColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { User } from '@interface/user';
 
 @Component({

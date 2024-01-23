@@ -1,7 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, emailColumn, phoneColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { Client } from '@interface/client';
-import { ItemListConfiguration, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, emailColumn, phoneColumn, textColumn } from '@interface/itemList';
 
 @Component({
   selector: 'app-client-list-page',
