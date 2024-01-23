@@ -1,6 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
-import { ItemListConfiguration, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, textColumn } from '@interface/itemList';
+import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { Vehicle } from '@interface/vehicle';
 
 @Component({
@@ -45,9 +44,9 @@ export class VehicleListPageComponent {
                 gridColumn: 'auto',
                 displayValueFn: (item) => item.brand,
             }),
-            defaultCreatedAtColumn(),
-            defaultUpdatedAtColumn(),
-            defaultStatusColumn(),
+            itemCreatedAtColumn(),
+            itemUpdatedAtColumn(),
+            itemStatusColumn(),
         ]),
     }
 }
