@@ -220,7 +220,7 @@
       </div>
     }
     
-    @if (!configuration.itemOptions != false) {
+    @if (configuration.itemOptions != false) {
       <div class="list__items__row__cell list__items__row__cell-options">
         <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="rowMenu" [matMenuTriggerData]="{item, index}">
           <span class="material-icons">more_horiz</span>
