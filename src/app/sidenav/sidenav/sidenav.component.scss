@@ -101,7 +101,7 @@
 }
 
 .sidenav__drawer__nav__group__link a {
-    --text-color-button: var(--color-on-surface-variant);
+    --text-color-mdc-button: var(--color-on-surface-variant);
     position: relative;
     justify-content: flex-start;
     gap: 20px;
@@ -127,7 +127,7 @@
 
 .sidenav__drawer__nav__group__link a.router-link-active {
     --bg-button: var(--color-secondary-container) !important;
-    --text-color-button: var(--color-on-secondary-container);
+    --text-color-mdc-button: var(--color-on-secondary-container);
     --fill-material-symbol-icon: 1;
 }
 
