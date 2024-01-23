@@ -292,6 +292,38 @@
 <!-- --------------------------------------------- -->
 <mat-menu #optionsRowMenu="matMenu" xPosition="before">
   <ng-template matMenuContent let-item="item" let-index="index">
+    @if (configuration.itemOptions; as options) {
+      <div class="list__items__row__cell list__items__row__cell-actions">
+        @for (bOption of options; track bOption) {
+          @if (!(bOption.show | getMixedValue: item)) {
+            @if (bOption.routerLink; as rLink) {
+              @if (rLink.outlet == 'route-lateral') {
+                <a mat-menu-item appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | getMixedValue:item" [routeState]="rLink.state | getMixedValue:item">
+                  @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+                  @if (bOption.text; as text) { <span>{{text}}</span> }
+                </a> 
+              } @else { 
+                <a mat-menu-item [routerLink]="rLink.url | getMixedValue:item" [state]="rLink.state | getMixedValue:item">
+                  @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+                  @if (bOption.text; as text) { <span>{{text}}</span> }
+                </a>
+              }
+            } @else if (bOption.clickEvent) {
+              <button mat-menu-item (click)="bOption.clickEvent(item)" [disabled]="bOption.disabled | getMixedValue: item"  [title]="bOption.title??''">
+                @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+                @if (bOption.text; as text) { <span>{{text}}</span> }
+              </button>
+            }
+          }
+        }
+      </div>
+    }
+  </ng-template>
+</mat-menu>
+<!-- --------------------------------------------- -->
+<!-- --------------------------------------------- -->
+<!-- <mat-menu #optionsRowMenu="matMenu" xPosition="before">
+  <ng-template matMenuContent let-item="item" let-index="index">
     @if (!configuration.menuItem?.hiddenOptionView && !('option_view' | hiddenOptionButtonRow:item.__hidden_option_buttons__ ?? [])) {
       <a mat-menu-item routerLink="{{ configuration.menuItem?.prefixRouterLinkView ?? '../view/' }}{{ item.id }}" [disabled]="('option_view' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
         <span class="material-icons">visibility</span>
@@ -371,7 +403,7 @@
       }
     }
   </ng-template>
-</mat-menu>
+</mat-menu> -->
 
 <!-- --------------------------------------------- -->
 <!-- --------------------------------------------- -->
@@ -394,9 +426,7 @@
 <!-- --------------------------------------------- -->
 <!-- --------------------------------------------- -->
 <mat-menu class="filter-list-menu" #filterMenu="matMenu" xPosition="before" [hasBackdrop]="false">
-    <div class="filter__title" (click)="$event.stopPropagation()">
-      Filtros
-    </div>
+    <div class="filter__title" (click)="$event.stopPropagation()">Filtros</div>
 
     @if (formFilters) {
       <div class="filter__form" [formGroup]="formFilters" (click)="$event.stopPropagation()">

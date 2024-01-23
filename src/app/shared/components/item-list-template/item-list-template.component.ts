@@ -244,7 +244,7 @@ export class ItemListTemplateComponent {
       if (!column.hidden) grid_cols.push(column.gridColumn ?? 'auto');
     }
     if (!this.configuration.hideOptionsColumn) grid_cols.push('auto');
-    if (this.configuration.actions) grid_cols.push('auto');
+    if (this.configuration.itemActions) grid_cols.push('auto');
     this.renderer.setStyle(this.divList.nativeElement, 'grid-template-columns', grid_cols.join(' '));
   }
 
