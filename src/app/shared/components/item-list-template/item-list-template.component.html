@@ -104,7 +104,7 @@
           <div class="list__items__header__cell actions">Acciones</div>
         }
 
-        @if (!configuration.hideOptionsColumn) {
+        @if (configuration.itemOptions != false) {
           <div class="list__items__header__cell options">
             <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="optionsColumnMenu">
               <span class="material-icons">settings</span>
@@ -220,7 +220,7 @@
       </div>
     }
     
-    @if (!configuration.hideOptionsColumn) {
+    @if (!configuration.itemOptions != false) {
       <div class="list__items__row__cell list__items__row__cell-options">
         <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="rowMenu" [matMenuTriggerData]="{item, index}">
           <span class="material-icons">more_horiz</span>
