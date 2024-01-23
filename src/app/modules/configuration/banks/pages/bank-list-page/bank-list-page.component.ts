@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
 import { Bank } from '@interface/bank';
-import { ItemListConfiguration, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, textColumn } from '@interface/itemList';
+import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 
 @Component({
     selector: 'app-bank-list-page',
@@ -28,9 +28,9 @@ export class BankListPageComponent {
                 gridColumn: '1fr',
                 displayValueFn: (item) => item?.name ? item.name : '--',
             }),
-            defaultCreatedAtColumn(),
-            defaultUpdatedAtColumn(),
-            defaultStatusColumn(),
+            itemCreatedAtColumn(),
+            itemUpdatedAtColumn(),
+            itemStatusColumn(),
         ]),
     }
 }

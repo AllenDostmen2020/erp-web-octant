@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, clickEventActionButton, routerLinkActionButton } from '@component/item-list-template/item-list-template.component';
 import { Contract } from '@interface/contract';
-import { ItemListConfiguration, dateColumn, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, numberColumn, textColumn } from '@interface/itemList';
+import { ItemListConfiguration, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 
 @Component({
     selector: 'app-client-contract-list-page',
@@ -13,7 +13,6 @@ import { ItemListConfiguration, dateColumn, defaultCreatedAtColumn, defaultStatu
 })
 export class ClientContractListPageComponent {
     private activatedRoute = inject(ActivatedRoute);
-    private router = inject(Router)
     public configuration: ItemListConfiguration<Contract> = {
         title: 'Contratos',
         serverUrl: 'contract',
@@ -54,22 +53,21 @@ export class ClientContractListPageComponent {
                 title: 'Fecha de fin',
                 displayValueFn: (item) => item.end_date,
             }),
-            defaultCreatedAtColumn(),
-            defaultUpdatedAtColumn(),
-            defaultStatusColumn(),
+            itemCreatedAtColumn(),
+            itemUpdatedAtColumn(),
+            itemStatusColumn(),
         ]),
-        menuItem: {
-            hiddenOptionEdit: true,
-            hiddenOptionDelete: true,
-            options: [
-                {
-                    clickEvent: (item) => this.router.navigate([`../../tracking/contract/view/${item.id}/detail`]),
-                    id: 'contract_client',
-                    type: 'clickEvent',
-                    text: 'Ver en perfil',
-                    icon: 'autorenew'
-                }
-            ]
-        }
+        itemOptions: [
+            routerLinkActionButton({
+                text: 'Ver detalle',
+                icon: 'visibility',
+                routerLink: { url: (item) => `../detail/${item.id}`},
+            }),
+            routerLinkActionButton({
+                text: 'Ver en perfil',
+                icon: 'autorenew',
+                routerLink: { url: (item) => `/tracking/contract/view/${item.id}/detail`},
+            })
+        ]
     };
 }

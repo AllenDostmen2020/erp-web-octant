@@ -1,4 +1,4 @@
-import { TypeValueKeyItem } from "./itemList";
+import { TypeValueKeyItem } from "@component/item-list-template/item-list-template.component";
 import { FetchErrorResponse } from "./fetch";
 import { EventEmitter, TemplateRef, WritableSignal } from "@angular/core";
 

@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
-import { ItemListConfiguration, clickEventActionButton, textColumn } from '@interface/itemList';
+import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 
 @Component({
   selector: 'app-document-list-page',
