@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
 import { ClientAccount } from '@interface/clientAccount';
 import { ItemListConfiguration, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, textColumn } from '@interface/itemList';
@@ -11,9 +12,13 @@ import { ItemListConfiguration, defaultCreatedAtColumn, defaultStatusColumn, def
   styleUrl: './client-account-list-page.component.scss'
 })
 export class ClientAccountListPageComponent {
+    private activatedRoute = inject(ActivatedRoute);
     public configList: ItemListConfiguration<ClientAccount> = {
         title: 'Cuentas del cliente',
         serverUrl: 'client-account',
+        queryParams: {
+            client_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')
+        },
         columns: signal([
             textColumn({
                 title: 'Nombre',

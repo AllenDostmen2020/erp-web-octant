@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
 import { ClientContact } from '@interface/clientContact';
 import { ItemListConfiguration, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, emailColumn, phoneColumn, textColumn } from '@interface/itemList';
@@ -11,9 +12,13 @@ import { ItemListConfiguration, defaultCreatedAtColumn, defaultStatusColumn, def
   styleUrl: './client-contact-list-page.component.scss'
 })
 export class ClientContactListPageComponent {
+    private activatedRoute = inject(ActivatedRoute);
     public configList: ItemListConfiguration<ClientContact> = {
         title: 'Contactos',
         serverUrl: 'client-contact',
+        queryParams: {
+            client_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')
+        },
         columns: signal([
             textColumn({
                 title: 'Cliente / N° Documento',
