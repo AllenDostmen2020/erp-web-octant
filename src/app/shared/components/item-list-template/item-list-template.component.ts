@@ -577,7 +577,7 @@ export class ItemListTemplateComponent {
     if(this.configuration.itemOptions != false)
     this.configuration.itemOptions = [
       routerLinkActionButton({
-        icon: 'edit',
+        icon: 'visibility',
         text: 'Ver',
         routerLink: { url: (item) => `../view/${item.id}` },
       }),
