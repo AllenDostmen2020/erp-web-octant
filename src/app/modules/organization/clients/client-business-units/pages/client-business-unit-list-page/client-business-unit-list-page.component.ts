@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
 import { ClientBusinessUnit } from '@interface/clientBusinessUnit';
-import { ItemListConfiguration, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 
 @Component({
   selector: 'app-client-business-unit-list-page',
@@ -27,9 +27,9 @@ export class ClientBusinessUnitListPageComponent {
                 gridColumn: '1fr',
                 displayValueFn: (item) => item?.name ? item.name : '--',
             }),
-            defaultCreatedAtColumn(),
-            defaultUpdatedAtColumn(),
-            defaultStatusColumn(),
+            itemCreatedAtColumn(),
+            itemUpdatedAtColumn(),
+            itemStatusColumn(),
         ]),
     }
 }

@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
 import { Account } from '@interface/account';
-import { ItemListConfiguration, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 
 @Component({
   selector: 'app-account-list-page',
@@ -40,9 +40,9 @@ export class AccountListPageComponent {
                 gridColumn: 'fit-content(120px)',
                 displayValueFn: (item) => item.coin,
             }),
-            defaultCreatedAtColumn(),
-            defaultUpdatedAtColumn(),
-            defaultStatusColumn(),
+            itemCreatedAtColumn(),
+            itemUpdatedAtColumn(),
+            itemStatusColumn(),
         ]),
     }
 }

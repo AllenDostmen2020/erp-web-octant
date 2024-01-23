@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
 import { CoinEnum } from '@interface/baseModel';
-import { ItemListConfiguration, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { Plan } from '@interface/plan';
 
 @Component({
@@ -29,9 +29,9 @@ export class PlanListPageComponent {
                 gridColumn: 'auto',
                 displayValueFn: (item) => item.coin == CoinEnum.SOLES ? `S/. ${item.price}` : `$ ${item.price}`,
             }),
-            defaultCreatedAtColumn(),
-            defaultUpdatedAtColumn(),
-            defaultStatusColumn(),
+            itemCreatedAtColumn(),
+            itemUpdatedAtColumn(),
+            itemStatusColumn(),
         ]),
     }
 }

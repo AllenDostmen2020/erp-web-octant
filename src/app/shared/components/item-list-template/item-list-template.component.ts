@@ -352,7 +352,6 @@ export interface ListColumn<T> {
     type?: TypeValueKeyItem | 'image' | 'html';
 }
 
-
 interface ListFormatListColumn<T = any> extends Omit<ListColumn<T>, 'type' | 'displayAdditionalValueFn' | 'displayValueFn'> {
     displayAdditionalValueFn?: (item: T) => string[];
     displayValueFn: (item: T) => string[];
@@ -399,7 +398,8 @@ export const emailColumn = <T = any>(config: StringListColumn<T>): ListColumn<T>
 
 export const userColumn = <T = any>(config: NumberListColumn<T>): ListColumn<T> => ({ type: 'user', ...config });
 
-export const defaultNameAndDescriptionColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'displayValueFn' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({
+
+export const itemNameAndDescriptionColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'displayValueFn' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({
     title: 'Nombre',
     gridColumn: '1fr',
     sort: { key: 'name' },
@@ -407,9 +407,8 @@ export const defaultNameAndDescriptionColumn = <T = any>(config?: Partial<Omit<S
     displayValueFn: (item: any) => item.name,
     displayAdditionalValueFn: (item: any) => item.description,
     ...config,
-})
-
-export const defaultStatusColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'title' | 'displayValueFn' | 'cssClassDisplayValue' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({
+});
+export const itemStatusColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'title' | 'displayValueFn' | 'cssClassDisplayValue' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({
     type: 'first-letter-uppercase',
     title: 'Estado',
     sort: { key: 'status' },
@@ -417,206 +416,28 @@ export const defaultStatusColumn = <T = any>(config?: Partial<Omit<StringListCol
     displayValueFn: (item: any) => item.status,
     cssClassDisplayValue: (item: any) => `status-chip ${item.status}`,
     ...config,
-})
-
-export const defaultCreatedAtColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'title' | 'displayValueFn' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({
+});
+export const itemCreatedAtColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'title' | 'displayValueFn' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({
     type: 'date',
     title: 'Creado',
     sort: { key: 'created_at' },
     displayValueFn: (item: any) => item.created_at,
     ...config,
-})
-
-export const defaultUpdatedAtColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'title' | 'displayValueFn' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({
+});
+export const itemUpdatedAtColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'title' | 'displayValueFn' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({
     type: 'date',
     title: 'Actualizado',
     sort: { key: 'updated_at' },
     hidden: true,
     displayValueFn: (item: any) => item.updated_at,
     ...config,
-})
-
-export const getDefaultListColumns = (): ListColumn<any>[] => ([
-    defaultNameAndDescriptionColumn(),
-    defaultUpdatedAtColumn(),
-    defaultCreatedAtColumn(),
-    defaultStatusColumn(),
+});
+export const simpleListColumns = (): ListColumn<any>[] => ([
+    itemNameAndDescriptionColumn(),
+    itemUpdatedAtColumn(),
+    itemCreatedAtColumn(),
+    itemStatusColumn(),
 ]);
-
-
-export interface ListFilterInput {
-    type: 'select' | 'date' | 'date-range' | 'text' | 'number' | 'switch' | 'checkbox' | 'autocomplete-server' | 'autocomplete-local';
-    textLabel: string;
-    formControlName: string;
-
-    defaultValue?: any; // for type select | date | text | number
-
-    defaultValueFrom?: any; // for type date-range - from date
-    defaultValueTo?: any; // for type date-range - to date
-
-    autocompleteKeyDisplayTextOptions?: string; // for type autocomplete-server
-    autocompleteKeyValue?: string; // for type autocomplete-server
-    autocompleteParseDataFn?: <T>(data: T[]) => (T[] | Promise<T[]>); // for type autocomplete-server
-
-    autocompleteServerUrl?: string; // for type autocomplete-server and autocomplete-local
-    autocompleteQueryParams?: string; // for type autocomplete-server and autocomplete-local
-
-    autocompleteNameModuleDatabase?: NameModuleDatabase; // for type autocomplete-local
-    autocompleteConditionFilterFn?: (search: string, item: any) => boolean; // for type autocomplete-local
-
-    cssClass?: string;
-
-    selectOptions?: { text: string, value: any }[] // for selects
-
-}
-
-type SimpleFilter = Pick<ListFilterInput, 'formControlName' | 'textLabel' | 'cssClass' | 'defaultValue'>;
-interface SelectFilter extends SimpleFilter {
-    selectOptions: { text: string, value: any }[]
-}
-
-interface DateRangeFilter extends Omit<SimpleFilter, 'defaultValue'> {
-    defaultValueFrom?: Date;
-    defaultValueTo?: Date;
-}
-
-interface SwitchRangeFilter extends Omit<SimpleFilter, 'defaultValue'> {
-    defaultValue?: Boolean;
-}
-
-interface CheckboxRangeFilter extends Omit<SimpleFilter, 'defaultValue'> {
-    defaultValue?: Boolean;
-}
-
-type AutocompleteSimpleFilter = Pick<
-    ListFilterInput,
-    'formControlName'
-    | 'textLabel'
-    | 'cssClass'
-    | 'defaultValue'
-    | 'autocompleteParseDataFn'
-    | 'autocompleteKeyDisplayTextOptions'
-    | 'autocompleteKeyValue'
->;
-
-interface AutocompleteServerFilter extends AutocompleteSimpleFilter {
-    autocompleteServerUrl: string;
-    autocompleteQueryParams?: string;
-}
-
-interface AutocompleteLocalFilter extends AutocompleteSimpleFilter {
-    autocompleteNameModuleDatabase: NameModuleDatabase;
-    autocompleteConditionFilterFn?: (search: string, item: any) => boolean;
-}
-
-
-
-export const getTextFilterInputConfiguration = (inputConfig: SimpleFilter): ListFilterInput => {
-    return {
-        type: 'text',
-        formControlName: inputConfig.formControlName,
-        textLabel: inputConfig.textLabel,
-        cssClass: inputConfig.cssClass ?? 'col-span-full sm:col-span-4',
-        defaultValue: inputConfig.defaultValue ?? null,
-    };
-}
-
-export const getNumberFilterInputConfiguration = (inputConfig: SimpleFilter): ListFilterInput => {
-    return {
-        type: 'number',
-        formControlName: inputConfig.formControlName,
-        textLabel: inputConfig.textLabel,
-        cssClass: inputConfig.cssClass ?? 'col-span-full sm:col-span-4',
-        defaultValue: inputConfig.defaultValue ?? null,
-    };
-}
-
-export const getDateRangeFilterInputConfiguration = (inputConfig: DateRangeFilter): ListFilterInput => {
-    return {
-        type: 'date-range',
-        formControlName: inputConfig.formControlName,
-        textLabel: inputConfig.textLabel,
-        cssClass: inputConfig.cssClass ?? 'col-span-full sm:col-span-4',
-        defaultValueFrom: inputConfig.defaultValueFrom,
-        defaultValueTo: inputConfig.defaultValueTo,
-    };
-}
-
-export const getDateFilterInputConfiguration = (inputConfig: SimpleFilter): ListFilterInput => {
-    return {
-        type: 'date',
-        formControlName: inputConfig.formControlName,
-        textLabel: inputConfig.textLabel,
-        cssClass: inputConfig.cssClass ?? 'col-span-full sm:col-span-4',
-        defaultValue: inputConfig.defaultValue ?? null,
-    };
-}
-
-export const getSelectFilterInputConfiguration = (inputConfig: SelectFilter): ListFilterInput => {
-    return {
-        type: 'select',
-        formControlName: inputConfig.formControlName,
-        textLabel: inputConfig.textLabel,
-        cssClass: inputConfig.cssClass ?? 'col-span-full sm:col-span-4',
-        selectOptions: inputConfig.selectOptions,
-        defaultValue: inputConfig.defaultValue ?? null,
-    };
-}
-
-export const getSwitchFilterInputConfiguration = (inputConfig: SwitchRangeFilter): ListFilterInput => {
-    return {
-        type: 'switch',
-        formControlName: inputConfig.formControlName,
-        textLabel: inputConfig.textLabel,
-        cssClass: inputConfig.cssClass ?? 'col-span-full',
-        defaultValue: inputConfig.defaultValue ?? false,
-    };
-}
-
-export const getCheckboxFilterInputConfiguration = (inputConfig: CheckboxRangeFilter): ListFilterInput => {
-    return {
-        type: 'checkbox',
-        formControlName: inputConfig.formControlName,
-        textLabel: inputConfig.textLabel,
-        cssClass: inputConfig.cssClass ?? 'col-span-full',
-        defaultValue: inputConfig.defaultValue ?? false,
-    };
-}
-
-export const getAutocompleteLocalFilterInputConfiguration = (inputConfig: AutocompleteLocalFilter): ListFilterInput => ({
-    type: 'autocomplete-local',
-    formControlName: inputConfig.formControlName,
-    textLabel: inputConfig.textLabel,
-    cssClass: inputConfig.cssClass ?? 'col-span-full md:col-span-4',
-    defaultValue: inputConfig.defaultValue ?? null,
-
-    autocompleteKeyDisplayTextOptions: inputConfig.autocompleteKeyDisplayTextOptions,
-    autocompleteKeyValue: inputConfig.autocompleteKeyValue,
-    autocompleteParseDataFn: inputConfig.autocompleteParseDataFn,
-
-    autocompleteNameModuleDatabase: inputConfig.autocompleteNameModuleDatabase,
-    autocompleteConditionFilterFn: inputConfig.autocompleteConditionFilterFn,
-
-});
-
-export const getAutocompleteServerFilterInputConfiguration = (inputConfig: AutocompleteServerFilter): ListFilterInput => ({
-    type: 'autocomplete-server',
-    formControlName: inputConfig.formControlName,
-    textLabel: inputConfig.textLabel,
-    cssClass: inputConfig.cssClass ?? 'col-span-full md:col-span-4',
-    defaultValue: inputConfig.defaultValue ?? null,
-
-    autocompleteKeyDisplayTextOptions: inputConfig.autocompleteKeyDisplayTextOptions,
-    autocompleteKeyValue: inputConfig.autocompleteKeyValue,
-    autocompleteParseDataFn: inputConfig.autocompleteParseDataFn,
-
-    autocompleteServerUrl: inputConfig.autocompleteServerUrl,
-    autocompleteQueryParams: inputConfig.autocompleteQueryParams,
-});
-
-export const getCreatedAtRangeFilterInput = (): ListFilterInput => getDateRangeFilterInputConfiguration({ formControlName: 'created_at', textLabel: 'Fecha de creación' });
-export const getUpdatedAtRangeFilterInput = (): ListFilterInput => getDateRangeFilterInputConfiguration({ formControlName: 'updated_at', textLabel: 'Fecha de actualización' });
-export const getInactiveFilterInput = (): ListFilterInput => getSwitchFilterInputConfiguration({ formControlName: 'inactives', textLabel: 'Registros inactivos' })
 
 
 export const defaultListFilterInputs = (): FormInput[] => [

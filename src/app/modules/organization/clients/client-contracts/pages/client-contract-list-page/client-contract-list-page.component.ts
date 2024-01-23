@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItemListTemplateComponent, clickEventActionButton, routerLinkActionButton } from '@component/item-list-template/item-list-template.component';
 import { Contract } from '@interface/contract';
-import { ItemListConfiguration, dateColumn, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, numberColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 
 @Component({
     selector: 'app-client-contract-list-page',
@@ -53,9 +53,9 @@ export class ClientContractListPageComponent {
                 title: 'Fecha de fin',
                 displayValueFn: (item) => item.end_date,
             }),
-            defaultCreatedAtColumn(),
-            defaultUpdatedAtColumn(),
-            defaultStatusColumn(),
+            itemCreatedAtColumn(),
+            itemUpdatedAtColumn(),
+            itemStatusColumn(),
         ]),
         itemOptions: [
             routerLinkActionButton({

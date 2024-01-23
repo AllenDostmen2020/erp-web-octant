@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ItemListTemplateComponent, ItemListConfiguration, dateColumn, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, numberColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { Contract } from '@interface/contract';
 
 @Component({
@@ -48,9 +48,9 @@ export class ContractListPageComponent {
         title: 'Fecha de fin',
         displayValueFn: (item) => item.end_date,
       }),
-      defaultCreatedAtColumn(),
-      defaultUpdatedAtColumn(),
-      defaultStatusColumn(),
+      itemCreatedAtColumn(),
+      itemUpdatedAtColumn(),
+      itemStatusColumn(),
     ])
   }; 
 }

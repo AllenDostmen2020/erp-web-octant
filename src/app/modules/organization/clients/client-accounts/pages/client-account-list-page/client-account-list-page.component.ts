@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
 import { ClientAccount } from '@interface/clientAccount';
-import { ItemListConfiguration, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 
 @Component({
   selector: 'app-client-account-list-page',
@@ -33,9 +33,9 @@ export class ClientAccountListPageComponent {
                 gridColumn: 'auto',
                 displayValueFn: (item) => item?.type,
             }),
-            defaultCreatedAtColumn(),
-            defaultUpdatedAtColumn(),
-            defaultStatusColumn(),
+            itemCreatedAtColumn(),
+            itemUpdatedAtColumn(),
+            itemStatusColumn(),
         ]),
     }
 }

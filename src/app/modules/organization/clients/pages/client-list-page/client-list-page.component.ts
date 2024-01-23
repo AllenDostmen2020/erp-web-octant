@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ItemListTemplateComponent, ItemListConfiguration, defaultCreatedAtColumn, defaultStatusColumn, defaultUpdatedAtColumn, emailColumn, phoneColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, emailColumn, phoneColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { Client } from '@interface/client';
 
 @Component({
@@ -46,9 +46,9 @@ export class ClientListPageComponent {
                 gridColumn: 'fit-content(120px)',
                 displayValueFn: (item) => item.address,
             }),
-            defaultCreatedAtColumn(),
-            defaultUpdatedAtColumn(),
-            defaultStatusColumn(),
+            itemCreatedAtColumn(),
+            itemUpdatedAtColumn(),
+            itemStatusColumn(),
         ]),
     }
 }
