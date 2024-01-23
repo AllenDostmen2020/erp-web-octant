@@ -14,11 +14,11 @@
         <span>{{ configuration.title }}</span>
       }
 
-      <ng-content select="[listHeaderTitle]"></ng-content>
+      <ng-content select="listHeaderTitle"></ng-content>
 
     </div>
 
-    <ng-content select="[listHeaderMiddle]"></ng-content>
+    <ng-content select="listHeaderMiddle"></ng-content>
 
     <div class="list__header__actions">
       @if (configuration.disableFiltersInQueryParams) {
@@ -42,7 +42,7 @@
         </button>
       }
 
-      <ng-content select="[headerButtons]"></ng-content>
+      <ng-content select="headerButtons"></ng-content>
 
       @if (configuration.createButton != false) {
 
