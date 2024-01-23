@@ -115,11 +115,11 @@
 .profile__menu__action__button {
     height: 56px !important;
     border-radius: 4px !important;
-    --bg-button: var(--color-surface);
-    --bg-button-focused: var(--color-surface);
-    --bg-button-hovered: var(--color-surface);
-    --bg-state-layer-button-hovered: rgba(var(--rgb-primary), 0.225);
-    --bg-state-layer-button-focused: rgba(var(--rgb-primary), 0.2 );
+    --bg-mdc-button: var(--color-surface);
+    --bg-mdc-button-focused: var(--color-surface);
+    --bg-mdc-button-hovered: var(--color-surface);
+    --bg-state-layer-mdc-button-hovered: rgba(var(--rgb-primary), 0.225);
+    --bg-state-layer-mdc-button-focused: rgba(var(--rgb-primary), 0.2 );
 }
 
 /* -------------------------------------------------- */
