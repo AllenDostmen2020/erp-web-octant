@@ -238,6 +238,11 @@ const DRAWER_LINKS: GroupDrawerLink[] = [
                 icon: 'account_balance_wallet',
                 route: '/tracking/contract',
             },
+            {
+                label: 'Vehículos',
+                icon: 'electric_rickshaw',
+                route: '/tracking/vehicle',
+            },
         ]
     },
     {

@@ -1,4 +1,5 @@
 import { BaseModel } from "./baseModel";
+import { Client } from "./client";
 import { ContractVehicle } from "./contractVehicle";
 import { VehicleType } from "./vehicleType";
 
@@ -14,6 +15,7 @@ export interface Vehicle extends BaseModel {
     file: string;
     description: string;
 
+    client?: Client;
     vehicle_type?: VehicleType;
     latest_contract_vehicle?: ContractVehicle;
 
