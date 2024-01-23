@@ -1,7 +1,7 @@
 .mat-expansion-panel {
     box-shadow: none !important;
     background-color: rgba(var(--rgb-surface-variant)) !important;
-    border-radius: calc(var(--border-radius-card) / 2) !important;
+    border-radius: calc(var(--corner-mdc-card) / 2) !important;
     margin-top: 4px!important;
     margin-bottom: 4px!important;
 }

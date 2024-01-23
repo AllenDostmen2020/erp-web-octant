@@ -158,39 +158,35 @@ body {
 .mat-mdc-menu-panel,
 .mat-mdc-select-panel,
 .mat-mdc-autocomplete-panel {
-background: linear-gradient(0deg,
-    rgba(var(--rgb-primary), 0.11),
-    rgba(var(--rgb-primary), 0.11)),
-  linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface))) !important;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3),  0px 2px 6px 2px rgba(0, 0, 0, 0.15) !important;
+  background: linear-gradient(0deg,
+      rgba(var(--rgb-primary), 0.11),
+      rgba(var(--rgb-primary), 0.11)),
+    linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface))) !important;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15) !important;
 }
 
 .mdc-dialog__surface {
-background: linear-gradient(0deg,
-    rgba(var(--rgb-primary), 0.11),
-    rgba(var(--rgb-primary), 0.11)),
-  linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface))) !important;
-}
-
-.mat-datepicker-content {
-border-radius: 16px !important;
+  background: linear-gradient(0deg,
+      rgba(var(--rgb-primary), 0.11),
+      rgba(var(--rgb-primary), 0.11)),
+    linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface))) !important;
 }
 
 .icon-button[matsuffix] {
-scale: .85;
+  scale: .85;
 }
 
 .mat-mdc-progress-spinner {
---mdc-circular-progress-active-indicator-color: rgb(var(--rgb-primary)) !important;
+  --mdc-circular-progress-active-indicator-color: rgb(var(--rgb-primary)) !important;
 }
 
 .mat-mdc-datepicker-content,
 .mat-mdc-select-panel {
-border-radius: 6px !important;
+  border-radius: var(--corner-mdc-menu, 6px) !important;
 }
 
 .mat-mdc-button {
---mdc-text-button-label-text-color: var(--color-on-surface) !important;
---mat-mdc-button-persistent-ripple-color: var(--color-on-surface) !important;
---mat-mdc-button-ripple-color: rgba(var(--rgb-on-surface), 0.1);
+  --mdc-text-button-label-text-color: var(--color-on-surface) !important;
+  --mat-mdc-button-persistent-ripple-color: var(--color-on-surface) !important;
+  --mat-mdc-button-ripple-color: rgba(var(--rgb-on-surface), 0.1);
 }

@@ -108,7 +108,6 @@
     padding: 0 21px;
     width: 100%;
     height: 100%;
-    border-radius: 44px;
     transition-property: background, height, color;
     transition-duration: .25s;
     transition-timing-function: ease;
@@ -212,7 +211,7 @@
     display: block;
     width: 100%;
     height: 100%;
-    border-radius: 40px;
+    border-radius: var(--corner-mdc-button, 40px);
     background: var(--color-surface-variant);
     position: relative;
     padding: 0px 148px 0px 52px;

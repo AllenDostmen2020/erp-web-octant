@@ -27,7 +27,7 @@ button {
 
     white-space: nowrap;
     height: var(--height-mdc-button, 40px);
-    border-radius: var(--shape-mdc-button, 40px);
+    border-radius: var(--corner-mdc-button, 40px);
 
     background: var(--bg-mdc-button, transparent);
     color: var(--text-color-mdc-button, rgba(var(--rgb-on-surface-variant), 1));

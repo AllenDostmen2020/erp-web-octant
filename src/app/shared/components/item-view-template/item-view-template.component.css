@@ -8,7 +8,7 @@
 .item-view__header {
   background: rgb(var(--rgb-surface));
   padding: var(--padding-y-card) var(--padding-x-card) 0px var(--padding-x-card);
-  border-radius: var(--border-radius-card) var(--border-radius-card) 0 0;
+  border-radius: var(--corner-mdc-card) var(--corner-mdc-card) 0 0;
   overflow: hidden;
   transition-property: background;
   transition-duration: 0.25s;
@@ -17,7 +17,7 @@
 
 .item-view__content {
   position: relative;
-  border-radius: 0 0 var(--border-radius-card) var(--border-radius-card);
+  border-radius: 0 0 var(--corner-mdc-card) var(--corner-mdc-card);
   width: auto;
   max-width: 100%;
 }
@@ -112,7 +112,7 @@
 .item-view__content__router .list,
 .item-view__content__router .form,
 .item-view__content__router .item-detail {
-  border-radius: 0 0 var(--border-radius-card) var(--border-radius-card) !important;
+  border-radius: 0 0 var(--corner-mdc-card) var(--corner-mdc-card) !important;
 }
 
 /* .item-view__header__nav .mat-mdc-tab-link {

@@ -21,7 +21,7 @@
 /* --------------------------------------------------------------------- */
 
 .profile-menu {
-    border-radius: 20px !important;
+    border-radius: var(--corner-mdc-dialog, 28px) !important;
     max-width: 300px !important;
     min-width: 300px !important;
 }
@@ -108,7 +108,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 2px;
     height: 56px;
-    border-radius: 100px;
+    border-radius: var(--corner-mdc-button, 100px) !important;
     overflow: hidden;
 }
 

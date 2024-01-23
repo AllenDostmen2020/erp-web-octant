@@ -2,7 +2,7 @@
 /* ----------------------     APPS  MENU     --------------------------- */
 /* --------------------------------------------------------------------- */
 .apps-menu {
-    border-radius: 20px !important;
+    border-radius: var(--corner-mdc-dialog, 28px) !important;
 }
 
 .apps__menu__container {

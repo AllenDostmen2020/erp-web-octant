@@ -24,6 +24,8 @@ body, .mat-mdc-checkbox.mat-primary, .mat-mdc-checkbox.mat-accent {
     --mdc-checkbox-unselected-focus-state-layer-opacity: 0.16;
     --mdc-checkbox-unselected-hover-state-layer-opacity: 0.04;
     --mdc-checkbox-unselected-pressed-state-layer-opacity: 0.16;
+
+    --mdc-form-field-label-text-color: var(--color-on-surface);
 }
 
 .mat-pseudo-checkbox-checked:not(.mat-pseudo-checkbox-minimal), 
