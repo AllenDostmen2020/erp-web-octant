@@ -669,7 +669,7 @@ export class ItemListTemplateComponent {
     for await (const column of this.configuration.columns()) {
       if (!column.hidden) grid_cols.push(column.gridColumn ?? 'auto');
     }
-    if (!this.configuration.itemOptions != false) grid_cols.push('auto');
+    if (this.configuration.itemOptions != false) grid_cols.push('auto');
     if (this.configuration.itemActions != false) grid_cols.push('auto');
     this.renderer.setStyle(this.divList.nativeElement, 'grid-template-columns', grid_cols.join(' '));
   }

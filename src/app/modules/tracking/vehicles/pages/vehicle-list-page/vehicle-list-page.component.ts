@@ -33,12 +33,12 @@ export class VehicleListPageComponent {
             textColumn({
                 title: 'Color',
                 sort: { key: 'color' },
-                displayValueFn: (item) => item.color,
+                displayValueFn: (item) => item.color ?? '--',
             }),
             textColumn({
                 title: 'Marca',
                 sort: { key: 'brand' },
-                displayValueFn: (item) => item.brand,
+                displayValueFn: (item) => item.brand ?? '--',
             }),
             itemCreatedAtColumn(),
             itemUpdatedAtColumn(),
