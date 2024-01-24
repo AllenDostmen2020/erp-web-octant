@@ -6,7 +6,7 @@
   overflow: hidden;
   overflow-y: auto;
   position: relative;
-  border-radius: var(--border-radius-card);
+  border-radius: var(--corner-mdc-card);
   background: var(--color-surface);
   transition-property: background;
   transition-duration: .25s;

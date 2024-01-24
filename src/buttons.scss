@@ -26,18 +26,16 @@ button {
     letter-spacing: var(--label-large-letter-spacing);
 
     white-space: nowrap;
-    height: 40px;
+    height: var(--height-mdc-button, 40px);
+    border-radius: var(--corner-mdc-button, 40px);
 
-    border-radius: 100px;
-
-    background: var(--bg-button, transparent);
-    color: var(--text-color-button, rgba(var(--rgb-on-surface-variant), 1));
-
-    border-width: var(--border-width-button, 0px);
-    border-color: var(--border-color-button, transparent);
+    background: var(--bg-mdc-button, transparent);
+    color: var(--text-color-mdc-button, rgba(var(--rgb-on-surface-variant), 1));
+    border-width: var(--border-width-mdc-button, 0px);
+    border-color: var(--border-color-mdc-button, transparent);
     border-style: solid;
 
-    box-shadow: var(--box-shadow-button, none);
+    box-shadow: var(--box-shadow-mdc-button, none);
 
     box-sizing: border-box;
     overflow: hidden;
@@ -54,7 +52,7 @@ button {
         bottom: 0px;
         right: 0px;
         z-index: -1;
-        background: var(--bg-state-layer-button, transparent);
+        background: var(--bg-state-layer-mdc-button, transparent);
         transition: background 0.25s ease-in-out 0s;
     }
 
@@ -63,39 +61,35 @@ button {
 
         &:hover {
             &::after {
-                background: var(--bg-state-layer-button-hovered, transparent);
+                background: var(--bg-state-layer-mdc-button-hovered, transparent);
             }
 
-            background: var(--bg-button-hovered, var(--bg-button, transparent));
-            color: var(--text-color-button-hovered, var(--text-color-button));
-            border-width: var(--border-width-button-hovered,
-                var(--border-width-button, 0px));
-            border-color: var(--border-color-button-hovered,
-                var(--border-color-button, transparent));
-            box-shadow: var(--box-shadow-button-hovered, none);
+            background: var(--bg-mdc-button-hovered, var(--bg-mdc-button, transparent));
+            color: var(--text-color-mdc-button-hovered, var(--text-color-mdc-button));
+            border-width: var(--border-width-mdc-button-hovered, var(--border-width-mdc-button, 0px));
+            border-color: var(--border-color-mdc-button-hovered, var(--border-color-mdc-button, transparent));
+            box-shadow: var(--box-shadow-mdc-button-hovered, none);
         }
 
         &:active,
         &:focus {
             &::after {
-                background: var(--bg-state-layer-button-focused);
+                background: var(--bg-state-layer-mdc-button-focused);
             }
 
-            background: var(--bg-button-focused, var(--bg-button, transparent));
-            color: var(--text-color-button-focused, var(--text-color-button));
-            border-width: var(--border-width-button-focused,
-                var(--border-width-button, 0px));
-            border-color: var(--border-color-button-focused,
-                var(--border-color-button, transparent));
-            box-shadow: var(--box-shadow-button-focused, none);
+            background: var(--bg-mdc-button-focused, var(--bg-mdc-button, transparent));
+            color: var(--text-color-mdc-button-focused, var(--text-color-mdc-button));
+            border-width: var(--border-width-mdc-button-focused, var(--border-width-mdc-button, 0px));
+            border-color: var(--border-color-mdc-button-focused, var(--border-color-mdc-button, transparent));
+            box-shadow: var(--box-shadow-mdc-button-focused, none);
         }
     }
 
     &:disabled {
-        background: var(--bg-button-disabled, transparent);
-        color: var(--text-color-button-disabled);
-        border-width: var(--border-width-button-disabled, 0px);
-        border-color: var(--border-color-button-disabled, transparent);
+        background: var(--bg-mdc-button-disabled, transparent);
+        color: var(--text-color-mdc-button-disabled);
+        border-width: var(--border-width-mdc-button-disabled, 0px);
+        border-color: var(--border-color-mdc-button-disabled, transparent);
     }
 
     &:focus-visible:not(:active) {
@@ -113,31 +107,20 @@ button {
 }
 
 .elevated-button {
-    --bg-button: linear-gradient(0deg,
-            rgba(var(--rgb-primary), 0.05),
-            rgba(var(--rgb-primary), 0.05)),
-        linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface)));
-    --text-color-button: rgba(var(--rgb-primary), 1);
-    --box-shadow-button: 0px 1px 2px 0px rgba(0, 0, 0, 0.3),
-        0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    --bg-mdc-button: linear-gradient(0deg, rgba(var(--rgb-primary), 0.05), rgba(var(--rgb-primary), 0.05)), linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface)));
+    --text-color-mdc-button: rgba(var(--rgb-primary), 1);
+    --box-shadow-mdc-button: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
 
-    --bg-button-hovered: linear-gradient(0deg,
-            rgba(var(--rgb-primary), 0.08),
-            rgba(var(--rgb-primary), 0.08));
-    --bg-state-layer-button-hovered: rgba(var(--rgb-primary), 0.08);
-    --box-shadow-button-hovered: 0px 1px 2px 0px rgba(0, 0, 0, 0.3),
-        0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    --bg-mdc-button-hovered: linear-gradient(0deg, rgba(var(--rgb-primary), 0.08), rgba(var(--rgb-primary), 0.08));
+    --bg-state-layer-mdc-button-hovered: rgba(var(--rgb-primary), 0.08);
+    --box-shadow-mdc-button-hovered: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
 
-    --bg-button-focused: linear-gradient(0deg,
-            rgba(var(--rgb-primary), 0.05),
-            rgba(var(--rgb-primary), 0.05)),
-        linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface)));
-    --bg-state-layer-button-focused: rgba(var(--rgb-primary), 0.12);
-    --box-shadow-button-focused: 0px 1px 2px 0px rgba(0, 0, 0, 0.3),
-        0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    --bg-mdc-button-focused: linear-gradient(0deg, rgba(var(--rgb-primary), 0.05), rgba(var(--rgb-primary), 0.05)), linear-gradient(0deg, rgb(var(--rgb-surface)), rgb(var(--rgb-surface)));
+    --bg-state-layer-mdc-button-focused: rgba(var(--rgb-primary), 0.12);
+    --box-shadow-mdc-button-focused: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
 
-    --bg-button-disabled: rgba(var(--rgb-on-surface), 0.125);
-    --text-color-button-disabled: rgba(var(--rgb-on-surface), 0.38);
+    --bg-mdc-button-disabled: rgba(var(--rgb-on-surface), 0.125);
+    --text-color-mdc-button-disabled: rgba(var(--rgb-on-surface), 0.38);
 
     &:disabled {
         box-shadow: none;
@@ -147,42 +130,42 @@ button {
 /* ------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
 .tonal-button {
-    --bg-button: rgb(var(--rgb-secondary-container), 1);
-    --text-color-button: rgba(var(--rgb-on-secondary-container), 1);
+    --bg-mdc-button: rgb(var(--rgb-secondary-container), 1);
+    --text-color-mdc-button: rgba(var(--rgb-on-secondary-container), 1);
 
-    --bg-state-layer-button-hovered: rgba(var(--rgb-on-secondary-container), 0.08);
-    --box-shadow-button-hovered: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    --bg-state-layer-mdc-button-hovered: rgba(var(--rgb-on-secondary-container), 0.08);
+    --box-shadow-mdc-button-hovered: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
 
-    --bg-state-layer-button-focused: rgba(var(--rgb-on-secondary-container), 0.12);
-    --box-shadow-button-focused: none;
+    --bg-state-layer-mdc-button-focused: rgba(var(--rgb-on-secondary-container), 0.12);
+    --box-shadow-mdc-button-focused: none;
 
-    --bg-button-disabled: rgba(var(--rgb-on-surface), 0.125);
-    --text-color-button-disabled: rgba(var(--rgb-on-surface), 0.38);
+    --bg-mdc-button-disabled: rgba(var(--rgb-on-surface), 0.125);
+    --text-color-mdc-button-disabled: rgba(var(--rgb-on-surface), 0.38);
 }
 
 /* ------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
 .filled-button {
-    --bg-button: rgba(var(--rgb-primary), 1);
-    --text-color-button: rgba(var(--rgb-on-primary), 1);
+    --bg-mdc-button: rgba(var(--rgb-primary), 1);
+    --text-color-mdc-button: rgba(var(--rgb-on-primary), 1);
 
-    --bg-state-layer-button-hovered: rgba(var(--rgb-on-primary), 0.08);
-    --box-shadow-button-hovered: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    --bg-state-layer-mdc-button-hovered: rgba(var(--rgb-on-primary), 0.08);
+    --box-shadow-mdc-button-hovered: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
 
-    --bg-state-layer-button-focused: rgba(var(--rgb-on-primary), 0.12);
-    --box-shadow-button-focused: none;
+    --bg-state-layer-mdc-button-focused: rgba(var(--rgb-on-primary), 0.12);
+    --box-shadow-mdc-button-focused: none;
 
-    --bg-button-disabled: rgba(var(--rgb-on-surface), 0.125);
-    --text-color-button-disabled: rgba(var(--rgb-on-surface), 0.38);
+    --bg-mdc-button-disabled: rgba(var(--rgb-on-surface), 0.125);
+    --text-color-mdc-button-disabled: rgba(var(--rgb-on-surface), 0.38);
 }
 
 /* ------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
 .text-button {
-    --text-color-button: rgba(var(--rgb-primary), 1);
-    --bg-state-layer-button-hovered: rgba(var(--rgb-primary), 0.08);
-    --bg-state-layer-button-focused: rgba(var(--rgb-primary), 0.12);
-    --text-color-button-disabled: rgba(var(--rgb-on-surface), 0.38);
+    --text-color-mdc-button: rgba(var(--rgb-primary), 1);
+    --bg-state-layer-mdc-button-hovered: rgba(var(--rgb-primary), 0.08);
+    --bg-state-layer-mdc-button-focused: rgba(var(--rgb-primary), 0.12);
+    --text-color-mdc-button-disabled: rgba(var(--rgb-on-surface), 0.38);
 
     padding: 10px 16px;
 
@@ -194,13 +177,13 @@ button {
 /* ------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
 .inverted-text-button {
-    --text-color-button: rgba(var(--rgb-inverse-primary), 1);
+    --text-color-mdc-button: rgba(var(--rgb-inverse-primary), 1);
 
-    --bg-button-hovered: rgba(var(--rgb-inverse-primary), 0.08);
+    --bg-mdc-button-hovered: rgba(var(--rgb-inverse-primary), 0.08);
 
-    --bg-button-focused: rgba(var(--rgb-inverse-primary), 0.12);
+    --bg-mdc-button-focused: rgba(var(--rgb-inverse-primary), 0.12);
 
-    --text-color-button-disabled: rgba(var(--rgb-inverse-on-surface), 0.38);
+    --text-color-mdc-button-disabled: rgba(var(--rgb-inverse-on-surface), 0.38);
 
     padding: 10px 12px;
 
@@ -213,13 +196,13 @@ button {
 /* ------------------------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
 .outlined-button {
-    --text-color-button: rgba(var(--rgb-primary), 1);
-    --bg-button: rgba(var(--rgb-surface), 1);
-    --border-width-button: 1px;
-    --border-color-button: rgba(var(--rgb-outline), 1);
-    --bg-state-layer-button-hovered: rgba(var(--rgb-primary), 0.08);
-    --bg-state-layer-button-focused: rgba(var(--rgb-primary), 0.12);
-    --text-color-button-disabled: rgba(var(--rgb-on-surface-variant), 0.38);
-    --border-width-button-disabled: 1px;
-    --border-color-button-disabled: rgba(var(--rgb-outline), 0.125);
+    --text-color-mdc-button: rgba(var(--rgb-primary), 1);
+    --bg-mdc-button: rgba(var(--rgb-surface), 1);
+    --border-width-mdc-button: 1px;
+    --border-color-mdc-button: rgba(var(--rgb-outline), 1);
+    --bg-state-layer-mdc-button-hovered: rgba(var(--rgb-primary), 0.08);
+    --bg-state-layer-mdc-button-focused: rgba(var(--rgb-primary), 0.12);
+    --text-color-mdc-button-disabled: rgba(var(--rgb-on-surface-variant), 0.38);
+    --border-width-mdc-button-disabled: 1px;
+    --border-color-mdc-button-disabled: rgba(var(--rgb-outline), 0.125);
 }

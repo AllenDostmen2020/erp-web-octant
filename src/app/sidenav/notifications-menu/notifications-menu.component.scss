@@ -1,5 +1,5 @@
 .notifications-menu {
-    border-radius: 20px !important;
+    border-radius: var(--corner-mdc-dialog, 28px) !important;
     max-width: 300px !important;
     min-width: 300px !important;
 }

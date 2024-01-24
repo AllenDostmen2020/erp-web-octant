@@ -14,11 +14,11 @@
         <span>{{ configuration.title }}</span>
       }
 
-      <ng-content select="[listHeaderTitle]"></ng-content>
+      <ng-content select="listHeaderTitle"></ng-content>
 
     </div>
 
-    <ng-content select="[listHeaderMiddle]"></ng-content>
+    <ng-content select="listHeaderMiddle"></ng-content>
 
     <div class="list__header__actions">
       @if (configuration.disableFiltersInQueryParams) {
@@ -42,7 +42,7 @@
         </button>
       }
 
-      <ng-content select="[headerButtons]"></ng-content>
+      <ng-content select="headerButtons"></ng-content>
 
       @if (configuration.createButton != false) {
 
@@ -220,7 +220,7 @@
       </div>
     }
     
-    @if (!configuration.itemOptions != false) {
+    @if (configuration.itemOptions != false) {
       <div class="list__items__row__cell list__items__row__cell-options">
         <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="rowMenu" [matMenuTriggerData]="{item, index}">
           <span class="material-icons">more_horiz</span>

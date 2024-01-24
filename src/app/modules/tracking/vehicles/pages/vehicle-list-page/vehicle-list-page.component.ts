@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ItemListConfiguration, ItemListTemplateComponent, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { Vehicle } from '@interface/vehicle';
 
 @Component({
@@ -16,33 +16,29 @@ export class VehicleListPageComponent {
         queryParams: 'relations=client,vehicleType',
         columns: signal([
             textColumn({
+                title: 'Placa',
+                sort: { key: 'plate' },
+                displayValueFn: (item) => item.plate,
+            }),
+            textColumn({
+                title: 'Tipo de vehículo',
+                displayValueFn: (item) => item.vehicle_type?.name,
+            }),
+            textColumn({
                 title: 'Cliente',
                 routerLinkValue: { url: (item) => `../view/${item.id}` },
                 gridColumn: '1fr',
                 displayValueFn: (item) => item?.client?.name ? item.client?.name : '--',
             }),
             textColumn({
-                title: 'Tipo de vehículo',
-                gridColumn: 'auto',
-                displayValueFn: (item) => item.vehicle_type?.name,
-            }),
-            textColumn({
-                title: 'Placa',
-                sort: { key: 'plate' },
-                gridColumn: 'auto',
-                displayValueFn: (item) => item.plate,
-            }),
-            textColumn({
                 title: 'Color',
                 sort: { key: 'color' },
-                gridColumn: 'auto',
-                displayValueFn: (item) => item.color,
+                displayValueFn: (item) => item.color ?? '--',
             }),
             textColumn({
                 title: 'Marca',
                 sort: { key: 'brand' },
-                gridColumn: 'auto',
-                displayValueFn: (item) => item.brand,
+                displayValueFn: (item) => item.brand ?? '--',
             }),
             itemCreatedAtColumn(),
             itemUpdatedAtColumn(),

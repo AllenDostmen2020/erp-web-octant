@@ -577,7 +577,7 @@ export class ItemListTemplateComponent {
     if(this.configuration.itemOptions != false)
     this.configuration.itemOptions = [
       routerLinkActionButton({
-        icon: 'edit',
+        icon: 'visibility',
         text: 'Ver',
         routerLink: { url: (item) => `../view/${item.id}` },
       }),
@@ -669,7 +669,7 @@ export class ItemListTemplateComponent {
     for await (const column of this.configuration.columns()) {
       if (!column.hidden) grid_cols.push(column.gridColumn ?? 'auto');
     }
-    if (!this.configuration.itemOptions != false) grid_cols.push('auto');
+    if (this.configuration.itemOptions != false) grid_cols.push('auto');
     if (this.configuration.itemActions != false) grid_cols.push('auto');
     this.renderer.setStyle(this.divList.nativeElement, 'grid-template-columns', grid_cols.join(' '));
   }

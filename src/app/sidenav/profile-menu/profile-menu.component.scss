@@ -21,7 +21,7 @@
 /* --------------------------------------------------------------------- */
 
 .profile-menu {
-    border-radius: 20px !important;
+    border-radius: var(--corner-mdc-dialog, 28px) !important;
     max-width: 300px !important;
     min-width: 300px !important;
 }
@@ -108,18 +108,18 @@
     grid-template-columns: 1fr 1fr;
     gap: 2px;
     height: 56px;
-    border-radius: 100px;
+    border-radius: var(--corner-mdc-button, 100px) !important;
     overflow: hidden;
 }
 
 .profile__menu__action__button {
     height: 56px !important;
     border-radius: 4px !important;
-    --bg-button: var(--color-surface);
-    --bg-button-focused: var(--color-surface);
-    --bg-button-hovered: var(--color-surface);
-    --bg-state-layer-button-hovered: rgba(var(--rgb-primary), 0.225);
-    --bg-state-layer-button-focused: rgba(var(--rgb-primary), 0.2 );
+    --bg-mdc-button: var(--color-surface);
+    --bg-mdc-button-focused: var(--color-surface);
+    --bg-mdc-button-hovered: var(--color-surface);
+    --bg-state-layer-mdc-button-hovered: rgba(var(--rgb-primary), 0.225);
+    --bg-state-layer-mdc-button-focused: rgba(var(--rgb-primary), 0.2 );
 }
 
 /* -------------------------------------------------- */

@@ -3,9 +3,14 @@ body {
     --height-footer-card: 48px;
     --padding-x-card: 24px;
     --padding-y-card: 24px;
-    --border-radius-card: 24px;
     --background-card: rgba(var(--rgb-surface), 1);
     --on-background-card: rgba(var(--rgb-on-surface), 1);
+
+    --corner-mdc-menu: 6px;
+    --corner-mdc-button: 100px !important;
+    --corner-mdc-card: 24px !important;
+    --corner-mdc-dialog: 28px !important;
+    
 }
 
 @container (width <=42rem) {
@@ -15,9 +20,9 @@ body {
     .item-view,
     .list,
     .form {
-        --border-radius-card: 16px;
+        --corner-mdc-card: 16px;
         --padding-x-card: 16px;
         --padding-y-card: 16px;
-        --border-radius-card: 12px;
+        --corner-mdc-card: 12px;
     }
 }
