@@ -87,8 +87,11 @@
           </div>
         }
 
-        @if (!configuration.hideIndexColumn) {
-          <div class="list__items__header__cell">Index</div>
+        @if (configuration.row?.index != false) {
+          <div class="list__items__header__cell">
+            @if (configuration.row?.index; as index) { {{ index.title }} }
+            @else { N° }
+          </div>
         }
 
         @for (column of columns; track column) {
@@ -169,7 +172,7 @@
       </div>
     }
 
-    @if (!configuration.hideIndexColumn) {
+    @if (configuration.row?.index != false) {
       <div data-name="index" class="list__items__row__cell list__items__row__cell-index">
         <div class="list__items__row__cell__value">{{ index | indexList : [pageIndex, pageSize] }}</div>
       </div>

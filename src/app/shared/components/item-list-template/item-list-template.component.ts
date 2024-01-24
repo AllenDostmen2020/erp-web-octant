@@ -61,7 +61,6 @@ export interface ItemListConfiguration<T = any> {
     readonly disableFiltersInQueryParams?: boolean;
     hideUpdateList?: boolean;
     hideFilters?: boolean;
-    hideIndexColumn?: boolean;
     showBackButton?: boolean;
     selectable?: boolean;
     createButton?: {
@@ -72,6 +71,7 @@ export interface ItemListConfiguration<T = any> {
     filters?: FormInput[] | false;
 
     row?: {
+        index?: false | ({ title: string });
         cssClass?: string | ((item: T) => string);
         actions?: ActionButton<T, ActionButtonActionsType>[] | false;
         options?: ActionButton<T, ActionButtonActionsType>[] | false;
@@ -117,7 +117,7 @@ export interface ListColumn<T> {
      * Función que se ejecuta al dar click en el valor adicional de la celda de la columna
      * @example
      * clickEventAdditionalValue: (item) => { // TODO }
-     * @param item como parametro pasa el item de cada elemento de la lista
+     * @param item como parámetro pasa el item de cada elemento de la lista
      * @returns void
      */
     clickEventAdditionalValue?: (item: T) => void;
@@ -127,7 +127,7 @@ export interface ListColumn<T> {
      * Función que se ejecuta al dar click en el valor de la celda de la columna
      * @example
      * clickEventValue: (item) => { // TODO }
-     * @param item como parametro pasa el item de cada elemento de la lista
+     * @param item como parámetro pasa el item de cada elemento de la lista
      * @returns void
      */
     clickEventValue?: (item: T) => void;
@@ -668,7 +668,7 @@ export class ItemListTemplateComponent {
   private async generateColumnsCss(): Promise<void> {
     const grid_cols: string[] = [];
     if (this.configuration.selectable) grid_cols.push('auto');
-    if (!this.configuration.hideIndexColumn) grid_cols.push('auto');
+    if (this.configuration.row?.index != false) grid_cols.push('auto');
     for await (const column of this.configuration.columns()) {
       if (!column.hidden) grid_cols.push(column.gridColumn ?? 'auto');
     }
