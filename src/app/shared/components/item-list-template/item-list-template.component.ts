@@ -50,16 +50,27 @@ export interface ItemListConfiguration<T = any> {
     readonly keyGetTotalItemsPaginator?: string;
     readonly dataType?: 'array' | 'paginator';
 
-    title: string | null;
-    defaultOrder?: string;
-    columns: WritableSignal<ListColumn<T>[]>;
-    parseDataFn?: (data: T[]) => T[] | Promise<T[]>;
-    updateListEvent?: EventEmitter<boolean>;
-    data?: WritableSignal<T[]>
     readonly disableFiltersInQueryParams?: boolean;
-    hideUpdateList?: boolean;
-    hideFilters?: boolean;
-    showBackButton?: boolean;
+
+    title: string | null;
+    
+    parseDataFn?: (data: T[]) => T[] | Promise<T[]>;
+    data?: WritableSignal<T[]>;
+    updateListEvent?: EventEmitter<boolean>;
+
+    defaultOrder?: {
+      key: string,
+      order: 'ASC' | 'DESC'
+    };
+
+    backButton?: boolean;
+
+    updateButton?: boolean;
+    
+    server: {
+      readonly url: string,
+      queryParams?: { [key: string]: any } | string;
+    }
 
     createButton?: {
         text?: string,
@@ -76,10 +87,7 @@ export interface ItemListConfiguration<T = any> {
         options?: ActionButton<T, ActionButtonActionsType>[] | false;
     },
 
-    server: {
-      readonly url: string,
-      queryParams?: { [key: string]: any } | string;
-    }
+    columns: WritableSignal<ListColumn<T>[]>;
 }
 
 export declare type ActionButtonActionsType = 'clickEvent' | 'routerLink';
@@ -564,7 +572,7 @@ export class ItemListTemplateComponent {
   }
 
   get defaultOrder(): string {
-    return this.configuration.defaultOrder ?? 'id|desc';
+    return this.configuration.defaultOrder ? `${this.configuration.defaultOrder?.key}|${this.configuration.defaultOrder?.order}` : 'id|DESC';
   }
 
   get dataTypeList(): 'array' | 'paginator' {

@@ -4,7 +4,7 @@
   <div class="list__header">
     <div class="list__header__title">
 
-      @if (configuration.showBackButton) {
+      @if (configuration.backButton) {
         <button class="list__header__title__back-button icon-button" (click)="location.back()">
           <span class="material-icons">arrow_back</span>
         </button>
@@ -28,14 +28,14 @@
         </div>
       }
 
-      @if (!configuration.hideUpdateList) {
+      @if (configuration.updateButton != false) {
         <button class="text-button" (click)="callGetData()">
           <span class="material-icons">refresh</span>
           <span>Actualizar</span>
         </button>
       }
 
-      @if (!configuration.hideFilters) {
+      @if (configuration.filters != false) {
         <button class="text-button" [matMenuTriggerFor]="filterMenu">
           <span class="material-icons">tune</span>
           <span>Filtros</span>
