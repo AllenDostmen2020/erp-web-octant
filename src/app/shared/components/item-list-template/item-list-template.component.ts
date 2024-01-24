@@ -812,40 +812,6 @@ export class ItemListTemplateComponent {
 
   /* ---------------------------------------------------------------- */
   /* ---------------------------------------------------------------- */
-  private updateLoadingStatusItem(index: number, status: boolean): void {
-    this.data.update((data) => data.map((item: ListItemExtended, i) => {
-      if (i == index) item.__loading_status__ = status;
-      return item;
-    }));
-  }
-
-  public async deleteItem(id: number | string): Promise<void> {
-    const index = this.data().findIndex((e) => e.id == id);
-    if (index == -1) return;
-    this.updateLoadingStatusItem(index, true);
-    const url = `${this.configuration.server.url}/${id}`;
-    try {
-      await this.fetch.delete(url);
-      this.callGetData();
-    } catch (error) { }
-    this.updateLoadingStatusItem(index, false);
-  }
-
-  public async restoreItem(id: string | number): Promise<void> {
-    const index = this.data().findIndex((e) => e.id == id);
-    if (index == -1) return;
-    this.updateLoadingStatusItem(index, true);
-    const url = `${this.configuration.server.url}/${id}/restore`;
-    const config = { afterAlert: { description: 'Restaurando ítem de la lista' } }
-    try {
-      await this.fetch.put(url, config);
-      this.callGetData();
-    } catch (error) { }
-    this.updateLoadingStatusItem(index, false);
-  }
-
-  /* ---------------------------------------------------------------- */
-  /* ---------------------------------------------------------------- */
   private generateFormControlsFromFilterInputs(): void {
     if (this.configuration.filters == false) return;
     if (!this.configuration.filters?.length) this.configuration.filters = defaultListFilterInputs();
@@ -879,6 +845,40 @@ export class ItemListTemplateComponent {
 
   public getControlFormFilter(name: string): FormControl {
     return this.formFilters!.get(name) as FormControl;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* ---------------------------------------------------------------- */
+  private updateLoadingStatusItem(index: number, status: boolean): void {
+    this.data.update((data) => data.map((item: ListItemExtended, i) => {
+      if (i == index) item.__loading_status__ = status;
+      return item;
+    }));
+  }
+
+  public  deleteItem = async (id: number | string) => {
+    const index = this.data().findIndex((e) => e.id == id);
+    if (index == -1) return;
+    this.updateLoadingStatusItem(index, true);
+    const url = `${this.configuration.server.url}/${id}`;
+    try {
+      await this.fetch.delete(url);
+      this.callGetData();
+    } catch (error) { }
+    this.updateLoadingStatusItem(index, false);
+  }
+
+  public restoreItem = async (id: string | number) => {
+    const index = this.data().findIndex((e) => e.id == id);
+    if (index == -1) return;
+    this.updateLoadingStatusItem(index, true);
+    const url = `${this.configuration.server.url}/${id}/restore`;
+    const config = { afterAlert: { description: 'Restaurando ítem de la lista' } }
+    try {
+      await this.fetch.put(url, config);
+      this.callGetData();
+    } catch (error) { }
+    this.updateLoadingStatusItem(index, false);
   }
 
   public updateChangesItem = (index: number, item: any) => {
