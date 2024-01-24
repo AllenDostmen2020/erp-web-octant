@@ -593,31 +593,35 @@ export class ItemListTemplateComponent {
 
   ngOnInit(): void {
     this.configuration.data = signal([]);
-    if (this.configuration.rows?.options != false && !this.configuration.rows?.options?.length)
-      this.configuration['rows']!['options'] = [
-        routerLinkActionButton({
-          icon: 'visibility',
-          text: 'Ver',
-          routerLink: { url: (item) => `../view/${item.id}` },
-        }),
-        routerLinkActionButton({
-          icon: 'edit',
-          text: 'Editar',
-          routerLink: { url: (item) => `../edit/${item.id}` },
-        }),
-        clickEventActionButton({
-          icon: 'delete',
-          text: 'Eliminar',
-          fn: (item) => this.deleteItem(item.id),
-          hidden: (item) => item.deleted_at,
-        }),
-        clickEventActionButton({
-          icon: 'restore',
-          text: 'Restaurar',
-          fn: (item) => this.restoreItem(item.id),
-          hidden: (item) => !item.deleted_at,
-        })
-      ];
+    if (this.configuration.rows?.options != false && !this.configuration.rows?.options?.length) {
+      this.configuration.rows = {
+        ...(this.configuration.rows ?? {}),
+        options: [
+          routerLinkActionButton({
+            icon: 'visibility',
+            text: 'Ver',
+            routerLink: { url: (item) => `../view/${item.id}` },
+          }),
+          routerLinkActionButton({
+            icon: 'edit',
+            text: 'Editar',
+            routerLink: { url: (item) => `../edit/${item.id}` },
+          }),
+          clickEventActionButton({
+            icon: 'delete',
+            text: 'Eliminar',
+            fn: (item) => this.deleteItem(item.id),
+            hidden: (item) => item.deleted_at,
+          }),
+          clickEventActionButton({
+            icon: 'restore',
+            text: 'Restaurar',
+            fn: (item) => this.restoreItem(item.id),
+            hidden: (item) => !item.deleted_at,
+          })
+        ]
+      };
+    }
     this.generateFormControlsFromFilterInputs();
     this.generateColumnsCss();
 
@@ -856,7 +860,7 @@ export class ItemListTemplateComponent {
     }));
   }
 
-  public  deleteItem = async (id: number | string) => {
+  public deleteItem = async (id: number | string) => {
     const index = this.data().findIndex((e) => e.id == id);
     if (index == -1) return;
     this.updateLoadingStatusItem(index, true);

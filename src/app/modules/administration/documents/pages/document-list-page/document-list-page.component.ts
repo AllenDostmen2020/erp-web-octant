@@ -22,7 +22,7 @@ export class DocumentListPageComponent {
         clickEventActionButton({
           text: 'Emitir',
           fn: async (item, index, { updateChangesItemFn }) => {
-            updateChangesItemFn(index, {...item, total: Math.random()});
+            updateChangesItemFn(index, { ...item, total: Math.random() });
           },
         })
       ]
