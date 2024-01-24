@@ -162,22 +162,22 @@
 <!-- --------------------------------------------- -->
 <!-- --------------------------------------------- -->
 <ng-template #rowDefault let-item let-columns="columns" let-index="index" let-rowMenu="optionsRowMenu" let-pageSize="pageSize" let-pageIndex="pageIndex">
-  <div class="list__items__row" [ngClass]="{ 'container-loading': item?.__loading_status__ }">
+  <div class="list__items__row {{(configuration.row?.cssClass??'') | getMixedValue:item}}" [ngClass]="{ 'container-loading': item?.__loading_status__ }">
     @if (configuration.selectable) {
-      <div class="list__items__row__cell list__items__row__cell-select">
+      <div data-name="selected" class="list__items__row__cell list__items__row__cell-select">
         <mat-checkbox (change)="selectedItem(item, $event.checked)" [checked]="item.__selected__" />
       </div>
     }
 
     @if (!configuration.hideIndexColumn) {
-      <div class="list__items__row__cell list__items__row__cell-index">
+      <div data-name="index" class="list__items__row__cell list__items__row__cell-index">
         <div class="list__items__row__cell__value">{{ index | indexList : [pageIndex, pageSize] }}</div>
       </div>
     }
 
     @for (column of columns; track column;) {
       @if (!column.hidden) {
-        <div class="list__items__row__cell {{(column.cssClass | getMixedValue: item) ?? ''}}" [attr.data-align]="column.align" [attr.data-type]="column.type">
+        <div [attr.data-name]="column.title" [attr.data-type]="column.type" [attr.data-align]="column.align" class="list__items__row__cell {{(column.cssClass | getMixedValue: item) ?? ''}}">
               @if(column.displayValueFn; as displayValueFn){
                 <div data-type="value-row" class="list__items__row__cell__value {{(column.cssClassDisplayValue | getMixedValue: item) ?? ''}}" [ngStyle]="column.cssStyleDisplayValue | getMixedValue: item">
                   <ng-container [ngTemplateOutlet]="renderColumn" [ngTemplateOutletContext]="{ $implicit: column, value:( displayValueFn | executeFunction:item), item, routerLink: column.routerLinkValue, clickEvent: column.clickEventValue }" />
@@ -194,7 +194,7 @@
     }
 
     @if (configuration.row?.actions; as actions) {
-      <div class="list__items__row__cell list__items__row__cell-actions">
+      <div data-name="actions" class="list__items__row__cell list__items__row__cell-actions">
         @for (bAction of actions; track bAction) {
           @if (!((bAction.hidden ?? false) | getMixedValue: item)) {
             @if (bAction.routerLink; as rLink) {
@@ -221,7 +221,7 @@
     }
     
     @if (configuration.row?.options != false) {
-      <div class="list__items__row__cell list__items__row__cell-options">
+      <div data-name="options" class="list__items__row__cell list__items__row__cell-options">
         <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="rowMenu" [matMenuTriggerData]="{item, index}">
           <span class="material-icons">more_horiz</span>
         </button>
@@ -318,90 +318,6 @@
     }
   </ng-template>
 </mat-menu>
-<!-- --------------------------------------------- -->
-<!-- --------------------------------------------- -->
-<!-- <mat-menu #optionsRowMenu="matMenu" xPosition="before">
-  <ng-template matMenuContent let-item="item" let-index="index">
-    @if (!configuration.menuItem?.hiddenOptionView && !('option_view' | hiddenOptionButtonRow:item.__hidden_option_buttons__ ?? [])) {
-      <a mat-menu-item routerLink="{{ configuration.menuItem?.prefixRouterLinkView ?? '../view/' }}{{ item.id }}" [disabled]="('option_view' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
-        <span class="material-icons">visibility</span>
-        <span>Ver detalle</span>
-      </a>
-    }
-
-    @if (!configuration.menuItem?.hiddenOptionEdit && !item.deleted_at && !('option_edit' | hiddenOptionButtonRow:item.__hidden_option_buttons__ ?? [])) {
-      <a mat-menu-item routerLink="../edit/{{ item.id }}" [disabled]="('option_edit' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
-        <span class="material-icons">edit</span>
-        <span>Editar</span>
-      </a>
-    }
-
-    @if (!configuration.menuItem?.hiddenOptionDelete && !item.deleted_at && !('option_delete' | hiddenOptionButtonRow:item.__hidden_option_buttons__ ?? [])) {
-      <button mat-menu-item (click)="deleteItem(item, index)" [disabled]="('option_delete' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
-        <span class="material-icons">delete</span>
-        <span>Eliminar</span>
-      </button>
-    }
-
-    @if (!configuration.menuItem?.hiddenOptionDelete && item.deleted_at && !('option_restore' | hiddenOptionButtonRow:item.__hidden_option_buttons__ ?? [])) {
-      <button mat-menu-item (click)="restoreItem(item, index)"
-        [disabled]="('option_restore' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
-        <span class="material-icons">autorenew</span>
-        <span>Restaurar</span>
-      </button>
-    }
-
-    @for (customOption of configuration.menuItem?.options; track customOption) {
-      @switch (customOption.type) {
-        @case ('view_item') {
-          @if (!('option_view' | hiddenOptionButtonRow: item.__hidden_option_buttons__ ?? [])) {
-            <a mat-menu-item routerLink="{{configuration.menuItem?.prefixRouterLinkView ?? '../view/'}}{{ item.id }}"
-              [disabled]="('option_view' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
-              <span class="material-icons">visibility</span>
-              <span>Ver detalle</span>
-            </a>
-          }
-        }
-        @case ('edit_item') {
-          @if (!('option_edit' | hiddenOptionButtonRow: item.__hidden_option_buttons__ ?? [])) {
-            <a mat-menu-item routerLink="../edit/{{ item.id }}"
-              [disabled]="('option_edit' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
-              <span class="material-icons">edit</span>
-              <span>Editar</span>
-            </a>
-          }
-        }
-        @case ('delete_item') {
-          @if (!('option_delete' | hiddenOptionButtonRow: item.__hidden_option_buttons__ ?? []) && !item.deleted_at) {
-            <button mat-menu-item (click)="deleteItem(item, index)"
-              [disabled]="('option_delete' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
-              <span class="material-icons">delete</span>
-              <span>Eliminar</span>
-            </button>
-          }
-        }
-        @case ('restore_item') {
-          @if (!('option_restore' | hiddenOptionButtonRow: item.__hidden_option_buttons__ ?? []) && item.deleted_at) {
-            <button mat-menu-item (click)="restoreItem(item, index)"
-              [disabled]="('option_restore' | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
-              <span class="material-icons">autorenew</span>
-              <span>Restaurar</span>
-            </button>
-          }
-        }
-        @case ('clickEvent') {
-          @if (!(customOption.id | hiddenOptionButtonRow: item.__hidden_option_buttons__ ?? [])) {
-            <button mat-menu-item (click)="customOption?.clickEvent(item)"
-              [disabled]="(customOption.id | hiddenOptionButtonRow: item.__disabled_option_buttons__ ?? [])">
-              <span class="material-icons">{{ customOption.icon }}</span>
-              <span>{{ customOption.text }}</span>
-            </button>
-          }
-        }
-      }
-    }
-  </ng-template>
-</mat-menu> -->
 
 <!-- --------------------------------------------- -->
 <!-- --------------------------------------------- -->

@@ -71,9 +71,6 @@ export interface ItemListConfiguration<T = any> {
 
     filters?: FormInput[] | false;
 
-    // itemActions?: ActionButton<T, ActionButtonActionsType>[] | false;
-    // itemOptions?: ActionButton<T, ActionButtonActionsType>[] | false;
-
     row?: {
         cssClass?: string | ((item: T) => string);
         actions?: ActionButton<T, ActionButtonActionsType>[] | false;
