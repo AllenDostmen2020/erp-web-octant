@@ -100,11 +100,11 @@
           }
         }
 
-        @if (configuration.itemActions){
+        @if (configuration.row?.actions) {
           <div class="list__items__header__cell actions">Acciones</div>
         }
 
-        @if (configuration.itemOptions != false) {
+        @if (configuration.row?.options != false) {
           <div class="list__items__header__cell options">
             <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="optionsColumnMenu">
               <span class="material-icons">settings</span>
@@ -193,7 +193,7 @@
       }
     }
 
-    @if (configuration.itemActions; as actions) {
+    @if (configuration.row?.actions; as actions) {
       <div class="list__items__row__cell list__items__row__cell-actions">
         @for (bAction of actions; track bAction) {
           @if (!(bAction.show | getMixedValue: item)) {
@@ -220,7 +220,7 @@
       </div>
     }
     
-    @if (configuration.itemOptions != false) {
+    @if (configuration.row?.options != false) {
       <div class="list__items__row__cell list__items__row__cell-options">
         <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="rowMenu" [matMenuTriggerData]="{item, index}">
           <span class="material-icons">more_horiz</span>
@@ -292,7 +292,7 @@
 <!-- --------------------------------------------- -->
 <mat-menu #optionsRowMenu="matMenu" xPosition="before">
   <ng-template matMenuContent let-item="item" let-index="index">
-    @if (configuration.itemOptions; as options) {
+    @if (configuration.row?.options; as options) {
         @for (bOption of options; track bOption) {
           @if ((bOption.show ?? true) | getMixedValue: item) {
             @if (bOption.routerLink; as rLink) {

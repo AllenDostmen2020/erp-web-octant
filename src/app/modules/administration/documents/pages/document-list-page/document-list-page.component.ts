@@ -15,14 +15,16 @@ export class DocumentListPageComponent {
     title: 'Documentos',
     serverUrl: 'document',
     queryParams: { relations: 'client' },
-    itemActions: [
-      clickEventActionButton({
-        text: 'Emitir',
-        clickEvent: (item) => {
-          console.log(item)
-        },
-      })
-    ],
+    row: {
+      actions: [
+        clickEventActionButton({
+          text: 'Emitir',
+          clickEvent: (item) => {
+            console.log(item)
+          },
+        })
+      ]
+    },
     columns: signal([
       textColumn({
         title: 'Código',

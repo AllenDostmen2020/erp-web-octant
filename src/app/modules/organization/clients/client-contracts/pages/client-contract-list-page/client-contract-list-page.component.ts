@@ -57,17 +57,19 @@ export class ClientContractListPageComponent {
             itemUpdatedAtColumn(),
             itemStatusColumn(),
         ]),
-        itemOptions: [
-            routerLinkActionButton({
-                text: 'Ver detalle',
-                icon: 'visibility',
-                routerLink: { url: (item) => `../detail/${item.id}`},
-            }),
-            routerLinkActionButton({
-                text: 'Ver en perfil',
-                icon: 'autorenew',
-                routerLink: { url: (item) => `/tracking/contract/view/${item.id}/detail`},
-            })
-        ]
+        row: {
+            options: [
+                routerLinkActionButton({
+                    text: 'Ver detalle',
+                    icon: 'visibility',
+                    routerLink: { url: (item) => `../detail/${item.id}`},
+                }),
+                routerLinkActionButton({
+                    text: 'Ver en perfil',
+                    icon: 'autorenew',
+                    routerLink: { url: (item) => `/tracking/contract/view/${item.id}/detail`},
+                })
+            ]
+        }
     };
 }

@@ -71,8 +71,14 @@ export interface ItemListConfiguration<T = any> {
 
     filters?: FormInput[] | false;
 
-    itemActions?: ActionButton<T, ActionButtonActionsType>[] | false;
-    itemOptions?: ActionButton<T, ActionButtonActionsType>[] | false;
+    // itemActions?: ActionButton<T, ActionButtonActionsType>[] | false;
+    // itemOptions?: ActionButton<T, ActionButtonActionsType>[] | false;
+
+    row?: {
+        cssClass?: string | ((item: T) => string);
+        actions?: ActionButton<T, ActionButtonActionsType>[] | false;
+        options?: ActionButton<T, ActionButtonActionsType>[] | false;
+    }
 }
 
 export declare type ActionButtonActionsType = 'clickEvent' | 'routerLink';
@@ -574,8 +580,8 @@ export class ItemListTemplateComponent {
 
   ngOnInit(): void {
     this.configuration.data = signal([]);
-    if(this.configuration.itemOptions != false)
-    this.configuration.itemOptions = [
+    if(this.configuration.row?.options != false && !this.configuration.row?.options?.length)
+    this.configuration['row']!['options'] = [
       routerLinkActionButton({
         icon: 'visibility',
         text: 'Ver',
@@ -669,8 +675,8 @@ export class ItemListTemplateComponent {
     for await (const column of this.configuration.columns()) {
       if (!column.hidden) grid_cols.push(column.gridColumn ?? 'auto');
     }
-    if (this.configuration.itemOptions != false) grid_cols.push('auto');
-    if (this.configuration.itemActions != false) grid_cols.push('auto');
+    if (this.configuration.row?.actions != false) grid_cols.push('auto');
+    if (this.configuration.row?.options != false) grid_cols.push('auto');
     this.renderer.setStyle(this.divList.nativeElement, 'grid-template-columns', grid_cols.join(' '));
   }
 
