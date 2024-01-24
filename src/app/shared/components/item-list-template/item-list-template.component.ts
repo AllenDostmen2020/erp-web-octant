@@ -88,7 +88,7 @@ export interface ActionButton<T, ActionType = 'clickEvent'> {
     text?: string;
     title?: string;
     style?: StyleButton;
-    show?: boolean | ((item: T) => boolean);
+    hidden?: boolean | ((item: T) => boolean);
     disabled?: boolean | ((item: T) => boolean);
     cssClass?: string | ((item: T) => string);
     cssStyle?: ({ [key: string]: any }) | ((item: T) => ({ [key: string]: any }));
@@ -596,13 +596,13 @@ export class ItemListTemplateComponent {
         icon: 'delete',
         text: 'Eliminar',
         clickEvent: (item) => this.deleteItem(item.id),
-        show: (item) => !item.deleted_at,
+        hidden: (item) => item.deleted_at,
       }),
       clickEventActionButton({
         icon: 'restore',
         text: 'Restaurar',
         clickEvent: (item) => this.restoreItem(item.id),
-        show: (item) => item.deleted_at,
+        hidden: (item) => !item.deleted_at,
       })
     ];
     this.generateFormControlsFromFilterInputs();

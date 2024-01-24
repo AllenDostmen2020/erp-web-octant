@@ -196,7 +196,7 @@
     @if (configuration.row?.actions; as actions) {
       <div class="list__items__row__cell list__items__row__cell-actions">
         @for (bAction of actions; track bAction) {
-          @if (!(bAction.show | getMixedValue: item)) {
+          @if (!((bAction.hidden ?? false) | getMixedValue: item)) {
             @if (bAction.routerLink; as rLink) {
               @if (rLink.outlet == 'route-lateral') {
                 <a class="{{bAction.style ?? 'text-button'}} {{(bAction.cssClass | getMixedValue: item) ?? ''}}" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | getMixedValue:item" [routeState]="rLink.state | getMixedValue:item">
@@ -294,7 +294,7 @@
   <ng-template matMenuContent let-item="item" let-index="index">
     @if (configuration.row?.options; as options) {
         @for (bOption of options; track bOption) {
-          @if ((bOption.show ?? true) | getMixedValue: item) {
+          @if (!((bOption.hidden ?? false) | getMixedValue: item)) {
             @if (bOption.routerLink; as rLink) {
               @if (rLink.outlet == 'route-lateral') {
                 <a mat-menu-item [class]="bOption.cssClass | getMixedValue: item" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | getMixedValue:item" [routeState]="rLink.state | getMixedValue:item">
