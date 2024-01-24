@@ -1,4 +1,5 @@
 import { Routes } from "@angular/router";
+import { vehicleUnsubscribeRoutes } from "./vehicle-unsubscribes/vehicle-unsubscribes.routes";
 
 export const vehicleRoutes: Routes = [
     {
@@ -20,6 +21,10 @@ export const vehicleRoutes: Routes = [
             {
                 path: 'detail',
                 loadComponent: () => import('./pages/vehicle-detail-page/vehicle-detail-page.component').then(m => m.VehicleDetailPageComponent),
+            },
+            {
+                path: 'vehicle-unsubscribe',
+                children: vehicleUnsubscribeRoutes,
             },
             {
                 path: '**',
