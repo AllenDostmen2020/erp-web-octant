@@ -104,7 +104,7 @@ export interface ActionButton<T, ActionType = 'clickEvent'> {
   fn?: (item: T, index: number, fns: {
     deleteItemFn: (id: number | string) => Promise<void>,
     restoreItemFn: (id: number | string) => Promise<void>,
-    updateChangesItemFn: (index: number, item: T) => (Promise<void> | void),
+    updateChangesItemFn: (index: number, item: T) => void,
   }) => void;
   routerLink?: RouterLinkItem<T>;
 }
