@@ -109,8 +109,8 @@ export interface ActionButton<T, ActionType = 'clickEvent'> {
   routerLink?: RouterLinkItem<T>;
 }
 
-export const clickEventActionButton = <T = any>(config: Omit<ActionButton<T>, 'type' | 'routerLink'>): ActionButton<T, ActionButtonActionsType> => ({ type: 'clickEvent', ...config });
-export const routerLinkActionButton = <T = any>(config: Omit<ActionButton<T>, 'type' | 'clickEvent'>): ActionButton<T, ActionButtonActionsType> => ({ type: 'routerLink', ...config });
+export const clickEventActionButton = <T = any>(config: Omit<Required<Pick<ActionButton<T>, 'fn'>> & ActionButton<T>, 'type' | 'routerLink'>): ActionButton<T, ActionButtonActionsType> => ({ type: 'clickEvent', ...config });
+export const routerLinkActionButton = <T = any>(config: Omit<Required<Pick<ActionButton<T>, 'routerLink'>> & ActionButton<T>, 'type' | 'clickEvent'>): ActionButton<T, ActionButtonActionsType> => ({ type: 'routerLink', ...config });
 export interface ListItemExtended {
   __selected__?: boolean;
   __loading_status__?: boolean;
