@@ -21,8 +21,8 @@ export class DocumentListPageComponent {
       actions: [
         clickEventActionButton({
           text: 'Emitir',
-          clickEvent: (item) => {
-            console.log(item)
+          fn: async (item, index, { updateChangesItemFn }) => {
+            updateChangesItemFn(index, {...item, total: Math.random()});
           },
         })
       ]

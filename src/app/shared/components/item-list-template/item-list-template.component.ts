@@ -101,7 +101,11 @@ export interface ActionButton<T, ActionType = 'clickEvent'> {
   disabled?: boolean | ((item: T) => boolean);
   cssClass?: string | ((item: T) => string);
   cssStyle?: ({ [key: string]: any }) | ((item: T) => ({ [key: string]: any }));
-  clickEvent?: (item: T, deleteFn?: (id: number | string) => Promise<void>, restoreFn?: (id: number | string) => Promise<void>) => void;
+  fn?: (item: T, index: number, fns: {
+    deleteItemFn: (id: number | string) => Promise<void>,
+    restoreItemFn: (id: number | string) => Promise<void>,
+    updateChangesItemFn: (index: number, item: T) => (Promise<void> | void),
+  }) => void;
   routerLink?: RouterLinkItem<T>;
 }
 
@@ -510,7 +514,7 @@ export const defaultListFilterInputs = (): FormInput[] => [
     InputAutocompleteTemplateComponent,
     InputSelectTemplateComponent,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     // DatePipe,
     FirstLetterUppercasePipe,
@@ -604,13 +608,13 @@ export class ItemListTemplateComponent {
         clickEventActionButton({
           icon: 'delete',
           text: 'Eliminar',
-          clickEvent: (item) => this.deleteItem(item.id),
+          fn: (item) => this.deleteItem(item.id),
           hidden: (item) => item.deleted_at,
         }),
         clickEventActionButton({
           icon: 'restore',
           text: 'Restaurar',
-          clickEvent: (item) => this.restoreItem(item.id),
+          fn: (item) => this.restoreItem(item.id),
           hidden: (item) => !item.deleted_at,
         })
       ];
@@ -875,6 +879,12 @@ export class ItemListTemplateComponent {
 
   public getControlFormFilter(name: string): FormControl {
     return this.formFilters!.get(name) as FormControl;
+  }
+
+  public updateChangesItem = (index: number, item: any) => {
+    this.configuration.data!.update(items => {
+      return items.toSpliced(index, 1, item);
+    })
   }
 
 }

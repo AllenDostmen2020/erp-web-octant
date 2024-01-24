@@ -116,7 +116,7 @@
         }
       </div>
 
-      @for (row of data(); track row; let index = $index;) {
+      @for (row of data(); track row.id; let index = $index;) {
         <ng-container *ngTemplateOutlet="rowList || rowDefault; context: { $implicit: row, index, columns, optionsRowMenu, pageIndex: paginator.pageIndex, pageSize: paginator.pageSize }" />
       }
 
@@ -205,8 +205,8 @@
                   @if (bAction.text; as text) { <span>{{text}}</span> }
                 </a>
               }
-            } @else if (bAction.clickEvent) {
-              <button class="{{bAction.style ?? 'text-button'}} {{(bAction.cssClass | getMixedValue: item) ?? ''}}" (click)="bAction.clickEvent(item)" [disabled]="bAction.disabled | getMixedValue: item"  [title]="bAction.title??''">
+            } @else if (bAction.fn) {
+              <button class="{{bAction.style ?? 'text-button'}} {{(bAction.cssClass | getMixedValue: item) ?? ''}}" (click)="bAction.fn(item, index, {deleteItemFn: deleteItem, restoreItemFn: restoreItem, updateChangesItemFn: updateChangesItem})" [disabled]="bAction.disabled | getMixedValue: item"  [title]="bAction.title??''">
                 @if (bAction.icon; as icon) { <span class="material-icons">{{icon}}</span> }
                 @if (bAction.text; as text) { <span>{{text}}</span> }
               </button>
@@ -303,8 +303,8 @@
                   @if (bOption.text; as text) { <span>{{text}}</span> }
                 </a>
               }
-            } @else if (bOption.clickEvent) {
-              <button mat-menu-item [class]="bOption.cssClass | getMixedValue: item" (click)="bOption.clickEvent(item, deleteItem, restoreItem)" [disabled]="bOption.disabled | getMixedValue: item"  [title]="bOption.title??''">
+            } @else if (bOption.fn) {
+              <button mat-menu-item [class]="bOption.cssClass | getMixedValue: item" (click)="bOption.fn(item, index, {deleteItemFn: deleteItem, restoreItemFn: restoreItem, updateChangesItemFn: updateChangesItem})" [disabled]="bOption.disabled | getMixedValue: item"  [title]="bOption.title??''">
                 @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
                 @if (bOption.text; as text) { <span>{{text}}</span> }
               </button>

@@ -47,7 +47,7 @@ export interface Document extends BaseModel {
     status_paid: number;
     sunat_information: null;
     time_of_issue: string;
-    total: string;
+    total: number;
     total_aplicado_nc: string;
     total_base_isc: string;
     total_detraction: string;
