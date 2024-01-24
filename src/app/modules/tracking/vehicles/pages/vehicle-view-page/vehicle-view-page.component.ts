@@ -21,6 +21,10 @@ export class VehicleViewPageComponent {
                 text: 'Detalles',
                 routerLink: './detail',
             },
+            {
+                text: 'Vehículos de baja',
+                routerLink: './vehicle-unsubscribe',
+            },
         ]
     }
 }
