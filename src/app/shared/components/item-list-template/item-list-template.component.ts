@@ -56,7 +56,7 @@ export interface ItemListConfiguration<T = any> {
 
   parseDataFn?: (data: T[]) => T[] | Promise<T[]>;
   data?: WritableSignal<T[]>;
-  updateListEvent?: EventEmitter<boolean>;
+  updateListEvent?: EventEmitter<void>;
 
   defaultOrder?: {
     key: string,
@@ -83,7 +83,7 @@ export interface ItemListConfiguration<T = any> {
     selectable?: boolean;
     index?: false | ({ title: string });
     cssClass?: string | ((item: T) => string);
-    actions?: ActionButton<T, ActionButtonActionsType>[] | false;
+    actions?: ActionButton<T, ActionButtonActionsType>[];
     options?: ActionButton<T, ActionButtonActionsType>[] | false;
   },
 
@@ -593,6 +593,7 @@ export class ItemListTemplateComponent {
 
   ngOnInit(): void {
     this.configuration.data = signal([]);
+    if(!this.configuration.updateListEvent) this.configuration.updateListEvent = new EventEmitter();
     if (this.configuration.rows?.options != false && !this.configuration.rows?.options?.length) {
       this.configuration.rows = {
         ...(this.configuration.rows ?? {}),
@@ -692,7 +693,7 @@ export class ItemListTemplateComponent {
     for await (const column of this.configuration.columns()) {
       if (!column.hidden) grid_cols.push(column.gridColumn ?? 'auto');
     }
-    if (this.configuration.rows?.actions != false) grid_cols.push('auto');
+    if (this.configuration.rows?.actions) grid_cols.push('auto');
     if (this.configuration.rows?.options != false) grid_cols.push('auto');
     this.renderer.setStyle(this.divList.nativeElement, 'grid-template-columns', grid_cols.join(' '));
   }

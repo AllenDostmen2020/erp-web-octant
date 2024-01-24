@@ -6,8 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ExecuteFunctionPipe implements PipeTransform {
 
-  transform(value: Function, parameter: any): any {
-    return value(parameter);
+  transform(fn: Function, parameter: any): any {
+    return fn(parameter);
   }
 
 }
