@@ -21,20 +21,14 @@ export class ClientListPageComponent {
                 sort: { key: 'name' },
                 routerLinkValue: { url: (item) => `../view/${item.id}` },
                 gridColumn: '1fr',
-                displayValueFn: (item) => {
-                    console.log('name change');
-                    return item?.name ? item.name : '--';
-                },
+                displayValueFn: (item) => item?.name ? item.name : '--',
                 displayAdditionalValueFn: (item) => item?.document_number.length >= 11 ? 'RUC: ' + item?.document_number : item?.document_number.length == 8 ? 'DNI: ' + item?.document_number : 'OTRO: ' + item?.document_number,
             }),
             emailColumn({
                 title: 'Email',
                 sort: { key: 'email' },
                 gridColumn: 'auto',
-                displayValueFn: (item) => {
-                    console.log('email change');
-                    return item.email;
-                },
+                displayValueFn: (item) => item.email,
             }),
             phoneColumn({
                 title: 'Teléfono',
