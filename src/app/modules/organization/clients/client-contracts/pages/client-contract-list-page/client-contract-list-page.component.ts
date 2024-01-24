@@ -57,7 +57,7 @@ export class ClientContractListPageComponent {
             itemUpdatedAtColumn(),
             itemStatusColumn(),
         ]),
-        row: {
+        rows: {
             options: [
                 routerLinkActionButton({
                     text: 'Ver detalle',

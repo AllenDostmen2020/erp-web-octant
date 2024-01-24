@@ -87,9 +87,9 @@
           </div>
         }
 
-        @if (configuration.row?.index != false) {
+        @if (configuration.rows?.index != false) {
           <div class="list__items__header__cell">
-            @if (configuration.row?.index; as index) { {{ index.title }} }
+            @if (configuration.rows?.index; as index) { {{ index.title }} }
             @else { N° }
           </div>
         }
@@ -103,11 +103,11 @@
           }
         }
 
-        @if (configuration.row?.actions) {
+        @if (configuration.rows?.actions) {
           <div class="list__items__header__cell actions">Acciones</div>
         }
 
-        @if (configuration.row?.options != false) {
+        @if (configuration.rows?.options != false) {
           <div class="list__items__header__cell options">
             <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="optionsColumnMenu">
               <span class="material-icons">settings</span>
@@ -165,14 +165,14 @@
 <!-- --------------------------------------------- -->
 <!-- --------------------------------------------- -->
 <ng-template #rowDefault let-item let-columns="columns" let-index="index" let-rowMenu="optionsRowMenu" let-pageSize="pageSize" let-pageIndex="pageIndex">
-  <div class="list__items__row {{(configuration.row?.cssClass??'') | getMixedValue:item}}" [ngClass]="{ 'container-loading': item?.__loading_status__ }">
+  <div class="list__items__row {{(configuration.rows?.cssClass??'') | getMixedValue:item}}" [ngClass]="{ 'container-loading': item?.__loading_status__ }">
     @if (configuration.selectable) {
       <div data-name="selected" class="list__items__row__cell list__items__row__cell-select">
         <mat-checkbox (change)="selectedItem(item, $event.checked)" [checked]="item.__selected__" />
       </div>
     }
 
-    @if (configuration.row?.index != false) {
+    @if (configuration.rows?.index != false) {
       <div data-name="index" class="list__items__row__cell list__items__row__cell-index">
         <div class="list__items__row__cell__value">{{ index | indexList : [pageIndex, pageSize] }}</div>
       </div>
@@ -196,7 +196,7 @@
       }
     }
 
-    @if (configuration.row?.actions; as actions) {
+    @if (configuration.rows?.actions; as actions) {
       <div data-name="actions" class="list__items__row__cell list__items__row__cell-actions">
         @for (bAction of actions; track bAction) {
           @if (!((bAction.hidden ?? false) | getMixedValue: item)) {
@@ -223,7 +223,7 @@
       </div>
     }
     
-    @if (configuration.row?.options != false) {
+    @if (configuration.rows?.options != false) {
       <div data-name="options" class="list__items__row__cell list__items__row__cell-options">
         <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="rowMenu" [matMenuTriggerData]="{item, index}">
           <span class="material-icons">more_horiz</span>
@@ -295,7 +295,7 @@
 <!-- --------------------------------------------- -->
 <mat-menu #optionsRowMenu="matMenu" xPosition="before">
   <ng-template matMenuContent let-item="item" let-index="index">
-    @if (configuration.row?.options; as options) {
+    @if (configuration.rows?.options; as options) {
         @for (bOption of options; track bOption) {
           @if (!((bOption.hidden ?? false) | getMixedValue: item)) {
             @if (bOption.routerLink; as rLink) {

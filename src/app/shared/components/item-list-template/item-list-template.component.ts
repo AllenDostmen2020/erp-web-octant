@@ -70,7 +70,7 @@ export interface ItemListConfiguration<T = any> {
 
     filters?: FormInput[] | false;
 
-    row?: {
+    rows?: {
         index?: false | ({ title: string });
         cssClass?: string | ((item: T) => string);
         actions?: ActionButton<T, ActionButtonActionsType>[] | false;
@@ -577,8 +577,8 @@ export class ItemListTemplateComponent {
 
   ngOnInit(): void {
     this.configuration.data = signal([]);
-    if(this.configuration.row?.options != false && !this.configuration.row?.options?.length)
-    this.configuration['row']!['options'] = [
+    if(this.configuration.rows?.options != false && !this.configuration.rows?.options?.length)
+    this.configuration['rows']!['options'] = [
       routerLinkActionButton({
         icon: 'visibility',
         text: 'Ver',
@@ -668,12 +668,12 @@ export class ItemListTemplateComponent {
   private async generateColumnsCss(): Promise<void> {
     const grid_cols: string[] = [];
     if (this.configuration.selectable) grid_cols.push('auto');
-    if (this.configuration.row?.index != false) grid_cols.push('auto');
+    if (this.configuration.rows?.index != false) grid_cols.push('auto');
     for await (const column of this.configuration.columns()) {
       if (!column.hidden) grid_cols.push(column.gridColumn ?? 'auto');
     }
-    if (this.configuration.row?.actions != false) grid_cols.push('auto');
-    if (this.configuration.row?.options != false) grid_cols.push('auto');
+    if (this.configuration.rows?.actions != false) grid_cols.push('auto');
+    if (this.configuration.rows?.options != false) grid_cols.push('auto');
     this.renderer.setStyle(this.divList.nativeElement, 'grid-template-columns', grid_cols.join(' '));
   }
 
