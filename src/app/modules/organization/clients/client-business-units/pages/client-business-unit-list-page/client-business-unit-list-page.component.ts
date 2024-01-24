@@ -15,9 +15,11 @@ export class ClientBusinessUnitListPageComponent {
     private activatedRoute = inject(ActivatedRoute);
     public configList: ItemListConfiguration<ClientBusinessUnit> = {
         title: 'Unidades de negocio',
-        serverUrl: 'client-business-unit',
-        queryParams: {
-            client_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')
+        server: {
+            url: 'client-business-unit',
+            queryParams: {
+                client_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')
+            },
         },
         columns: signal([
             textColumn({

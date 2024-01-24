@@ -13,8 +13,10 @@ import { ItemListConfiguration, clickEventActionButton, textColumn } from '@comp
 export class DocumentListPageComponent {
   public configuration: ItemListConfiguration<Document> = {
     title: 'Documentos',
-    serverUrl: 'document',
-    queryParams: { relations: 'client' },
+    server: {
+      url: 'document',
+      queryParams: { relations: 'client' },
+    },
     rows: {
       actions: [
         clickEventActionButton({

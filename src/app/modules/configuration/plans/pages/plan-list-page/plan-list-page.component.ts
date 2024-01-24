@@ -5,16 +5,16 @@ import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdat
 import { Plan } from '@interface/plan';
 
 @Component({
-  selector: 'app-plan-list-page',
-  standalone: true,
-  imports: [ItemListTemplateComponent],
-  templateUrl: './plan-list-page.component.html',
-  styleUrl: './plan-list-page.component.scss'
+    selector: 'app-plan-list-page',
+    standalone: true,
+    imports: [ItemListTemplateComponent],
+    templateUrl: './plan-list-page.component.html',
+    styleUrl: './plan-list-page.component.scss'
 })
 export class PlanListPageComponent {
     public configList: ItemListConfiguration<Plan> = {
         title: 'Planes',
-        serverUrl: 'plan',
+        server: { url: 'plan' },
         columns: signal([
             textColumn({
                 title: 'Nombre',

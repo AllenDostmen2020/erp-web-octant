@@ -51,8 +51,6 @@ export interface ItemListConfiguration<T = any> {
     readonly dataType?: 'array' | 'paginator';
 
     title: string | null;
-    readonly serverUrl: string;
-    queryParams?: { [key: string]: any } | string;
     defaultOrder?: string;
     columns: WritableSignal<ListColumn<T>[]>;
     parseDataFn?: (data: T[]) => T[] | Promise<T[]>;
@@ -62,7 +60,7 @@ export interface ItemListConfiguration<T = any> {
     hideUpdateList?: boolean;
     hideFilters?: boolean;
     showBackButton?: boolean;
-    selectable?: boolean;
+
     createButton?: {
         text?: string,
         routerLink: RouterLinkItem<T>
@@ -71,10 +69,16 @@ export interface ItemListConfiguration<T = any> {
     filters?: FormInput[] | false;
 
     rows?: {
+        selectable?: boolean;
         index?: false | ({ title: string });
         cssClass?: string | ((item: T) => string);
         actions?: ActionButton<T, ActionButtonActionsType>[] | false;
         options?: ActionButton<T, ActionButtonActionsType>[] | false;
+    },
+
+    server: {
+      readonly url: string,
+      queryParams?: { [key: string]: any } | string;
     }
 }
 
@@ -650,8 +654,8 @@ export class ItemListTemplateComponent {
 
     this.eventsService
       .eventsFiltered([
-        `${this.configuration.serverUrl}_created`,
-        `${this.configuration.serverUrl}_updated`
+        `${this.configuration.server.url}_created`,
+        `${this.configuration.server.url}_updated`
       ])
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => this.callGetData());
@@ -667,7 +671,7 @@ export class ItemListTemplateComponent {
   /* ---------------------------------------------------------------- */
   private async generateColumnsCss(): Promise<void> {
     const grid_cols: string[] = [];
-    if (this.configuration.selectable) grid_cols.push('auto');
+    if (this.configuration.rows?.selectable) grid_cols.push('auto');
     if (this.configuration.rows?.index != false) grid_cols.push('auto');
     for await (const column of this.configuration.columns()) {
       if (!column.hidden) grid_cols.push(column.gridColumn ?? 'auto');
@@ -719,8 +723,8 @@ export class ItemListTemplateComponent {
       this.abortController = new AbortController();
     }
     this.loading.set(true);
-    const serverUrl = this.configuration.serverUrl;
-    let queryParams = this.configuration.queryParams ?? {};
+    const serverUrl = this.configuration.server.url;
+    let queryParams = this.configuration.server.queryParams ?? {};
     if (queryParams instanceof Object) {
       queryParams = objectToURLSearchParams(queryParams);
       queryParams = queryParams.toString();
@@ -807,7 +811,7 @@ export class ItemListTemplateComponent {
     const index = this.data().findIndex((e) => e.id == id);
     if(index == -1) return;
     this.updateLoadingStatusItem(index, true);
-    const url = `${this.configuration.serverUrl}/${id}`;
+    const url = `${this.configuration.server.url}/${id}`;
     try {
       await this.fetch.delete(url);
       this.callGetData();
@@ -819,7 +823,7 @@ export class ItemListTemplateComponent {
     const index = this.data().findIndex((e) => e.id == id);
     if(index == -1) return;
     this.updateLoadingStatusItem(index, true);
-    const url = `${this.configuration.serverUrl}/${id}/restore`;
+    const url = `${this.configuration.server.url}/${id}/restore`;
     const config = { afterAlert: { description: 'Restaurando ítem de la lista' } }
     try {
       await this.fetch.put(url, config);

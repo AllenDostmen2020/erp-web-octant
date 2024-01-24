@@ -15,9 +15,11 @@ export class ClientContactListPageComponent {
     private activatedRoute = inject(ActivatedRoute);
     public configList: ItemListConfiguration<ClientContact> = {
         title: 'Contactos',
-        serverUrl: 'client-contact',
-        queryParams: {
-            client_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')
+        server: {
+            url: 'client-contact',
+            queryParams: {
+                client_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')
+            },
         },
         columns: signal([
             textColumn({

@@ -12,7 +12,9 @@ import { User } from '@interface/user';
 export class UserListPageComponent {
     public configList: ItemListConfiguration<User> = {
         title: 'Usuarios',
-        serverUrl: 'user',
+        server: {
+            url: 'user',
+        },
         columns: signal([
             textColumn({
                 title: 'Usuario / N° Documento',

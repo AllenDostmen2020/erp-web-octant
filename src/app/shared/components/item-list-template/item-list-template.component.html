@@ -81,7 +81,7 @@
 
       <div class="list__items__header" matSort>
 
-        @if (configuration.selectable) {
+        @if (configuration.rows?.selectable) {
           <div class="list__items__header__cell list__items__header__cell-select">
             <mat-checkbox (change)="selectedAllItems($event.checked)" [checked]="allSelectedItems()" [indeterminate]="someSelectedItems()" />
           </div>
@@ -117,14 +117,7 @@
       </div>
 
       @for (row of data(); track row; let index = $index;) {
-        <ng-container *ngTemplateOutlet="rowList || rowDefault; context: { 
-            $implicit: row,
-            index,
-            columns,
-            optionsRowMenu,
-            pageIndex: paginator.pageIndex,
-            pageSize: paginator.pageSize,
-          }" />
+        <ng-container *ngTemplateOutlet="rowList || rowDefault; context: { $implicit: row, index, columns, optionsRowMenu, pageIndex: paginator.pageIndex, pageSize: paginator.pageSize }" />
       }
 
     }
@@ -146,13 +139,13 @@
     <div class="list__footer__selectable">
       @if (lengthSelectedItems(); as lengthSelected) {
 
-      <div class="list__footer__selectable__info">
-        {{lengthSelected | number:'2.0-0'}} Ítems seleccionados :
-      </div>
+        <div class="list__footer__selectable__info">
+          {{lengthSelected | number:'2.0-0'}} Ítems seleccionados :
+        </div>
 
-      <div class="list__footer__selectable__actions">
-        <ng-content select="[listItemsFooterMoreButtonsForSelectableList]"></ng-content>
-      </div>
+        <div class="list__footer__selectable__actions">
+          <ng-content select="[listItemsFooterMoreButtonsForSelectableList]"></ng-content>
+        </div>
 
       }
     </div>
@@ -166,7 +159,7 @@
 <!-- --------------------------------------------- -->
 <ng-template #rowDefault let-item let-columns="columns" let-index="index" let-rowMenu="optionsRowMenu" let-pageSize="pageSize" let-pageIndex="pageIndex">
   <div class="list__items__row {{(configuration.rows?.cssClass??'') | getMixedValue:item}}" [ngClass]="{ 'container-loading': item?.__loading_status__ }">
-    @if (configuration.selectable) {
+    @if (configuration.rows?.selectable) {
       <div data-name="selected" class="list__items__row__cell list__items__row__cell-select">
         <mat-checkbox (change)="selectedItem(item, $event.checked)" [checked]="item.__selected__" />
       </div>

@@ -13,7 +13,9 @@ import { VehicleType } from '@interface/vehicleType';
 export class VehicleTypeListPageComponent {
     public configList: ItemListConfiguration<VehicleType> = {
         title: 'Tipos de vehículo',
-        serverUrl: 'vehicle-type',
+        server: {
+            url: 'vehicle-type',
+        },
         columns: signal([
             textColumn({
                 title: 'Nombre',

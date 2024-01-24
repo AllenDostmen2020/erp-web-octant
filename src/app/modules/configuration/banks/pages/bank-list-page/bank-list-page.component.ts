@@ -13,7 +13,7 @@ import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdat
 export class BankListPageComponent {
     public configList: ItemListConfiguration<Bank> = {
         title: 'Bancos',
-        serverUrl: 'bank',
+        server: { url: 'bank' },
         columns: signal([
             textColumn({
                 title: 'Código',

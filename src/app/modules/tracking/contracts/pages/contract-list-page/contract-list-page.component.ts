@@ -12,8 +12,10 @@ import { Contract } from '@interface/contract';
 export class ContractListPageComponent {
   public configuration: ItemListConfiguration<Contract> = {
     title: 'Contratos',
-    serverUrl: 'contract',
-    queryParams: { relations: 'client,clientBusinessUnit,plan' },
+    server: {
+      url: 'contract',
+      queryParams: { relations: 'client,clientBusinessUnit,plan' },
+    },
     columns: signal([
       textColumn({
         title: 'Código',
@@ -52,5 +54,5 @@ export class ContractListPageComponent {
       itemUpdatedAtColumn(),
       itemStatusColumn(),
     ])
-  }; 
+  };
 }

@@ -15,10 +15,12 @@ export class ClientContractListPageComponent {
     private activatedRoute = inject(ActivatedRoute);
     public configuration: ItemListConfiguration<Contract> = {
         title: 'Contratos',
-        serverUrl: 'contract',
-        queryParams: {
-            relations: 'plan',
-            client_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')
+        server: {
+            url: 'contract',
+            queryParams: {
+                relations: 'plan',
+                client_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')
+            },
         },
         createButton: false,
         columns: signal([
@@ -62,12 +64,12 @@ export class ClientContractListPageComponent {
                 routerLinkActionButton({
                     text: 'Ver detalle',
                     icon: 'visibility',
-                    routerLink: { url: (item) => `../detail/${item.id}`},
+                    routerLink: { url: (item) => `../detail/${item.id}` },
                 }),
                 routerLinkActionButton({
                     text: 'Ver en perfil',
                     icon: 'autorenew',
-                    routerLink: { url: (item) => `/tracking/contract/view/${item.id}/detail`},
+                    routerLink: { url: (item) => `/tracking/contract/view/${item.id}/detail` },
                 })
             ]
         }

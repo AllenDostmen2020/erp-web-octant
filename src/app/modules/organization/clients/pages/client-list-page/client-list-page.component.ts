@@ -12,7 +12,9 @@ import { Client } from '@interface/client';
 export class ClientListPageComponent {
     public configList: ItemListConfiguration<Client> = {
         title: 'Clientes',
-        serverUrl: 'client',
+        server: {
+            url: 'client',
+        },
         columns: signal([
             textColumn({
                 title: 'Cliente / N° Documento',

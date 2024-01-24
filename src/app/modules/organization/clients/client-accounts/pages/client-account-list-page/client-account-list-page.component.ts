@@ -15,9 +15,11 @@ export class ClientAccountListPageComponent {
     private activatedRoute = inject(ActivatedRoute);
     public configList: ItemListConfiguration<ClientAccount> = {
         title: 'Cuentas del cliente',
-        serverUrl: 'client-account',
-        queryParams: {
-            client_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')
+        server: {
+            url: 'client-account',
+            queryParams: {
+                client_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')
+            },
         },
         columns: signal([
             textColumn({

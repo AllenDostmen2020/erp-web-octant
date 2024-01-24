@@ -4,17 +4,19 @@ import { Account } from '@interface/account';
 import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 
 @Component({
-  selector: 'app-account-list-page',
-  standalone: true,
-  imports: [ItemListTemplateComponent],
-  templateUrl: './account-list-page.component.html',
-  styleUrl: './account-list-page.component.scss'
+    selector: 'app-account-list-page',
+    standalone: true,
+    imports: [ItemListTemplateComponent],
+    templateUrl: './account-list-page.component.html',
+    styleUrl: './account-list-page.component.scss'
 })
 export class AccountListPageComponent {
     public configList: ItemListConfiguration<Account> = {
         title: 'Cuentas',
-        serverUrl: 'account',
-        queryParams: 'relations=bank',
+        server: {
+            url: 'account',
+            queryParams: { relations: 'bank' },
+        },
         columns: signal([
             textColumn({
                 title: 'Nombre',

@@ -12,8 +12,10 @@ import { Vehicle } from '@interface/vehicle';
 export class VehicleListPageComponent {
     public configList: ItemListConfiguration<Vehicle> = {
         title: 'Vehículos',
-        serverUrl: 'vehicle',
-        queryParams: 'relations=client,vehicleType',
+        server: {
+            url: 'vehicle',
+            queryParams: { relations: 'client,vehicleType' },
+        },
         columns: signal([
             textColumn({
                 title: 'Placa',
