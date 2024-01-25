@@ -27,8 +27,6 @@ import { FirstLetterUppercasePipe } from '@pipe/first-letter-uppercase.pipe';
 import { NavigateLateralPanelOutletDirective } from '@directive/navigate-lateral-panel-outlet.directive';
 import { FetchErrorType } from 'src/app/shared/interfaces/fetch';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
-import { ExecuteFunctionPipe } from '@pipe/execute-function.pipe';
-import { GetMixedValuePipe } from '@pipe/get-mixed-value.pipe';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -37,9 +35,7 @@ import { FormInput, dateRangeFormInput, switchFormInput } from 'src/app/shared/i
 import { InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
 import { InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 import { EventGlobalSearch, NAME_EVENT_GLOBAL_SEARCH } from 'src/app/sidenav/sidenav/sidenav.component';
-
-import { NameModuleDatabase } from "@service/database-storage.service";
-import { RouterLinkItem, StyleButton } from '@interface/itemDetail';
+import { ExecuteFunctionListPipe } from './execute-function-list.pipe';
 
 export const DATA_TYPE_LIST = new InjectionToken<'array' | 'paginator'>('KEY_GET_ITEMS_PAGINATOR_LIST');
 export const KEY_GET_ITEMS_PAGINATOR_LIST = new InjectionToken('KEY_GET_ITEMS_PAGINATOR_LIST');
@@ -74,7 +70,7 @@ export interface ItemListConfiguration<T = any> {
 
   createButton?: {
     text?: string,
-    routerLink: RouterLinkItem<T>
+    routerLink: RouterLinkCreateButton
   } | false;
 
   filters?: FormInput[] | false;
@@ -89,6 +85,22 @@ export interface ItemListConfiguration<T = any> {
 
   columns: WritableSignal<ListColumn<T>[]>;
 }
+
+export interface RouterLinkCreateButton {
+  url: string;
+  outlet?: 'route-lateral' | 'principal';
+  queryParams?: { [key: string]: any },
+  state?: any;
+}
+export interface RouterLinkItem<T> {
+  url: ((item: T) => string) | string;
+  outlet?: 'route-lateral' | 'principal';
+  queryParams?: { [key: string]: any },
+  state?: ((item: T) => (string | {[key: string]: any} | any[] | number | null)) | string | {[key: string]: any} | any[] | number | null;
+}
+
+export type StyleButton = 'filled-button' | 'tonal-button' | 'text-button' | 'outlined-button' | 'elevated-button' | 'icon-button' | 'tonal-icon-button' | 'filled-icon-button' | 'outlined-icon-button';
+
 
 export declare type ActionButtonActionsType = 'clickEvent' | 'routerLink';
 export interface ActionButton<T, ActionType = 'clickEvent'> {
@@ -136,7 +148,7 @@ export interface ListColumn<T> {
    * @param item como parámetro pasa el item de cada elemento de la lista
    * @returns void
    */
-  clickEventAdditionalValue?: (item: T) => void;
+  clickEventAdditionalValue?: (item: T, index: number) => void;
 
   /**
    * @description
@@ -146,7 +158,7 @@ export interface ListColumn<T> {
    * @param item como parámetro pasa el item de cada elemento de la lista
    * @returns void
    */
-  clickEventValue?: (item: T) => void;
+  clickEventValue?: (item: T, index: number) => void;
 
   /**
    * @description
@@ -212,7 +224,7 @@ export interface ListColumn<T> {
    * @param item
    * @returns Date | string | number | null | undefined | string[] | number[]
    */
-  displayAdditionalValueFn?: (item: T) => Date | string | number | null | undefined | string[] | number[];
+  displayAdditionalValueFn?: (item: T, index: number) => Date | string | number | null | undefined | string[] | number[];
 
   /**
    * @description
@@ -230,7 +242,7 @@ export interface ListColumn<T> {
    * @param item
    * @returns Date | string | number | null | undefined | string[] | number[]
    */
-  displayValueFn: (item: T) => Date | string | number | null | undefined | string[] | number[];
+  displayValueFn: (item: T, index: number) => Date | string | number | null | undefined | string[] | number[];
 
   /**
    * @description
@@ -326,7 +338,7 @@ export interface ListColumn<T> {
    * @param item
    * @returns string | number | null | undefined | string[] | number[]
    */
-  cssStyleDisplayAdditionalValue?: ((item: T) => ({ [key: string]: any })) | ({ [key: string]: any });
+  cssStyleDisplayAdditionalValue?: ((item: T, index: number) => ({ [key: string]: any })) | ({ [key: string]: any });
 
   /**
    * @description
@@ -338,7 +350,7 @@ export interface ListColumn<T> {
    * cssStyleDisplayValue: { color: 'green' }
    * ...
    */
-  cssStyleDisplayValue?: ((item: T) => ({ [key: string]: any })) | ({ [key: string]: any });
+  cssStyleDisplayValue?: ((item: T, index: number) => ({ [key: string]: any })) | ({ [key: string]: any });
 
   /**
    * @description
@@ -372,23 +384,23 @@ export interface ListColumn<T> {
 }
 
 interface ListFormatListColumn<T = any> extends Omit<ListColumn<T>, 'type' | 'displayAdditionalValueFn' | 'displayValueFn'> {
-  displayAdditionalValueFn?: (item: T) => string[];
-  displayValueFn: (item: T) => string[];
+  displayAdditionalValueFn?: (item: T, index: number) => string[];
+  displayValueFn: (item: T, index: number) => string[];
 }
 
 interface NumberListColumn<T = any> extends Omit<ListColumn<T>, 'type' | 'displayAdditionalValueFn' | 'displayValueFn'> {
-  displayAdditionalValueFn?: (item: T) => number | null | undefined;
-  displayValueFn: (item: T) => number | null | undefined;
+  displayAdditionalValueFn?: (item: T, index: number) => number | null | undefined;
+  displayValueFn: (item: T, index: number) => number | null | undefined;
 }
 
 interface StringListColumn<T = any> extends Omit<ListColumn<T>, 'type' | 'displayAdditionalValueFn' | 'displayValueFn'> {
-  displayAdditionalValueFn?: (item: T) => string | number | null | undefined;
-  displayValueFn: (item: T) => string | number | null | undefined;
+  displayAdditionalValueFn?: (item: T, index: number) => string | number | null | undefined;
+  displayValueFn: (item: T, index: number) => string | number | null | undefined;
 }
 
 interface DateListColumn<T = any> extends Omit<ListColumn<T>, 'type' | 'displayAdditionalValueFn' | 'displayValueFn'> {
-  displayAdditionalValueFn?: (item: T) => string | number | null | undefined;
-  displayValueFn: (item: T) => Date | string | number | null | undefined;
+  displayAdditionalValueFn?: (item: T, index: number) => string | number | null | undefined;
+  displayValueFn: (item: T, index: number) => Date | string | number | null | undefined;
 }
 
 export const numberColumn = <T = any>(config: NumberListColumn<T>): ListColumn<T> => ({ type: 'number', ...config });
@@ -509,12 +521,11 @@ export const defaultListFilterInputs = (): FormInput[] => [
     LoadImagePrivateDirective,
     FirstLetterUppercasePipe,
     NavigateLateralPanelOutletDirective,
-    ExecuteFunctionPipe,
-    GetMixedValuePipe,
     InputAutocompleteTemplateComponent,
     InputSelectTemplateComponent,
+    ExecuteFunctionListPipe,
   ],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     // DatePipe,
     FirstLetterUppercasePipe,
