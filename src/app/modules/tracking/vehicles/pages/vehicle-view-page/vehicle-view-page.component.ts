@@ -15,7 +15,7 @@ export class VehicleViewPageComponent {
         titleModule: 'Vehículo',
         itemPathServer: 'vehicle',
         queryParams: { relations: 'client' },
-        nameItemFn: (item) => `${item.plate} - ${item.plate} - ${item.client?.name}`,
+        nameItemFn: (item) => `${item.plate} - ${item.client?.name}`,
         links: [
             {
                 text: 'Detalles',

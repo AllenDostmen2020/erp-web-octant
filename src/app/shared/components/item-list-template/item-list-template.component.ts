@@ -93,10 +93,10 @@ export interface RouterLinkCreateButton {
   state?: any;
 }
 export interface RouterLinkItem<T> {
-  url: ((item: T) => string) | string;
+  url: ((item: T, index: number) => string) | string;
   outlet?: 'route-lateral' | 'principal';
   queryParams?: { [key: string]: any },
-  state?: ((item: T) => (string | {[key: string]: any} | any[] | number | null)) | string | {[key: string]: any} | any[] | number | null;
+  state?: ((item: T, index: number) => (string | {[key: string]: any} | any[] | number | null)) | string | {[key: string]: any} | any[] | number | null;
 }
 
 export type StyleButton = 'filled-button' | 'tonal-button' | 'text-button' | 'outlined-button' | 'elevated-button' | 'icon-button' | 'tonal-icon-button' | 'filled-icon-button' | 'outlined-icon-button';
@@ -109,10 +109,10 @@ export interface ActionButton<T, ActionType = 'clickEvent'> {
   text?: string;
   title?: string;
   style?: StyleButton;
-  hidden?: boolean | ((item: T) => boolean);
-  disabled?: boolean | ((item: T) => boolean);
-  cssClass?: string | ((item: T) => string);
-  cssStyle?: ({ [key: string]: any }) | ((item: T) => ({ [key: string]: any }));
+  hidden?: boolean | ((item: T, index: number) => boolean);
+  disabled?: boolean | ((item: T, index: number) => boolean);
+  cssClass?: string | ((item: T, index: number) => string);
+  cssStyle?: ({ [key: string]: any }) | ((item: T, index: number) => ({ [key: string]: any }));
   fn?: (item: T, index: number, fns: {
     deleteItemFn: (id: number | string) => Promise<void>,
     restoreItemFn: (id: number | string) => Promise<void>,
