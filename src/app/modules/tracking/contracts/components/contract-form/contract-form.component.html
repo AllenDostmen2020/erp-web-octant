@@ -77,12 +77,11 @@
                         formGroupName="vehicle">
                         <div class="w-10 h-10 relative rounded overflow-hidden mt-2">
                             @if(getVehicleTypeFormGroup(formGroupContractVehicle).value?.id) {
-                            <img class="absolute inset-0 object-fill" appLoadImagePrivate
-                                [imageUrl]="getVehicleTypeFormGroup(formGroupContractVehicle) && getVehicleTypeFormGroup(formGroupContractVehicle).value?.image">
+                            <img class="absolute inset-0 object-fill" [src]="getVehicleTypeFormGroup(formGroupContractVehicle).value?.image | pathFilesServer">
                             }
                         </div>
 
-                        <app-input-autocomplete-template [idControl]="getVehicleTypeIdFormGroup(formGroupContractVehicle)" [configuration]="{ textLabel: 'Tipo de vehículo', local: { nameModuleDatabase: nameModuleDatabase.VehicleTypes } }" />
+                        <app-input-autocomplete-template [autocompleteControl]="getVehicleTypeFormGroup(formGroupContractVehicle)" [idControl]="getVehicleTypeIdFormGroup(formGroupContractVehicle)" [configuration]="{ textLabel: 'Tipo de vehículo', local: { nameModuleDatabase: nameModuleDatabase.VehicleTypes } }" />
 
                         <mat-form-field>
                             <mat-label>Placa</mat-label>

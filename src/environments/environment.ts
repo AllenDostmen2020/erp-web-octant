@@ -3,5 +3,5 @@ export const environment = {
   API_URL: 'http://localhost:3000/api/v1',
   PUBLIC_PATH_SERVER: 'http://localhost:3000/',
   // URL_FILES_SERVER: 'https://ad-padron-partidos-bucket.s3.amazonaws.com/',
-  URL_FILES_SERVER: 'http://localhost:3000/',
+  URL_FILES_SERVER: 'http://localhost:3000/storage/',
 };

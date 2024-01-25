@@ -12,6 +12,7 @@ import { Client } from '@interface/client';
 import { RECURRENT_TYPE_VALUES } from '@interface/contract';
 import { ContractVehicle } from '@interface/contractVehicle';
 import { Vehicle } from '@interface/vehicle';
+import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
 import { NameModuleDatabase } from '@service/database-storage.service';
 import { getDate, getMonth, getYear, format, differenceInDays } from 'date-fns';
 import { startWith } from 'rxjs/operators';
@@ -30,6 +31,7 @@ import { startWith } from 'rxjs/operators';
     NgClass,
     LoadImagePrivateDirective,
     DatepickerTemplateComponent,
+    PathFilesServerPipe,
   ],
   templateUrl: './contract-form.component.html',
   styleUrls: ['./contract-form.component.css'],
