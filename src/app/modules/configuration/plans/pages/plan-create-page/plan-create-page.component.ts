@@ -18,7 +18,7 @@ export class PlanCreatePageComponent {
         type: 'create',
         titleModule: 'plan',
         formGroup: planFormGroup(),
-        parseItemAfterSaveFormFn: (item: Plan) => {
+        afterSaveFormFn: (item: Plan) => {
             this.databaseStorage.updateDataLocal(NameModuleDatabase.Plans);
           },
         fields: DEFAULT_DISPLAY_FIELDS_FORM_PLAN,

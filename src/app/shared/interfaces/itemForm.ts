@@ -23,7 +23,7 @@ export interface ItemFormConfiguration<Item = any, Data = any> {
     customUpdatePathServer?: string;
 
     parseDataItemBeforeSendFormFn?: (data: Data) => (Data | Promise<Data>);
-    parseItemAfterSaveFormFn?: (data: Item) => void;
+    afterSaveFormFn?: (data: Item) => void;
 
     itemPathServer?: string;
     itemQueryParamsString?: string;
