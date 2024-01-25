@@ -34,7 +34,7 @@ export class DocumentListPageComponent {
               toast: {
                 loading: 'Enviando a Sunat...',
                 success: 'Documento enviado a Sunat',
-                error: 'Error al enviar a Sunat',
+                error: (error) => error.error ?? 'Error al enviar a Sunat',
               }
             });
             updateChangesItemFn(index, {...item, ...response});
