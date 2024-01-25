@@ -22,7 +22,7 @@ export class ClientListPageComponent {
                 routerLinkValue: { url: (item) => `../view/${item.id}` },
                 gridColumn: '1fr',
                 displayValueFn: (item) => item?.name ? item.name : '--',
-                displayAdditionalValueFn: (item) => item?.document_number.length >= 11 ? 'RUC: ' + item?.document_number : item?.document_number.length == 8 ? 'DNI: ' + item?.document_number : 'OTRO: ' + item?.document_number,
+                displayAdditionalValueFn: (item) => `${item.document_type.toUpperCase()}: ${item.document_number}`
             }),
             emailColumn({
                 title: 'Email',
@@ -52,15 +52,5 @@ export class ClientListPageComponent {
             itemUpdatedAtColumn(),
             itemStatusColumn(),
         ]),
-        rows: {
-            actions: [
-                clickEventActionButton({
-                    text: 'Emitir',
-                    fn: async (item, index, { updateChangesItemFn }) => {
-                        updateChangesItemFn(index, { ...item, name: Math.random().toString() });
-                    },
-                })
-            ]
-        }
     }
 }
