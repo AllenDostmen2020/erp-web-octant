@@ -19,13 +19,7 @@ export class VehicleTypeCreatePageComponent {
         titleModule: 'tipo de vehículo',
         formGroup: vehicleTypeFormGroup(),
         afterSaveFormFn: (item) => {
-            const { id, name, description, image } = item;
-            this.databaseStorage.getData<VehicleType>(NameModuleDatabase.VehicleTypes).then((vehicleTypes) => {
-            //   this.databaseStorage.setData<VehicleType>(NameModuleDatabase.VehicleTypes, [
-            //     ...vehicleTypes,
-            //     { id, name, description, image } as VehicleType
-            //   ]);
-            });
+            this.databaseStorage.updateDataLocal(NameModuleDatabase.VehicleTypes)
           },
         fields: DEFAULT_DISPLAY_FIELDS_FORM_VEHICLE_TYPE,
         pathServer: 'vehicle-type',

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ImageMimeTypeFilePipe } from '@pipe/image-mime-type-file.pipe';
+import { environment } from 'src/environments/environment';
 
 export interface InputFileConfiguration {
   /**
@@ -17,7 +17,7 @@ export interface InputFileConfiguration {
   selector: 'app-select-file',
   templateUrl: './select-file.component.html',
   styleUrls: ['./select-file.component.scss'],
-  imports: [CommonModule, ImageMimeTypeFilePipe],
+  imports: [CommonModule],
   standalone: true,
 })
 export class SelectFileComponent {
@@ -50,19 +50,25 @@ export class SelectFileComponent {
   }
 
   get getImageFile(): string | null {
-    const { extension_file, base_64, type_file } = this.fileCtrl.value!;
-    if (/(docx?)/.test(extension_file)) {
-      return '/assets/svg-icons/microsoft-word.svg';
-    } else if (/(xlsx?|csv)/.test(extension_file)) {
-      return '/assets/svg-icons/microsoft-excel.svg';
-    } else if (/(pptx?)/.test(extension_file)) {
-      return '/assets/svg-icons/microsoft-powerpoint.svg';
-    } else if (/(png|jpg|jpeg|webp|avif)/.test(extension_file)) {
-      return `data:${type_file};base64,${base_64}`;
-    } else if (/(pdf)/.test(extension_file)) {
-      return '/assets/svg-icons/pdf.png';
-    } else if (/(txt)/.test(extension_file)) {
-      return '/assets/svg-icons/document.svg';
+    const fileValue = this.fileCtrl.value;
+    if(fileValue instanceof Object) {
+      const { extension_file, base_64, type_file } = fileValue!;
+      if (/(docx?)/.test(extension_file)) {
+        return '/assets/svg-icons/microsoft-word.svg';
+      } else if (/(xlsx?|csv)/.test(extension_file)) {
+        return '/assets/svg-icons/microsoft-excel.svg';
+      } else if (/(pptx?)/.test(extension_file)) {
+        return '/assets/svg-icons/microsoft-powerpoint.svg';
+      } else if (/(png|jpg|jpeg|webp|avif)/.test(extension_file)) {
+        return `data:${type_file};base64,${base_64}`;
+      } else if (/(pdf)/.test(extension_file)) {
+        return '/assets/svg-icons/pdf.png';
+      } else if (/(txt)/.test(extension_file)) {
+        return '/assets/svg-icons/document.svg';
+      }
+    } else if(fileValue) {
+      if(/(http(s?))/i.test(fileValue)) return fileValue;
+      else return environment.URL_FILES_SERVER + fileValue;
     }
     return null;
   }
