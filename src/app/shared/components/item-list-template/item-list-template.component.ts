@@ -488,6 +488,32 @@ export const defaultListFilterInputs = (): FormInput[] => [
   }),
 ];
 
+export const deleteItemActionButton = () => clickEventActionButton({
+  icon: 'delete',
+  text: 'Eliminar',
+  fn: async ({id}, _, { deleteItemFn }) => deleteItemFn(id),
+  hidden: (item) => item.deleted_at,
+});
+
+export const restoreItemActionButton = () => clickEventActionButton({
+  icon: 'restore',
+  text: 'Restaurar',
+  fn: async ({id}, _, { restoreItemFn }) => restoreItemFn(id),
+  hidden: (item) => !item.deleted_at,
+})
+
+export const viewItemActionButton = () =>  routerLinkActionButton({
+  icon: 'visibility',
+  text: 'Ver',
+  routerLink: { url: (item) => `../view/${item.id}` },
+});
+
+export const editItemActionButton = () =>  routerLinkActionButton({
+  icon: 'edit',
+  text: 'Editar',
+  routerLink: { url: (item) => `../edit/${item.id}` },
+})
+
 @Component({
   selector: 'app-item-list-template',
   standalone: true,
@@ -609,28 +635,10 @@ export class ItemListTemplateComponent {
       this.configuration.rows = {
         ...(this.configuration.rows ?? {}),
         options: [
-          routerLinkActionButton({
-            icon: 'visibility',
-            text: 'Ver',
-            routerLink: { url: (item) => `../view/${item.id}` },
-          }),
-          routerLinkActionButton({
-            icon: 'edit',
-            text: 'Editar',
-            routerLink: { url: (item) => `../edit/${item.id}` },
-          }),
-          clickEventActionButton({
-            icon: 'delete',
-            text: 'Eliminar',
-            fn: (item) => this.deleteItem(item.id),
-            hidden: (item) => item.deleted_at,
-          }),
-          clickEventActionButton({
-            icon: 'restore',
-            text: 'Restaurar',
-            fn: (item) => this.restoreItem(item.id),
-            hidden: (item) => !item.deleted_at,
-          })
+          viewItemActionButton(),
+          editItemActionButton(),
+          deleteItemActionButton(),
+          restoreItemActionButton(),
         ]
       };
     }
