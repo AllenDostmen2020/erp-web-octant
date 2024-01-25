@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 
 export interface InputFileConfiguration {
   /**
-   * propertie accept of input file
+   * property accept of input file
    * @default '*'
    * @example 'image/*' (For Images) | 'application/pdf' (For PDF) | 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' (For Word) | 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' (For Excel) | 'application/vnd.openxmlformats-officedocument.presentationml.presentation' (For Power Point) | 'text/plain' (For Text) | 'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation, text/plain, application/pdf, image/*'>
    * @type {string}
