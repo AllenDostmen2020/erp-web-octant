@@ -3,6 +3,7 @@ import { FetchErrorResponse } from "./fetch";
 import { WritableSignal } from "@angular/core";
 import { InputAutocompleteConfiguration, InputAutocompleteLocalConfiguration, InputAutocompleteServerConfiguration } from "@component/input-autocomplete-template/input-autocomplete-template.component";
 import { InputSelectConfiguration, InputSelectLocalConfiguration, InputSelectServerConfiguration } from "@component/input-select-template/input-select-template.component";
+import { InputFileConfiguration } from "@component/select-file/select-file.component";
 
 export interface ItemFormConfiguration<Item = any, Data = any> {
     title?: string;
@@ -80,6 +81,8 @@ export interface FormInput {
     autocompleteServer?: AutocompleteServerConfigurationExt;
 
     autocompleteLocal?: AutocompleteLocalConfigurationExt;
+
+    file?: FileFormInput;
 }
 
 export interface TextFormInput<T = any> {
@@ -195,6 +198,13 @@ interface AutocompleteServerConfigurationExt<T = any> extends InputAutocompleteS
     cssClass?: string | ((item: T) => string);
 }
 
+export interface FileFormInput<T = any> extends InputFileConfiguration {
+    formControlName: string;
+    textLabel: string;
+    defaultValue?: any;
+    cssClass?: string | ((item: T) => string);
+}
+
 export const textFormInput = (configuration: TextFormInput): FormInput => ({
     type: 'text',
     text: configuration
@@ -258,5 +268,10 @@ export const autocompleteLocalFormInput = (configuration: AutocompleteLocalConfi
 export const autocompleteServerFormInput = (configuration: AutocompleteServerConfigurationExt): FormInput => ({
     type: 'autocomplete-server',
     autocompleteServer: configuration
+});
+
+export const fileFormInput = (configuration: FileFormInput): FormInput => ({
+    type: 'file',
+    file: configuration
 });
 
