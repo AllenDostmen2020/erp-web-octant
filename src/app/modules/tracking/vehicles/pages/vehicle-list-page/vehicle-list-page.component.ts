@@ -22,10 +22,11 @@ export class VehicleListPageComponent {
                 sort: { key: 'plate' },
                 routerLinkValue: { url: (item) => `../view/${item.id}` },
                 displayValueFn: (item) => `${item.plate} / ${item.vehicle_type?.name.toUpperCase()}`,
+                gridColumn: '1fr',
             }),
             textColumn({
                 title: 'Cliente',
-                gridColumn: '1fr',
+                gridColumn: 'fit-content(250px)',
                 displayValueFn: (item) => item?.client?.name ? item.client?.name : '--',
             }),
             textColumn({
