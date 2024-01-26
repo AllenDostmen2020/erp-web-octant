@@ -3,7 +3,7 @@
     <div class="item-view__header">
 
         <div class="item-view__header__actions">
-            <ng-content select="[itemActions]"></ng-content>
+            <ng-content select="itemActions"></ng-content>
         </div>
 
         <a ILoad class="item-view__header__subtitle" routerLink="../../">
@@ -14,7 +14,7 @@
             {{ item ? (nameItemFn | getMixedValue: item) : "########" }}
         </h1>
 
-        <ng-content select="[information-under-title]"></ng-content>
+        <ng-content select="informationUnderTitle"></ng-content>
 
         <nav class="item-view__header__nav" ILoad fitInkBarToContent mat-tab-nav-bar mat-stretch-tabs="false"
             mat-align-tabs="start" [tabPanel]="tabPanel">

@@ -184,11 +184,14 @@
 
 .sidenav__content__header__logo {
     height: 48px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin: 0 -16px;
 }
 
-.sidenav__content__header__logo svg {
-    height: 48px;
-    width: 48px;
+.sidenav__content__header__logo img {
+    height: 120px;
 }
 
 .sidenav__content__header__search {
