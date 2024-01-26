@@ -13,15 +13,15 @@ import { ItemFormTemplateComponent } from '@component/item-form-template/item-fo
   styleUrl: './vehicle-type-create-page.component.scss'
 })
 export class VehicleTypeCreatePageComponent {
-    private databaseStorage = inject(DatabaseStorageService)
-    public configuration: ItemFormConfiguration = {
-        type: 'create',
-        titleModule: 'tipo de vehículo',
-        formGroup: vehicleTypeFormGroup(),
-        afterSaveFormFn: (item) => {
-            this.databaseStorage.updateDataLocal(NameModuleDatabase.VehicleTypes)
-          },
-        fields: DEFAULT_DISPLAY_FIELDS_FORM_VEHICLE_TYPE,
-        pathServer: 'vehicle-type',
-    };
+  private databaseStorage = inject(DatabaseStorageService)
+  public configuration: ItemFormConfiguration = {
+    type: 'create',
+    titleModule: 'tipo de vehículo',
+    formGroup: vehicleTypeFormGroup(),
+    afterSaveFormFn: (item) => {
+      this.databaseStorage.updateDataLocal(NameModuleDatabase.VehicleTypes)
+    },
+    fields: DEFAULT_DISPLAY_FIELDS_FORM_VEHICLE_TYPE,
+    pathServer: 'vehicle-type',
+  };
 }

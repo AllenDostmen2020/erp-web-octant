@@ -231,6 +231,8 @@
 <ng-template #renderColumn let-column let-value="value" let-item="item" let-routerLink="routerLink" let-index="index" let-clickEvent="clickEvent">
   @switch (column.type ?? '') {
     <!-- --------------------------------- -->
+    @case ('image') { <img [src]="column.image?.prefixUrl ? (column.image?.prefixUrl + value) : (value | pathFilesServer)"/> }
+    <!-- --------------------------------- -->
     @case ('email') { <a href="mailto:{{value}}">{{value}}</a> }
     <!-- --------------------------------- -->
     @case ('phone') { <a href="tel:{{value}}">{{value}}</a> }
