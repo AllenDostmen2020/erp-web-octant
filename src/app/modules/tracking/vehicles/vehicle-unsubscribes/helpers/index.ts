@@ -1,16 +1,16 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { FormInput, autocompleteLocalFormInput, dateFormInput, selectFormInput, textareaFormInput } from "@interface/itemForm";
-import { VEHICLE_UNSUBSCRIBE_PROGRAMMING_TYPE } from "@interface/vehicleUnsubscribe";
+import { VEHICLE_UNSUBSCRIBE_PROGRAMMING_TYPE, VehicleUnsubscribe } from "@interface/vehicleUnsubscribe";
 import { NameModuleDatabase } from "@service/database-storage.service";
 
-export const vehicleFormGroup = () => new FormGroup({
-    vehicle_id: new FormControl('', [Validators.required]),
-    user_id: new FormControl('', [Validators.required]),
-    programming_type: new FormControl('', [Validators.required]),
-    reason: new FormControl('', [Validators.required]),
-    observations: new FormControl('', [Validators.required]),
-    start_date: new FormControl('', [Validators.required]),
-    end_date: new FormControl(''),
+export const vehicleUnsubscribeFormGroup = (item?: Partial<VehicleUnsubscribe>) => new FormGroup({
+    vehicle_id: new FormControl(item?.vehicle_id ?? null, [Validators.required]),
+            user_id: new FormControl(item?.user_id ?? null, [Validators.required]),
+            programming_type: new FormControl(item?.programming_type ?? null, [Validators.required]),
+            reason: new FormControl(item?.reason ?? null, [Validators.required]),
+            observations: new FormControl(item?.observations ?? null, [Validators.required]),
+            start_date: new FormControl(item?.start_date ?? null, [Validators.required]),
+            end_date: new FormControl(item?.end_date ?? null),
 });
 
 export const DEFAULT_DISPLAY_FIELDS_FORM_VEHICLE: FormInput[] = [
