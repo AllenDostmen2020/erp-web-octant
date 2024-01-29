@@ -79,24 +79,26 @@
     <!-- ---------------------------- -->
     @if (configuration.columns(); as columns) {
 
-      <div class="list__items__header" matSort>
+      <div class="list__items__row list__items__row-header" matSort>
 
         @if (configuration.rows?.selectable) {
-          <div data-name="selected" class="list__items__header__cell list__items__header__cell-select">
+          <div data-name="selected" class="list__items__row__cell">
             <mat-checkbox (change)="selectedAllItems($event.checked)" [checked]="allSelectedItems()" [indeterminate]="someSelectedItems()" />
           </div>
         }
 
         @if (configuration.rows?.index != false) {
-          <div data-name="index" class="list__items__header__cell">
-            @if (configuration.rows?.index; as index) { {{ index.title }} }
-            @else { N° }
+          <div data-name="index" class="list__items__row__cell">
+            <span>
+              @if (configuration.rows?.index; as index) { {{ index.title }} }
+              @else { N° }
+            </span>
           </div>
         }
 
         @for (column of columns; track column) {
           @if (!column.hidden) {
-            <div [attr.data-name]="column.title" [attr.data-align]="column.align" [attr.data-type]="column.type" class="list__items__header__cell">
+            <div [attr.data-name]="column.title" [attr.data-align]="column.align" [attr.data-type]="column.type" class="list__items__row__cell">
               @if (column.sort; as sort) { <span [mat-sort-header]="sort.key">{{ column.title }}</span> }
               @else { <span>{{ column.title }}</span> }
             </div>
@@ -104,12 +106,14 @@
         }
 
         @if (configuration.rows?.actions) {
-          <div data-name="actions" class="list__items__header__cell actions">Acciones</div>
+          <div data-name="actions" class="list__items__row__cell">
+            <span>Acciones</span>
+          </div>
         }
 
         @if (configuration.rows?.options != false) {
-          <div data-name="options" class="list__items__header__cell options">
-            <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="optionsColumnMenu">
+          <div data-name="options" class="list__items__row__cell">
+            <button class="icon-button list__items__row__cell__option" [matMenuTriggerFor]="optionsColumnMenu">
               <span class="material-icons">settings</span>
             </button>
           </div>
@@ -158,7 +162,7 @@
 <!-- --------------------------------------------- -->
 <!-- --------------------------------------------- -->
 <ng-template #rowDefault let-item let-columns="columns" let-index="index" let-rowMenu="optionsRowMenu" let-pageSize="pageSize" let-pageIndex="pageIndex">
-  <div class="list__items__row {{(configuration.rows?.cssClass??'') | executeFunctionList:[item, index]}}" [ngClass]="{ 'container-loading': item?.__loading_status__ }">
+  <div class="list__items__row {{(configuration.rows?.cssClass??'') | executeFunctionList:[item, index]}}" [ngClass]="{ 'container-loading': item?.__loading_status__, 'list__items__row-selected': item.__selected__}">
     @if (configuration.rows?.selectable) {
       <div data-name="selected" class="list__items__row__cell list__items__row__cell-select">
         <mat-checkbox (change)="selectedItem(item, $event.checked)" [checked]="item.__selected__" />
