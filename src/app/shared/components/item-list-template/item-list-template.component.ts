@@ -933,9 +933,7 @@ export class ItemListTemplateComponent {
   }
 
   public updateChangesItem = (index: number, item: any) => {
-    this.configuration.data!.update(items => {
-      return items.toSpliced(index, 1, item);
-    })
+    this.configuration.data!.update(items => items.toSpliced(index, 1, item));
   }
 
 }

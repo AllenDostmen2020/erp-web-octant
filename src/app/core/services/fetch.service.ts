@@ -42,7 +42,7 @@ export class FetchService extends FetchBase {
   }
 
   /* -------------------------------------------------------------------------------------- */
-  /* -----------------------------------   INTERCEPCTORS   -------------------------------- */
+  /* -----------------------------------    INTERCEPTORS   -------------------------------- */
   /* -------------------------------------------------------------------------------------- */
   private interceptHeadersFn(requestInit: RequestInitFetch): { [Key: string]: string } {
     const headers = requestInit?.headers || {};

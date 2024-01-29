@@ -1,4 +1,4 @@
-import { FetchErrorResponse, FetchErrorType, NAME_TOKEN, RequestInitFetch } from "src/app/shared/interfaces/fetch";
+import { FetchErrorResponse, FetchErrorType, RequestInitFetch } from "src/app/shared/interfaces/fetch";
 
 declare type ProcessBeforeCallRequest = (apiUrl: string, request: RequestInitFetch) => Promise<void> | void;
 

@@ -14,6 +14,9 @@ export class BankListPageComponent {
     public configList: ItemListConfiguration<Bank> = {
         title: 'Bancos',
         server: { url: 'bank' },
+        rows: {
+            selectable: true,
+        },
         columns: signal([
             textColumn({
                 title: 'Código',
