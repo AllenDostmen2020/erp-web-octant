@@ -51,6 +51,7 @@ export enum StatusModel {
   Rechazado = 'rechazado',
   Expirado = 'expirado',
   Finalizado = 'finalizado',
+  Abierto = 'abierto',
   Cerrado = 'cerrado',
   Revisado = 'revisado',
   Eliminado = 'eliminado',

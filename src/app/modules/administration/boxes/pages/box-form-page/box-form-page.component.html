@@ -1,0 +1,23 @@
+<div [formGroup]="form" class="grid grid-cols-12 gap-2 items-start">
+
+    <app-input-select-template class="col-span-6 @2xl:col-span-3" [control]="typeCtrl" [configuration]="typeSelectConfiguration" />
+
+    <mat-form-field class="col-span-6" [ngClass]="{ '@2xl:col-span-6' : typeCtrl.value, '@2xl:col-span-9' : !typeCtrl.value }">
+        <mat-label>Nombre</mat-label>
+        <input matInput type="text" formControlName="name" placeholder="Nombre">
+        <mat-error>Campo requerido</mat-error>
+    </mat-form-field>
+
+    @if (typeCtrl.value == 'virtual') {
+        <app-input-select-template class="col-span-6 @2xl:col-span-3" [control]="accountIdCtrl" [configuration]="accountSelectConfiguration" />
+    } @else if (typeCtrl.value == 'fisica') {
+        <app-input-select-template class="col-span-6 @2xl:col-span-3" [control]="coinCtrl" [configuration]="coinSelectConfiguration" />
+    }
+
+    <mat-form-field class="col-span-full">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput formControlName="description" id="" rows="2" placeholder="Descripción"></textarea>
+        <mat-error>Campo requerido</mat-error>
+    </mat-form-field>
+
+</div>
