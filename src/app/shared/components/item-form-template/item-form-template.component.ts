@@ -128,8 +128,8 @@ export class ItemFormTemplateComponent {
         this.events.emitEvent(`${this.configuration.pathServer}_updated`, response);
       }
 
-      const { parseItemAfterSaveFormFn } = this.configuration;
-      if (parseItemAfterSaveFormFn) parseItemAfterSaveFormFn(response);
+      const { afterSaveFormFn } = this.configuration;
+      if (afterSaveFormFn) afterSaveFormFn(response);
 
       if (!this.configuration.disableAutoBackLocation) this.location.back();
     } catch { }

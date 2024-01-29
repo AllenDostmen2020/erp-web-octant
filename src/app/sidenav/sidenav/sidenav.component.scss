@@ -125,7 +125,7 @@
 
 
 .sidenav__drawer__nav__group__link a.router-link-active {
-    --bg-button: var(--color-secondary-container) !important;
+    --bg-mdc-button: var(--color-secondary-container) !important;
     --text-color-mdc-button: var(--color-on-secondary-container);
     --fill-material-symbol-icon: 1;
 }
@@ -184,11 +184,14 @@
 
 .sidenav__content__header__logo {
     height: 48px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin: 0 -16px;
 }
 
-.sidenav__content__header__logo svg {
-    height: 48px;
-    width: 48px;
+.sidenav__content__header__logo img {
+    height: 120px;
 }
 
 .sidenav__content__header__search {

@@ -203,6 +203,15 @@
                                 }
                             }
                         }
+                        @case ('file') {
+                            @if (field.file; as input) {
+                                @if (getControl(input.formControlName); as control) {
+                                    <div [attr.data-form-input-name]="input.formControlName" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full'">
+                                        <app-select-file [configuration]="input" [fileCtrl]="control" />
+                                    </div>
+                                }
+                            }
+                        }
                         <!-- @case ('file') {
                             @if (field.checkbox; as input) {
                                 <div ILoad class="{{ input.cssClass ?? 'col-span-full' }}">

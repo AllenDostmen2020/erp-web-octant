@@ -18,18 +18,15 @@ export class VehicleListPageComponent {
         },
         columns: signal([
             textColumn({
-                title: 'Placa',
+                title: 'Placa / Tipo',
                 sort: { key: 'plate' },
-                displayValueFn: (item) => item.plate,
-            }),
-            textColumn({
-                title: 'Tipo de vehículo',
-                displayValueFn: (item) => item.vehicle_type?.name,
+                routerLinkValue: { url: (item) => `../view/${item.id}` },
+                displayValueFn: (item) => `${item.plate} / ${item.vehicle_type?.name.toUpperCase()}`,
+                gridColumn: '1fr',
             }),
             textColumn({
                 title: 'Cliente',
-                routerLinkValue: { url: (item) => `../view/${item.id}` },
-                gridColumn: '1fr',
+                gridColumn: 'fit-content(250px)',
                 displayValueFn: (item) => item?.client?.name ? item.client?.name : '--',
             }),
             textColumn({

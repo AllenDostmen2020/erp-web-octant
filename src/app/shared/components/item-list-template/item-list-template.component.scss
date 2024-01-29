@@ -190,6 +190,14 @@
   margin-bottom: 8px;
 }
 
+[data-type="image"]>[data-type="value-row"] {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .list__items__header__cell[data-type="number"],
 .list__items__row__cell[data-type="number"] {
   justify-items: flex-end;

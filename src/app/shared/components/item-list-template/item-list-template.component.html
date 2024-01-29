@@ -82,13 +82,13 @@
       <div class="list__items__header" matSort>
 
         @if (configuration.rows?.selectable) {
-          <div class="list__items__header__cell list__items__header__cell-select">
+          <div data-name="selected" class="list__items__header__cell list__items__header__cell-select">
             <mat-checkbox (change)="selectedAllItems($event.checked)" [checked]="allSelectedItems()" [indeterminate]="someSelectedItems()" />
           </div>
         }
 
         @if (configuration.rows?.index != false) {
-          <div class="list__items__header__cell">
+          <div data-name="index" class="list__items__header__cell">
             @if (configuration.rows?.index; as index) { {{ index.title }} }
             @else { N° }
           </div>
@@ -96,7 +96,7 @@
 
         @for (column of columns; track column) {
           @if (!column.hidden) {
-            <div class="list__items__header__cell" [attr.data-align]="column.align" [attr.data-type]="column.type">
+            <div [attr.data-name]="column.title" [attr.data-align]="column.align" [attr.data-type]="column.type" class="list__items__header__cell">
               @if (column.sort; as sort) { <span [mat-sort-header]="sort.key">{{ column.title }}</span> }
               @else { <span>{{ column.title }}</span> }
             </div>
@@ -104,11 +104,11 @@
         }
 
         @if (configuration.rows?.actions) {
-          <div class="list__items__header__cell actions">Acciones</div>
+          <div data-name="actions" class="list__items__header__cell actions">Acciones</div>
         }
 
         @if (configuration.rows?.options != false) {
-          <div class="list__items__header__cell options">
+          <div data-name="options" class="list__items__header__cell options">
             <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="optionsColumnMenu">
               <span class="material-icons">settings</span>
             </button>
@@ -230,6 +230,8 @@
 <!-- --------------------------------------------- -->
 <ng-template #renderColumn let-column let-value="value" let-item="item" let-routerLink="routerLink" let-index="index" let-clickEvent="clickEvent">
   @switch (column.type ?? '') {
+    <!-- --------------------------------- -->
+    @case ('image') { <img [src]="column.image?.prefixUrl ? (column.image?.prefixUrl + value) : (value | pathFilesServer)"/> }
     <!-- --------------------------------- -->
     @case ('email') { <a href="mailto:{{value}}">{{value}}</a> }
     <!-- --------------------------------- -->

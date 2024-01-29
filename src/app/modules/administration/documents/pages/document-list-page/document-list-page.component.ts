@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, signal } from '@angular/core';
-import { ItemListTemplateComponent, ListItemExtended, routerLinkActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ListItemExtended, routerLinkActionButton, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { FetchService } from '@service/fetch.service';
@@ -26,28 +26,23 @@ export class DocumentListPageComponent {
         clickEventActionButton({
           text: 'Emitir',
           fn: async (item, index, { updateChangesItemFn }) => {
-            item.total = 2000;
+            const response = await this.fetch.put<Document>(`document/send-to-sunat/${item.id}`, {}, { 
+              confirmDialog: { 
+                title: '¿Está seguro de emitir el documento a Sunat?',
+                description: 'Una vez emitido a Sunat no se puede revertir el proceso, pero puede anular la factura con otro proceso'
+              },
+              toast: {
+                loading: 'Enviando a Sunat...',
+                success: 'Documento enviado a Sunat',
+                error: (error) => error.error ?? 'Error al enviar a Sunat',
+              }
+            });
+            updateChangesItemFn(index, {...item, ...response});
           },
         })
       ],
       options: [
-        routerLinkActionButton({
-          icon: 'home',
-          text: 'Ver',
-          routerLink: {url: (item) => `../view/${item.id}`}
-        }),
-        clickEventActionButton({
-          icon: 'delete',
-          text: 'Eliminar',
-          fn: async (item, index, { updateChangesItemFn }) => {
-            // item.total = 2000;
-            updateChangesItemFn(index, {...item, __loading_status__: true});
-            await new Promise((resolve, reject) => {
-              setTimeout(() => { resolve(true)}, 3000)
-            })
-            updateChangesItemFn(index, { ...item, __loading_status__: false });
-          }
-        })
+        viewItemActionButton(),
       ]
     },
     columns: signal([

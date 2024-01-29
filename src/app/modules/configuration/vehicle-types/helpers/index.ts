@@ -1,10 +1,10 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { FormInput, textFormInput, textareaFormInput } from "@interface/itemForm";
+import { FormInput, fileFormInput, textFormInput, textareaFormInput } from "@interface/itemForm";
 
 export const vehicleTypeFormGroup = () => new FormGroup({
     name: new FormControl('', [Validators.required]),
-      description: new FormControl('', [Validators.required]),
-      file: new FormControl(null),
+    description: new FormControl('', [Validators.required]),
+    image: new FormControl(null),
 });
 
 export const DEFAULT_DISPLAY_FIELDS_FORM_VEHICLE_TYPE: FormInput[] = [
@@ -18,10 +18,10 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_VEHICLE_TYPE: FormInput[] = [
         textLabel: 'Descripción',
         cssClass: 'col-span-full'
     }),
-    // textareaFormInput({
-    //     formControlName: 'file',
-    //     textLabel: 'Imagen',
-    //     cssClass: 'col-span-full'
-    // }),
-
+    fileFormInput({
+        formControlName: 'image',
+        textLabel: 'Imagen',
+        cssClass: 'col-span-full',
+        acceptFiles: 'image/*',
+    }),
 ];

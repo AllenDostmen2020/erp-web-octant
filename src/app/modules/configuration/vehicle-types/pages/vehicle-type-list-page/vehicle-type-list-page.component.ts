@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, imageColumn } from '@component/item-list-template/item-list-template.component';
 import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { VehicleType } from '@interface/vehicleType';
 
@@ -17,6 +17,10 @@ export class VehicleTypeListPageComponent {
             url: 'vehicle-type',
         },
         columns: signal([
+            imageColumn({
+                title: 'Imagen',
+                displayValueFn: (item) => item.image,
+            }),
             textColumn({
                 title: 'Nombre',
                 sort: { key: 'name' },

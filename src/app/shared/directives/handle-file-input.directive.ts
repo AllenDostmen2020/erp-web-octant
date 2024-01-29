@@ -19,8 +19,7 @@ export interface HandleFileEvent {
     standalone: true,
 })
 export class HandleFileInputDirective {
-    @Output() handleFile: EventEmitter<HandleFileEvent | null> =
-        new EventEmitter();
+    @Output() handleFile: EventEmitter<HandleFileEvent | null> = new EventEmitter();
 
     constructor(private el: ElementRef, private renderer2: Renderer2) {
         this.renderer2.listen(el.nativeElement, 'input', (event) => {

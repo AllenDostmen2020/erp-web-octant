@@ -381,26 +381,51 @@ export interface ListColumn<T> {
    * ...
    */
   type?: TypeValueKeyItem | 'image' | 'html';
+
+  image?: {
+    prefixUrl?: string;
+    width?: number;
+    height?: number;
+    alt?: string;
+  }
 }
 
-interface ListFormatListColumn<T = any> extends Omit<ListColumn<T>, 'type' | 'displayAdditionalValueFn' | 'displayValueFn'> {
+interface SimpleListColumn<T> extends Omit<ListColumn<T>, 'type' | 'displayAdditionalValueFn' | 'displayValueFn' | 'dateFormat' | 'numberFormat' | 'image'> {}
+interface SimpleListColumn2<T> extends Omit<SimpleListColumn<T>, 'cssStyleDisplayAdditionalValue' | 'routerLinkAdditionalValue' | 'cssClassDisplayAdditionalValue' | 'clickEventAdditionalValue'> {}
+interface ListFormatListColumn<T = any> extends SimpleListColumn<T> {
   displayAdditionalValueFn?: (item: T, index: number) => string[];
   displayValueFn: (item: T, index: number) => string[];
 }
 
-interface NumberListColumn<T = any> extends Omit<ListColumn<T>, 'type' | 'displayAdditionalValueFn' | 'displayValueFn'> {
+interface NumberListColumn<T = any> extends SimpleListColumn<T> {
   displayAdditionalValueFn?: (item: T, index: number) => number | null | undefined;
   displayValueFn: (item: T, index: number) => number | null | undefined;
+  numberFormat?: string;
 }
 
-interface StringListColumn<T = any> extends Omit<ListColumn<T>, 'type' | 'displayAdditionalValueFn' | 'displayValueFn'> {
+interface StringListColumn<T = any> extends SimpleListColumn<T> {
   displayAdditionalValueFn?: (item: T, index: number) => string | number | null | undefined;
   displayValueFn: (item: T, index: number) => string | number | null | undefined;
 }
 
-interface DateListColumn<T = any> extends Omit<ListColumn<T>, 'type' | 'displayAdditionalValueFn' | 'displayValueFn'> {
+interface DateListColumn<T = any> extends SimpleListColumn<T> {
   displayAdditionalValueFn?: (item: T, index: number) => string | number | null | undefined;
   displayValueFn: (item: T, index: number) => Date | string | number | null | undefined;
+  dateFormat?: string;
+}
+
+interface ImageListColumn<T = any> extends SimpleListColumn2<T> {
+  displayValueFn: (item: T, index: number) => string | null | undefined;
+  image?: {
+    prefixUrl?: string;
+    width?: number;
+    height?: number;
+    alt?: string;
+  }
+}
+
+interface HtmlListColumn<T = any> extends SimpleListColumn2<T> {
+  displayValueFn: (item: T, index: number) => string | null | undefined;
 }
 
 export const numberColumn = <T = any>(config: NumberListColumn<T>): ListColumn<T> => ({ type: 'number', ...config });
@@ -411,7 +436,7 @@ export const dateColumn = <T = any>(config: DateListColumn<T>): ListColumn<T> =>
 
 export const diffDateColumn = <T = any>(config: StringListColumn<T>): ListColumn<T> => ({ type: 'diff-date', ...config });
 
-export const htmlColumn = <T = any>(config: StringListColumn<T>): ListColumn<T> => ({ type: 'html', ...config });
+export const htmlColumn = <T = any>(config: HtmlListColumn<T>): ListColumn<T> => ({ type: 'html', ...config });
 
 export const textColumn = <T = any>(config: StringListColumn<T>): ListColumn<T> => ({ type: 'text', ...config });
 
@@ -428,6 +453,8 @@ export const phoneColumn = <T = any>(config: StringListColumn<T>): ListColumn<T>
 export const emailColumn = <T = any>(config: StringListColumn<T>): ListColumn<T> => ({ type: 'email', ...config });
 
 export const userColumn = <T = any>(config: NumberListColumn<T>): ListColumn<T> => ({ type: 'user', ...config });
+
+export const imageColumn = <T = any>(config: ImageListColumn<T>): ListColumn<T> => ({ type: 'image', ...config });
 
 
 export const itemNameAndDescriptionColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'displayValueFn' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({
@@ -487,6 +514,32 @@ export const defaultListFilterInputs = (): FormInput[] => [
     formControlName: 'inactive',
   }),
 ];
+
+export const deleteItemActionButton = () => clickEventActionButton({
+  icon: 'delete',
+  text: 'Eliminar',
+  fn: async ({id}, _, { deleteItemFn }) => deleteItemFn(id),
+  hidden: (item) => item.deleted_at,
+});
+
+export const restoreItemActionButton = () => clickEventActionButton({
+  icon: 'restore',
+  text: 'Restaurar',
+  fn: async ({id}, _, { restoreItemFn }) => restoreItemFn(id),
+  hidden: (item) => !item.deleted_at,
+})
+
+export const viewItemActionButton = () =>  routerLinkActionButton({
+  icon: 'visibility',
+  text: 'Ver',
+  routerLink: { url: (item) => `../view/${item.id}` },
+});
+
+export const editItemActionButton = () =>  routerLinkActionButton({
+  icon: 'edit',
+  text: 'Editar',
+  routerLink: { url: (item) => `../edit/${item.id}` },
+})
 
 @Component({
   selector: 'app-item-list-template',
@@ -609,28 +662,10 @@ export class ItemListTemplateComponent {
       this.configuration.rows = {
         ...(this.configuration.rows ?? {}),
         options: [
-          routerLinkActionButton({
-            icon: 'visibility',
-            text: 'Ver',
-            routerLink: { url: (item) => `../view/${item.id}` },
-          }),
-          routerLinkActionButton({
-            icon: 'edit',
-            text: 'Editar',
-            routerLink: { url: (item) => `../edit/${item.id}` },
-          }),
-          clickEventActionButton({
-            icon: 'delete',
-            text: 'Eliminar',
-            fn: (item) => this.deleteItem(item.id),
-            hidden: (item) => item.deleted_at,
-          }),
-          clickEventActionButton({
-            icon: 'restore',
-            text: 'Restaurar',
-            fn: (item) => this.restoreItem(item.id),
-            hidden: (item) => !item.deleted_at,
-          })
+          viewItemActionButton(),
+          editItemActionButton(),
+          deleteItemActionButton(),
+          restoreItemActionButton(),
         ]
       };
     }
