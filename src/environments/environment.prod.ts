@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  API_URL: 'https://erp-ad-server-production.up.railway.app/api/v1',
-  PUBLIC_PATH_SERVER: ' https://erp-ad-server-production.up.railway.app/',
-  URL_FILES_SERVER: 'https://ad-padron-partidos-bucket.s3.amazonaws.com/',
+  API_URL: 'http://localhost:3000/api/v1',
+  PUBLIC_PATH_SERVER: 'http://localhost:3000/',
+  URL_FILES_SERVER: 'http://localhost:3000/storage/',
 };
