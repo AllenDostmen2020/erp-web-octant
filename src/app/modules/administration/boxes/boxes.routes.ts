@@ -26,6 +26,11 @@ export const boxRoutes: Routes = [
                 path: 'box-opening',
                 children: boxOpeningRoutes
             },
+            {
+                path: '**',
+                redirectTo: 'detail',
+                pathMatch: 'full'
+            },
         ]
     },
     {
