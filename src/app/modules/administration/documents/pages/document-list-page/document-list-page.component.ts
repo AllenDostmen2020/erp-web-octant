@@ -4,7 +4,7 @@ import { Document } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { FetchService } from '@service/fetch.service';
 
-interface ExtDocument extends Document, ListItemExtended {}
+interface ExtDocument extends Document, ListItemExtended { }
 
 @Component({
   selector: 'app-document-list-page',
@@ -26,18 +26,7 @@ export class DocumentListPageComponent {
         clickEventActionButton({
           text: 'Emitir',
           fn: async (item, index, { updateChangesItemFn }) => {
-            const response = await this.fetch.put<Document>(`document/send-to-sunat/${item.id}`, {}, { 
-              confirmDialog: { 
-                title: '¿Está seguro de emitir el documento a Sunat?',
-                description: 'Una vez emitido a Sunat no se puede revertir el proceso, pero puede anular la factura con otro proceso'
-              },
-              toast: {
-                loading: 'Enviando a Sunat...',
-                success: 'Documento enviado a Sunat',
-                error: (error) => error.error ?? 'Error al enviar a Sunat',
-              }
-            });
-            updateChangesItemFn(index, {...item, ...response});
+            updateChangesItemFn(index, { ...item, ... await this.emitDocument(item) });
           },
         })
       ],
@@ -47,18 +36,7 @@ export class DocumentListPageComponent {
           text: 'Anular',
           icon: 'scan_delete',
           fn: async (item, index, { updateChangesItemFn }) => {
-            const response = await this.fetch.put<Document>(`document/anulate-simple-to-sunat/${item.id}`, {}, {
-              confirmDialog: {
-                title: '¿Está seguro de anular el documento?',
-                description: 'Una vez anulado no se puede revertir el proceso, pero puede emitir la factura con otro proceso'
-              },
-              toast: {
-                loading: 'Anulando documento...',
-                success: 'Documento anulado',
-                error: (error) => error.error ?? 'Error al anular documento',
-              }
-            });
-            updateChangesItemFn(index, {...item, ...response});
+            updateChangesItemFn(index, { ...item, ... await this.cancelDocument(item) });
           },
         }),
         clickEventActionButton({
@@ -102,5 +80,33 @@ export class DocumentListPageComponent {
         displayValueFn: (item) => item.state_type_id ?? '--',
       }),
     ])
+  }
+
+  private async emitDocument(item: Document): Promise<Document> {
+    return await this.fetch.put<Document>(`document/send-to-sunat/${item.id}`, {}, {
+      confirmDialog: {
+        title: '¿Está seguro de emitir el documento a Sunat?',
+        description: 'Una vez emitido a Sunat no se puede revertir el proceso, pero puede anular la factura con otro proceso'
+      },
+      toast: {
+        loading: 'Enviando a Sunat...',
+        success: 'Documento enviado a Sunat',
+        error: (error) => error.error ?? 'Error al enviar a Sunat',
+      }
+    });
+  }
+
+  private async cancelDocument(item: Document): Promise<Document> {
+    return await this.fetch.put<Document>(`document/anulate-simple-to-sunat/${item.id}`, {}, {
+      confirmDialog: {
+        title: '¿Está seguro de anular el documento?',
+        description: 'Una vez anulado no se puede revertir el proceso, pero puede emitir la factura con otro proceso'
+      },
+      toast: {
+        loading: 'Anulando documento...',
+        success: 'Documento anulado',
+        error: (error) => error.error ?? 'Error al anular documento',
+      }
+    });
   }
 }
