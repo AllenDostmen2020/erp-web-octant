@@ -1,0 +1,53 @@
+<app-item-detail-template [configuration]="configuration">
+
+    <ng-container afterContent>
+        <div class="box-opened">
+            @if (dataItem(); as item) {
+                @if (item?.last_box_opening; as last_box_opening) {
+                    <div class="rounded-lg p-4 bg-surface-variant">
+                        <div class="title-medium mb-4">
+                            Última apertura de caja:
+                        </div>
+                        <div class="text-skin-base grid grid-cols-[auto,auto,1fr] gap-x-1">
+                            <div class="contents">
+                                <span class="font-medium">Usuario de apertura</span>
+                                <span>:</span>
+                                <span>{{last_box_opening.open_user?.name}}</span>
+                            </div>
+                            <div class="contents">
+                                <span class="font-medium">Fecha de apertura</span>
+                                <span>:</span>
+                                <span>{{last_box_opening.date_open | date:'dd/MM/yyyy hh:mm a'}}</span>
+                            </div>
+                            <div class="contents">
+                                <span class="font-medium">Monto inicial</span>
+                                <span>:</span>
+                                <span>{{last_box_opening.amount_init | number:'.2-2'}}</span>
+                            </div>
+                            <div class="contents">
+                                <span class="font-medium">Estado</span>
+                                <span>:</span>
+                                <span>{{last_box_opening.status |titlecase}}</span>
+                            </div>
+
+                            @if (last_box_opening.status == 'abierto') {
+                            <div class="col-span-full mt-2">
+                                <button class="filled-button" (click)="closeBoxOpening(last_box_opening.id)">
+                                    <span class="material-icons">lock</span>
+                                    <span>Cerrar caja</span>
+                                </button>
+                            </div>
+                            }
+                            @if (!(item?.last_box_opening?.status == 'abierto')) {
+                            <button class="filled-button" (click)="openBoxOpening()">
+                                <span class="material-icons">lock_open</span>
+                                <span>Apertura caja</span>
+                            </button>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </ng-container>
+</app-item-detail-template>

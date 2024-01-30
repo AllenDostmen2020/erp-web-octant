@@ -1,0 +1,15 @@
+<app-item-list-template [configuration]="configList">
+    <ng-container headerButtons>
+        @if (item?.last_box_opening?.status == 'abierto') {
+        <button class="filled-button" (click)="closeBoxOpening(item?.last_box_opening!.id)">
+            <span class="material-icons">lock</span>
+            <span>Cerrar caja</span>
+        </button>
+        } @else {
+        <button class="filled-button" (click)="openBoxOpening()">
+            <span class="material-icons">lock_open</span>
+            <span>Aperturar caja</span>
+        </button>
+        }
+    </ng-container>
+</app-item-list-template>

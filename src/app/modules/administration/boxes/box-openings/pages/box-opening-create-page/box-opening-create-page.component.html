@@ -1,0 +1,25 @@
+<div class="grid grid-rows-[auto,1fr,auto] max-h-[80vh]">
+    <div class="p-6 headline-small">
+        Aperturar caja
+    </div>
+
+    <form [formGroup]="form" class="grid col-span-full px-6 py-2 overflow-overlay custom-scroll">
+
+        <mat-form-field>
+            <mat-label>Monto inicial</mat-label>
+            <input matInput type="number" [min]="0" placeholder="Monto inicial..." formControlName="amount_init">
+            @if (form.disabled) {
+            <button mat-icon-button matSuffix (click)="edit()">
+                <span class="material-icons">edit</span>
+            </button>
+            }
+            <mat-error>Campo requerido</mat-error>
+        </mat-form-field>
+    </form>
+
+    <div class="flex justify-end gap-1 p-6">
+        <button class="outlined-button" mat-dialog-close type="button">Cancelar</button>
+        <button class="filled-button" [mat-dialog-close]="true" cdkFocusInitial (click)="save()">Aperturar</button>
+    </div>
+
+</div>
