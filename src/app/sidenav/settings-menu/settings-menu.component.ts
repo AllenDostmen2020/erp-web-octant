@@ -1,5 +1,5 @@
-import { Component, ViewEncapsulation, WritableSignal, signal } from '@angular/core';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { Component, ViewEncapsulation} from '@angular/core';
+import { NgClass } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
@@ -7,8 +7,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   selector: 'app-settings-menu',
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     NgClass,
     MatMenuModule,
     MatSlideToggleModule,
