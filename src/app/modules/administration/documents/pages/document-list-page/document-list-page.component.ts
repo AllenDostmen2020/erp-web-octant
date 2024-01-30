@@ -45,6 +45,7 @@ export class DocumentListPageComponent {
         viewItemActionButton(),
         clickEventActionButton({
           text: 'Anular',
+          icon: 'scan_delete',
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.fetch.put<Document>(`document/anulate-simple-to-sunat/${item.id}`, {}, {
               confirmDialog: {
@@ -62,18 +63,22 @@ export class DocumentListPageComponent {
         }),
         clickEventActionButton({
           text: 'Anular con nota de crédito',
+          icon: 'scan_delete',
           fn: (item) => console.log('Anular con nota de crédito'),
         }),
         clickEventActionButton({
           text: 'Anular con nota de débito',
+          icon: 'scan_delete',
           fn: (item) => console.log('Anular con nota de débito'),
         }),
         clickEventActionButton({
           text: 'Descargar PDF',
+          icon: 'cloud_download',
           fn: (item) => console.log('Descargar PDF'),
         }),
         clickEventActionButton({
           text: 'Descargar XML',
+          icon: 'cloud_download',
           fn: (item) => console.log('Descargar XML'),
         }),
       ]
