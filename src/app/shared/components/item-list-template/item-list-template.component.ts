@@ -76,7 +76,9 @@ export interface ItemListConfiguration<T = any> {
   filters?: FormInput[] | false;
 
   rows?: {
-    selectable?: boolean;
+    selectable?: {
+      actions?: ActionButton<T, ActionButtonActionsType>[];
+    };
     index?: false | ({ title: string });
     cssClass?: string | ((item: T) => string);
     actions?: ActionButton<T, ActionButtonActionsType>[];
@@ -96,7 +98,7 @@ export interface RouterLinkItem<T> {
   url: ((item: T, index: number) => string) | string;
   outlet?: 'route-lateral' | 'principal';
   queryParams?: { [key: string]: any },
-  state?: ((item: T, index: number) => (string | {[key: string]: any} | any[] | number | null)) | string | {[key: string]: any} | any[] | number | null;
+  state?: ((item: T, index: number) => (string | { [key: string]: any } | any[] | number | null)) | string | { [key: string]: any } | any[] | number | null;
 }
 
 export type StyleButton = 'filled-button' | 'tonal-button' | 'text-button' | 'outlined-button' | 'elevated-button' | 'icon-button' | 'tonal-icon-button' | 'filled-icon-button' | 'outlined-icon-button';
@@ -120,9 +122,10 @@ export interface ActionButton<T, ActionType = 'clickEvent'> {
   }) => void;
   routerLink?: RouterLinkItem<T>;
 }
-
-export const clickEventActionButton = <T = any>(config: Omit<Required<Pick<ActionButton<T>, 'fn'>> & ActionButton<T>, 'type' | 'routerLink'>): ActionButton<T, ActionButtonActionsType> => ({ type: 'clickEvent', ...config });
-export const routerLinkActionButton = <T = any>(config: Omit<Required<Pick<ActionButton<T>, 'routerLink'>> & ActionButton<T>, 'type' | 'clickEvent'>): ActionButton<T, ActionButtonActionsType> => ({ type: 'routerLink', ...config });
+interface ClickEventActionButton<T> extends Omit<Required<Pick<ActionButton<T>, 'fn'>> & ActionButton<T>, 'type' | 'routerLink'> { }
+export const clickEventActionButton = <T = any>(config: ClickEventActionButton<T>): ActionButton<T, ActionButtonActionsType> => ({ type: 'clickEvent', ...config });
+interface RouterLinkActionButton<T> extends Omit<Required<Pick<ActionButton<T>, 'routerLink'>> & ActionButton<T>, 'type' | 'clickEvent'> { }
+export const routerLinkActionButton = <T = any>(config: RouterLinkActionButton<T>): ActionButton<T, ActionButtonActionsType> => ({ type: 'routerLink', ...config });
 export interface ListItemExtended {
   __selected__?: boolean;
   __loading_status__?: boolean;
@@ -390,8 +393,8 @@ export interface ListColumn<T> {
   }
 }
 
-interface SimpleListColumn<T> extends Omit<ListColumn<T>, 'type' | 'displayAdditionalValueFn' | 'displayValueFn' | 'dateFormat' | 'numberFormat' | 'image'> {}
-interface SimpleListColumn2<T> extends Omit<SimpleListColumn<T>, 'cssStyleDisplayAdditionalValue' | 'routerLinkAdditionalValue' | 'cssClassDisplayAdditionalValue' | 'clickEventAdditionalValue'> {}
+interface SimpleListColumn<T> extends Omit<ListColumn<T>, 'type' | 'displayAdditionalValueFn' | 'displayValueFn' | 'dateFormat' | 'numberFormat' | 'image'> { }
+interface SimpleListColumn2<T> extends Omit<SimpleListColumn<T>, 'cssStyleDisplayAdditionalValue' | 'routerLinkAdditionalValue' | 'cssClassDisplayAdditionalValue' | 'clickEventAdditionalValue'> { }
 interface ListFormatListColumn<T = any> extends SimpleListColumn<T> {
   displayAdditionalValueFn?: (item: T, index: number) => string[];
   displayValueFn: (item: T, index: number) => string[];
@@ -518,24 +521,24 @@ export const defaultListFilterInputs = (): FormInput[] => [
 export const deleteItemActionButton = () => clickEventActionButton({
   icon: 'delete',
   text: 'Eliminar',
-  fn: async ({id}, _, { deleteItemFn }) => deleteItemFn(id),
+  fn: async ({ id }, _, { deleteItemFn }) => deleteItemFn(id),
   hidden: (item) => item.deleted_at,
 });
 
 export const restoreItemActionButton = () => clickEventActionButton({
   icon: 'restore',
   text: 'Restaurar',
-  fn: async ({id}, _, { restoreItemFn }) => restoreItemFn(id),
+  fn: async ({ id }, _, { restoreItemFn }) => restoreItemFn(id),
   hidden: (item) => !item.deleted_at,
 })
 
-export const viewItemActionButton = () =>  routerLinkActionButton({
+export const viewItemActionButton = () => routerLinkActionButton({
   icon: 'visibility',
   text: 'Ver',
   routerLink: { url: (item) => `../view/${item.id}` },
 });
 
-export const editItemActionButton = () =>  routerLinkActionButton({
+export const editItemActionButton = () => routerLinkActionButton({
   icon: 'edit',
   text: 'Editar',
   routerLink: { url: (item) => `../edit/${item.id}` },
@@ -657,7 +660,7 @@ export class ItemListTemplateComponent {
 
   ngOnInit(): void {
     this.configuration.data = signal([]);
-    if(!this.configuration.updateListEvent) this.configuration.updateListEvent = new EventEmitter();
+    if (!this.configuration.updateListEvent) this.configuration.updateListEvent = new EventEmitter();
     if (this.configuration.rows?.options != false && !this.configuration.rows?.options?.length) {
       this.configuration.rows = {
         ...(this.configuration.rows ?? {}),
