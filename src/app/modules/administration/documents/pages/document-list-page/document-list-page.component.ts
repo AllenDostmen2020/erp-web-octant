@@ -97,6 +97,10 @@ export class DocumentListPageComponent {
         title: 'Total',
         displayValueFn: (item) => item.total,
       }),
+      textColumn({
+        title: 'Estado SUNAT',
+        displayValueFn: (item) => item.state_type_id ?? '--',
+      }),
     ])
   }
 }
