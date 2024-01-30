@@ -194,7 +194,7 @@
     }
 
     @if (configuration.rows?.actions; as actions) {
-      <div data-name="actions" class="list__items__row__cell list__items__row__cell-actions">
+      <div data-name="actions" class="list__items__row__cell">
         @for (bAction of actions; track bAction) {
           @if (!((bAction.hidden ?? false) | executeFunctionList:[item, index])) {
             @if (bAction.routerLink; as rLink) {
@@ -221,7 +221,7 @@
     }
     
     @if (configuration.rows?.options != false) {
-      <div data-name="options" class="list__items__row__cell list__items__row__cell-options">
+      <div data-name="options" class="list__items__row__cell">
         <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="rowMenu" [matMenuTriggerData]="{item, index}">
           <span class="material-icons">more_horiz</span>
         </button>
