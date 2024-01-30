@@ -1,5 +1,5 @@
-import { Component, EventEmitter, inject, signal } from '@angular/core';
-import { ItemListTemplateComponent, ListItemExtended, routerLinkActionButton, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { Component, inject, signal } from '@angular/core';
+import { ItemListTemplateComponent, ListItemExtended, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { FetchService } from '@service/fetch.service';
