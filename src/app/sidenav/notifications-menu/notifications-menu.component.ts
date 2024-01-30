@@ -1,5 +1,5 @@
 import { Component, ViewChild, ViewEncapsulation, WritableSignal, inject, signal } from '@angular/core';
-import { DatePipe, NgFor } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FetchService } from '@service/fetch.service';
@@ -10,7 +10,6 @@ import { PaginatorData } from 'src/app/shared/interfaces/paginator';
   selector: 'app-notifications-menu',
   standalone: true,
   imports: [
-    NgFor,
     DatePipe,
     MatMenuModule,
     MatTabsModule,

@@ -808,8 +808,9 @@ export class ItemListTemplateComponent {
       const { parseDataFn } = this.configuration;
       const parseData = await parseDataFn?.(items) ?? items;
       this.paginator.length = totalItems;
-      this.loading.set(false);
       this.data.set(parseData);
+      this.loading.set(false);
+      this.setAllSelectedItems();
     } catch (err: any) {
       if (err.name != FetchErrorType.ABORT) this.loading.set(false);
     }

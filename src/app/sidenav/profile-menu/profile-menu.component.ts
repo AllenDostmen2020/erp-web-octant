@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild, ViewEncapsulation, WritableSignal, inject, signal } from '@angular/core';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { User } from '@interface/user';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
@@ -29,8 +29,6 @@ const THEME_COLORS = [
   selector: 'app-profile-menu',
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     NgClass,
     MatMenuModule,
     MatSlideToggleModule,
