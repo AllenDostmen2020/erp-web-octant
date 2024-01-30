@@ -43,6 +43,39 @@ export class DocumentListPageComponent {
       ],
       options: [
         viewItemActionButton(),
+        clickEventActionButton({
+          text: 'Anular',
+          fn: async (item, index, { updateChangesItemFn }) => {
+            const response = await this.fetch.put<Document>(`document/anulate-simple-to-sunat/${item.id}`, {}, {
+              confirmDialog: {
+                title: '¿Está seguro de anular el documento?',
+                description: 'Una vez anulado no se puede revertir el proceso, pero puede emitir la factura con otro proceso'
+              },
+              toast: {
+                loading: 'Anulando documento...',
+                success: 'Documento anulado',
+                error: (error) => error.error ?? 'Error al anular documento',
+              }
+            });
+            updateChangesItemFn(index, {...item, ...response});
+          },
+        }),
+        clickEventActionButton({
+          text: 'Anular con nota de crédito',
+          fn: (item) => console.log('Anular con nota de crédito'),
+        }),
+        clickEventActionButton({
+          text: 'Anular con nota de débito',
+          fn: (item) => console.log('Anular con nota de débito'),
+        }),
+        clickEventActionButton({
+          text: 'Descargar PDF',
+          fn: (item) => console.log('Descargar PDF'),
+        }),
+        clickEventActionButton({
+          text: 'Descargar XML',
+          fn: (item) => console.log('Descargar XML'),
+        }),
       ]
     },
     columns: signal([
