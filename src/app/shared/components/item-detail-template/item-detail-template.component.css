@@ -159,11 +159,11 @@
   align-items: center;
   grid-column: 1 / -1;
   margin: 0 0 8px;
-  font-style: var(--body-large-font-family-style);
-  font-weight: var(--body-large-font-weight);
-  font-size: var(--body-large-font-size);
-  line-height: var(--body-large-line-height);
-  letter-spacing: var(--body-large-letter-spacing);
+  font-style: var(--label-large-font-family-style);
+  font-weight: var(--label-large-font-weight);
+  font-size: var(--label-large-font-size);
+  line-height: var(--label-large-line-height);
+  letter-spacing: var(--label-large-letter-spacing);
   color: rgb(var(--rgb-on-surface));
 }
 
