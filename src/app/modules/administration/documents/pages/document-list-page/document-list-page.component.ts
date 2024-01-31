@@ -79,7 +79,7 @@ export class DocumentListPageComponent {
         title: 'Estado SUNAT',
         displayValueFn: (item) => item.state_type_id ?? '--',
       }),
-    ])
+    ]),
   }
 
   private async emitDocument(item: Document): Promise<Document> {

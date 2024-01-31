@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, selectableActionButton } from '@component/item-list-template/item-list-template.component';
 import { Bank } from '@interface/bank';
 import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 
@@ -15,7 +15,22 @@ export class BankListPageComponent {
         title: 'Bancos',
         server: { url: 'bank' },
         rows: {
-            selectable: true,
+            selectable: {
+                actions: [
+                    selectableActionButton({
+                        icon: 'edit',
+                        fn: (data) => {
+                            console.log('Editar', data);
+                        },
+                    }),
+                    selectableActionButton({
+                        icon: 'delete',
+                        fn: (data) => {
+                            console.log('Eliminar', data);
+                        },
+                    }),
+                ]
+            },
         },
         columns: signal([
             textColumn({

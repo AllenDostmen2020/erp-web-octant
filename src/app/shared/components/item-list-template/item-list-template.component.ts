@@ -77,12 +77,12 @@ export interface ItemListConfiguration<T = any> {
 
   rows?: {
     selectable?: {
-      actions?: ActionButton<T, ActionButtonActionsType>[];
+      actions: SelectableActionButton<T>[];
     };
     index?: false | ({ title: string });
     cssClass?: string | ((item: T) => string);
-    actions?: ActionButton<T, ActionButtonActionsType>[];
-    options?: ActionButton<T, ActionButtonActionsType>[] | false;
+    actions?: ActionButton<T>[];
+    options?: ActionButton<T>[] | false;
   },
 
   columns: WritableSignal<ListColumn<T>[]>;
@@ -103,10 +103,9 @@ export interface RouterLinkItem<T> {
 
 export type StyleButton = 'filled-button' | 'tonal-button' | 'text-button' | 'outlined-button' | 'elevated-button' | 'icon-button' | 'tonal-icon-button' | 'filled-icon-button' | 'outlined-icon-button';
 
-
-export declare type ActionButtonActionsType = 'clickEvent' | 'routerLink';
-export interface ActionButton<T, ActionType = 'clickEvent'> {
-  type: ActionType;
+declare type ActionButtonActionsType = 'clickEvent' | 'routerLink';
+interface ActionButton<T> {
+  type: 'clickEvent' | 'routerLink';
   icon?: string;
   text?: string;
   title?: string;
@@ -123,9 +122,22 @@ export interface ActionButton<T, ActionType = 'clickEvent'> {
   routerLink?: RouterLinkItem<T>;
 }
 interface ClickEventActionButton<T> extends Omit<Required<Pick<ActionButton<T>, 'fn'>> & ActionButton<T>, 'type' | 'routerLink'> { }
-export const clickEventActionButton = <T = any>(config: ClickEventActionButton<T>): ActionButton<T, ActionButtonActionsType> => ({ type: 'clickEvent', ...config });
+export const clickEventActionButton = <T = any>(config: ClickEventActionButton<T>): ActionButton<T> => ({ type: 'clickEvent', ...config });
 interface RouterLinkActionButton<T> extends Omit<Required<Pick<ActionButton<T>, 'routerLink'>> & ActionButton<T>, 'type' | 'clickEvent'> { }
-export const routerLinkActionButton = <T = any>(config: RouterLinkActionButton<T>): ActionButton<T, ActionButtonActionsType> => ({ type: 'routerLink', ...config });
+export const routerLinkActionButton = <T = any>(config: RouterLinkActionButton<T>): ActionButton<T> => ({ type: 'routerLink', ...config });
+interface SelectableActionButton<T> {
+  icon?: string;
+  text?: string;
+  title?: string;
+  style?: StyleButton;
+  hidden?: boolean | ((selectedItems: T[]) => boolean);
+  disabled?: boolean | ((selectedItems: T[]) => boolean);
+  cssClass?: string | ((selectedItems: T[]) => string);
+  cssStyle?: ({ [key: string]: any }) | ((selectedItems: T[]) => ({ [key: string]: any }));
+  fn: (selectedItems: T[]) => void;
+}
+export const selectableActionButton = <T = any>(config: SelectableActionButton<T>): SelectableActionButton<T> => ({ ...config });
+
 export interface ListItemExtended {
   __selected__?: boolean;
   __loading_status__?: boolean;
@@ -813,7 +825,7 @@ export class ItemListTemplateComponent {
       this.paginator.length = totalItems;
       this.data.set(parseData);
       this.loading.set(false);
-      this.setAllSelectedItems();
+      this.checkSelectedItems();
     } catch (err: any) {
       if (err.name != FetchErrorType.ABORT) this.loading.set(false);
     }
@@ -837,30 +849,24 @@ export class ItemListTemplateComponent {
   /* ---------------------------------------------------------------- */
   public allSelectedItems = signal(false);
   public someSelectedItems = signal(false);
+  public selectedItems = computed(() => this.data().filter((e: ListItemExtended) => e.__selected__));
   public lengthSelectedItems = computed(() => this.data().filter((e: ListItemExtended) => e.__selected__).length);
 
-  public selectedItem(item: any, status: boolean): void {
-    this.data.update((data) => {
-      const index = data.findIndex((e) => e.id == item.id);
-      data[index].__selected__ = status;
-      this.setAllSelectedItems();
-      return data;
-    });
+  public selectedItem(index: number, status: boolean): void {
+    this.data.update((data) => data.toSpliced(index, 1, {...data[index], __selected__: status}));
+    this.checkSelectedItems();
   }
 
   public selectedAllItems(status: boolean): void {
-    this.data.update((data) => {
-      data.forEach((e) => (e.__selected__ = status));
-      this.setAllSelectedItems();
-      return data;
-    });
+    this.data.update((data) => data.map((e) => ({...e, __selected__: status})));
+    this.checkSelectedItems();
   }
 
   public someSelected(): boolean {
     return this.data().length > 0 && this.data().some((e: ListItemExtended) => e.__selected__) && !this.allSelectedItems();
   }
 
-  private setAllSelectedItems(): void {
+  private checkSelectedItems(): void {
     this.allSelectedItems.set(this.data().length > 0 && this.data().every((e: ListItemExtended) => e.__selected__));
     this.someSelectedItems.set(this.someSelected());
   }

@@ -148,7 +148,14 @@
         </div>
 
         <div class="list__footer__selectable__actions">
-          <ng-content select="[listItemsFooterMoreButtonsForSelectableList]"></ng-content>
+          @if (configuration.rows?.selectable; as selectable) {
+            @for (action of selectable.actions; track $index) {
+              <button class="{{action.style ?? 'outlined-icon-button'}} {{(action.cssClass | executeFunctionList:[selectedItems(), 0]) ?? ''}}" (click)="action.fn(selectedItems())" [disabled]="action.disabled | executeFunctionList:[selectedItems(), 0]"  [title]="action.title??action.text??''">
+                @if (action.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+                @if (action.text; as text) { <span>{{text}}</span> }
+              </button>
+            }
+          }
         </div>
 
       }
@@ -165,7 +172,7 @@
   <div class="list__items__row {{(configuration.rows?.cssClass??'') | executeFunctionList:[item, index]}}" [ngClass]="{ 'container-loading': item?.__loading_status__, 'list__items__row-selected': item.__selected__}">
     @if (configuration.rows?.selectable) {
       <div data-name="selected" class="list__items__row__cell list__items__row__cell-select">
-        <mat-checkbox (change)="selectedItem(item, $event.checked)" [checked]="item.__selected__" />
+        <mat-checkbox (change)="selectedItem(index, $event.checked)" [checked]="item.__selected__" />
       </div>
     }
 
