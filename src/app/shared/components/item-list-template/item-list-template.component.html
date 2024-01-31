@@ -150,7 +150,7 @@
         <div class="list__footer__selectable__actions">
           @if (configuration.rows?.selectable; as selectable) {
             @for (action of selectable.actions; track $index) {
-              <button class="{{action.style ?? 'outlined-icon-button'}} {{(action.cssClass | executeFunctionList:[selectedItems(), 0]) ?? ''}}" (click)="action.fn(selectedItems())" [disabled]="action.disabled | executeFunctionList:[selectedItems(), 0]"  [title]="action.title??action.text??''">
+              <button class="{{action.style ?? 'filled-icon-button'}} {{(action.cssClass | executeFunctionList:[selectedItems(), 0]) ?? ''}}" (click)="action.fn(selectedItems())" [disabled]="action.disabled | executeFunctionList:[selectedItems(), 0]"  [title]="action.title??action.text??''">
                 @if (action.icon; as icon) { <span class="material-icons">{{icon}}</span> }
                 @if (action.text; as text) { <span>{{text}}</span> }
               </button>
