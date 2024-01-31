@@ -4,16 +4,16 @@ import { ClientBusinessUnit } from '@interface/clientBusinessUnit';
 import { ItemDetailConfiguration } from '@interface/itemDetail';
 
 @Component({
-  selector: 'app-client-business-unit-detail-page',
-  standalone: true,
-  imports: [ItemDetailTemplateComponent],
-  templateUrl: './client-business-unit-detail-page.component.html',
-  styleUrl: './client-business-unit-detail-page.component.scss'
+    selector: 'app-client-business-unit-detail-page',
+    standalone: true,
+    imports: [ItemDetailTemplateComponent],
+    templateUrl: './client-business-unit-detail-page.component.html',
+    styleUrl: './client-business-unit-detail-page.component.scss'
 })
 export class ClientBusinessUnitDetailPageComponent {
     public configuration: ItemDetailConfiguration<ClientBusinessUnit> = {
         title: 'Detalles',
-        itemPathServer: 'client-business-unit',
+        server: { url: 'client-business-unit' },
         groups: [
             {
                 title: 'Datos generales',

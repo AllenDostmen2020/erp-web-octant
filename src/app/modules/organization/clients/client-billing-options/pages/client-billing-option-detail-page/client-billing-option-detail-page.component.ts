@@ -17,8 +17,7 @@ export class ClientBillingOptionDetailPageComponent {
   private router = inject(Router);
   public configuration: ItemDetailConfiguration<ClientBillingOption> = {
     title: 'Detalles de opciones de facturación',
-    itemPathServer: 'client-billing-option',
-    itemId: this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id')!,
+    server: { url: 'client-billing-option' },
     editButton: {
       routerLink: {
         url: '../edit'

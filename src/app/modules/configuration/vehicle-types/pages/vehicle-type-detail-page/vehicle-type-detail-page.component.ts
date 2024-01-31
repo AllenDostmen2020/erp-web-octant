@@ -4,16 +4,16 @@ import { ItemDetailConfiguration } from '@interface/itemDetail';
 import { VehicleType } from '@interface/vehicleType';
 
 @Component({
-  selector: 'app-vehicle-type-detail-page',
-  standalone: true,
-  imports: [ItemDetailTemplateComponent],
-  templateUrl: './vehicle-type-detail-page.component.html',
-  styleUrl: './vehicle-type-detail-page.component.scss'
+    selector: 'app-vehicle-type-detail-page',
+    standalone: true,
+    imports: [ItemDetailTemplateComponent],
+    templateUrl: './vehicle-type-detail-page.component.html',
+    styleUrl: './vehicle-type-detail-page.component.scss'
 })
 export class VehicleTypeDetailPageComponent {
     public configuration: ItemDetailConfiguration<VehicleType> = {
         title: 'Detalles',
-        itemPathServer: 'vehicle-type',
+        server: { url: 'vehicle-type' },
         groups: [
             {
                 title: 'Datos generales',

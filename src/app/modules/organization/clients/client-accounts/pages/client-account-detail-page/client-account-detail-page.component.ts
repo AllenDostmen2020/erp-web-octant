@@ -4,16 +4,16 @@ import { ClientAccount } from '@interface/clientAccount';
 import { ItemDetailConfiguration } from '@interface/itemDetail';
 
 @Component({
-  selector: 'app-client-account-detail-page',
-  standalone: true,
-  imports: [ItemDetailTemplateComponent],
-  templateUrl: './client-account-detail-page.component.html',
-  styleUrl: './client-account-detail-page.component.scss'
+    selector: 'app-client-account-detail-page',
+    standalone: true,
+    imports: [ItemDetailTemplateComponent],
+    templateUrl: './client-account-detail-page.component.html',
+    styleUrl: './client-account-detail-page.component.scss'
 })
 export class ClientAccountDetailPageComponent {
     public configuration: ItemDetailConfiguration<ClientAccount> = {
         title: 'Detalles',
-        itemPathServer: 'client-account',
+        server: { url: 'client-account' },
         groups: [
             {
                 title: 'Datos generales',

@@ -11,7 +11,7 @@ import { ItemViewConfiguration } from '@interface/itemView';
 })
 export class VehicleTypeViewPageComponent {
     public config: ItemViewConfiguration = {
-        itemPathServer: 'vehicle-type',
+        server: { url: 'vehicle-type' },
         titleModule: 'Tipo de vehículo',
         links: [
             {

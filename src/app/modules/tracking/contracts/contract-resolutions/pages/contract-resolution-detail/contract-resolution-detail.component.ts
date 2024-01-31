@@ -27,10 +27,9 @@ export class ContractResolutionDetailComponent {
 
   public configuration: ItemDetailConfiguration<ContractResolution> = {
     title: 'Resolución de contracto',
-    itemPathServer: 'contract-resolution',
+    server: { url: 'contract-resolution' },
     backButton: false,
     ignoreShowError: true,
-    itemId: this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id')!,
     interceptHttpErrorItemFn: (error) => {
       if (error.status == 404) {
         this.notRegisterData.set(true);
