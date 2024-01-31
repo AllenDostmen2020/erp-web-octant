@@ -75,6 +75,10 @@
   &:focus-visible:not(:active) {
     outline-offset: 3px;
   }
+
+  >span:not(.material-icons) {
+    display: none;
+  }
 }
 
 .icon-button {

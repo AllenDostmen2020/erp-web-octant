@@ -32,11 +32,15 @@ export class ClientViewPageComponent {
             },
             {
                 routerLink: './billing-option',
-                text: 'Opciones',
+                text: 'Opciones de facturación',
             },
             {
                 routerLink: './contract',
                 text: 'Contratos',
+            },
+            {
+                routerLink: './document',
+                text: 'Documentos',
             },
         ]
     }
