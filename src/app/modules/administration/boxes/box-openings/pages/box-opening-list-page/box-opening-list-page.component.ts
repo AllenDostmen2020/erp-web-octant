@@ -76,7 +76,7 @@ export class BoxOpeningListPageComponent {
         const id = (this.activatedRoute.parent?.parent?.snapshot.params as any).id;
         this.fetch
             .get<Box>(
-                `box/${id}?relations=last_box_opening.open_user`
+                `box/${id}?relations=lastBoxOpening.openUser`
             )
             .then((box) => {
                 this.item = box;
@@ -112,7 +112,7 @@ export class BoxOpeningListPageComponent {
             {
                 confirmDialog: {
                     title: '¿Estás seguro de cerrar caja?',
-                    description: `Se efectura el cierre de caja con el monto de ${this.item!.amount} ${this.item!.coin}`,
+                    description: `Se efectuará el cierre de caja con el monto de ${this.item!.amount} ${this.item!.coin}`,
                 }
             });
         this.databaseStorage.updateDataLocal(NameModuleDatabase.BoxOpenings);
