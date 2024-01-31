@@ -7,9 +7,12 @@ export interface ItemDetailConfiguration<T = any> {
 
     subtitle?: ((item: T) => string | number | null | undefined) | false;
 
-    itemPathServer: string;
     itemId?: string;
-    queryParams?: { [key: string]: any } | string;
+
+    server: {
+        url: string;
+        queryParams?: { [key: string]: any };
+    }
 
     loading?: boolean;
 

@@ -34,8 +34,12 @@ export class BoxDetailPageComponent {
     private databaseStorage = inject(DatabaseStorageService);
     public configuration: ItemDetailConfiguration<Box> = {
         title: 'Detalle de la caja',
-        itemPathServer: 'box',
-        queryParams: 'relations=account.bank,lastBoxOpening.openUser',
+        server: {
+            url: 'box',
+            queryParams: { 
+                relations: 'account.bank,lastBoxOpening.openUser'
+            },
+        },
         subtitle: false,
         updateItemEvent: new EventEmitter(),
         backButton: false,
@@ -114,7 +118,7 @@ export class BoxDetailPageComponent {
                     ...response,
                     box_id: this.dataItem()!.id,
                 };
-                await this.fetch.post('box-opening', body, {confirmDialog: false});
+                await this.fetch.post('box-opening', body, { confirmDialog: false });
                 this.databaseStorage.updateDataLocal(NameModuleDatabase.BoxOpenings);
                 this.configuration.updateItemEvent?.emit(true);
             }

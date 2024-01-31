@@ -166,6 +166,8 @@ export class ItemDetailTemplateComponent {
                 this.configuration.itemId = this.activatedRoute.snapshot.paramMap.get('id')!;
             } else if (this.activatedRoute.parent?.snapshot.paramMap.get('id')) {
                 this.configuration.itemId = this.activatedRoute.parent?.snapshot.paramMap.get('id')!;
+            } else if (this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id')) {
+                this.configuration.itemId = this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id')!;
             }
         }
     }
@@ -184,13 +186,10 @@ export class ItemDetailTemplateComponent {
     public async getItem<T = any>() {
         this.configuration.loading = true;
         try {
-            const { itemPathServer, ignoreShowError } = this.configuration;
-            let queryParams = this.configuration.queryParams ?? {};
-            if (queryParams instanceof Object) {
-                queryParams = objectToURLSearchParams(queryParams);
-                queryParams = queryParams.toString();
-            }
-            const url = `${itemPathServer}/${this.configuration.itemId}?${queryParams ? queryParams : ''}`;
+            const { server, ignoreShowError } = this.configuration;
+            const queryParams = objectToURLSearchParams(server.queryParams ?? {}).toString();
+
+            const url = `${server.url}/${this.configuration.itemId}?${queryParams ? queryParams : ''}`;
             const requestInit: RequestInitFetch = { signal: this.abortController.signal };
             if (ignoreShowError) requestInit.ignoreInterceptErrors = true;
             let response: T = await this.fetch.get<T>(url, requestInit);
@@ -215,7 +214,7 @@ export class ItemDetailTemplateComponent {
     }
 
     public async deleteItem() {
-        const url = `${this.configuration.itemPathServer}/${this.configuration.itemId}`;
+        const url = `${this.configuration.server.url}/${this.configuration.itemId}`;
         const response = await this.fetch.delete(url);
         const { afterDeleteItemFn } = this.configuration;
         if (afterDeleteItemFn) afterDeleteItemFn(response);
@@ -223,7 +222,7 @@ export class ItemDetailTemplateComponent {
     }
 
     public async restoreItem() {
-        const url = `${this.configuration.itemPathServer}/${this.configuration.itemId}/restore`;
+        const url = `${this.configuration.server.url}/${this.configuration.itemId}/restore`;
         const confirmDialog: ConfirmDialogData = {
             icon: 'autorenew',
             title: '¿Deseas restaurar este registro?',

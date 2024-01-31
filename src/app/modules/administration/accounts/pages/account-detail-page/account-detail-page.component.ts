@@ -4,17 +4,19 @@ import { Account } from '@interface/account';
 import { ItemDetailConfiguration } from '@interface/itemDetail';
 
 @Component({
-  selector: 'app-account-detail-page',
-  standalone: true,
-  imports: [ItemDetailTemplateComponent],
-  templateUrl: './account-detail-page.component.html',
-  styleUrl: './account-detail-page.component.scss'
+    selector: 'app-account-detail-page',
+    standalone: true,
+    imports: [ItemDetailTemplateComponent],
+    templateUrl: './account-detail-page.component.html',
+    styleUrl: './account-detail-page.component.scss'
 })
 export class AccountDetailPageComponent {
     public configuration: ItemDetailConfiguration<Account> = {
         title: 'Detalles',
-        itemPathServer: 'account',
-        queryParams: 'relations=bank',
+        server: {
+            url: 'account',
+            queryParams: { relations: 'bank' },
+        },
         groups: [
             {
                 title: 'Datos generales',

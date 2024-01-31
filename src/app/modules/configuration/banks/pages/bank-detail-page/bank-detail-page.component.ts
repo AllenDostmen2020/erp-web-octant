@@ -13,7 +13,7 @@ import { ItemDetailConfiguration } from '@interface/itemDetail';
 export class BankDetailPageComponent {
     public configuration: ItemDetailConfiguration<Bank> = {
         title: 'Detalles',
-        itemPathServer: 'bank',
+        server: { url: 'bank' },
         groups: [
             {
                 title: 'Datos generales',
