@@ -13,15 +13,15 @@ import { DatabaseStorageService, NameModuleDatabase } from '@service/database-st
   styleUrl: './plan-create-page.component.scss'
 })
 export class PlanCreatePageComponent {
-    private databaseStorage = inject(DatabaseStorageService)
-    public configuration: ItemFormConfiguration = {
-        type: 'create',
-        titleModule: 'plan',
-        formGroup: planFormGroup(),
-        afterSaveFormFn: (item: Plan) => {
-            this.databaseStorage.updateDataLocal(NameModuleDatabase.Plans);
-          },
-        fields: DEFAULT_DISPLAY_FIELDS_FORM_PLAN,
-        pathServer: 'plan',
-    };
+  private databaseStorage = inject(DatabaseStorageService)
+  public configuration: ItemFormConfiguration = {
+    type: 'create',
+    titleModule: 'plan',
+    formGroup: planFormGroup(),
+    afterSaveFormFn: (item: Plan) => {
+      this.databaseStorage.updateDataLocal(NameModuleDatabase.Plans);
+    },
+    fields: DEFAULT_DISPLAY_FIELDS_FORM_PLAN,
+    server: { url: 'plan' },
+  };
 }

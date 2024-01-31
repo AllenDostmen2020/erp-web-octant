@@ -64,13 +64,9 @@ export class ItemViewTemplateComponent {
   private async getItem<T>() {
     this.configuration.loading = true;
     try {
-      const { itemPathServer } = this.configuration;
-      let queryParams = this.configuration.queryParams ?? {};
-        if (queryParams instanceof Object) {
-            queryParams = objectToURLSearchParams(queryParams);
-            queryParams = queryParams.toString();
-        }
-      const url = `${itemPathServer}/${this.itemId}?${queryParams ?? ''}`;
+      const { server } = this.configuration;
+      const queryParams = objectToURLSearchParams(server.queryParams ?? {});
+      const url = `${server.url}/${this.itemId}?${queryParams ? queryParams : ''}`;
       const response = await this.fetch.get<T>(url, { signal: this.abortController.signal });
       const { parseItemFn } = this.configuration;
       this.configuration.item = parseItemFn?.(response) ?? response;

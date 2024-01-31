@@ -11,7 +11,7 @@ import { ItemViewConfiguration } from '@interface/itemView';
 })
 export class UserViewPageComponent {
     public config: ItemViewConfiguration = {
-        itemPathServer: 'user',
+        server: { url: 'user' },
         titleModule: 'Usuario',
         links: [
             {

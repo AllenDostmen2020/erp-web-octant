@@ -13,8 +13,10 @@ import { Vehicle } from '@interface/vehicle';
 export class VehicleViewPageComponent {
     public configuration: ItemViewConfiguration<Vehicle> = {
         titleModule: 'Vehículo',
-        itemPathServer: 'vehicle',
-        queryParams: { relations: 'client' },
+        server: { 
+            url: 'vehicle',
+            queryParams: { relations: 'client' },
+        },
         nameItemFn: (item) => `${item.plate} - ${item.client?.name}`,
         links: [
             {

@@ -15,7 +15,6 @@ export class BoxEditPageComponent extends BoxCreatePageComponent {
     ) {
         super();
         this.configuration.type = 'update';
-        this.configuration.itemPathServer = 'box';
         this.configuration.hiddeFields = true;
     }
 }

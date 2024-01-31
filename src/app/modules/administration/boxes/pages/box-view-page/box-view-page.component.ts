@@ -11,8 +11,8 @@ import { ItemViewConfiguration } from '@interface/itemView';
 })
 export class BoxViewPageComponent {
     public config : ItemViewConfiguration = {
-        itemPathServer: 'box',
         titleModule: 'Caja',
+        server: { url: 'box' },
         links: [
             {
                 routerLink: './detail',

@@ -22,7 +22,7 @@ export class ContractResolutionCreateComponent {
     titleModule: 'contrato',
     title: 'Resolución de contrato',
     type: 'create',
-    pathServer: 'contract-resolution',
+    server: { url: 'contract-resolution' },
     formGroup: new FormGroup({
       contract_id: new FormControl(this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id'), [Validators.required]),
       type: new FormControl<ContractResolutionTypeEnum | null>(null),
@@ -39,7 +39,7 @@ export class ContractResolutionCreateComponent {
       client_responsible_phone: new FormControl<string>(''),
       client_responsible_email: new FormControl<string>(''),
       link_file: new FormControl<string | null>(null),
-      responsible_user:  new FormControl(null),
+      responsible_user: new FormControl(null),
     }),
   }
 }

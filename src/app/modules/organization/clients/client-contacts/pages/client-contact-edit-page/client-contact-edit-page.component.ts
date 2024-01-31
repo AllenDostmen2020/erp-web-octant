@@ -9,13 +9,10 @@ import { ItemFormTemplateComponent } from '@component/item-form-template/item-fo
   templateUrl: './client-contact-edit-page.component.html',
   styleUrl: './client-contact-edit-page.component.scss'
 })
-export class ClientContactEditPageComponent extends ClientContactCreatePageComponent{
-    constructor(
-    ) {
-        super();
-        this.configuration.type = 'update';
-        this.configuration.itemPathServer = 'client-contact';
-        this.configuration.itemId = this.activatedRoute.snapshot.paramMap.get('id')!;
-        this.configuration.hiddeFields = true;
-    }
+export class ClientContactEditPageComponent extends ClientContactCreatePageComponent {
+  constructor() {
+    super();
+    this.configuration.type = 'update';
+    this.configuration.hiddeFields = true;
+  }
 }

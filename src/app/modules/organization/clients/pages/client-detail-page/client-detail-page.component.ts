@@ -14,7 +14,7 @@ export class ClientDetailPageComponent {
     public configuration: ItemDetailConfiguration<Client> = {
         title: 'Detalles',
         subtitle: false,
-        itemPathServer: 'client',
+        server: { url: 'client' },
         backButton: false,
         groups: [
             {

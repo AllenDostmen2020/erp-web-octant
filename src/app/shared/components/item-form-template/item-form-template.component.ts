@@ -21,6 +21,7 @@ import { ExecuteFunctionPipe } from '@pipe/execute-function.pipe';
 import { GetMixedValuePipe } from '@pipe/get-mixed-value.pipe';
 import { InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
 import { InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
+import { objectToURLSearchParams } from '@utility/queryParams';
 
 @Component({
   selector: 'app-item-form-template',
@@ -61,27 +62,12 @@ export class ItemFormTemplateComponent {
   ngOnInit() {
     if (this.configuration.type == 'update') {
       this.setItemId();
-      this.setItemPathServer();
-      if (this.configuration.dataItem) {
-        if (this.configuration.dataItem()) this.configuration.loading = false;
-        else this.getItem();
+      if (this.configuration.dataItem && this.configuration.dataItem()) {
+        this.configuration.loading = false;
+      } else {
+        this.configuration.dataItem = signal(null);
+        this.getItem();
       }
-
-      // PROVISIONAL *** POR ELIMINAR ***
-      // PROVISIONAL *** POR ELIMINAR ***
-      // PROVISIONAL *** POR ELIMINAR ***
-      else {
-        if (this.configuration.item) {
-          this.configuration.loading = false;
-          this.configuration.dataItem = signal(this.configuration.item);
-        } else {
-          this.getItem(); 
-        }
-      }
-      // PROVISIONAL *** POR ELIMINAR ***
-      // PROVISIONAL *** POR ELIMINAR ***
-      // PROVISIONAL *** POR ELIMINAR ***
-
     }
   }
 
@@ -94,12 +80,6 @@ export class ItemFormTemplateComponent {
       if (this.activatedRoute.snapshot.paramMap.get('id')) {
         this.configuration.itemId = this.activatedRoute.snapshot.paramMap.get('id')!;
       }
-    }
-  }
-
-  private setItemPathServer() {
-    if (!this.configuration.itemPathServer) {
-      this.configuration.itemPathServer = this.configuration.pathServer;
     }
   }
 
@@ -120,12 +100,12 @@ export class ItemFormTemplateComponent {
 
       let response = null;
       if (this.configuration.type === 'create') {
-        response = await this.fetch.post(this.configuration.pathServer, data);
-        this.events.emitEvent(`${this.configuration.pathServer}_created`, response);
+        response = await this.fetch.post(this.configuration.server.url, data);
+        this.events.emitEvent(`${this.configuration.server.url}_created`, response);
       } else {
-        const url = this.configuration.customUpdatePathServer ?? `${this.configuration.pathServer}/${this.configuration.item.id}`;
+        const url = this.configuration.server.updateUrl ?? `${this.configuration.server.url}/${this.configuration.dataItem!()?.id}`;
         response = await this.fetch.put(url, data);
-        this.events.emitEvent(`${this.configuration.pathServer}_updated`, response);
+        this.events.emitEvent(`${this.configuration.server.url}_updated`, response);
       }
 
       const { afterSaveFormFn } = this.configuration;
@@ -140,14 +120,18 @@ export class ItemFormTemplateComponent {
     this.configuration.dataItem = signal(null)
     this.configuration.loading = true;
     try {
-      const { itemId, itemQueryParamsString, itemPathServer } = this.configuration;
-      const url = `${itemPathServer}/${itemId}?${itemQueryParamsString ? itemQueryParamsString : ''}`;
+      const { itemId, server } = this.configuration;
+      let queryParams:any = server.itemQueryParams ?? {};
+      if (queryParams instanceof Object) {
+        queryParams = objectToURLSearchParams(queryParams);
+        queryParams = queryParams.toString();
+      }
+      const url = `${server.itemUrl ?? server.url}/${itemId}?${queryParams ? queryParams : ''}`;
       const requestInit: RequestInitFetch = { signal: this.abortController.signal };
       let item: any = await this.fetch.get(url, requestInit);
       const { parseItemBeforePatchFormFn } = this.configuration;
       item = await parseItemBeforePatchFormFn?.(item) ?? item;
       this.configuration.formGroup.patchValue(item);
-      this.configuration.item = item; // *** PROVISIONAL POR ELIMINAR *** //
       this.configuration.dataItem.set(item);
       this.configuration.hiddeFields = false;
     } catch (error) {

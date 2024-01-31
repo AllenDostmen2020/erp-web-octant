@@ -16,6 +16,6 @@ export class VehicleCreatePageComponent {
         titleModule: 'vehículo',
         formGroup: vehicleFormGroup(),
         fields: DEFAULT_DISPLAY_FIELDS_FORM_VEHICLE,
-        pathServer: 'vehicle',
+        server: {url: 'vehicle'},
     };
 }

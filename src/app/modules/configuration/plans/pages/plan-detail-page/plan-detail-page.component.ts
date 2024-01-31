@@ -13,7 +13,7 @@ import { Plan } from '@interface/plan';
 export class PlanDetailPageComponent {
     public configuration: ItemDetailConfiguration<Plan> = {
         title: 'Detalles',
-        itemPathServer: 'plan',
+        server: { url: 'plan' },
         groups: [
             {
                 title: 'Datos generales',

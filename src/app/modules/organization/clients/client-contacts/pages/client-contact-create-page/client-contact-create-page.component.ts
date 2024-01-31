@@ -22,9 +22,7 @@ export class ClientContactCreatePageComponent {
             client_id: Number(this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id')!)
         }),
         fields: [...DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_CONTACT],
-        pathServer: 'client-contact',
-
-        itemId: this.activatedRoute.snapshot.paramMap.get('id')!, // for edit
+        server: { url: 'client-contact' },
     }
 
     get documentTypeCtrl(): FormControl {

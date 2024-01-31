@@ -4,18 +4,22 @@ import { Contract } from '@interface/contract';
 import { ItemDetailConfiguration } from '@interface/itemDetail';
 
 @Component({
-  selector: 'app-client-contract-detail-page',
-  standalone: true,
-  imports: [ItemDetailTemplateComponent],
-  templateUrl: './client-contract-detail-page.component.html',
-  styleUrl: './client-contract-detail-page.component.scss'
+    selector: 'app-client-contract-detail-page',
+    standalone: true,
+    imports: [ItemDetailTemplateComponent],
+    templateUrl: './client-contract-detail-page.component.html',
+    styleUrl: './client-contract-detail-page.component.scss'
 })
 export class ClientContractDetailPageComponent {
     public configuration: ItemDetailConfiguration<Contract> = {
         title: 'Detalles',
         subtitle: false,
-        itemPathServer: 'contract',
-        queryParams: 'relations=plan,clientBusinessUnit',
+        server: {
+            url: 'contract',
+            queryParams: {
+                relations: 'plan,clientBusinessUnit'
+            },
+        },
         backButton: false,
         groups: [
             {

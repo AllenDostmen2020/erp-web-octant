@@ -4,17 +4,17 @@ import { ClientContact } from '@interface/clientContact';
 import { ItemDetailConfiguration } from '@interface/itemDetail';
 
 @Component({
-  selector: 'app-client-contact-detail-page',
-  standalone: true,
-  imports: [ItemDetailTemplateComponent],
-  templateUrl: './client-contact-detail-page.component.html',
-  styleUrl: './client-contact-detail-page.component.scss'
+    selector: 'app-client-contact-detail-page',
+    standalone: true,
+    imports: [ItemDetailTemplateComponent],
+    templateUrl: './client-contact-detail-page.component.html',
+    styleUrl: './client-contact-detail-page.component.scss'
 })
 export class ClientContactDetailPageComponent {
     public configuration: ItemDetailConfiguration<ClientContact> = {
         title: 'Detalles',
         subtitle: false,
-        itemPathServer: 'client-contact',
+        server: { url: 'client-contact' },
         backButton: false,
         groups: [
             {

@@ -17,8 +17,6 @@ export class UserEditPageComponent extends UserCreatePageComponent{
     ) {
         super();
         this.configuration.type = 'update';
-        this.configuration.itemPathServer = 'user';
-        this.configuration.itemId = this.activatedRoute.snapshot.paramMap.get('id')!;
         this.configuration.hiddeFields = true;
     }
 }

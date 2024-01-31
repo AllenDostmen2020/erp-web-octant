@@ -11,15 +11,15 @@ import { ItemFormTemplateComponent } from '@component/item-form-template/item-fo
   styleUrl: './vehicle-edit-page.component.scss'
 })
 export class VehicleEditPageComponent extends VehicleCreatePageComponent {
-    private activatedRoute = inject(ActivatedRoute);
+  private activatedRoute = inject(ActivatedRoute);
 
-    constructor(
-    ) {
-        super();
-        this.configuration.type = 'update';
-        this.configuration.itemPathServer = 'vehicle';
-        this.configuration.itemQueryParamsString = 'relations=client,vehicleType';
-        this.configuration.itemId = this.activatedRoute.snapshot.paramMap.get('id')!;
-        this.configuration.hiddeFields = true;
-    }
+  constructor(
+  ) {
+    super();
+    this.configuration.type = 'update';
+    this.configuration.server.itemUrl = 'vehicle';
+    this.configuration.server.itemQueryParams = { relations: 'client,vehicleType' };
+    this.configuration.itemId = this.activatedRoute.snapshot.paramMap.get('id')!;
+    this.configuration.hiddeFields = true;
+  }
 }

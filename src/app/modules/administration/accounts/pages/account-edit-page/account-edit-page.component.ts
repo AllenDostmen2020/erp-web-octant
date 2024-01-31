@@ -17,9 +17,7 @@ export class AccountEditPageComponent extends AccountCreatePageComponent{
     ) {
         super();
         this.configuration.type = 'update';
-        this.configuration.itemPathServer = 'account';
-        this.configuration.itemQueryParamsString = 'relations=bank',
-        this.configuration.itemId = this.activatedRoute.snapshot.paramMap.get('id')!;
+        this.configuration.server.itemQueryParams = {relations: 'bank'},
         this.configuration.hiddeFields = true;
     }
 }

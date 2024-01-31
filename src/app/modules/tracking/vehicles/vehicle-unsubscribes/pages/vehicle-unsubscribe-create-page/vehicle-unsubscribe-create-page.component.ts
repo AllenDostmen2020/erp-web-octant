@@ -22,7 +22,7 @@ export class VehicleUnsubscribeCreatePageComponent {
 
     public configuration: ItemFormConfiguration<VehicleUnsubscribe> = {
         titleModule: 'baja',
-        pathServer: 'vehicle-unsubscribe',
+        server: { url: 'vehicle-unsubscribe' },
         formGroup: vehicleUnsubscribeFormGroup(
             {
                 vehicle_id: Number(this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id')!),

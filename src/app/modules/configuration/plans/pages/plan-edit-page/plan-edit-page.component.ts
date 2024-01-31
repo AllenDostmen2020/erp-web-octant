@@ -17,8 +17,6 @@ export class PlanEditPageComponent extends PlanCreatePageComponent {
     ) {
         super();
         this.configuration.type = 'update';
-        this.configuration.itemPathServer = 'plan';
-        this.configuration.itemId = this.activatedRoute.snapshot.paramMap.get('id')!;
         this.configuration.hiddeFields = true;
     }
 }

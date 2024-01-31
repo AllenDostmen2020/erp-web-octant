@@ -11,11 +11,11 @@ import { DEFAULT_DISPLAY_FIELDS_FORM_ACCOUNT, accountFormGroup } from '../../hel
   styleUrl: './account-create-page.component.scss'
 })
 export class AccountCreatePageComponent {
-    public configuration: ItemFormConfiguration = {
-        type: 'create',
-        titleModule: 'cuenta',
-        formGroup: accountFormGroup(),
-        fields: DEFAULT_DISPLAY_FIELDS_FORM_ACCOUNT,
-        pathServer: 'account',
-    };
+  public configuration: ItemFormConfiguration = {
+    type: 'create',
+    titleModule: 'cuenta',
+    formGroup: accountFormGroup(),
+    fields: DEFAULT_DISPLAY_FIELDS_FORM_ACCOUNT,
+    server: { url: 'account' },
+  };
 }

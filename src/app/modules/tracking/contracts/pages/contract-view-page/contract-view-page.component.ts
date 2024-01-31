@@ -13,8 +13,10 @@ import { ItemViewConfiguration } from '@interface/itemView';
 export class ContractViewPageComponent {
   public configuration: ItemViewConfiguration<Contract> = {
     titleModule: 'Contrato',
-    itemPathServer: 'contract',
-    queryParams: { relations: 'client,clientBusinessUnit,plan' },
+    server: {
+      url: 'contract',
+      queryParams: { relations: 'client,clientBusinessUnit,plan' },
+    },
     nameItemFn: (item) => `${item.code} - ${item.client?.name}`,
     links: [
       {

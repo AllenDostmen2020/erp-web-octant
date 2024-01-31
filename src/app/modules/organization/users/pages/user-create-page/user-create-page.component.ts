@@ -11,12 +11,12 @@ import { DEFAULT_DISPLAY_FIELDS_FORM_USER, userFormGroup } from '../../helpers';
   styleUrl: './user-create-page.component.scss'
 })
 export class UserCreatePageComponent {
-    public configuration: ItemFormConfiguration = {
-        titleModule: 'usuario',
-        type: 'create',
-        formGroup: userFormGroup(),
-        fields: [...DEFAULT_DISPLAY_FIELDS_FORM_USER],
-        pathServer: 'user',
-        loading: false,
-      }
+  public configuration: ItemFormConfiguration = {
+    titleModule: 'usuario',
+    type: 'create',
+    formGroup: userFormGroup(),
+    fields: [...DEFAULT_DISPLAY_FIELDS_FORM_USER],
+    server: { url: 'user' },
+    loading: false,
+  }
 }

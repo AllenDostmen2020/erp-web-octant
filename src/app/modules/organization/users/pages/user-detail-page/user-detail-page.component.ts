@@ -14,7 +14,7 @@ export class UserDetailPageComponent {
     public configuration: ItemDetailConfiguration<User> = {
         title: 'Detalles',
         subtitle: false,
-        itemPathServer: 'user',
+        server: { url: 'user' },
         backButton: false,
         groups: [
             {

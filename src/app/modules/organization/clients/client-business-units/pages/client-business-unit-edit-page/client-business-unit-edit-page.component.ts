@@ -15,8 +15,6 @@ export class ClientBusinessUnitEditPageComponent extends ClientBusinessUnitCreat
     ) {
         super();
         this.configuration.type = 'update';
-        this.configuration.itemPathServer = 'client-business-unit';
-        this.configuration.itemId = this.activatedRoute.snapshot.paramMap.get('id')!;
         this.configuration.hiddeFields = true;
     }
 }

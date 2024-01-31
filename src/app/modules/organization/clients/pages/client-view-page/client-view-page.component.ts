@@ -11,7 +11,7 @@ import { ItemViewConfiguration } from '@interface/itemView';
 })
 export class ClientViewPageComponent {
     public config: ItemViewConfiguration = {
-        itemPathServer: 'client',
+        server: { url: 'client' },
         titleModule: 'Cliente',
         links: [
             {

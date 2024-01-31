@@ -25,7 +25,7 @@ export class ClientCreatePageComponent {
         titleModule: 'cliente',
         formGroup: clientFormGroup(),
         fields: DEFAULT_DISPLAY_FIELDS_FORM_CLIENT,
-        pathServer: 'client',
+        server: { url: 'client' },
     };
 
     get documentTypes(): DocumentTypeEnum[] {

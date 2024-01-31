@@ -13,8 +13,12 @@ import { Vehicle } from '@interface/vehicle';
 export class VehicleDetailPageComponent {
     public configuration: ItemDetailConfiguration<Vehicle> = {
         title: 'Detalles',
-        itemPathServer: 'vehicle',
-        queryParams: 'relations=client,vehicleType',
+        server: { 
+            url: 'vehicle',
+            queryParams: {
+                relations: 'client,vehicleType'
+            },
+        },
         subtitle: false,
         groups: [
             {

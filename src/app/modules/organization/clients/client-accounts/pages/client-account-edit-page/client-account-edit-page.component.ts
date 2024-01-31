@@ -14,8 +14,6 @@ export class ClientAccountEditPageComponent extends ClientAccountCreatePageCompo
     ) {
         super();
         this.configuration.type = 'update';
-        this.configuration.itemPathServer = 'client-account';
-        this.configuration.itemId = this.activatedRoute.snapshot.paramMap.get('id')!;
         this.configuration.hiddeFields = true;
     }
 }

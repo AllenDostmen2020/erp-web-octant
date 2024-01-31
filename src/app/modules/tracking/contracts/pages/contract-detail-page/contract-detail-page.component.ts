@@ -5,20 +5,22 @@ import { Contract } from '@interface/contract';
 import { ItemDetailConfiguration } from '@interface/itemDetail';
 
 @Component({
-  selector: 'app-contract-detail-page',
-  standalone: true,
-  imports: [ItemDetailTemplateComponent],
-  templateUrl: './contract-detail-page.component.html',
-  styleUrl: './contract-detail-page.component.scss'
+    selector: 'app-contract-detail-page',
+    standalone: true,
+    imports: [ItemDetailTemplateComponent],
+    templateUrl: './contract-detail-page.component.html',
+    styleUrl: './contract-detail-page.component.scss'
 })
 export class ContractDetailPageComponent {
-    private activatedRoute= inject(ActivatedRoute)
     public configuration: ItemDetailConfiguration<Contract> = {
         title: 'Detalles',
         subtitle: false,
-        itemPathServer: 'contract',
-        queryParams: 'relations=client,plan,clientBusinessUnit',
-        itemId: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')!,
+        server: {
+            url: 'contract',
+            queryParams: {
+                relations: 'client,plan,clientBusinessUnit'
+            },
+        },
         backButton: false,
         groups: [
             {
