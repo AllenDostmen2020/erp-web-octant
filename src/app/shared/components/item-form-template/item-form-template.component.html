@@ -38,7 +38,7 @@
     <!-- -------------------------- -->
     <div #divContent class="form__content">
         @if (!configuration.hiddeFields) {
-        <ng-content select="[beforeContent]" />
+        <ng-content select="beforeContent" />
         <ng-content />
         @if (configuration.fields;as fields) {
             <div class="form__content__autogenerate-form-fields">
@@ -229,7 +229,7 @@
                 }
             </div>
         }
-        <ng-content select="[afterContent]" />
+        <ng-content select="afterContent" />
         }
         @if (!configuration.dataItem?.() && configuration.loading && configuration.type == 'update') {
         <app-spinner-default />

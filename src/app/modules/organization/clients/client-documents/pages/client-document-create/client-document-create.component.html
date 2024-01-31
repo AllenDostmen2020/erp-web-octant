@@ -1,1 +1,5 @@
-<app-item-form-template [configuration]="formConfiguration"/>
+<app-item-form-template [configuration]="formConfiguration">
+    @for (item of items(); track item.contract.id; let i = $index) {
+        <app-client-contract-document-item-form [item]="item" [index]="i" />
+    }
+</app-item-form-template>
