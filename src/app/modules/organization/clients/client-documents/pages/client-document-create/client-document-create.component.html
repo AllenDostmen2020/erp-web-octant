@@ -1,5 +1,23 @@
 <app-item-form-template [configuration]="formConfiguration">
-    @for (item of items(); track item.contract.id; let i = $index) {
-        <app-client-contract-document-item-form [item]="item" [index]="i" />
-    }
+
+    <ng-container beforeContent>
+        <div class="items">
+            <div class="item__row item__row-header">
+                <div class="item__row__cell">Descripción</div>
+                <div class="item__row__cell" align="right">Costo</div>
+                <div class="item__row__cell" align="right">Cantidad</div>
+                <div class="item__row__cell" align="right">Subtotal</div>
+            </div>
+
+            @for (item of items(); track item.contract.id; let i = $index) {
+                <app-client-contract-document-item-form [item]="item" [index]="i" />
+            }
+
+        </div>
+        <br>
+                    <button class="quotation-items__add-title outlined-button" (click)="newAdd($event)">
+                    <span class="material-icons">add</span>
+                    <span>Agregar nuevo título</span>
+                    </button>
+    </ng-container>
 </app-item-form-template>
