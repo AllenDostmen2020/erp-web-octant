@@ -13,21 +13,27 @@ export interface ItemFormConfiguration<Item = any, Data = any> {
 
     formGroup: FormGroup;
     type: 'create' | 'update';
-    pathServer: string;
+
     loading?: boolean;
     hiddeFields?: boolean;
     fields?: FormInput[];
 
-    item?: Item;
     dataItem?: WritableSignal<Item | null>,
 
-    customUpdatePathServer?: string;
+    server: {
+        url: string;
+        queryParams?: { [key: string]: string | number | boolean | null | undefined };
+        updateUrl?: string;
+        updateQueryParams?: { [key: string]: string | number | boolean | null | undefined };
+        createUrl?: string;
+        createQueryParams?: { [key: string]: string | number | boolean | null | undefined };
+        itemUrl?: string;
+        itemQueryParams?: { [key: string]: string | number | boolean | null | undefined };
+    }
 
     parseDataItemBeforeSendFormFn?: (data: Data) => (Data | Promise<Data>);
     afterSaveFormFn?: (data: Item) => void;
 
-    itemPathServer?: string;
-    itemQueryParamsString?: string;
     itemId?: string | number
     parseItemBeforePatchFormFn?: (item: Item) => (Item | Promise<Item>);
 

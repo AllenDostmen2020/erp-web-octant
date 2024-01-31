@@ -17,8 +17,6 @@ export class BankEditPageComponent extends BankCreatePageComponent {
     ) {
         super();
         this.configuration.type = 'update';
-        this.configuration.itemPathServer = 'bank';
-        this.configuration.itemId = this.activatedRoute.snapshot.paramMap.get('id')!;
         this.configuration.hiddeFields = true;
     }
 }

@@ -17,8 +17,6 @@ export class VehicleTypeEditPageComponent extends VehicleTypeCreatePageComponent
     ) {
         super();
         this.configuration.type = 'update';
-        this.configuration.itemPathServer = 'vehicle-type';
-        this.configuration.itemId = this.activatedRoute.snapshot.paramMap.get('id')!;
         this.configuration.hiddeFields = true;
     }
 

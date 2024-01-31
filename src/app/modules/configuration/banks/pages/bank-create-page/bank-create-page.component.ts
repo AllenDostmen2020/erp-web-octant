@@ -11,11 +11,11 @@ import { ItemFormTemplateComponent } from '@component/item-form-template/item-fo
   styleUrl: './bank-create-page.component.scss'
 })
 export class BankCreatePageComponent {
-    public configuration: ItemFormConfiguration = {
-        type: 'create',
-        titleModule: 'banco',
-        formGroup: bankFormGroup(),
-        fields: DEFAULT_DISPLAY_FIELDS_FORM_BANK,
-        pathServer: 'bank',
-    };
+  public configuration: ItemFormConfiguration = {
+    type: 'create',
+    titleModule: 'banco',
+    formGroup: bankFormGroup(),
+    fields: DEFAULT_DISPLAY_FIELDS_FORM_BANK,
+    server: { url: 'bank' },
+  };
 }

@@ -17,7 +17,7 @@ import { getContractFormGroup } from '../../helpers';
 export class ContractCreatePageComponent {
   public configuration: ItemFormConfiguration = {
     titleModule: 'contrato',
-    pathServer: 'contract',
+    server: { url: 'contract' },
     type: 'create',
     formGroup: getContractFormGroup(),
   }

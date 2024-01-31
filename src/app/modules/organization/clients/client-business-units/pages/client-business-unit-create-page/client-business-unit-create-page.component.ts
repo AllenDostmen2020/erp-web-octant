@@ -12,14 +12,14 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './client-business-unit-create-page.component.scss'
 })
 export class ClientBusinessUnitCreatePageComponent {
-    public activatedRoute = inject(ActivatedRoute)
-    public configuration: ItemFormConfiguration = {
-        type: 'create',
-        titleModule: 'unidad de negocio',
-        formGroup: clientBusinessUnitFormGroup({
-            client_id: Number(this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id')!)
-          }),
-        fields: DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_BUSINESS_UNIT,
-        pathServer: 'client-business-unit',
-    };
+  public activatedRoute = inject(ActivatedRoute)
+  public configuration: ItemFormConfiguration = {
+    type: 'create',
+    titleModule: 'unidad de negocio',
+    formGroup: clientBusinessUnitFormGroup({
+      client_id: Number(this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id')!)
+    }),
+    fields: DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_BUSINESS_UNIT,
+    server: { url: 'client-business-unit' },
+  };
 }

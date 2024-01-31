@@ -22,6 +22,6 @@ export class VehicleTypeCreatePageComponent {
       this.databaseStorage.updateDataLocal(NameModuleDatabase.VehicleTypes)
     },
     fields: DEFAULT_DISPLAY_FIELDS_FORM_VEHICLE_TYPE,
-    pathServer: 'vehicle-type',
+    server: { url: 'vehicle-type' },
   };
 }

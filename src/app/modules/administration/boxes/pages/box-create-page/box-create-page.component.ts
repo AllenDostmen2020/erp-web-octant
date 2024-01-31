@@ -5,11 +5,11 @@ import { ItemFormConfiguration } from '@interface/itemForm';
 import { BoxFormPageComponent } from '../box-form-page/box-form-page.component';
 
 @Component({
-  selector: 'app-box-create-page',
-  standalone: true,
-  imports: [ItemFormTemplateComponent, BoxFormPageComponent],
-  templateUrl: './box-create-page.component.html',
-  styleUrl: './box-create-page.component.scss'
+    selector: 'app-box-create-page',
+    standalone: true,
+    imports: [ItemFormTemplateComponent, BoxFormPageComponent],
+    templateUrl: './box-create-page.component.html',
+    styleUrl: './box-create-page.component.scss'
 })
 export class BoxCreatePageComponent {
     public configuration: ItemFormConfiguration = {
@@ -22,6 +22,6 @@ export class BoxCreatePageComponent {
             description: new FormControl(''),
             coin: new FormControl(''),
         }),
-        pathServer: 'box',
+        server: { url: 'box' },
     };
 }

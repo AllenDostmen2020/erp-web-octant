@@ -43,7 +43,6 @@ export class ClientAccountCreatePageComponent {
                 cssClass: 'col-span-full @2xl:col-span-6',
             })
         ],
-        pathServer: 'client-account',
-        loading: false,
+        server: { url: 'client-account' },
     }
 }

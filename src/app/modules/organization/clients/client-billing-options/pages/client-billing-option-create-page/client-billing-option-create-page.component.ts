@@ -7,11 +7,11 @@ import { ItemFormTemplateComponent } from '@component/item-form-template/item-fo
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
-  selector: 'app-client-billing-option-create-page',
-  standalone: true,
-  imports: [ItemFormTemplateComponent, MatSlideToggleModule],
-  templateUrl: './client-billing-option-create-page.component.html',
-  styleUrl: './client-billing-option-create-page.component.scss'
+    selector: 'app-client-billing-option-create-page',
+    standalone: true,
+    imports: [ItemFormTemplateComponent, MatSlideToggleModule],
+    templateUrl: './client-billing-option-create-page.component.html',
+    styleUrl: './client-billing-option-create-page.component.scss'
 })
 export class ClientBillingOptionCreatePageComponent {
     public activatedRoute = inject(ActivatedRoute);
@@ -20,7 +20,7 @@ export class ClientBillingOptionCreatePageComponent {
         type: 'create',
         formGroup: clientBillingOptionFormGroup({ id: Number(this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id')!) }),
         fields: [...DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_BILLING_OPTION],
-        pathServer: 'client-billing-option',
+        server: { url: 'client-billing-option' },
     };
 
     get formGroup(): FormGroup {
