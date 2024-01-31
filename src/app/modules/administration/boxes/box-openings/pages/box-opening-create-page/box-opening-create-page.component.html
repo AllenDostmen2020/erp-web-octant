@@ -1,9 +1,9 @@
 <div class="grid grid-rows-[auto,1fr,auto] max-h-[80vh]">
-    <div class="p-6 headline-small">
+    <div class="dialog__title">
         Aperturar caja
     </div>
 
-    <form [formGroup]="form" class="grid col-span-full px-6 py-2 overflow-overlay custom-scroll">
+    <form [formGroup]="form" class="dialog__content">
 
         <mat-form-field>
             <mat-label>Monto inicial</mat-label>
@@ -17,9 +17,9 @@
         </mat-form-field>
     </form>
 
-    <div class="flex justify-end gap-1 p-6">
-        <button class="outlined-button" mat-dialog-close type="button">Cancelar</button>
-        <button class="filled-button" [mat-dialog-close]="true" cdkFocusInitial (click)="save()">Aperturar</button>
+    <div class="dialog__actions">
+        <button class="text-button" mat-dialog-close type="button">Cancelar</button>
+        <button class="text-button" [mat-dialog-close]="true" cdkFocusInitial (click)="save()">Aperturar</button>
     </div>
 
 </div>
