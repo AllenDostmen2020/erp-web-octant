@@ -21,6 +21,11 @@ const clientLateralPanelRouting: Routes = [
     //     loadComponent: () => import('./home/clients/client-contacts/components/client-contact-create/client-contact-create.component').then(m => m.ClientContactCreateComponent),
     //     outlet: 'route-lateral'
     // },
+    {
+        path: 'client/:client_id/contract/add',
+        loadComponent: () => import('./modules/organization/clients/client-documents/pages/client-document-contract-add/client-document-contract-add.component').then(m => m.ClientDocumentContractAddComponent),
+        outlet: 'route-lateral',
+    },
 ];
 
 

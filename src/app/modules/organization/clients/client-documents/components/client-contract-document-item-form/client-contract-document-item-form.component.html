@@ -1,1 +1,53 @@
-<p>client-contract-document-item-form works!</p>
+@if (item.edit) {
+<div class="item__row" level="2" [formGroup]="form">
+    <div class="item__row__cell item__row__cell-start">
+        {{ item.contract.description }}
+    </div>
+
+    <div class="item__row__cell" align="center">
+        {{ item.contract.sale_price }}
+    </div>
+
+    <div class="item__row__cell" align="right">
+        <input class="item__row__cell__input" placeholder="Precio..." type="number" min="0" formControlName="period"
+                appAutofocus [autoFocus]="item.inputAutoFocus == 'period'"
+                (keydown.escape)="$event.preventDefault(); cancelEditItem()" (focus)="clearTimeoutSaveItem()"
+                (keyup.enter)="saveItem()" (blur)="saveItem()">
+    </div>
+
+    <div class="item__row__cell item__row__cell-end" align="right">
+        {{ item.contract.total }}
+    </div>
+</div>
+} @else {
+<div class="item__row" level="2" [cdkContextMenuTriggerFor]="menuItem">
+    <div class="item__row__cell item__row__cell-start">
+        {{ item.contract.description }}
+    </div>
+
+    <div class="item__row__cell" align="center">
+        {{ item.contract.sale_price }}
+    </div>
+
+    <div class="item__row__cell" align="right" (dblclick)="editFucusItems(item)">
+        {{ item.periods }}
+    </div>
+
+    <div class="item__row__cell item__row__cell-end" align="right">
+        {{ item.contract.total }}
+    </div>
+</div>
+}
+
+<ng-template #menuItem>
+    <div class="cdk-menu-panel" cdkMenu>
+        <button class="cdk-menu-item" type="button" cdkMenuItem (click)="item.edit = true">
+            <span class="material-icons">edit</span>
+            <span>Editar Item</span>
+        </button>
+        <button class="cdk-menu-item" type="button" cdkMenuItem (click)="deleteItemInServer()">
+            <span class="material-icons">delete</span>
+            <span>Eliminar Item</span>
+        </button>
+    </div>
+</ng-template>
