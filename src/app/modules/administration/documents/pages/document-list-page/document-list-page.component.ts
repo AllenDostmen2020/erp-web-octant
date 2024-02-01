@@ -45,7 +45,8 @@ export class DocumentListPageComponent {
           text: 'Anular',
           icon: 'scan_delete',
           fn: async (item, index, { updateChangesItemFn }) => {
-            updateChangesItemFn(index, { ...item, ... await this.cancelDocument(item) });
+            const response = await this.cancelDocument(item);
+            updateChangesItemFn(index, { ...item, ...response });
           },
         }),
         clickEventActionButton({
@@ -100,9 +101,11 @@ export class DocumentListPageComponent {
       disabled: this.commentCtrl.invalid,
     }
   }
+  private body = { low_reason: '' };
 
   ngOnInit() {
     this.commentCtrl.valueChanges.subscribe((value) => {
+      if (value) this.body.low_reason = value;
       this.confirmDialogData.confirmButton!.disabled = this.commentCtrl.invalid;
     });
   }
@@ -123,17 +126,18 @@ export class DocumentListPageComponent {
   }
 
   private async cancelDocument(item: Document): Promise<Document> {
+    this.commentCtrl.reset('', { emitEvent: false });
+    this.body.low_reason = '';
     this.confirmDialogData.templateRef = this.formComment;
     const url = `document/anulate-simple-to-sunat/${item.id}`;
-    const body = { low_reason: this.commentCtrl.value };
     const request: RequestInitFetch = {
       confirmDialog: this.confirmDialogData,
       toast: {
         loading: 'Anulando documento...',
         success: 'Documento anulado',
-        error: (error) => error.error ?? 'Error al anular documento',
+        error: (error) => 'Error al anular documento',
       }
     };
-    return await this.fetch.put<Document>(url, body, request);
+    return await this.fetch.put<Document>(url, this.body, request);
   }
 }
