@@ -1,15 +1,24 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, TemplateRef, ViewChild, inject, signal } from '@angular/core';
 import { ItemListTemplateComponent, ListItemExtended, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { FetchService } from '@service/fetch.service';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ConfirmDialogData } from '@component/confirm-dialog-template/confirm-dialog-template.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 interface ExtDocument extends Document, ListItemExtended { }
 
 @Component({
   selector: 'app-document-list-page',
   standalone: true,
-  imports: [ItemListTemplateComponent],
+  imports: [
+    ItemListTemplateComponent,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
   templateUrl: './document-list-page.component.html',
   styleUrl: './document-list-page.component.scss'
 })
@@ -82,6 +91,23 @@ export class DocumentListPageComponent {
     ]),
   }
 
+  @ViewChild('formComment', { static: true }) formComment!: TemplateRef<any>;
+  public commentCtrl = new FormControl('', [Validators.required]);
+  private confirmDialogData: ConfirmDialogData = {
+    title: '¿Está seguro de anular el documento?',
+    description: 'Una vez anulado no se puede revertir el proceso, pero puede emitir la factura con otro proceso',
+    confirmButton: {
+      disabled: this.commentCtrl.invalid,
+    }
+  }
+
+  ngOnInit() {
+    this.commentCtrl.valueChanges.subscribe((value) => {
+      this.confirmDialogData.confirmButton!.disabled = this.commentCtrl.invalid;
+    });
+  }
+  
+
   private async emitDocument(item: Document): Promise<Document> {
     return await this.fetch.put<Document>(`document/send-to-sunat/${item.id}`, {}, {
       confirmDialog: {
@@ -97,11 +123,9 @@ export class DocumentListPageComponent {
   }
 
   private async cancelDocument(item: Document): Promise<Document> {
+    this.confirmDialogData.templateRef = this.formComment;
     return await this.fetch.put<Document>(`document/anulate-simple-to-sunat/${item.id}`, {}, {
-      confirmDialog: {
-        title: '¿Está seguro de anular el documento?',
-        description: 'Una vez anulado no se puede revertir el proceso, pero puede emitir la factura con otro proceso'
-      },
+      confirmDialog: this.confirmDialogData,
       toast: {
         loading: 'Anulando documento...',
         success: 'Documento anulado',
