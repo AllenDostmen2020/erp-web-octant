@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, numberColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { Router } from '@angular/router';
+import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, numberColumn, selectableActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { Contract } from '@interface/contract';
 import { EventsService } from '@service/events.service';
 import { LateralPanelType } from 'src/app/sidenav/sidenav/sidenav.component';
@@ -15,12 +16,13 @@ import { LateralPanelType } from 'src/app/sidenav/sidenav/sidenav.component';
 export class ClientDocumentContractAddComponent {
     public readonly lateralPanelType: LateralPanelType = 'maximum';
     private location = inject(Location);
+    private router = inject(Router);
     private eventService = inject(EventsService);
     public configuration: ItemListConfiguration<Contract> = {
         title: 'Contratos',
         server: {
             url: 'contract',
-            queryParams: { relations: 'client,clientBusinessUnit,plan' },
+            queryParams: { relations: 'client,clientBusinessUnit,plan,contractVehicles.vehicle,lastContractDocumentItem' },
         },
         columns: signal([
             textColumn({
@@ -63,14 +65,35 @@ export class ClientDocumentContractAddComponent {
                     type: 'clickEvent',
                     style: 'filled-icon-button',
                     icon: 'check',
-                    fn:  (item) => this.addItem(item)
+                    fn:  (item) => this.addContractDocumentItem([item])
                 }
-            ]
+            ],
+            selectable: {
+                actions: [
+                    selectableActionButton({
+                        icon: 'add',
+                        style: 'filled-button',
+                        text: 'Agregar',
+                        fn: (items)=>{
+                            this.addContractDocumentItem(items);
+                        }
+                    })
+                ]
+            }
         }
     };
+    constructor(){
+        const state : any = this.router.getCurrentNavigation()?.extras.state;
+        if(state){
+            const not_include_ids = state.not_include_ids;
+            if(not_include_ids){
+                this.configuration.server.queryParams = {...this.configuration.server.queryParams as any, not_ids: not_include_ids};
+            }
+        }
+    }
 
-    public addItem(item: Contract){
-        this.eventService.emitEvent(`add-client-contract`, item);
+     addContractDocumentItem(items: Contract[]){
+        this.eventService.emitEvent(`add-contract-document-item`, items);
         this.location.back();
     }
 }

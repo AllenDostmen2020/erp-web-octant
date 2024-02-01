@@ -10,7 +10,7 @@
             </div>
 
             @for (item of items(); track item.contract.id; let i = $index) {
-                <app-client-contract-document-item-form [item]="item" [index]="i" />
+                <app-client-contract-document-item-form [item]="item" [index]="i" (deleteItem)="deleteItem(i)" (updateItem)="updateDescription(i)"/>
             }
 
         </div>

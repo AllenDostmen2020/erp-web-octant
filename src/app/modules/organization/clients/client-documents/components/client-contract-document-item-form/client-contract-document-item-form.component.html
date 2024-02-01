@@ -1,40 +1,40 @@
 @if (item.edit) {
-<div class="item__row" level="2" [formGroup]="form">
+<div class="item__row" level="1" [formGroup]="form">
     <div class="item__row__cell item__row__cell-start">
-        {{ item.contract.description }}
-    </div>
-
-    <div class="item__row__cell" align="center">
-        {{ item.contract.sale_price }}
+        {{ item.description }}
     </div>
 
     <div class="item__row__cell" align="right">
-        <input class="item__row__cell__input" placeholder="Precio..." type="number" min="0" formControlName="period"
+        {{ item.price | number: '.2-2'}}
+    </div>
+
+    <div class="item__row__cell" align="right">
+        <input class="item__row__cell__input" placeholder="Periodo..." type="number" min="0" formControlName="period"
                 appAutofocus [autoFocus]="item.inputAutoFocus == 'period'"
                 (keydown.escape)="$event.preventDefault(); cancelEditItem()" (focus)="clearTimeoutSaveItem()"
                 (keyup.enter)="saveItem()" (blur)="saveItem()">
     </div>
 
     <div class="item__row__cell item__row__cell-end" align="right">
-        {{ item.contract.total }}
+        {{ (item.price * periodCtrl.value) | number: '.2-2'}}
     </div>
 </div>
 } @else {
-<div class="item__row" level="2" [cdkContextMenuTriggerFor]="menuItem">
+<div class="item__row" level="1" [cdkContextMenuTriggerFor]="menuItem">
     <div class="item__row__cell item__row__cell-start">
-        {{ item.contract.description }}
+        {{ item.description }}
     </div>
 
-    <div class="item__row__cell" align="center">
-        {{ item.contract.sale_price }}
+    <div class="item__row__cell" align="right">
+        {{ item.price | number: '.2-2' }}
     </div>
 
     <div class="item__row__cell" align="right" (dblclick)="editFucusItems(item)">
-        {{ item.periods }}
+        {{ item.periods | number: '2.0-0' }}
     </div>
 
     <div class="item__row__cell item__row__cell-end" align="right">
-        {{ item.contract.total }}
+        {{ (item.price * item.periods) | number: '.2-2' }}
     </div>
 </div>
 }

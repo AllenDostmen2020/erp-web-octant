@@ -44,7 +44,7 @@ export class ClientContractDocumentItemFormComponent {
 
     private patchValueForm(): void {
         this.form.patchValue({
-            period: Number(this.item.contract.period),
+            period: Number(this.item.periods),
         }, { emitEvent: false });
     }
 
@@ -59,8 +59,7 @@ export class ClientContractDocumentItemFormComponent {
     }
 
     private isChangesItem(): boolean {
-        return true;
-        // return this.item.period != this.periodCtrl.value;
+        return this.item.periods != this.periodCtrl.value;
     }
 
     public saveItem(): void {
@@ -72,10 +71,10 @@ export class ClientContractDocumentItemFormComponent {
     private async saveItemInServer(): Promise<void> {
         this.loadingSaveItem.set(true);
         const body = this.form.value;
-        // const response = await this.fetch.put<UnitCostsWorkforce>(`unit-cost-workforce/${this.item.id}`, body, { confirmDialog: false });
+        this.item.periods = body.period!;
         this.cancelEditItem();
-        // this.updateItem.emit({ ...this.item, ...response });
         this.loadingSaveItem.set(false);
+        this.updateItem.emit();
     }
 
     public async deleteItemInServer(): Promise<void> {
@@ -90,7 +89,6 @@ export class ClientContractDocumentItemFormComponent {
                 error: 'Error al eliminar mano de obra',
             }
         }
-        // await this.fetch.delete(`unit-cost-workforce/${this.item.id}`, requestInit);
         this.deleteItem.emit();
     }
 }
