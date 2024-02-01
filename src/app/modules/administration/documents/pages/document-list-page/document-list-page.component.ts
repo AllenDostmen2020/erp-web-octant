@@ -2,7 +2,7 @@ import { Component, TemplateRef, ViewChild, inject, signal } from '@angular/core
 import { ItemListTemplateComponent, ListItemExtended, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
-import { FetchService } from '@service/fetch.service';
+import { FetchService, RequestInitFetch } from '@service/fetch.service';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConfirmDialogData } from '@component/confirm-dialog-template/confirm-dialog-template.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -106,7 +106,7 @@ export class DocumentListPageComponent {
       this.confirmDialogData.confirmButton!.disabled = this.commentCtrl.invalid;
     });
   }
-  
+
 
   private async emitDocument(item: Document): Promise<Document> {
     return await this.fetch.put<Document>(`document/send-to-sunat/${item.id}`, {}, {
@@ -124,13 +124,16 @@ export class DocumentListPageComponent {
 
   private async cancelDocument(item: Document): Promise<Document> {
     this.confirmDialogData.templateRef = this.formComment;
-    return await this.fetch.put<Document>(`document/anulate-simple-to-sunat/${item.id}`, {}, {
+    const url = `document/anulate-simple-to-sunat/${item.id}`;
+    const body = { low_reason: this.commentCtrl.value };
+    const request: RequestInitFetch = {
       confirmDialog: this.confirmDialogData,
       toast: {
         loading: 'Anulando documento...',
         success: 'Documento anulado',
         error: (error) => error.error ?? 'Error al anular documento',
       }
-    });
+    };
+    return await this.fetch.put<Document>(url, body, request);
   }
 }
