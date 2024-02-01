@@ -1,10 +1,16 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, TemplateRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
 export interface ConfirmDialogData {
   title: string;
   description: string;
   icon?: string;
+  templateRef?: TemplateRef<any>;
+  confirmButton?: {
+    text?: string;
+    cssClass?: string;
+    disabled?: boolean;
+  }
 }
 
 @Component({
