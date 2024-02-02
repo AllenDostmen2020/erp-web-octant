@@ -27,8 +27,16 @@ const clientLateralPanelRouting: Routes = [
         outlet: 'route-lateral',
     },
 ];
+const movementLateralPanelRouting: Routes = [
+    {
+        path: 'box-movement/detail/:id',
+        loadComponent: () => import('./modules/administration/box-movements/pages/box-movement-detail-page/box-movement-detail-page.component').then(m => m.BoxMovementDetailPageComponent),
+        outlet: 'route-lateral',
+    },
+]
 
 
 export const lateralPanelRouting: Routes = [
     ...clientLateralPanelRouting,
+    ...movementLateralPanelRouting,
 ]
