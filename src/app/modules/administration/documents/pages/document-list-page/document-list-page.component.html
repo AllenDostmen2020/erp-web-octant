@@ -1,14 +1,16 @@
 <app-item-list-template [configuration]="configuration"/>
 
 <ng-template #anulateFormTemplate>
-    <mat-form-field>
-        <mat-label>Motivo</mat-label>
-        <textarea matInput placeholder="Comment" rows="3" [formControl]="commentCtrl"></textarea>
-    </mat-form-field>
+    <div class="form">
+        <mat-form-field>
+            <mat-label>Motivo</mat-label>
+            <textarea matInput placeholder="Comment" rows="3" [formControl]="commentCtrl"></textarea>
+        </mat-form-field>
+    </div>
 </ng-template>
 
 <ng-template #emitFormTemplate>
-    <div class="emit-form" [formGroup]="emitForm">
+    <div class="form" [formGroup]="emitForm">
         <mat-form-field>
             <mat-label>Fecha de expiración</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="expire_date" required>
