@@ -1,8 +1,14 @@
 <app-item-list-template [configuration]="configuration"/>
 
-<ng-template #formComment>
+<ng-template #anulateFormTemplate>
     <mat-form-field>
         <mat-label>Motivo</mat-label>
         <textarea matInput placeholder="Comment" rows="3" [formControl]="commentCtrl"></textarea>
     </mat-form-field>
+</ng-template>
+
+<ng-template #emitFormTemplate>
+    <ng-container [formGroup]="emitForm">
+
+    </ng-container>
 </ng-template>

@@ -1,13 +1,13 @@
 import { Component, signal } from '@angular/core';
-import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, emailColumn, phoneColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, emailColumn, phoneColumn, textColumn, selectableActionButton } from '@component/item-list-template/item-list-template.component';
 import { User } from '@interface/user';
 
 @Component({
-  selector: 'app-user-list-page',
-  standalone: true,
-  imports: [ItemListTemplateComponent],
-  templateUrl: './user-list-page.component.html',
-  styleUrl: './user-list-page.component.scss'
+    selector: 'app-user-list-page',
+    standalone: true,
+    imports: [ItemListTemplateComponent],
+    templateUrl: './user-list-page.component.html',
+    styleUrl: './user-list-page.component.scss'
 })
 export class UserListPageComponent {
     public configList: ItemListConfiguration<User> = {
@@ -52,5 +52,21 @@ export class UserListPageComponent {
             itemUpdatedAtColumn(),
             itemStatusColumn(),
         ]),
+        rows: {
+            selectable: {
+                actions: [
+                    selectableActionButton({
+                        icon: 'delete',
+                        text: 'Eliminar',
+                        fn: (items) => console.log('Eliminar', items),
+                    }),
+                    selectableActionButton({
+                        icon: 'edit',
+                        text: 'Editar',
+                        fn: (items) => console.log('Editar', items),
+                    }),
+                ]
+            }
+        }
     }
 }

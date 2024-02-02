@@ -3,10 +3,11 @@ import { ItemListTemplateComponent, ListItemExtended, viewItemActionButton } fro
 import { Document } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ConfirmDialogData } from '@component/confirm-dialog-template/confirm-dialog-template.component';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialog } from '@angular/material/dialog';
 
 interface ExtDocument extends Document, ListItemExtended { }
 
@@ -23,7 +24,16 @@ interface ExtDocument extends Document, ListItemExtended { }
   styleUrl: './document-list-page.component.scss'
 })
 export class DocumentListPageComponent {
+  @ViewChild('anulateFormTemplate', { static: true }) anulateFormTemplate!: TemplateRef<any>;
+  @ViewChild('emitFormTemplate', { static: true }) emitFormTemplate!: TemplateRef<any>;
   private fetch = inject(FetchService);
+  private matDialog = inject(MatDialog);
+  public commentCtrl = new FormControl('', [Validators.required]);
+  public emitForm = new FormGroup({
+    expire_date: new FormControl('', [Validators.required]),
+    comment: new FormControl('', [Validators.required]),
+  });
+
   public configuration: ItemListConfiguration<ExtDocument> = {
     title: 'Documentos',
     server: {
@@ -46,7 +56,7 @@ export class DocumentListPageComponent {
           icon: 'scan_delete',
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.cancelDocument(item);
-            updateChangesItemFn(index, { ...item, ...response });
+            if(response) updateChangesItemFn(index, { ...item, ...response });
           },
         }),
         clickEventActionButton({
@@ -92,24 +102,12 @@ export class DocumentListPageComponent {
     ]),
   }
 
-  @ViewChild('formComment', { static: true }) formComment!: TemplateRef<any>;
-  public commentCtrl = new FormControl('', [Validators.required]);
-  private confirmDialogData: ConfirmDialogData = {
-    title: '¿Está seguro de anular el documento?',
-    description: 'Una vez anulado no se puede revertir el proceso, pero puede emitir la factura con otro proceso',
-    confirmButton: {
-      disabled: this.commentCtrl.invalid,
-    }
-  }
-  private body = { low_reason: '' };
-
-  ngOnInit() {
-    this.commentCtrl.valueChanges.subscribe((value) => {
-      if (value) this.body.low_reason = value;
-      this.confirmDialogData.confirmButton!.disabled = this.commentCtrl.invalid;
+  private confirmDialog(data: ConfirmDialogData): Promise<boolean> {
+    return new Promise((resolve) => {
+      const dialogRef = this.matDialog.open(ConfirmDialogTemplateComponent, { data });
+      dialogRef.afterClosed().subscribe((result) => resolve(result));
     });
   }
-
 
   private async emitDocument(item: Document): Promise<Document> {
     return await this.fetch.put<Document>(`document/send-to-sunat/${item.id}`, {}, {
@@ -125,19 +123,32 @@ export class DocumentListPageComponent {
     });
   }
 
-  private async cancelDocument(item: Document): Promise<Document> {
-    this.commentCtrl.reset('', { emitEvent: false });
-    this.body.low_reason = '';
-    this.confirmDialogData.templateRef = this.formComment;
+  private async cancelDocument(item: Document): Promise<Document | null> {
+    this.commentCtrl.reset('');
+    const dialogData = {
+      title: '¿Está seguro de anular el documento?',
+      description: 'Una vez anulado no se puede revertir el proceso, pero puede emitir la factura con otro proceso',
+      templateRef: this.anulateFormTemplate,
+      confirmButton: { disabled: true },
+    };
+    const subscribe = this.commentCtrl.valueChanges.subscribe(() => {
+      console.log('commentCtrl', this.commentCtrl.value, this.commentCtrl.invalid)
+      dialogData.confirmButton!.disabled = this.commentCtrl.invalid
+    });
+    const confirm = await this.confirmDialog(dialogData);
+    subscribe.unsubscribe();
+    if(!confirm) return null;
     const url = `document/anulate-simple-to-sunat/${item.id}`;
+    const body = { low_reason: this.commentCtrl.value };
     const request: RequestInitFetch = {
-      confirmDialog: this.confirmDialogData,
+      confirmDialog: false,
       toast: {
         loading: 'Anulando documento...',
         success: 'Documento anulado',
         error: (error) => 'Error al anular documento',
       }
     };
-    return await this.fetch.put<Document>(url, this.body, request);
+    return await this.fetch.put<Document>(url, body, request);
   }
+
 }
