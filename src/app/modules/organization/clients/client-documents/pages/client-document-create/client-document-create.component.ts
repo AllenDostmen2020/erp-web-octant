@@ -38,7 +38,7 @@ export class ClientDocumentCreateComponent {
         titleModule: "documento",
         type: "create",
         server: {
-            url: 'client-document',
+            url: 'document/contracts/generate',
         },
         formGroup: new FormGroup({
             client_id: new FormControl(this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id'), [Validators.required]),
