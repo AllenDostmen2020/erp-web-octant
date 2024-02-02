@@ -8,7 +8,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EventsService } from '@service/events.service';
 import { StatusModel } from '@interface/baseModel';
-import { addMonths, parseISO } from 'date-fns';
+import { addMonths, format, parseISO, setDefaultOptions, subDays } from 'date-fns';
+import { es } from 'date-fns/locale'
 
 export interface ItemFormDocumentContractItem {
     edit?: boolean;
@@ -64,27 +65,20 @@ export class ClientDocumentCreateComponent {
     }
 
     private getDetails(contract: Contract, periods: number) {
+        setDefaultOptions({ locale: es })
         const contractVehiclesActives = contract.contract_vehicles?.filter((contract_vehicle) => contract_vehicle.vehicle?.status == StatusModel.Habilitado);
         const platesString = contractVehiclesActives?.map(contractVehicle => contractVehicle.vehicle?.plate).join(', ');
         const nextPeriod = contract.last_contract_document_item?.end_period ? contract.last_contract_document_item?.end_period : 1;
-        const startDateContract = parseISO(contract.start_date);
-        const dateNextPeriod = addMonths(startDateContract, nextPeriod);
-        const dateEndPeriod = addMonths(dateNextPeriod, periods);
-
-        const meses = [
-            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-        ];
-        const dateStringInit = dateNextPeriod.getFullYear() == dateEndPeriod.getFullYear() ? `${dateNextPeriod.getDay()} DE ${meses[dateNextPeriod.getMonth()].toUpperCase()} ` : `${dateNextPeriod.getDay()} DE ${meses[dateNextPeriod.getMonth()].toUpperCase()} ${dateNextPeriod.getFullYear()} `;
-        const dateStringEnd = `${dateEndPeriod.getDay()} DE ${meses[dateEndPeriod.getMonth()].toUpperCase()} ${dateEndPeriod.getFullYear()} `;
+        console.log(contract.start_date, parseISO(contract.start_date));
+        const dateNextPeriod = addMonths(parseISO(contract.start_date), nextPeriod);
+        const dateEndPeriod = subDays(addMonths(addMonths(parseISO(contract.start_date), nextPeriod), periods), 1);
+        const dateStringInit = dateNextPeriod.getFullYear() == dateEndPeriod.getFullYear() ? format(dateNextPeriod, "dd 'DE' MMMM").toUpperCase() : format(dateNextPeriod, "dd 'DE' MMMM yyyy").toUpperCase();
+        const dateStringEnd = format(dateEndPeriod, "dd 'DE' MMMM yyyy").toUpperCase();
         const vehiclesQuantity = contractVehiclesActives?.length ?? 0;
         const price = (contract.sale_price * vehiclesQuantity);
         const description = `ALQUILER MENSUAL DE GPS POR ${vehiclesQuantity} UNIDADES - PERIODO DEL ${dateStringInit} AL ${dateStringEnd} | ${contract.plan?.name} | CONTRATO ${contract.code} | PLACAS: ${platesString}`;
         return { description, price }
     }
-
-    // PERIODO DEL 26 DE ENERO AL 25 DE FEBRERO 2024 -> cuando son del mismo año
-    // PERIODO DEL 26 DE ENERO 2024 AL 25 DE FEBRERO 2025 -> cuando son de diferente año
 
     public newAdd(event: Event) {
         event.preventDefault()
