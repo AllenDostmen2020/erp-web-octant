@@ -1,5 +1,5 @@
 import { Component, WritableSignal, inject, signal } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { Contract } from '@interface/contract';
 import { ItemFormConfiguration } from '@interface/itemForm';
@@ -40,7 +40,9 @@ export class ClientDocumentCreateComponent {
         server: {
             url: 'client-document',
         },
-        formGroup: new FormGroup({}),
+        formGroup: new FormGroup({
+            client_id: new FormControl(this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id'), [Validators.required]),
+        }),
         parseDataItemBeforeSendFormFn: (data) => {
             data.contracts = this.items().map((item) => ({ id: item.contract.id, periods: item.periods }))
             return data;
