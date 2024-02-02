@@ -8,7 +8,16 @@
 </ng-template>
 
 <ng-template #emitFormTemplate>
-    <ng-container [formGroup]="emitForm">
-
-    </ng-container>
+    <div class="emit-form" [formGroup]="emitForm">
+        <mat-form-field>
+            <mat-label>Fecha de expiración</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="expire_date" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Comentario</mat-label>
+            <textarea matInput placeholder="Comentario" rows="3" formControlName="comment"></textarea>
+        </mat-form-field>
+    </div>
 </ng-template>

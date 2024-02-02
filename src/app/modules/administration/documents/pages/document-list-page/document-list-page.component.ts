@@ -8,6 +8,7 @@ import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/co
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 interface ExtDocument extends Document, ListItemExtended { }
 
@@ -19,6 +20,7 @@ interface ExtDocument extends Document, ListItemExtended { }
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDatepickerModule,
   ],
   templateUrl: './document-list-page.component.html',
   styleUrl: './document-list-page.component.scss'
@@ -109,18 +111,29 @@ export class DocumentListPageComponent {
     });
   }
 
-  private async emitDocument(item: Document): Promise<Document> {
-    return await this.fetch.put<Document>(`document/send-to-sunat/${item.id}`, {}, {
-      confirmDialog: {
-        title: '¿Está seguro de emitir el documento a Sunat?',
-        description: 'Una vez emitido a Sunat no se puede revertir el proceso, pero puede anular la factura con otro proceso'
-      },
+  private async emitDocument(item: Document): Promise<Document | null> {
+    this.commentCtrl.reset('');
+    const dialogData = {
+      title: '¿Está seguro de emitir el documento a Sunat?',
+      description: 'Una vez emitido a Sunat no se puede revertir el proceso, pero puede anular la factura con otro proceso',
+      templateRef: this.emitFormTemplate,
+      confirmButton: { disabled: true },
+    };
+    const subscribe = this.emitForm.valueChanges.subscribe(() => dialogData.confirmButton!.disabled = this.emitForm.invalid);
+    const confirm = await this.confirmDialog(dialogData);
+    subscribe.unsubscribe();
+    if(!confirm) return null;
+    const url = `document/send-to-sunat/${item.id}`;
+    const body = this.emitForm.value;
+    const request: RequestInitFetch = {
+      confirmDialog: false,
       toast: {
         loading: 'Enviando a Sunat...',
         success: 'Documento enviado a Sunat',
         error: (error) => error.error ?? 'Error al enviar a Sunat',
       }
-    });
+    };
+    return await this.fetch.put<Document>(url, body, request);
   }
 
   private async cancelDocument(item: Document): Promise<Document | null> {
@@ -131,10 +144,7 @@ export class DocumentListPageComponent {
       templateRef: this.anulateFormTemplate,
       confirmButton: { disabled: true },
     };
-    const subscribe = this.commentCtrl.valueChanges.subscribe(() => {
-      console.log('commentCtrl', this.commentCtrl.value, this.commentCtrl.invalid)
-      dialogData.confirmButton!.disabled = this.commentCtrl.invalid
-    });
+    const subscribe = this.commentCtrl.valueChanges.subscribe(() => dialogData.confirmButton!.disabled = this.commentCtrl.invalid);
     const confirm = await this.confirmDialog(dialogData);
     subscribe.unsubscribe();
     if(!confirm) return null;
