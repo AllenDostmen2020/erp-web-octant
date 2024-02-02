@@ -55,7 +55,7 @@ export class ClientDocumentCreateComponent {
         this.subscription?.unsubscribe();
     }
 
-    addData(contracts: Contract[]) {
+    private addData(contracts: Contract[]) {
         const newData: ItemFormDocumentContractItem[] = contracts.map(contract => {
             const { description, price } = this.getDetails(contract, 1);
             return { contract, periods: 1, description, price }
@@ -63,7 +63,7 @@ export class ClientDocumentCreateComponent {
         this.items.update((data) => [...data, ...newData]);
     }
 
-    getDetails(contract: Contract, periods: number) {
+    private getDetails(contract: Contract, periods: number) {
         const contractVehiclesActives = contract.contract_vehicles?.filter((contract_vehicle) => contract_vehicle.vehicle?.status == StatusModel.Habilitado);
         const platesString = contractVehiclesActives?.map(contractVehicle => contractVehicle.vehicle?.plate).join(', ');
         const nextPeriod = contract.last_contract_document_item?.end_period ? contract.last_contract_document_item?.end_period : 1;
@@ -86,18 +86,18 @@ export class ClientDocumentCreateComponent {
     // PERIODO DEL 26 DE ENERO AL 25 DE FEBRERO 2024 -> cuando son del mismo año
     // PERIODO DEL 26 DE ENERO 2024 AL 25 DE FEBRERO 2025 -> cuando son de diferente año
 
-    newAdd(event: Event) {
+    public newAdd(event: Event) {
         event.preventDefault()
         const clientId = this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id');
         const not_include_ids = this.items().map(item => item.contract.id);
         this.router.navigate([{ outlets: { 'route-lateral': `client/${clientId}/contract/add` } }], { state: { not_include_ids } });
     }
 
-    deleteItem(index: number) {
+    public deleteItem(index: number) {
         this.items.update((data) => data.toSpliced(index, 1))
     }
 
-    updateDescription(index: number) {
+    public updateDescription(index: number) {
         const item = this.items()[index];
         const description = this.getDetails(item.contract, item.periods).description;
         this.items.update((data) => data.toSpliced(index, 1, { ...item, description }));

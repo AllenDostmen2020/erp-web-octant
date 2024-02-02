@@ -4,7 +4,6 @@ import { ItemFormDocumentContractItem } from '../../pages/client-document-create
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AsyncPipe, DecimalPipe, UpperCasePipe } from '@angular/common';
 import { AutofocusDirectiveDirective } from '@directive/autofocus-directive.directive';
-import { FetchService, RequestInitFetch } from '@service/fetch.service';
 
 @Component({
     selector: 'app-client-contract-document-item-form',
@@ -26,7 +25,6 @@ export class ClientContractDocumentItemFormComponent {
     @Output() deleteItem: EventEmitter<void> = new EventEmitter();
     @Output() updateItem: EventEmitter<ItemFormDocumentContractItem> = new EventEmitter();
 
-    private fetch = inject(FetchService);
     private timeoutSaveItem?: ReturnType<typeof setTimeout>;
     public loadingSaveItem = signal<boolean>(false);
 
@@ -68,7 +66,7 @@ export class ClientContractDocumentItemFormComponent {
         else this.timeoutSaveItem = setTimeout(() => this.saveItemInServer(), 250);
     }
 
-    private async saveItemInServer(): Promise<void> {
+    private async saveItemInServer() {
         this.loadingSaveItem.set(true);
         const body = this.form.value;
         this.item.periods = body.period!;
@@ -77,18 +75,7 @@ export class ClientContractDocumentItemFormComponent {
         this.updateItem.emit();
     }
 
-    public async deleteItemInServer(): Promise<void> {
-        const requestInit: RequestInitFetch = {
-            confirmDialog: {
-                title: '¿Está seguro de eliminar mano de obra?',
-                description: `Se eliminará el ítem. Esta acción no se puede revertir, pero se puede volver a agregar nuevamente`,
-            },
-            toast: {
-                loading: 'Eliminando mano de obra...',
-                success: 'Mano de obra eliminada',
-                error: 'Error al eliminar mano de obra',
-            }
-        }
+    public async deleteItemInServer() {
         this.deleteItem.emit();
     }
 }
