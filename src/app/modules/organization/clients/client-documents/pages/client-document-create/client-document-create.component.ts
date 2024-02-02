@@ -71,7 +71,6 @@ export class ClientDocumentCreateComponent {
         const contractVehiclesActives = contract.contract_vehicles?.filter((contract_vehicle) => contract_vehicle.vehicle?.status == StatusModel.Habilitado);
         const platesString = contractVehiclesActives?.map(contractVehicle => contractVehicle.vehicle?.plate).join(', ');
         const nextPeriod = contract.last_contract_document_item?.end_period ? contract.last_contract_document_item?.end_period : 1;
-        console.log(contract.start_date, parseISO(contract.start_date));
         const dateNextPeriod = addMonths(parseISO(contract.start_date), nextPeriod);
         const dateEndPeriod = subDays(addMonths(addMonths(parseISO(contract.start_date), nextPeriod), periods), 1);
         const dateStringInit = dateNextPeriod.getFullYear() == dateEndPeriod.getFullYear() ? format(dateNextPeriod, "dd 'DE' MMMM").toUpperCase() : format(dateNextPeriod, "dd 'DE' MMMM yyyy").toUpperCase();
@@ -97,7 +96,5 @@ export class ClientDocumentCreateComponent {
         const item = this.items()[index];
         const description = this.getDetails(item.contract, item.periods).description;
         this.items.update((data) => data.toSpliced(index, 1, { ...item, description }));
-        console.log(this.items());
-
     }
 }
