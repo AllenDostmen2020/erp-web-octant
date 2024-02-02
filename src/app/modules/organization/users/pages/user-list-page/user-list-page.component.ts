@@ -28,7 +28,10 @@ export class UserListPageComponent {
                 title: 'Email',
                 sort: { key: 'email' },
                 gridColumn: 'auto',
-                displayValueFn: (item) => item.email,
+                displayValueFn: (item) => {
+                    console.log(item.email);
+                    return item.email;
+                },
             }),
             textColumn({
                 title: 'Rol',
@@ -52,21 +55,21 @@ export class UserListPageComponent {
             itemUpdatedAtColumn(),
             itemStatusColumn(),
         ]),
-        rows: {
-            selectable: {
-                actions: [
-                    selectableActionButton({
-                        icon: 'delete',
-                        text: 'Eliminar',
-                        fn: (items) => console.log('Eliminar', items),
-                    }),
-                    selectableActionButton({
-                        icon: 'edit',
-                        text: 'Editar',
-                        fn: (items) => console.log('Editar', items),
-                    }),
-                ]
-            }
-        }
+        // rows: {
+        //     selectable: {
+        //         actions: [
+        //             selectableActionButton({
+        //                 icon: 'delete',
+        //                 text: 'Eliminar',
+        //                 fn: (items) => console.log('Eliminar', items),
+        //             }),
+        //             selectableActionButton({
+        //                 icon: 'edit',
+        //                 text: 'Editar',
+        //                 fn: (items) => console.log('Editar', items),
+        //             }),
+        //         ]
+        //     }
+        // }
     }
 }

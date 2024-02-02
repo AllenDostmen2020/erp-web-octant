@@ -17,7 +17,7 @@
 
     <div class="dialog__actions">
         <button class="text-button" mat-dialog-close>Cancelar</button>
-        <button class="text-button" [disabled]="data.confirmButton?.disabled" [mat-dialog-close]="true" cdkFocusInitial>
+        <button class="text-button" [disabled]="data.confirmButton?.disabled" [mat-dialog-close]="true">
             {{data.confirmButton?.text ?? 'Aceptar'}}
         </button>
     </div>

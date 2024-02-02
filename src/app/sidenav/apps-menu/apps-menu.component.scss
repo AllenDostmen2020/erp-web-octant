@@ -17,7 +17,7 @@
 .apps__menu__content {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
-    grid-template-rows: repeat(auto-fill, 80px) ;
+    grid-template-rows: repeat(auto-fill, 80px);
     gap: 4px;
     overflow: hidden;
     padding: 16px 12px;
@@ -54,11 +54,13 @@
 .apps__menu__content__item__button__icon {
     --size-material-symbol-icon: 28px;
 }
+
 .apps__menu__content__item__button__text {
     width: 70px;
     text-align: center;
     word-wrap: break-word;
 }
+
 .apps__menu__content__item__button:not(:hover):not(:focus) .apps__menu__content__item__button__text {
     overflow: hidden;
     white-space: nowrap;

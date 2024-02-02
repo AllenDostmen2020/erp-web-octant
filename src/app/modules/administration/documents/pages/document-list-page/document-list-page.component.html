@@ -4,22 +4,35 @@
     <div class="form">
         <mat-form-field>
             <mat-label>Motivo</mat-label>
-            <textarea matInput placeholder="Comment" rows="3" [formControl]="commentCtrl"></textarea>
+            <textarea matInput placeholder="Comment" rows="2" [formControl]="commentCtrl"></textarea>
         </mat-form-field>
+        <p>Una vez anulado no se puede revertir el proceso, pero puede emitir la factura con otro proceso</p>
     </div>
 </ng-template>
 
 <ng-template #emitFormTemplate>
     <div class="form" [formGroup]="emitForm">
-        <mat-form-field>
-            <mat-label>Fecha de expiración</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="expire_date" required>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+        <div class="form-item-switch">
+            <div>
+                <div class="label-large">Al crédito</div>
+                <p class="body-small">Se crea a una cuota con fecha de expiración</p>
+            </div>
+            <mat-slide-toggle formControlName="credit"/>
+        </div>
+        @if (creditCtrl.value) {
+            <mat-form-field>
+                <mat-label>Fecha de expiración</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="expire_date" [min]="minDate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error>*Campo requerido</mat-error>
+            </mat-form-field>
+        }
         <mat-form-field>
             <mat-label>Comentario</mat-label>
-            <textarea matInput placeholder="Comentario" rows="3" formControlName="comment"></textarea>
+            <textarea matInput placeholder="Comentario" rows="2" formControlName="comment"></textarea>
+            <mat-error>*Campo requerido</mat-error>
         </mat-form-field>
+        <p>Una vez emitido a Sunat no se puede revertir el proceso, pero puede anular la factura con otro proceso</p>
     </div>
 </ng-template>

@@ -9,6 +9,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { addDays, parseISO } from 'date-fns';
 
 interface ExtDocument extends Document, ListItemExtended { }
 
@@ -21,6 +23,7 @@ interface ExtDocument extends Document, ListItemExtended { }
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
+    MatSlideToggleModule,
   ],
   templateUrl: './document-list-page.component.html',
   styleUrl: './document-list-page.component.scss'
@@ -34,7 +37,9 @@ export class DocumentListPageComponent {
   public emitForm = new FormGroup({
     expire_date: new FormControl('', [Validators.required]),
     comment: new FormControl('', [Validators.required]),
+    credit: new FormControl(false, [Validators.required]),
   });
+  public minDate = addDays(new Date(), 1);
 
   public configuration: ItemListConfiguration<ExtDocument> = {
     title: 'Documentos',
@@ -43,16 +48,20 @@ export class DocumentListPageComponent {
       queryParams: { relations: 'client' },
     },
     rows: {
-      actions: [
-        clickEventActionButton({
-          text: 'Emitir',
-          fn: async (item, index, { updateChangesItemFn }) => {
-            updateChangesItemFn(index, { ...item, ... await this.emitDocument(item) });
-          },
-        })
-      ],
       options: [
         viewItemActionButton(),
+        clickEventActionButton({
+          icon: 'send',
+          text: 'Emitir',
+          fn: async (item, index, { updateChangesItemFn }) => {
+            if(item.expiration_date) {
+              const expireDate = parseISO(item.expiration_date);
+              this.expireDateCtrl.setValue(this.minDate > expireDate ? this.minDate : expireDate);
+            };
+            const response = await this.emitDocument(item);
+            if(response) updateChangesItemFn(index, { ...item, ...response });
+          },
+        }),
         clickEventActionButton({
           text: 'Anular',
           icon: 'scan_delete',
@@ -62,12 +71,12 @@ export class DocumentListPageComponent {
           },
         }),
         clickEventActionButton({
-          text: 'Anular con nota de crédito',
+          text: 'Nota de crédito',
           icon: 'scan_delete',
           fn: (item) => console.log('Anular con nota de crédito'),
         }),
         clickEventActionButton({
-          text: 'Anular con nota de débito',
+          text: 'Nota de débito',
           icon: 'scan_delete',
           fn: (item) => console.log('Anular con nota de débito'),
         }),
@@ -104,6 +113,9 @@ export class DocumentListPageComponent {
     ]),
   }
 
+  get expireDateCtrl(): FormControl { return this.emitForm.get('expire_date')! as FormControl; }
+  get creditCtrl(): FormControl { return this.emitForm.get('credit')! as FormControl; }
+
   private confirmDialog(data: ConfirmDialogData): Promise<boolean> {
     return new Promise((resolve) => {
       const dialogRef = this.matDialog.open(ConfirmDialogTemplateComponent, { data });
@@ -113,9 +125,10 @@ export class DocumentListPageComponent {
 
   private async emitDocument(item: Document): Promise<Document | null> {
     this.commentCtrl.reset('');
-    const dialogData = {
-      title: '¿Está seguro de emitir el documento a Sunat?',
-      description: 'Una vez emitido a Sunat no se puede revertir el proceso, pero puede anular la factura con otro proceso',
+    const dialogData: ConfirmDialogData = {
+      icon: 'info',
+      title: '¿Está seguro de emitir documento?',
+      description: '',
       templateRef: this.emitFormTemplate,
       confirmButton: { disabled: true },
     };
@@ -128,9 +141,9 @@ export class DocumentListPageComponent {
     const request: RequestInitFetch = {
       confirmDialog: false,
       toast: {
-        loading: 'Enviando a Sunat...',
-        success: 'Documento enviado a Sunat',
-        error: (error) => error.error ?? 'Error al enviar a Sunat',
+        loading: 'Enviando a SUNAT...',
+        success: 'Documento enviado a SUNAT',
+        error: (error) => error.error ?? 'Error al enviar a SUNAT',
       }
     };
     return await this.fetch.put<Document>(url, body, request);
@@ -138,9 +151,10 @@ export class DocumentListPageComponent {
 
   private async cancelDocument(item: Document): Promise<Document | null> {
     this.commentCtrl.reset('');
-    const dialogData = {
-      title: '¿Está seguro de anular el documento?',
-      description: 'Una vez anulado no se puede revertir el proceso, pero puede emitir la factura con otro proceso',
+    const dialogData: ConfirmDialogData = {
+      icon: 'error',
+      title: '¿Está seguro de anular documento?',
+      description: '',
       templateRef: this.anulateFormTemplate,
       confirmButton: { disabled: true },
     };

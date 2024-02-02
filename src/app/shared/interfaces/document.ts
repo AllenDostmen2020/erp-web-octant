@@ -19,7 +19,7 @@ export interface Document extends BaseModel {
     establishment: null;
     establishment_id: number;
     exchange_rate_sale: string;
-    expiration_date: Date;
+    expiration_date: string;
     external_id: string;
     fees_number: number;
     filename: null;
