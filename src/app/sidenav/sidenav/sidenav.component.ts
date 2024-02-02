@@ -233,6 +233,11 @@ const DRAWER_LINKS: GroupDrawerLink[] = [
                 icon: 'service_toolbox',
                 route: '/administration/box',
             },
+            {
+                label: 'Movimientos de caja',
+                icon: 'timeline',
+                route: '/administration/box-movement',
+            },
         ]
     },
     {
