@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ItemListConfiguration, ItemListTemplateComponent, itemCreatedAtColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, itemCreatedAtColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
 
 @Component({
@@ -18,13 +18,17 @@ export class ClientDocumentListComponent {
       },
       columns: signal([
         textColumn({
-          title: 'Nombre',
+          title: 'Serie/Correlativo',
           displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '--',
         }),
         textColumn({
           title: 'Nombre',
           displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '--',
           gridColumn: '1fr',
+        }),
+        dateColumn({
+          title: 'Fecha de emisión',
+          displayValueFn: (item) => item.issue_date,
         }),
         itemCreatedAtColumn(),
         itemUpdatedAtColumn(),

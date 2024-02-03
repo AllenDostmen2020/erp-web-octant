@@ -3,21 +3,23 @@ import { Client } from "./client";
 
 export interface Document extends BaseModel {
     additional_information: null;
-    aplicada: number;
+    applied: number;
     caja_id: null;
+    cdr: any;
     client_business_unit_id: number;
     client_id: number;
+    client: Client
     correlative: number;
+    credit_days: any;
     currency_type_id: string;
-    date_issue: Date;
     detraction_account: string;
+    detraction_pay_constancy: string;
     detraction_percent: string;
     detraction_type_id: string;
-    dias_credito: number;
     discounts: string;
     document_type_id: string;
-    establishment: null;
     establishment_id: number;
+    establishment: null;
     exchange_rate_sale: string;
     expiration_date: string;
     external_id: string;
@@ -28,17 +30,24 @@ export interface Document extends BaseModel {
     has_pdf: number;
     has_xml: number;
     hash: null;
+    igv: string;
+    installation_date: string;
+    is_anulate_simple: number;
     is_detraction: number;
     is_fees: number;
     is_perception: number;
     is_retention: number;
+    issue_date: string | null;
     legends: null;
+    low_reason: string;
     operation_type_id: string;
     pay_constancy_detraction: string;
     payment_method_type_id: string;
+    pdf: any;
     perception_percent: string;
     purchase_order: string;
     qr: null;
+    registration_date: string;
     restore_user_id: null;
     retention_percent: string;
     serie: string;
@@ -46,9 +55,8 @@ export interface Document extends BaseModel {
     state_type_id: string;
     status_paid: number;
     sunat_information: null;
-    time_of_issue: string;
-    total: number;
     total_aplicado_nc: string;
+    total_applied_nc: string;
     total_base_isc: string;
     total_detraction: string;
     total_discount: string;
@@ -62,8 +70,8 @@ export interface Document extends BaseModel {
     total_taxes: string;
     total_unaffected: string;
     total_value: string;
+    total: number;
     ubl_version: string;
-    warehouse_id: number;
-
-    client?: Client
+    warehouse_id: number;    
+    xml: any;
 }
