@@ -1,5 +1,6 @@
 import { BaseModel } from "./baseModel";
 import { Client } from "./client";
+import { DocumentItem } from "./documentItem";
 
 export interface Document extends BaseModel {
     additional_information: null;
@@ -8,7 +9,6 @@ export interface Document extends BaseModel {
     cdr: any;
     client_business_unit_id: number;
     client_id: number;
-    client: Client
     correlative: number;
     credit_days: any;
     currency_type_id: string;
@@ -73,4 +73,7 @@ export interface Document extends BaseModel {
     ubl_version: string;
     warehouse_id: number;    
     xml: any;
+
+    client?: Client;
+    document_items: DocumentItem[];
 }

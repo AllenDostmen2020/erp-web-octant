@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild, inject, signal } from '@angular/core';
-import { ItemListTemplateComponent, ListItemExtended, dateColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ListItemExtended, dateColumn, itemCreatedAtColumn, itemStatusColumn, numberColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
@@ -45,7 +45,7 @@ export class DocumentListPageComponent {
     title: 'Documentos',
     server: {
       url: 'document',
-      queryParams: { relations: 'client' },
+      queryParams: { relations: 'client,documentItems' },
     },
     rows: {
       options: [
@@ -94,26 +94,29 @@ export class DocumentListPageComponent {
     },
     columns: signal([
       textColumn({
-        title: 'Serie/Correlativo',
-        displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '--',
+        title: 'Código/Descripción',
+        displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '...',
+        displayAdditionalValueFn: (item) => item.document_items?.map((item) => item.description).join(', '),
       }),
       textColumn({
         title: 'Cliente',
         displayValueFn: (item) => item.client?.name,
-        gridColumn: '1fr',
+        gridColumn: 'fit-content(200px)',
       }),
-      dateColumn({
-        title: 'Fecha de emisión',
-        displayValueFn: (item) => item.issue_date ? new Date(item.issue_date).toLocaleDateString() : '--',
-      }),
-      textColumn({
+      numberColumn({
         title: 'Total',
         displayValueFn: (item) => item.total,
+      }),
+      dateColumn({
+        title: 'Emitido',
+        displayValueFn: (item) => item.issue_date,
       }),
       textColumn({
         title: 'Estado SUNAT',
         displayValueFn: (item) => item.state_type_id ?? '--',
       }),
+      itemCreatedAtColumn(),
+      itemStatusColumn(),
     ]),
   }
 
