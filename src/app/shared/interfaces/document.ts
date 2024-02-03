@@ -31,7 +31,6 @@ export interface Document extends BaseModel {
     has_xml: number;
     hash: null;
     igv: string;
-    installation_date: string;
     is_anulate_simple: number;
     is_detraction: number;
     is_fees: number;

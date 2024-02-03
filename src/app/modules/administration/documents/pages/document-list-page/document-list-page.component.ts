@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild, inject, signal } from '@angular/core';
-import { ItemListTemplateComponent, ListItemExtended, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ListItemExtended, dateColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
@@ -94,13 +94,17 @@ export class DocumentListPageComponent {
     },
     columns: signal([
       textColumn({
-        title: 'Código',
+        title: 'Serie/Correlativo',
         displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '--',
       }),
       textColumn({
         title: 'Cliente',
         displayValueFn: (item) => item.client?.name,
         gridColumn: '1fr',
+      }),
+      dateColumn({
+        title: 'Fecha de emisión',
+        displayValueFn: (item) => item.issue_date ? new Date(item.issue_date).toLocaleDateString() : '--',
       }),
       textColumn({
         title: 'Total',

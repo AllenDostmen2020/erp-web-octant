@@ -20,15 +20,11 @@ export class ClientDocumentListComponent {
         textColumn({
           title: 'Serie/Correlativo',
           displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '--',
-        }),
-        textColumn({
-          title: 'Nombre',
-          displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '--',
           gridColumn: '1fr',
         }),
         dateColumn({
           title: 'Fecha de emisión',
-          displayValueFn: (item) => item.issue_date,
+          displayValueFn: (item) => item.issue_date ? new Date(item.issue_date).toLocaleDateString() : '--',
         }),
         itemCreatedAtColumn(),
         itemUpdatedAtColumn(),
