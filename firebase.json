@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/insig-demo/browser",
+    "public": "dist/octant-erp/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

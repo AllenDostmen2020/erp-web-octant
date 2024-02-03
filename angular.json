@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "insig-demo": {
+    "octant-erp": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/insig-demo",
+            "outputPath": "dist/octant-erp",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -77,10 +77,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "insig-demo:build:production"
+              "buildTarget": "octant-erp:build:production"
             },
             "development": {
-              "buildTarget": "insig-demo:build:development"
+              "buildTarget": "octant-erp:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -88,7 +88,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "insig-demo:build"
+            "buildTarget": "octant-erp:build"
           }
         },
         "test": {
