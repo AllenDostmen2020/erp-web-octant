@@ -1,4 +1,4 @@
-import { Component, Input, inject, ViewEncapsulation } from '@angular/core';
+import { Component, Input, inject, ViewEncapsulation, ChangeDetectionStrategy, WritableSignal, signal } from '@angular/core';
 import { Location, NgClass, NgFor, NgIf } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, IsActiveMatchOptions, Params, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -8,7 +8,7 @@ import { objectToURLSearchParams } from '@utility/queryParams';
 import { GetMixedValuePipe } from '@pipe/get-mixed-value.pipe';
 
 export interface ItemViewConfiguration<T = any> {
-    item?: T;
+    item?: WritableSignal<T|null>;
     nameItemFn?: (item: T) => string;
     titleModule: string;
     itemId?: string;
@@ -37,8 +37,6 @@ export interface LinkNavProfile {
   selector: 'app-item-view-template',
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     NgClass,
     RouterLink,
     RouterLinkActive,
@@ -49,6 +47,7 @@ export interface LinkNavProfile {
   templateUrl: './item-view-template.component.html',
   styleUrls: ['./item-view-template.component.css'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemViewTemplateComponent {
   @Input() public configuration!: ItemViewConfiguration;
@@ -62,8 +61,8 @@ export class ItemViewTemplateComponent {
     return this.configuration.links;
   }
 
-  get item(): any {
-    return this.configuration.item;
+  get item(): WritableSignal<any> {
+    return this.configuration.item!;
   }
 
   get itemId(): number | string {
@@ -79,6 +78,7 @@ export class ItemViewTemplateComponent {
   }
 
   ngOnInit() {
+    this.configuration.item ??= signal(null);
     this.activatedRoute.params.subscribe(() => this.getItem());
   }
 
@@ -94,9 +94,10 @@ export class ItemViewTemplateComponent {
       const url = `${server.url}/${this.itemId}?${queryParams ? queryParams : ''}`;
       const response = await this.fetch.get<T>(url, { signal: this.abortController.signal });
       const { parseItemFn } = this.configuration;
-      this.configuration.item = parseItemFn?.(response) ?? response;
+      const item = parseItemFn?.(response) ?? response;
       const { afterSetItemFn } = this.configuration;
-      if (afterSetItemFn) afterSetItemFn(this.configuration.item);
+      if (afterSetItemFn) afterSetItemFn(item);
+      this.configuration.item!.set(item);
     } catch (error) {
       this.configuration.httpError = error as FetchErrorResponse;
       const { interceptHttpErrorItemFn } = this.configuration;
