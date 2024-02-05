@@ -1,6 +1,6 @@
 import { Component, Input, WritableSignal, inject, signal } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { FetchService } from '@service/fetch.service';
+import { FetchService, RequestInitFetch, ToastForFecth } from '@service/fetch.service';
 import { EventsService } from '@service/events.service';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SpinnerDefaultComponent } from '../spinner-default/spinner-default.component';
@@ -13,7 +13,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { InputFileConfiguration, SelectFileComponent } from '../select-file/select-file.component';
 import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
 import { ActivatedRoute } from '@angular/router';
-import { FetchErrorResponse, RequestInitFetch } from 'src/app/shared/interfaces/fetch';
+import { FetchErrorResponse } from 'src/app/shared/interfaces/fetch';
 import { ErrorTemplateComponent } from '../error-template/error-template.component';
 import { GetKeyItemPipe } from '@pipe/get-key-item.pipe';
 import { ExecuteFunctionPipe } from '@pipe/execute-function.pipe';
@@ -21,6 +21,7 @@ import { GetMixedValuePipe } from '@pipe/get-mixed-value.pipe';
 import { InputAutocompleteConfiguration, InputAutocompleteLocalConfiguration, InputAutocompleteServerConfiguration, InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
 import { InputSelectConfiguration, InputSelectLocalConfiguration, InputSelectServerConfiguration, InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 import { objectToURLSearchParams } from '@utility/queryParams';
+import { ConfirmDialogData } from '@component/confirm-dialog-template/confirm-dialog-template.component';
 
 export interface ItemFormConfiguration<Item = any, Data = any> {
   title?: string;
@@ -46,6 +47,10 @@ export interface ItemFormConfiguration<Item = any, Data = any> {
       createQueryParams?: { [key: string]: string | number | boolean | null | undefined };
       itemUrl?: string;
       itemQueryParams?: { [key: string]: string | number | boolean | null | undefined };
+      fetch?: {
+        confirmDialog?: ConfirmDialogData,
+        toast?: ToastForFecth,
+      }
   }
 
   parseDataItemBeforeSendFormFn?: (data: Data) => (Data | Promise<Data>);
@@ -374,13 +379,21 @@ export class ItemFormTemplateComponent {
       const { parseDataItemBeforeSendFormFn } = this.configuration;
       data = await parseDataItemBeforeSendFormFn?.(data) ?? data;
 
+      const requestInit: RequestInitFetch = { };
+      if(this.configuration.server.fetch?.confirmDialog) {
+        requestInit.confirmDialog = this.configuration.server.fetch.confirmDialog;
+      }
+      if(this.configuration.server.fetch?.toast) {
+        requestInit.toast = this.configuration.server.fetch.toast;
+      }
+
       let response = null;
       if (this.configuration.type === 'create') {
-        response = await this.fetch.post(this.configuration.server.url, data);
+        response = await this.fetch.post(this.configuration.server.url, data, requestInit);
         this.events.emitEvent(`${this.configuration.server.url}_created`, response);
       } else {
         const url = this.configuration.server.updateUrl ?? `${this.configuration.server.url}/${this.configuration.dataItem!()?.id}`;
-        response = await this.fetch.put(url, data);
+        response = await this.fetch.put(url, data, requestInit);
         this.events.emitEvent(`${this.configuration.server.url}_updated`, response);
       }
 

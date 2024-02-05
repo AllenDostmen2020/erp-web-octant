@@ -11,7 +11,7 @@
         </a>
 
         <h1 ILoad class="item-view__header__title">
-            @if (item(); as _item) { {{nameItemFn | getMixedValue: _item}} } 
+            @if (this.configuration.item!(); as _item) { {{nameItemFn | getMixedValue: _item}} } 
             @else { ######## }
         </h1>
 
@@ -20,9 +20,7 @@
         <nav class="item-view__header__nav" ILoad fitInkBarToContent mat-tab-nav-bar mat-stretch-tabs="false"
             mat-align-tabs="start" [tabPanel]="tabPanel">
             @for (link of links; track link) {
-            <a mat-tab-link [routerLink]="link.routerLink"
-                [routerLinkActiveOptions]="link?.routerLinkActiveOptions ?? { exact: false }" routerLinkActive="active"
-                [active]="link0.isActive" #link0="routerLinkActive" [disabled]="link.disabled ?? false" [state]="item">
+            <a mat-tab-link [routerLink]="link.routerLink" [routerLinkActiveOptions]="link?.routerLinkActiveOptions ?? { exact: false }" routerLinkActive="active" [active]="link0.isActive" #link0="routerLinkActive" [disabled]="link.disabled ?? false" [state]="this.configuration.item!()">
                 {{ link.text }}
             </a>
             }
@@ -31,9 +29,9 @@
     </div>
 
     <div class="item-view__content">
-        @if (item() && !configuration.loading) {
+        @if (this.configuration.item!() && !configuration.loading) {
         <div class="item-view__content__router">
-            <router-outlet class="hidden"></router-outlet>
+            <router-outlet class="hidden"/>
         </div>
         }
     </div>

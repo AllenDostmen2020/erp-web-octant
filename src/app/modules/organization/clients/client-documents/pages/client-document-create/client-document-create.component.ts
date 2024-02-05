@@ -38,6 +38,13 @@ export class ClientDocumentCreateComponent {
         type: "create",
         server: {
             url: 'document/contracts/generate',
+            fetch: {
+                toast: {
+                    loading: "Generando documento...",
+                    success: "El documento ha sido creado con éxito",
+                    error: "El documento no ha sido creado",
+                }
+            }
         },
         formGroup: new FormGroup({
             client_id: new FormControl(this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id'), [Validators.required]),

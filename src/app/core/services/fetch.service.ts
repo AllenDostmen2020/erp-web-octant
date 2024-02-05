@@ -10,7 +10,7 @@ import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
 import { environment } from 'src/environments/environment';
 
-interface ToastForFecth extends Omit<ToastDataPromise, 'promise' | 'success' | 'error'> {
+export interface ToastForFecth extends Omit<ToastDataPromise, 'promise' | 'success' | 'error'> {
   success: string | ((data: any, snackbarRef: MatSnackBarRef<any>, currentMessage: string) => Promise<string> | string);
   error: string | ((error: any, snackbarRef: MatSnackBarRef<any>, currentMessage: string) => Promise<string> | string);
 }

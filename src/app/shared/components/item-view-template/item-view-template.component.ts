@@ -61,9 +61,7 @@ export class ItemViewTemplateComponent {
     return this.configuration.links;
   }
 
-  get item(): WritableSignal<any> {
-    return this.configuration.item!;
-  }
+  
 
   get itemId(): number | string {
     return this.configuration.itemId ?? this.activatedRoute.snapshot.paramMap.get('id')!;
