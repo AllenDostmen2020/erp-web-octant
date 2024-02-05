@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ItemFormConfiguration } from '@interface/itemForm';
+import { ItemFormConfiguration } from '@component/item-form-template/item-form-template.component';
 import { DEFAULT_DISPLAY_FIELDS_FORM_CLIENT, clientFormGroup } from '../../helpers';
 import { FormControl, Validators } from '@angular/forms';
 import { filter } from 'rxjs';
@@ -107,6 +107,5 @@ export class ClientCreatePageComponent {
             this.nameCtrl.enable();
         }
     }
-
 
 }

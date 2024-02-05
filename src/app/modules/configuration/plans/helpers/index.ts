@@ -1,6 +1,6 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { COIN, CoinEnum } from "@interface/baseModel";
-import { FormInput, numberFormInput, selectFormInput, textFormInput, textareaFormInput } from "@interface/itemForm";
+import { FormInput, numberFormInput, selectFormInput, textFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
 
 export const planFormGroup = () => new FormGroup({
     name: new FormControl('', [Validators.required]),

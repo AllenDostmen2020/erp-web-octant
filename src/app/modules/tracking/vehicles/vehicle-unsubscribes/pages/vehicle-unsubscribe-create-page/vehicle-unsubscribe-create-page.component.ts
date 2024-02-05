@@ -1,12 +1,11 @@
 import { Component, WritableSignal, inject, signal } from '@angular/core';
 import { DEFAULT_DISPLAY_FIELDS_FORM_VEHICLE, vehicleUnsubscribeFormGroup } from '../../helpers';
-import { ItemFormConfiguration } from '@interface/itemForm';
 import { VehicleUnsubscribe, VehicleUnsubscribeProgrammingType } from '@interface/vehicleUnsubscribe';
 import { ActivatedRoute } from '@angular/router';
 import { FetchService } from '@service/fetch.service';
 import { Contract } from '@interface/contract';
 import { FormControl } from '@angular/forms';
-import { ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
+import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { DatePipe } from '@angular/common';
 
 @Component({

@@ -31,11 +31,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { FormInput, dateRangeFormInput, switchFormInput } from 'src/app/shared/interfaces/itemForm';
 import { InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
 import { InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 import { EventGlobalSearch, NAME_EVENT_GLOBAL_SEARCH } from 'src/app/sidenav/sidenav/sidenav.component';
 import { ExecuteFunctionListPipe } from './execute-function-list.pipe';
+import { FormInput, dateRangeFormInput, switchFormInput } from '@component/item-form-template/item-form-template.component';
 
 export const DATA_TYPE_LIST = new InjectionToken<'array' | 'paginator'>('KEY_GET_ITEMS_PAGINATOR_LIST');
 export const KEY_GET_ITEMS_PAGINATOR_LIST = new InjectionToken('KEY_GET_ITEMS_PAGINATOR_LIST');

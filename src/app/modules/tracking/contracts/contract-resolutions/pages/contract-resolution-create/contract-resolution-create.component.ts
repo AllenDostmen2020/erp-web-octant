@@ -1,9 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
+import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { ContractResolution, ContractResolutionEntityEnum, ContractResolutionTypeEnum } from '@interface/contractResolution';
-import { ItemFormConfiguration } from '@interface/itemForm';
 import { ContractResolutionFormComponent } from '../../components/contract-resolution-form/contract-resolution-form.component';
 
 @Component({

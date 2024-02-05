@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { ItemFormConfiguration } from '@interface/itemForm';
 import { DEFAULT_DISPLAY_FIELDS_FORM_PLAN, planFormGroup } from '../../helpers';
-import { ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
+import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { Plan } from '@interface/plan';
 import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
 

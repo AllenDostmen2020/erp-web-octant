@@ -1,6 +1,6 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ClientContact } from "@interface/clientContact";
-import { FormInput, textFormInput, textareaFormInput } from "@interface/itemForm";
+import { FormInput, textFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
 
 export const clientBusinessUnitFormGroup = (item?: Partial<ClientContact>) => new FormGroup({
     client_id: new FormControl(item?.client_id, [Validators.required]),

@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { FormInput, textFormInput, textareaFormInput } from "@interface/itemForm";
+import { FormInput, textFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
 
 export const bankFormGroup = () => new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -8,7 +8,6 @@ export const bankFormGroup = () => new FormGroup({
 });
 
 export const DEFAULT_DISPLAY_FIELDS_FORM_BANK: FormInput[] = [
-
     textFormInput({
         formControlName: 'code',
         textLabel: 'Código',

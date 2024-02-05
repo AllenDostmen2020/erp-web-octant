@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
-import { ItemFormConfiguration } from '@interface/itemForm';
+import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { BoxFormPageComponent } from '../box-form-page/box-form-page.component';
 
 @Component({

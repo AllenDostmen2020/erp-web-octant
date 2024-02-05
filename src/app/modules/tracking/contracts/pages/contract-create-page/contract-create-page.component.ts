@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
+import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { ContractFormComponent } from '../../components/contract-form/contract-form.component';
-import { ItemFormConfiguration } from '@interface/itemForm';
 import { getContractFormGroup } from '../../helpers';
 
 @Component({

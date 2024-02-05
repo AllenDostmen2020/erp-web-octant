@@ -1,6 +1,6 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { COIN } from "@interface/baseModel";
-import { FormInput, autocompleteServerFormInput, selectFormInput, textFormInput, textareaFormInput } from "@interface/itemForm";
+import { FormInput, autocompleteServerFormInput, selectFormInput, textFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
 
 export const accountFormGroup = () => new FormGroup({
     bank_id: new FormControl(null, [Validators.required]),

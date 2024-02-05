@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { FormInput, fileFormInput, textFormInput, textareaFormInput } from "@interface/itemForm";
+import { FormInput, fileFormInput, textFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
 
 export const vehicleTypeFormGroup = () => new FormGroup({
     name: new FormControl('', [Validators.required]),

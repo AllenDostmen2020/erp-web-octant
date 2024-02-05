@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
-import { ItemFormConfiguration } from '@interface/itemForm';
+import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_BUSINESS_UNIT, clientBusinessUnitFormGroup } from '../../helpers';
 import { ActivatedRoute } from '@angular/router';
 

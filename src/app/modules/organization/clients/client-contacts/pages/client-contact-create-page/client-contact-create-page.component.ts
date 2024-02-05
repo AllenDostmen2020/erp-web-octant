@@ -1,10 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ItemFormConfiguration } from '@interface/itemForm';
 import { DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_CONTACT, clientContactFormGroup } from '../../helpers';
 import { FormControl } from '@angular/forms';
-import { DocumentTypeEnum } from '@interface/baseModel';
-import { ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
+import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 
 @Component({
     selector: 'app-client-contact-create-page',

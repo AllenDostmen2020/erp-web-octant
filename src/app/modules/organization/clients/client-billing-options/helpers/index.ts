@@ -1,6 +1,6 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { COMPROBANT_TYPES, ClientBillingOption } from "@interface/clientBillingOption";
-import { FormInput, numberFormInput, selectFormInput, switchFormInput } from "@interface/itemForm";
+import { FormInput, numberFormInput, selectFormInput, switchFormInput } from "@component/item-form-template/item-form-template.component";
 
 export const clientBillingOptionFormGroup = (item?: Partial<ClientBillingOption>) => new FormGroup({
     client_id: new FormControl(item?.id, [Validators.required]),

@@ -1,10 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
+import { ItemFormConfiguration, ItemFormTemplateComponent, selectFormInput, textFormInput } from '@component/item-form-template/item-form-template.component';
 import { COIN } from '@interface/baseModel';
 import { ClientAccount, ClientAccountTypeEnum } from '@interface/clientAccount';
-import { ItemFormConfiguration, selectFormInput, textFormInput } from '@interface/itemForm';
 
 @Component({
     selector: 'app-client-account-create-page',

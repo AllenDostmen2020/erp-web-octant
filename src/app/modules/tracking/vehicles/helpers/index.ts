@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { FormInput, autocompleteLocalFormInput, autocompleteServerFormInput, textFormInput, textareaFormInput } from "@interface/itemForm";
+import { FormInput, autocompleteLocalFormInput, autocompleteServerFormInput, textFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
 import { NameModuleDatabase } from "@service/database-storage.service";
 
 export const vehicleFormGroup = () => new FormGroup({

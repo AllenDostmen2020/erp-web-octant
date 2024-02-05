@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { ItemFormConfiguration } from '@interface/itemForm';
+import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { DEFAULT_DISPLAY_FIELDS_FORM_BANK, bankFormGroup } from '../../helpers';
-import { ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 
 @Component({
   selector: 'app-bank-create-page',

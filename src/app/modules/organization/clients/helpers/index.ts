@@ -1,6 +1,6 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { DOCUMENT_TYPES } from "@interface/baseModel";
-import { FormInput, selectFormInput, textFormInput, textareaFormInput } from "@interface/itemForm";
+import { FormInput, selectFormInput, textFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
 
 export const clientFormGroup = () => new FormGroup({
     document_type: new FormControl(null, [Validators.required]),

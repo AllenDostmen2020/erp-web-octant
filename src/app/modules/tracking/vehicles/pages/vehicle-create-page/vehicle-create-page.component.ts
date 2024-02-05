@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
-import { ItemFormConfiguration } from '@interface/itemForm';
+import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { DEFAULT_DISPLAY_FIELDS_FORM_VEHICLE, vehicleFormGroup } from '../../helpers';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
-import { ItemFormConfiguration } from '@interface/itemForm';
+import { ItemFormConfiguration } from '@component/item-form-template/item-form-template.component';
 import { ClientPaymentFormPageComponent } from '../../components/client-payment-form-page/client-payment-form-page.component';
 
 @Component({
