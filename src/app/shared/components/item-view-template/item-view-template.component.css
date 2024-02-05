@@ -39,10 +39,10 @@
 }
 
 .item-view__header__subtitle {
-  font-weight: var(--body-small-font-weight);
-  font-size: var(--body-small-font-size);
-  letter-spacing: var(--body-small-letter-spacing);
-  line-height: var(--body-small-line-height);
+  font-weight: var(--label-medium-font-weight);
+  font-size: var(--label-medium-font-size);
+  letter-spacing: var(--label-medium-letter-spacing);
+  line-height: var(--label-medium-line-height);
   text-transform: uppercase;
   color: rgb(var(--rgb-on-surface-variant));
   cursor: pointer;
