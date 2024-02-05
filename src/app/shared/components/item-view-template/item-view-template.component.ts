@@ -1,12 +1,37 @@
 import { Component, Input, inject, ViewEncapsulation } from '@angular/core';
 import { Location, NgClass, NgFor, NgIf } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
-import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { ItemViewConfiguration } from 'src/app/shared/interfaces/itemView';
+import { ActivatedRoute, IsActiveMatchOptions, Params, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FetchService } from '@service/fetch.service';
 import { FetchErrorResponse } from 'src/app/shared/interfaces/fetch';
 import { objectToURLSearchParams } from '@utility/queryParams';
 import { GetMixedValuePipe } from '@pipe/get-mixed-value.pipe';
+
+export interface ItemViewConfiguration<T = any> {
+    item?: T;
+    nameItemFn?: (item: T) => string;
+    titleModule: string;
+    itemId?: string;
+    links: LinkNavProfile[];
+    loading?: boolean;
+    parseItemFn?: (item: T) => (T | Promise<T>);
+    afterSetItemFn?: (item: T) => void;
+    interceptHttpErrorItemFn?: (error: FetchErrorResponse) => void;
+    httpError?: FetchErrorResponse;
+    server: {
+        url: string;
+        queryParams?: { [key: string]: any };
+    }
+}
+
+export interface LinkNavProfile {
+    text: string;
+    routerLink: string;
+    routerLinkActiveOptions?: { exact: boolean } | IsActiveMatchOptions;
+    queryParams?: Params | null;
+    icon?: string;
+    disabled?: boolean;
+}
 
 @Component({
   selector: 'app-item-view-template',

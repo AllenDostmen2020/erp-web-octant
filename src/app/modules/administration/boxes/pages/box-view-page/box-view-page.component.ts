@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { ItemViewTemplateComponent } from '@component/item-view-template/item-view-template.component';
-import { ItemViewConfiguration } from '@interface/itemView';
+import { ItemViewTemplateComponent, ItemViewConfiguration } from '@component/item-view-template/item-view-template.component';
 
 @Component({
   selector: 'app-box-view-page',

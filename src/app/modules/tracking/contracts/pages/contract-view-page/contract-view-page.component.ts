@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { ItemViewTemplateComponent } from '@component/item-view-template/item-view-template.component';
+import { ItemViewTemplateComponent, ItemViewConfiguration } from '@component/item-view-template/item-view-template.component';
 import { Contract } from '@interface/contract';
-import { ItemViewConfiguration } from '@interface/itemView';
 
 @Component({
   selector: 'app-contract-view-page',

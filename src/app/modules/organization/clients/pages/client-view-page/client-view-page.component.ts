@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-template/alert-template.component';
-import { ItemViewTemplateComponent } from '@component/item-view-template/item-view-template.component';
-import { ItemViewConfiguration } from '@interface/itemView';
+import { ItemViewTemplateComponent, ItemViewConfiguration } from '@component/item-view-template/item-view-template.component';
 
 @Component({
   selector: 'app-client-view-page',
   standalone: true,
-  imports: [ItemViewTemplateComponent, AlertTemplateComponent],
+  imports: [ItemViewTemplateComponent],
   templateUrl: './client-view-page.component.html',
   styleUrl: './client-view-page.component.scss'
 })
