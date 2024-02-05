@@ -20,8 +20,6 @@
   min-height: 56px;
   padding: 24px var(--padding-x-card) 8px var(--padding-x-card);
 
-  font-family: var(--title-medium-font-family-name);
-  font-style: var(--title-medium-font-family-style);
   font-weight: var(--title-medium-font-weight);
   font-size: var(--title-medium-font-size);
   letter-spacing: var(--title-medium-letter-spacing);
@@ -56,8 +54,6 @@
 }
 
 .item-detail__header__title__sub {
-  font-family: var(--body-small-font-family-name);
-  font-style: var(--body-small-font-family-style);
   font-weight: var(--body-small-font-weight);
   font-size: var(--body-small-font-size);
   letter-spacing: var(--body-small-letter-spacing);
@@ -115,7 +111,6 @@
   align-items: center;
   grid-column: 1 / -1;
   margin: 0 0 12px;
-  font-style: var(--label-large-font-family-style);
   font-weight: var(--label-large-font-weight);
   font-size: var(--label-large-font-size);
   line-height: var(--label-large-line-height);
@@ -156,8 +151,6 @@
 }
 
 /* .item-detail__group__header__title {
-  font-family: var(--body-large-font-family-name);
-  font-style: var(--body-large-font-family-style);
   font-weight: var(--body-large-font-weight);
   font-size: var(--body-large-font-size);
   line-height: var(--body-large-line-height);
@@ -167,8 +160,6 @@
 
 .item-detail__group__row {
   display: contents;
-  font-family: var(--body-medium-font-family-name);
-  font-style: var(--body-medium-font-family-style);
   font-weight: var(--body-medium-font-weight);
   font-size: var(--body-medium-font-size);
   line-height: var(--body-medium-line-height);
@@ -177,8 +168,6 @@
 }
 
 /* .item-detail__group__row__label {
-  font-family: var(--label-large-font-family-name);
-  font-style: var(--label-large-font-family-style);
   font-weight: var(--label-large-font-weight);
   font-size: var(--label-large-font-size);
   line-height: var(--label-large-line-height);
@@ -216,8 +205,6 @@
     background: rgba(var(--rgb-surface), .8);
     backdrop-filter: blur(8px);
     border-bottom-color: var(--color-outline-variant);
-    font-family: var(--title-small-font-family-name);
-    font-style: var(--title-small-font-family-style);
     font-weight: var(--title-small-font-weight);
     font-size: var(--title-small-font-size);
     letter-spacing: var(--title-small-letter-spacing);

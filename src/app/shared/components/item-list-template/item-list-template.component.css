@@ -33,11 +33,10 @@
   display: flex;
   gap: 1rem;
   justify-content: space-between;
-  font-size: var(--title-large-font-size);
-  font-style: var(--title-large-font-family-style);
-  font-weight: var(--title-large-font-weight);
-  letter-spacing: var(--title-large-letter-spacing);
-  line-height: var(--title-large-line-height);
+  font-size: var(--title-medium-font-size);
+  font-weight: var(--title-medium-font-weight);
+  letter-spacing: var(--title-medium-letter-spacing);
+  line-height: var(--title-medium-line-height);
   height: 72px;
   padding: 24px var(--padding-x-card) 8px var(--padding-x-card);
   position: relative;
@@ -151,7 +150,6 @@
   transition: background .2s ease, border-color .2s ease;
   height: 48px;
   font-size: var(--body-small-font-size);
-  font-style: var(--body-small-font-family-style);
   font-weight: var(--body-small-font-weight);
   letter-spacing: var(--body-small-letter-spacing);
   line-height: var(--body-small-line-height);
@@ -165,7 +163,6 @@
   background: rgba(var(--rgb-surface), 0.8);
   backdrop-filter: blur(6px);
   font-size: var(--label-small-font-size);
-  font-style: var(--label-small-font-family-style);
   font-weight: var(--label-small-font-weight);
   letter-spacing: var(--label-small-letter-spacing);
   line-height: var(--label-small-line-height);
@@ -363,7 +360,6 @@
 .filter__title {
   padding-top: 16px;
   font-size: var(--label-large-font-size);
-  font-style: var(--label-large-font-family-style);
   font-weight: var(--label-large-font-weight);
   letter-spacing: var(--label-large-letter-spacing);
   line-height: var(--label-large-line-height);
@@ -403,12 +399,10 @@
 @keyframes sbc1 {
   to {
     border-bottom-color: var(--color-outline-variant);
-    font-family: var(--title-medium-font-family-name);
-    font-style: var(--title-medium-font-family-style);
-    font-weight: var(--title-medium-font-weight);
-    font-size: var(--title-medium-font-size);
-    letter-spacing: var(--title-medium-letter-spacing);
-    line-height: var(--title-medium-line-height);
+    font-weight: var(--title-small-font-weight);
+    font-size: var(--title-small-font-size);
+    letter-spacing: var(--title-small-letter-spacing);
+    line-height: var(--title-small-line-height);
   }
 }
 

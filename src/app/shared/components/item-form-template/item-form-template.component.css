@@ -22,8 +22,6 @@
   transition-duration: 0.25s;
   transition-timing-function: ease;
 
-  font-family: var(--title-medium-font-family-name);
-  font-style: var(--title-medium-font-family-style);
   font-weight: var(--title-medium-font-weight);
   font-size: var(--title-medium-font-size);
   letter-spacing: var(--title-medium-letter-spacing);
@@ -54,8 +52,6 @@
 }
 
 .form__header__title__sub {
-  font-family: var(--body-small-font-family-name);
-  font-style: var(--body-small-font-family-style);
   font-weight: var(--body-small-font-weight);
   font-size: var(--body-small-font-size);
   letter-spacing: var(--body-small-letter-spacing);
@@ -140,8 +136,6 @@
   to {
     background: rgba(var(--rgb-surface), .8);
     border-bottom-color: var(--color-outline-variant);
-    font-family: var(--title-small-font-family-name);
-    font-style: var(--title-small-font-family-style);
     font-weight: var(--title-small-font-weight);
     font-size: var(--title-small-font-size);
     letter-spacing: var(--title-small-letter-spacing);
