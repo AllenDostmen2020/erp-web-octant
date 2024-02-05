@@ -102,7 +102,7 @@ export class FetchService extends FetchBase {
       const toastDataPromise = toast ? toast : {
         loading: 'Guardando registro...',
         success: 'Registro guardado',
-        error: 'Error al guardar registro',
+        error: (error: any) => `Error al guardar registro: ${error.error?.message ?? 'Error desconocido'}`,
       };
       return this.resolveToastPromise<T>(promise, toastDataPromise, requestInit);
     }
@@ -121,7 +121,7 @@ export class FetchService extends FetchBase {
       const toastDataPromise = toast ? toast : {
         loading: 'Actualizando registro...',
         success: 'Registro actualizado',
-        error: 'Error al actualizar registro',
+        error: (error: any) => `Error al actualizar registro: ${error.error?.message ?? 'Error desconocido'}`,
       };
       return this.resolveToastPromise<T>(promise, toastDataPromise, requestInit);
     }
