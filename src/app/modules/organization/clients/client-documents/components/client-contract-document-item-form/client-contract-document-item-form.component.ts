@@ -34,9 +34,9 @@ export class ClientContractDocumentItemFormComponent {
 
     get periodCtrl(): FormControl { return this.form.get('period') as FormControl; }
 
-    public editFucusItems(item: ItemFormDocumentContractItem): void {
-        item.edit = true;
-        item.inputAutoFocus = 'period';
+    public editFucusItems(): void {
+        this.item.edit = true;
+        this.item.inputAutoFocus = 'period';
         this.patchValueForm();
     }
 
@@ -48,7 +48,6 @@ export class ClientContractDocumentItemFormComponent {
 
     public cancelEditItem(): void {
         this.item.edit = false;
-        this.item.inputAutoFocus = undefined;
         this.clearTimeoutSaveItem();
     }
 
@@ -62,7 +61,10 @@ export class ClientContractDocumentItemFormComponent {
 
     public saveItem(): void {
         if (this.form.invalid) return;
-        else if (!this.isChangesItem()) this.timeoutSaveItem = setTimeout(() => this.cancelEditItem(), 250);
+        else if (!this.isChangesItem()) this.timeoutSaveItem = setTimeout(() => {
+            this.cancelEditItem();
+            this.updateItem.emit();
+        }, 250);
         else this.timeoutSaveItem = setTimeout(() => this.saveItemInServer(), 250);
     }
 

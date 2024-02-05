@@ -41,18 +41,21 @@ export class ClientDocumentCreateComponent {
         },
         formGroup: new FormGroup({
             client_id: new FormControl(this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id'), [Validators.required]),
+            valid_contracts: new FormControl(false, [Validators.requiredTrue]),
         }),
-        parseDataItemBeforeSendFormFn: (data) => {
-            data.contracts = this.items().map((item) => ({ id: item.contract.id, periods: item.periods }))
-            return data;
-        },
+        parseDataItemBeforeSendFormFn: (data) => ({
+            ...data,
+            contracts: this.items().map((item) => ({ id: item.contract.id, periods: item.periods }))
+        }),
     }
+    
     ngOnInit() {
         this.subscription = this.eventsService.eventsFiltered(['add-contract-document-item']).subscribe(event => {
             this.addData(event.data);
         });
 
     }
+
     ngOnDestroy() {
         this.subscription?.unsubscribe();
     }
@@ -63,6 +66,7 @@ export class ClientDocumentCreateComponent {
             return { contract, periods: 1, description, price }
         })
         this.items.update((data) => [...data, ...newData]);
+        this.formConfiguration.formGroup.get('valid_contracts')?.setValue(true);
     }
 
     private getDetails(contract: Contract, periods: number) {
@@ -89,6 +93,7 @@ export class ClientDocumentCreateComponent {
 
     public deleteItem(index: number) {
         this.items.update((data) => data.toSpliced(index, 1))
+        if (this.items().length == 0) this.formConfiguration.formGroup.get('valid_contracts')?.setValue(false);
     }
 
     public updateDescription(index: number) {

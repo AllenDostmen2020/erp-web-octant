@@ -255,7 +255,7 @@
         </button>
         }
 
-        <button class="filled-button" [disabled]="configuration.loading" type="submit">
+        <button class="filled-button" [disabled]="configuration.loading || this.configuration.formGroup.invalid" type="submit">
             @if (configuration.saveButton?.icon && configuration.saveButton?.iconPosition !== 'right') {
             <span class="material-icons">{{ configuration.saveButton?.icon }}</span>
             }

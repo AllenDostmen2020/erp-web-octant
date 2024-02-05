@@ -5,19 +5,20 @@
             <div class="item__row item__row-header">
                 <div class="item__row__cell">Descripción</div>
                 <div class="item__row__cell" align="right">Costo</div>
-                <div class="item__row__cell" align="right">Cantidad</div>
+                <div class="item__row__cell" align="right">Periodos</div>
                 <div class="item__row__cell" align="right">Subtotal</div>
             </div>
 
             @for (item of items(); track item.contract.id; let i = $index) {
-                <app-client-contract-document-item-form [item]="item" [index]="i" (deleteItem)="deleteItem(i)" (updateItem)="updateDescription(i)"/>
+            <app-client-contract-document-item-form [item]="item" [index]="i" (deleteItem)="deleteItem(i)"
+                (updateItem)="updateDescription(i)" />
             }
 
         </div>
         <br>
-                    <button class="quotation-items__add-title outlined-button" (click)="newAdd($event)">
-                    <span class="material-icons">add</span>
-                    <span>Agregar contrato</span>
-                    </button>
+        <button class="outlined-button contract__add-button" (click)="newAdd($event)">
+            <span class="material-icons">add</span>
+            <span>Agregar contrato</span>
+        </button>
     </ng-container>
 </app-item-form-template>
