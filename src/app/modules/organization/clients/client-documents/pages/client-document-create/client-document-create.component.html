@@ -14,11 +14,15 @@
                 (updateItem)="updateDescription(i)" />
             }
 
+            <br>
+            <button class="outlined-button contract__add-button" (click)="newAdd($event)">
+                <span class="material-icons">add</span>
+                <span>Agregar contrato</span>
+            </button>
+            <br>
+            <div>
+                {{total()}}
+            </div>
         </div>
-        <br>
-        <button class="outlined-button contract__add-button" (click)="newAdd($event)">
-            <span class="material-icons">add</span>
-            <span>Agregar contrato</span>
-        </button>
     </ng-container>
 </app-item-form-template>

@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, itemCreatedAtColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
 
 @Component({
@@ -14,24 +14,30 @@ export class ClientDocumentListComponent {
   public listConfiguration: ItemListConfiguration<Document> = {
       title: 'Documentos',
       server: {
-        url: 'document'
+        url: 'document',
+        queryParams: { relations: 'documentItems' },
       },
       columns: signal([
         textColumn({
-          title: 'Serie/Correlativo',
-          displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '--',
+          title: 'Código/Descripción',
+          displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '...',
+          displayAdditionalValueFn: (item) => item.document_items?.map((item) => item.description).join(', '),
           gridColumn: '1fr',
         }),
+        numberColumn({
+          title: 'Total',
+          displayValueFn: (item) => item.total,
+        }),
         dateColumn({
-          title: 'Fecha de emisión',
-          displayValueFn: (item) => item.issue_date ? new Date(item.issue_date).toLocaleDateString() : '--',
+          title: 'Emitido',
+          displayValueFn: (item) => item.issue_date,
+        }),
+        textColumn({
+          title: 'Estado SUNAT',
+          displayValueFn: (item) => item.state_type_id ?? '--',
         }),
         itemCreatedAtColumn(),
-        itemUpdatedAtColumn(),
-        textColumn({
-          title: 'Estado',
-          displayValueFn: (item) => item.status,
-        })
+        itemStatusColumn(),
       ])
     }
 }

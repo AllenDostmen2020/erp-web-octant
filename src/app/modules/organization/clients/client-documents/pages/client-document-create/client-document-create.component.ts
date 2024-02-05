@@ -1,4 +1,4 @@
-import { Component, WritableSignal, inject, signal } from '@angular/core';
+import { Component, WritableSignal, computed, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { Contract } from '@interface/contract';
@@ -32,6 +32,7 @@ export class ClientDocumentCreateComponent {
     private eventsService = inject(EventsService);
     private subscription?: Subscription;
     public items: WritableSignal<ItemFormDocumentContractItem[]> = signal([]);
+    public total = computed(() => this.items().reduce((acc, item) => acc + item.price, 0));
     public formConfiguration: ItemFormConfiguration = {
         title: "Nuevo Documento",
         titleModule: "documento",
@@ -48,7 +49,7 @@ export class ClientDocumentCreateComponent {
             contracts: this.items().map((item) => ({ id: item.contract.id, periods: item.periods }))
         }),
     }
-    
+
     ngOnInit() {
         this.subscription = this.eventsService.eventsFiltered(['add-contract-document-item']).subscribe(event => {
             this.addData(event.data);
