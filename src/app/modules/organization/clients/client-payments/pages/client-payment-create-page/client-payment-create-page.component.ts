@@ -1,8 +1,14 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
 import { ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { ItemFormConfiguration } from '@component/item-form-template/item-form-template.component';
 import { ClientPaymentFormPageComponent } from '../../components/client-payment-form-page/client-payment-form-page.component';
+import { clientPaymentFormGroup } from '../../helpers';
+import { ActivatedRoute } from '@angular/router';
+import { BoxMovement } from '@interface/boxMovement';
+
+interface ExtBoxMovement extends Partial<BoxMovement> {
+
+}
 
 @Component({
   selector: 'app-client-payment-create-page',
@@ -12,15 +18,12 @@ import { ClientPaymentFormPageComponent } from '../../components/client-payment-
   styleUrl: './client-payment-create-page.component.scss'
 })
 export class ClientPaymentCreatePageComponent {
+    private activatedRoute = inject(ActivatedRoute);
     public configuration: ItemFormConfiguration = {
         type: 'create',
         titleModule: 'pagos',
-        formGroup: new FormGroup({
-            account_id: new FormControl(''),
-            type: new FormControl('', [Validators.required]),
-            name: new FormControl('', [Validators.required]),
-            description: new FormControl(''),
-            coin: new FormControl(''),
+        formGroup: clientPaymentFormGroup({
+            client_id: Number(this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')) ?? null,
         }),
         server: { url: 'client-payment' },
     };

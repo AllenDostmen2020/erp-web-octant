@@ -12,13 +12,13 @@ export interface BoxMovement extends BaseModel {
     amount: number;
     payment_type: PaymentTypeEnum;
     payment_date: string;
-    invoice_number: string;
     code: string;
     operation_code: string;
     coin: CoinEnum;
     observation: string;
     voucher_type: ComprobantTypeEnum;
     voucher_file: string;
+    invoice_number: string;
 
     bank_id: number;
     box_opening_id: number;
