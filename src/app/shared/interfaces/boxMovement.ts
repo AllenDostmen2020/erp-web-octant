@@ -1,5 +1,5 @@
 import { Bank } from "./bank";
-import { BaseModel } from "./baseModel";
+import { BaseModel, CoinEnum } from "./baseModel";
 import { BoxOpening } from "./boxOpening";
 import { User } from "./user";
 
@@ -14,6 +14,8 @@ export interface BoxMovement extends BaseModel {
     payment_date: string;
     invoice_number: string;
     code: string;
+    operation_code: string;
+    coin: CoinEnum;
     observation: string;
 
     bank_id: string;
