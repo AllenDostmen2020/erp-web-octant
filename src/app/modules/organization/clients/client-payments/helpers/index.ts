@@ -11,6 +11,7 @@ export const clientPaymentFormGroup = (data?: Partial<ClientPayment>) => new For
         payment_date: new FormControl<string|Date|null|undefined>(data?.box_movement?.payment_date ?? new Date(), [Validators.required]),
         payment_type: new FormControl<PaymentTypeEnum|null|undefined>(data?.box_movement?.payment_type, [Validators.required]),
         bank_id: new FormControl<number|null|undefined>(data?.box_movement?.bank_id),
+        amount: new FormControl<number|null|undefined>(data?.box_movement?.amount),
         operation_code: new FormControl<number|null|undefined>(data?.box_movement?.bank_id),
         observation: new FormControl<string|null|undefined>(data?.box_movement?.observation),
         voucher_type: new FormControl<ComprobantTypeEnum|null|undefined>(data?.box_movement?.voucher_type),
