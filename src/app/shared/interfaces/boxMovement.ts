@@ -1,6 +1,7 @@
 import { Bank } from "./bank";
 import { BaseModel, CoinEnum } from "./baseModel";
 import { BoxOpening } from "./boxOpening";
+import { ComprobantTypeEnum } from "./clientBillingOption";
 import { User } from "./user";
 
 export interface BoxMovement extends BaseModel {
@@ -10,15 +11,16 @@ export interface BoxMovement extends BaseModel {
     link_file: string;
     amount: number;
     payment_type: PaymentTypeEnum;
-    opcode: string;
     payment_date: string;
     invoice_number: string;
     code: string;
     operation_code: string;
     coin: CoinEnum;
     observation: string;
+    voucher_type: ComprobantTypeEnum;
+    voucher_file: string;
 
-    bank_id: string;
+    bank_id: number;
     box_opening_id: number;
     user_id: number;
 

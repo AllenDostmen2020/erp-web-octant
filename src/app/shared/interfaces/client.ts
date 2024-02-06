@@ -1,5 +1,6 @@
 import { BaseModel, DocumentTypeEnum } from "./baseModel";
 import { ClientAccount } from "./clientAccount";
+import { ClientBillingOption } from "./clientBillingOption";
 import { ClientBusinessUnit } from "./clientBusinessUnit";
 
 export interface Client extends BaseModel {
@@ -22,4 +23,5 @@ export interface Client extends BaseModel {
   storage_number_files: number;
   client_business_units?: ClientBusinessUnit[];
   client_accounts?: ClientAccount[];
+  client_billing_option?: ClientBillingOption
 }
