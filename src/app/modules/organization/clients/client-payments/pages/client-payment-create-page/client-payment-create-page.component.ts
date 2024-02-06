@@ -4,11 +4,6 @@ import { ItemFormConfiguration } from '@component/item-form-template/item-form-t
 import { ClientPaymentFormPageComponent } from '../../components/client-payment-form-page/client-payment-form-page.component';
 import { clientPaymentFormGroup } from '../../helpers';
 import { ActivatedRoute } from '@angular/router';
-import { BoxMovement } from '@interface/boxMovement';
-
-interface ExtBoxMovement extends Partial<BoxMovement> {
-
-}
 
 @Component({
   selector: 'app-client-payment-create-page',
