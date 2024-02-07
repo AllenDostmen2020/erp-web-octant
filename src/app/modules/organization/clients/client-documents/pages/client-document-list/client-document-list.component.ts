@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
+import { format, parseISO } from 'date-fns';
 
 @Component({
   selector: 'app-client-document-list',
@@ -20,21 +21,24 @@ export class ClientDocumentListComponent {
       columns: signal([
         textColumn({
           title: 'Código/Descripción',
-          displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '...',
+          displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '--',
           displayAdditionalValueFn: (item) => item.document_items?.map((item) => item.description).join(', '),
-          gridColumn: '1fr',
+        }),
+        textColumn({
+          title: 'Emitido',
+          displayValueFn: (item) => item.issue_date ?  format(parseISO(item.issue_date), 'dd/MM/yyyy') : '--',
+        }),
+        numberColumn({
+          title: 'Sub total',
+          displayValueFn: (item) => item.total_value,
+        }),
+        numberColumn({
+          title: 'Igv',
+          displayValueFn: (item) => item.total_taxes,
         }),
         numberColumn({
           title: 'Total',
           displayValueFn: (item) => item.total,
-        }),
-        dateColumn({
-          title: 'Emitido',
-          displayValueFn: (item) => item.issue_date,
-        }),
-        textColumn({
-          title: 'Estado SUNAT',
-          displayValueFn: (item) => item.state_type_id ?? '--',
         }),
         itemCreatedAtColumn(),
         itemStatusColumn(),

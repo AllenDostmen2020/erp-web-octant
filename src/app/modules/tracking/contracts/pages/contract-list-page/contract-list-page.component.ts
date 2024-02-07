@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ItemListTemplateComponent, ItemListConfiguration, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, uppercaseColumn } from '@component/item-list-template/item-list-template.component';
 import { Contract } from '@interface/contract';
 
 @Component({
@@ -19,17 +19,18 @@ export class ContractListPageComponent {
     columns: signal([
       textColumn({
         title: 'Código',
+        sort: { key: 'code' },
         displayValueFn: (item) => item.code,
         routerLinkValue: { url: (item) => `/tracking/contract/view/${item.id}` },
       }),
-      textColumn({
-        title: 'Cliente / Unidad de negocio',
+      uppercaseColumn({
+        title: 'Cliente/Unidad de negocio',
         displayValueFn: (item) => item.client?.name,
         displayAdditionalValueFn: (item) => item.client_business_unit?.name,
         gridColumn: '1fr',
         routerLinkValue: { url: (item) => `/organization/client/view/${item.client?.id}` },
       }),
-      textColumn({
+      uppercaseColumn({
         title: 'Plan',
         displayValueFn: (item) => item.plan?.name,
       }),
