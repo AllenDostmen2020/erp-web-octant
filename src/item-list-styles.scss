@@ -190,15 +190,15 @@
 .list__items__row__cell {
   display: grid;
   align-content: center;
-  padding: 0 16px;
+  padding: 0 calc(var(--padding-x-card) / 2);
 }
 
 .list__items__row>.list__items__row__cell:first-of-type {
-  margin-left: -16px;
+  margin-left: calc((var(--padding-x-card) / 2) * -1);
 }
 
 .list__items__row>.list__items__row__cell:last-of-type {
-  margin-right: -16px;
+  margin-right: calc((var(--padding-x-card) / 2) * -1);
 }
 
 .list__items>.list__items__row:last-child {

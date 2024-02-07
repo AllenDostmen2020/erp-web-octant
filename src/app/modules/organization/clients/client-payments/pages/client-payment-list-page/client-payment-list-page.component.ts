@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ItemListConfiguration, ItemListTemplateComponent, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, titlecaseColumn, userColumn } from '@component/item-list-template/item-list-template.component';
 import { ClientPayment } from '@interface/clientPayment';
 
 @Component({
@@ -18,13 +18,33 @@ export class ClientPaymentListPageComponent {
         },
         columns: signal([
           textColumn({
-            title: 'Cuenta',
-            displayValueFn: (item) => item.client_account?.name,
+            title: 'Código',
+            displayValueFn: (item) => item.box_movement?.code,
           }),
           textColumn({
-            title: 'Monto de movimiento',
-            displayValueFn: (item) => item.box_movement?.amount,
+            title: 'Cuenta',
+            displayValueFn: (item) => item.client_account?.name,
             gridColumn: '1fr',
+          }),
+          titlecaseColumn({
+            title: 'Tipo pago',
+            displayValueFn: (item) => item.box_movement?.payment_type,
+          }),
+          dateColumn({
+            title: 'Fecha pago',
+            displayValueFn: (item) => item.box_movement?.payment_date,
+          }),
+          userColumn({
+            title: 'Usuario',
+            displayValueFn: (item) => item.box_movement?.user_id,
+          }),
+          titlecaseColumn({
+            title: 'Moneda',
+            displayValueFn: (item) => item.box_movement?.coin ?? item.client_account?.coin,
+          }),
+          numberColumn({
+            title: 'Monto',
+            displayValueFn: (item) => item.box_movement?.amount,
           }),
           itemCreatedAtColumn(),
           itemUpdatedAtColumn(),
