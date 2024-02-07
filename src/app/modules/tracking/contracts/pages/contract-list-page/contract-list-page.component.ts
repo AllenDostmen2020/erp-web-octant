@@ -44,11 +44,11 @@ export class ContractListPageComponent {
         displayValueFn: (item) => item.sale_price,
       }),
       dateColumn({
-        title: 'Fecha de inicio',
+        title: 'Fecha inicio',
         displayValueFn: (item) => item.start_date,
       }),
       dateColumn({
-        title: 'Fecha de fin',
+        title: 'Fecha fin',
         displayValueFn: (item) => item.end_date,
       }),
       itemCreatedAtColumn(),
