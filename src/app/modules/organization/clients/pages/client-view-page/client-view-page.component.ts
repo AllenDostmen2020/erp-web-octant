@@ -45,6 +45,10 @@ export class ClientViewPageComponent {
                 routerLink: './payment',
                 text: 'Pagos',
             },
+            {
+                routerLink: './vehicle',
+                text: 'Vehículos',
+            },
         ]
     }
 }

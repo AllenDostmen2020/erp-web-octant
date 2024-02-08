@@ -6,6 +6,7 @@ import { clientBusinessUnitRoutes } from "./client-business-units/client-busines
 import { clientContractsRoutes } from "./client-contracts/client-contracts.routes";
 import { clientDocumentRoutes } from "./client-documents/client-document.routes";
 import { clientPaymentRoutes } from "./client-payments/client-payments.routes";
+import { clientVehiclesRoutes } from "./client-vehicles/client-vehicles.routes";
 
 export const clientRoutes: Routes = [
     {
@@ -55,6 +56,10 @@ export const clientRoutes: Routes = [
             {
                 path: 'payment',
                 children: clientPaymentRoutes,
+            },
+            {
+                path: 'vehicle',
+                children: clientVehiclesRoutes,
             },
             {
                 path: '**',
