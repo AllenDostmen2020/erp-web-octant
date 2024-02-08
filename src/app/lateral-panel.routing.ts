@@ -46,4 +46,5 @@ const administrationLateralPanelRouting: Routes = [
 export const lateralPanelRouting: Routes = [
     ...clientLateralPanelRouting,
     ...movementLateralPanelRouting,
+    ...administrationLateralPanelRouting
 ]

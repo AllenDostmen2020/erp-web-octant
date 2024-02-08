@@ -55,7 +55,7 @@ export class DocumentListPageComponent {
         clickEventActionButton({
           icon: 'post_add',
           text: 'Detalles',
-          fn: async (item) => {
+          fn: (item) => {
             this.router.navigate([{ outlets: { 'route-lateral': `administration/document/detail/${item.id}` } }]);
           },
         }),
