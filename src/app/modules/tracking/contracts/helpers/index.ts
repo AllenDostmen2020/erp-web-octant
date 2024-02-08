@@ -36,7 +36,7 @@ export const getContractFormGroup = (): FormGroup => {
   })
 }
 
-export const generateContractColumns = () => [
+export const contractColumnsList = () => [
   textColumn<Contract>({
     title: 'Código',
     sort: { key: 'code' },

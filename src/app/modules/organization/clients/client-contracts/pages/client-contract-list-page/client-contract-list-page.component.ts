@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ItemListTemplateComponent, clickEventActionButton, routerLinkActionButton, uppercaseColumn } from '@component/item-list-template/item-list-template.component';
 import { Contract } from '@interface/contract';
 import { ItemListConfiguration, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn } from '@component/item-list-template/item-list-template.component';
-import { generateContractColumns } from 'src/app/modules/tracking/contracts/helpers';
+import { contractColumnsList } from 'src/app/modules/tracking/contracts/helpers';
 
 @Component({
     selector: 'app-client-contract-list-page',
@@ -24,7 +24,7 @@ export class ClientContractListPageComponent {
             },
         },
         createButton: false,
-        columns: signal(generateContractColumns().toSpliced(1, 2, uppercaseColumn<Contract>({
+        columns: signal(contractColumnsList().toSpliced(1, 2, uppercaseColumn<Contract>({
             title: 'Plan',
             displayValueFn: (item) => item.plan?.name,
             gridColumn: '1fr',
