@@ -44,10 +44,9 @@ export interface Contract extends BaseModel {
 
 export enum RecurrentTypeEnum {
     MENSUAL = 'mensual',
-    // BIMENSUAL = 'bimensual',
-    // TRIMESTRAL = 'trimestral',
-    // SEMESTRAL = 'semestral',
-    // ANUAL = 'anual',
+    TRIMESTRAL = 'trimestral',
+    SEMESTRAL = 'semestral',
+    ANUAL = 'anual',
 }
 
 export const RECURRENT_TYPE_VALUES = Object.values(RecurrentTypeEnum);

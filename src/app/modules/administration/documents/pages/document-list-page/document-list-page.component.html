@@ -1,7 +1,7 @@
 <app-item-list-template [configuration]="configuration"/>
 
 <ng-template #anulateFormTemplate>
-    <div class="form">
+    <div class="__form">
         <mat-form-field>
             <mat-label>Motivo</mat-label>
             <textarea matInput placeholder="Comment" rows="2" [formControl]="commentCtrl"></textarea>
@@ -11,8 +11,8 @@
 </ng-template>
 
 <ng-template #emitFormTemplate>
-    <div class="form" [formGroup]="emitForm">
-        <div class="form-item-switch">
+    <div class="__form" [formGroup]="emitForm">
+        <div class="__form-item-switch">
             <div>
                 <div class="label-large">Al crédito</div>
                 <p class="body-small">Se crea a una cuota con fecha de expiración</p>
