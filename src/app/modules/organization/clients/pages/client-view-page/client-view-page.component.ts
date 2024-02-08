@@ -18,20 +18,20 @@ export class ClientViewPageComponent {
                 text: 'Detalle',
             },
             {
-                routerLink: './account',
-                text: 'Cuentas',
-            },
-            {
-                routerLink: './contact',
-                text: 'Contactos',
+                routerLink: './billing-option',
+                text: 'Opciones de facturación',
             },
             {
                 routerLink: './business-unit',
                 text: 'Unidades de negocio',
             },
             {
-                routerLink: './billing-option',
-                text: 'Opciones de facturación',
+                routerLink: './contact',
+                text: 'Contactos',
+            },
+            {
+                routerLink: './account',
+                text: 'Cuentas',
             },
             {
                 routerLink: './contract',
