@@ -23,7 +23,7 @@ export class VehicleViewPageComponent {
                 routerLink: './detail',
             },
             {
-                text: 'Vehículos de baja',
+                text: 'Historial de bajas',
                 routerLink: './vehicle-unsubscribe',
             },
         ]

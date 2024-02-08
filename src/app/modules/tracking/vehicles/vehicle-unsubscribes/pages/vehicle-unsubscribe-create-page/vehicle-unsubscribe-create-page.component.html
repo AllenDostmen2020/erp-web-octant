@@ -1,10 +1,8 @@
 <app-item-form-template [configuration]="configuration">
-    @if(contract()){
+    @if(alertConfiguration){
         <ng-container beforeContent>
-            <div class="bg-tertiary-container p-4 rounded-lg mb-4 flex gap-2">
-                <span class="material-icons -mt-0.5">info</span>
-                <p class="body-medium">Este vehículo esta en el contrato <strong>{{contract()!.code}}</strong> con fecha de validez desde el <strong>{{contract()!.start_date | date: 'longDate'}}</strong> hasta el <strong>{{contract()!.end_date | date: 'longDate'}}</strong>.</p>
-            </div>
+            <app-alert-template ngProjectAs="beforeContent" [configuration]="alertConfiguration"/>
+            <br/>
         </ng-container>
     }
 

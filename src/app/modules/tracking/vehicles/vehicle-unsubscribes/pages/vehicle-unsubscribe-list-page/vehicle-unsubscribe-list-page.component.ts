@@ -11,7 +11,7 @@ import { VehicleUnsubscribe } from '@interface/vehicleUnsubscribe';
 })
 export class VehicleUnsubscribeListPageComponent {
     public configList: ItemListConfiguration<VehicleUnsubscribe> = {
-        title: 'Vehículos de baja',
+        title: 'Historial de bajas',
         server: {
             url: 'vehicle-unsubscribe',
             queryParams: 'relations=user',

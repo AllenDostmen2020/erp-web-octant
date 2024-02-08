@@ -18,5 +18,5 @@ export interface Vehicle extends BaseModel {
     client?: Client;
     vehicle_type?: VehicleType;
     latest_contract_vehicle?: ContractVehicle;
-
+    contract_vehicles?: ContractVehicle[];
 }
