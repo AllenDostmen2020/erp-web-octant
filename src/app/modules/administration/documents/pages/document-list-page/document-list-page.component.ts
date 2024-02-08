@@ -11,7 +11,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { addDays, parseISO } from 'date-fns';
-import { Router } from '@angular/router';
 
 interface ExtDocument extends Document, ListItemExtended { }
 
@@ -27,7 +26,7 @@ interface ExtDocument extends Document, ListItemExtended { }
     MatSlideToggleModule,
   ],
   templateUrl: './document-list-page.component.html',
-  styleUrl: './document-list-page.component.scss'
+  styleUrl: './document-list-page.component.scss',
 })
 export class DocumentListPageComponent {
   @ViewChild('anulateFormTemplate', { static: true }) anulateFormTemplate!: TemplateRef<any>;
@@ -104,7 +103,7 @@ export class DocumentListPageComponent {
     columns: signal([
       textColumn({
         title: 'Código/Descripción',
-        displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '...',
+        displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '--',
         displayAdditionalValueFn: (item) => item.document_items?.map((item) => item.description).join(', '),
       }),
       textColumn({
@@ -112,17 +111,21 @@ export class DocumentListPageComponent {
         displayValueFn: (item) => item.client?.name,
         gridColumn: 'fit-content(200px)',
       }),
+      textColumn({
+        title: 'Emitido',
+        displayValueFn: (item) => item.issue_date ?  format(parseISO(item.issue_date), 'dd/MM/yyyy') : '--',
+      }),
+      numberColumn({
+        title: 'Sub total',
+        displayValueFn: (item) => item.total_value,
+      }),
+      numberColumn({
+        title: 'Igv',
+        displayValueFn: (item) => item.total_taxes,
+      }),
       numberColumn({
         title: 'Total',
         displayValueFn: (item) => item.total,
-      }),
-      dateColumn({
-        title: 'Emitido',
-        displayValueFn: (item) => item.issue_date,
-      }),
-      textColumn({
-        title: 'Estado SUNAT',
-        displayValueFn: (item) => item.state_type_id ?? '--',
       }),
       itemCreatedAtColumn(),
       itemStatusColumn(),
