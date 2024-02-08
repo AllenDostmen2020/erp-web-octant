@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ItemListTemplateComponent, ItemListConfiguration, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, uppercaseColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration } from '@component/item-list-template/item-list-template.component';
 import { Contract } from '@interface/contract';
 import { contractColumnsList } from '../../helpers';
 

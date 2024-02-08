@@ -224,11 +224,6 @@ const DRAWER_LINKS: GroupDrawerLink[] = [
                 route: '/administration/account',
             },
             {
-                label: 'Documentos',
-                icon: 'draft',
-                route: '/administration/document',
-            },
-            {
                 label: 'Cajas',
                 icon: 'service_toolbox',
                 route: '/administration/box',
@@ -237,6 +232,11 @@ const DRAWER_LINKS: GroupDrawerLink[] = [
                 label: 'Movimientos de caja',
                 icon: 'timeline',
                 route: '/administration/box-movement',
+            },
+            {
+                label: 'Facturación',
+                icon: 'draft',
+                route: '/administration/document',
             },
         ]
     },
