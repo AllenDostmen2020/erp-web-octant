@@ -6,11 +6,11 @@ import { clientPaymentFormGroup } from '../../helpers';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-client-payment-create-page',
-  standalone: true,
-  imports: [ItemFormTemplateComponent, ClientPaymentFormPageComponent],
-  templateUrl: './client-payment-create-page.component.html',
-  styleUrl: './client-payment-create-page.component.scss'
+    selector: 'app-client-payment-create-page',
+    standalone: true,
+    imports: [ItemFormTemplateComponent, ClientPaymentFormPageComponent],
+    templateUrl: './client-payment-create-page.component.html',
+    styleUrl: './client-payment-create-page.component.scss'
 })
 export class ClientPaymentCreatePageComponent {
     private activatedRoute = inject(ActivatedRoute);

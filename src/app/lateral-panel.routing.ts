@@ -34,6 +34,13 @@ const movementLateralPanelRouting: Routes = [
         outlet: 'route-lateral',
     },
 ]
+const administrationLateralPanelRouting: Routes = [
+    {
+        path: 'administration/document/detail/:id',
+        loadComponent: () => import('./modules/administration/documents/pages/document-detail-page/document-detail-page.component').then(m => m.DocumentDetailPageComponent),
+        outlet: 'route-lateral',
+    },
+]
 
 
 export const lateralPanelRouting: Routes = [

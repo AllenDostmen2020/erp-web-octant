@@ -1,7 +1,7 @@
 <div [formGroup]="form" class="grid grid-cols-12 gap-2 items-start">
     <div [formGroup]="boxMovementFormGroup" class="contents">
         <app-input-select-template class="col-span-full @2xl:col-span-3"
-        [configuration]="clientAccountSelectServerConfiguration" [control]="clientAccountIdCtrl" />
+            [configuration]="clientAccountSelectServerConfiguration" [control]="clientAccountIdCtrl" />
 
         <app-input-autocomplete-template class="col-span-6 @2xl:col-span-3" [idControl]="boxOpeningIdCtrl"
             [configuration]="boxOpeningLocalConfiguration" />

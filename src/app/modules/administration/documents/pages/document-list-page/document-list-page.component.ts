@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { addDays, parseISO } from 'date-fns';
+import { Router } from '@angular/router';
 
 interface ExtDocument extends Document, ListItemExtended { }
 
@@ -31,6 +32,7 @@ interface ExtDocument extends Document, ListItemExtended { }
 export class DocumentListPageComponent {
   @ViewChild('anulateFormTemplate', { static: true }) anulateFormTemplate!: TemplateRef<any>;
   @ViewChild('emitFormTemplate', { static: true }) emitFormTemplate!: TemplateRef<any>;
+  private router = inject(Router);
   private fetch = inject(FetchService);
   private matDialog = inject(MatDialog);
   public commentCtrl = new FormControl('', [Validators.required]);
@@ -50,6 +52,13 @@ export class DocumentListPageComponent {
     rows: {
       options: [
         viewItemActionButton(),
+        clickEventActionButton({
+          icon: 'post_add',
+          text: 'Detalles',
+          fn: async (item) => {
+            this.router.navigate([{ outlets: { 'route-lateral': `administration/document/detail/${item.id}` } }]);
+          },
+        }),
         clickEventActionButton({
           icon: 'send',
           text: 'Emitir',
