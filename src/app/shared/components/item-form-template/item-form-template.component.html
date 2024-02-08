@@ -36,9 +36,9 @@
         </div>
     </div>
     <!-- -------------------------- -->
-    <div #divContent class="form__content">
-        @if (!configuration.hiddeFields) {
+    <div class="form__content">
         <ng-content select="beforeContent" />
+        @if (!configuration.hiddeFields) {
         <ng-content />
         @if (configuration.fields;as fields) {
             <div class="form__content__autogenerate-form-fields">

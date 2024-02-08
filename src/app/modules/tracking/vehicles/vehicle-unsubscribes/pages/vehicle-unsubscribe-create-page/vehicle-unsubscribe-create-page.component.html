@@ -1,9 +1,9 @@
 <app-item-form-template [configuration]="configuration">
-    @if(alertConfiguration){
-        <ng-container beforeContent>
-            <app-alert-template ngProjectAs="beforeContent" [configuration]="alertConfiguration"/>
-            <br/>
-        </ng-container>
-    }
+    <ng-container ngProjectAs="beforeContent">
+        @if(alertConfiguration(); as alert){
+        <app-alert-template [configuration]="alert" />
+        <br />
+        }
+    </ng-container>
 
 </app-item-form-template>

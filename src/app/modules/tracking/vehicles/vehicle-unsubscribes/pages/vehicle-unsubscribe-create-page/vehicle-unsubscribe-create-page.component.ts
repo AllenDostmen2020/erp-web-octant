@@ -21,7 +21,7 @@ export class VehicleUnsubscribeCreatePageComponent {
     public activatedRoute = inject(ActivatedRoute);
     private fetch = inject(FetchService);
     private datePipe = inject(DatePipe);
-    public alertConfiguration?: AlertConfiguration;
+    public alertConfiguration: WritableSignal<AlertConfiguration | null> = signal(null);
     public configuration: ItemFormConfiguration<VehicleUnsubscribe> = {
         titleModule: 'baja',
         server: { url: 'vehicle-unsubscribe' },
@@ -67,11 +67,11 @@ export class VehicleUnsubscribeCreatePageComponent {
     private async getContractInformation() {
         const vehicleId = this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id')!;
         const contract = await this.fetch.get<Contract>(`contract-from-vehicle/${vehicleId}`);
-        this.contract.set(contract);
-        this.alertConfiguration = {
+        this.alertConfiguration.set({
             icon: 'warning',
             title: 'Advertencia',
             description: `Este vehículo esta en el contrato <strong>${contract.code}</strong> con fecha de validez desde el <strong>${this.datePipe.transform(contract.start_date, 'longDate')}</strong> hasta el <strong>${this.datePipe.transform(contract.end_date, 'longDate')}`
-        }
+        });
+        this.contract.set(contract);
     }
 }
