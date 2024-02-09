@@ -20,8 +20,50 @@
                 <span>Agregar contrato</span>
             </button>
             <br>
-            <div>
-                {{total()}}
+        </div>
+
+        <div class="items__footer">
+            <div class="items__footer__resumen">
+                @if (total(); as amounts;) {
+
+                    <div class="items__footer__resumen__title">Resumen</div>
+
+                    <div class="contents">
+                        <p class="items__resumen__label">Costo directo (S/.)</p>
+                        <p>:</p>
+                        <p class="items__resumen__value"> {{ amounts | number : ".2-2" }}</p>
+                    </div>
+
+                    <div class="contents">
+                        <p class="items__resumen__label">Descuento (S/.)</p>
+                        <p>:</p>
+                        <p class="items__resumen__value">0.00</p>
+                    </div>
+
+                    <div class="contents">
+                        <p class="items__resumen__label">IGV (18%) (S/.)</p>
+                        <p>:</p>
+                        <p class="items__resumen__value">{{ (amounts * 0.18) | number : ".2-2" }}</p>
+                    </div>
+
+                    <div class="contents">
+                        <p class="items__resumen__label">Total (S/.)</p>
+                        <p>:</p>
+                        <p class="items__resumen__value">{{ (amounts + (amounts * 0.18)) | number : "0.2-2" }}</p>
+                    </div>
+                    @if((amounts + (amounts * 0.18)) >= 700){
+                        <div class="contents">
+                            <p class="items__resumen__label">Detracción (S/.)</p>
+                            <p>:</p>
+                            <p class="items__resumen__value">{{ ((amounts + (amounts * 0.18))* 0.1) | number : "0.2-2" }}</p>
+                        </div>
+                        <div class="contents">
+                            <p class="items__resumen__label">Recurrente (S/.)</p>
+                            <p>:</p>
+                            <p class="items__resumen__value">{{ ((amounts + (amounts * 0.18))+ ((amounts + (amounts * 0.18))* 0.1)) | number : "0.2-2" }}</p>
+                        </div>
+                    }
+                }
             </div>
         </div>
     </ng-container>

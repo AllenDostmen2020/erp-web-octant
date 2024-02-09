@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, numberColumn, selectableActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { Contract } from '@interface/contract';
 import { EventsService } from '@service/events.service';
@@ -15,6 +15,7 @@ import { LateralPanelType } from 'src/app/sidenav/sidenav/sidenav.component';
 })
 export class ClientDocumentContractAddComponent {
     public readonly lateralPanelType: LateralPanelType = 'maximum';
+    private activatedRoute = inject(ActivatedRoute);
     private location = inject(Location);
     private router = inject(Router);
     private eventService = inject(EventsService);
@@ -22,7 +23,10 @@ export class ClientDocumentContractAddComponent {
         title: 'Contratos',
         server: {
             url: 'contract',
-            queryParams: { relations: 'client,clientBusinessUnit,plan,contractVehicles.vehicle,lastContractDocumentItem' },
+            queryParams: {
+                relations: 'client,clientBusinessUnit,plan,contractVehicles.vehicle,lastContractDocumentItem',
+                client_id:  this.activatedRoute.snapshot.paramMap.get('client_id')
+            },
         },
         columns: signal([
             textColumn({

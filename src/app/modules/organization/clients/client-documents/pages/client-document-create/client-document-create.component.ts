@@ -9,6 +9,7 @@ import { EventsService } from '@service/events.service';
 import { StatusModel } from '@interface/baseModel';
 import { addMonths, format, parseISO, setDefaultOptions, subDays } from 'date-fns';
 import { es } from 'date-fns/locale'
+import { DecimalPipe } from '@angular/common';
 
 export interface ItemFormDocumentContractItem {
     edit?: boolean;
@@ -22,7 +23,7 @@ export interface ItemFormDocumentContractItem {
 @Component({
     selector: 'app-client-document-create',
     standalone: true,
-    imports: [ItemFormTemplateComponent, ClientContractDocumentItemFormComponent],
+    imports: [ItemFormTemplateComponent, ClientContractDocumentItemFormComponent, DecimalPipe],
     templateUrl: './client-document-create.component.html',
     styleUrl: './client-document-create.component.scss'
 })
