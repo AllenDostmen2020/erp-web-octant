@@ -29,14 +29,14 @@
       }
 
       @if (configuration.updateButton != false) {
-        <button class="text-button" (click)="callGetData()">
+        <button class="tonal-button" title="Actualizar" (click)="callGetData()">
           <span class="material-icons">refresh</span>
           <span>Actualizar</span>
         </button>
       }
 
       @if (configuration.filters != false) {
-        <button class="text-button" [matMenuTriggerFor]="filterMenu">
+        <button class="tonal-button" title="Filtros" [matMenuTriggerFor]="filterMenu">
           <span class="material-icons">tune</span>
           <span>Filtros</span>
         </button>
