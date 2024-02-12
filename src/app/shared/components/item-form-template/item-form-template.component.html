@@ -47,7 +47,7 @@
                         @case ('date-range') {
                             @if (field.dateRange; as input) {
                                 @if (getControl(input.formControlNameFrom) && getControl(input.formControlNameTo)) {
-                                    <mat-form-field [attr.data-form-input-name]="input.formControlNameFrom" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'">
+                                    <mat-form-field data-type="form-input" data-form-input-type="date-range" [attr.data-form-input-name]="input.formControlNameFrom" class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                                         <mat-label>{{ input.textLabel }}</mat-label>
                                         <mat-date-range-input [rangePicker]="pickerRange1">
                                             <input matStartDate [formControlName]="input.formControlNameFrom">
@@ -64,7 +64,7 @@
                         @case ('date') {
                             @if (field.date; as input) {
                                 @if (getControl(input.formControlName); as control) {
-                                    <mat-form-field [attr.data-form-input-name]="input.formControlName" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'">
+                                    <mat-form-field data-type="form-input" data-form-input-type="date" [attr.data-form-input-name]="input.formControlName" class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                                         <mat-label>{{ input.textLabel }}</mat-label>
                                         <input matInput [matDatepicker]="pickerDate" [formControlName]="input.formControlName">
                                         <button class="icon-button" type="button" matSuffix (click)="pickerDate.open()" [disabled]="control.disabled">
@@ -83,7 +83,7 @@
                         @case ('number') {
                             @if (field.number; as input) {
                                 @if (getControl(input.formControlName); as control) {
-                                    <mat-form-field [attr.data-form-input-name]="input.formControlName" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'">
+                                    <mat-form-field data-type="form-input" data-form-input-type="number" [attr.data-form-input-name]="input.formControlName" class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                                         <mat-label>{{ input.textLabel}}</mat-label>
                                         <input type="number" matInput [formControlName]="input.formControlName" [min]="input.min ? +input.min : 0" [max]="input.max ? +input.max : null">
                                         @if (control.hasError('required')) { <mat-error>Campo requerido</mat-error> }
@@ -97,7 +97,7 @@
                         @case ('text') {
                             @if (field.text; as input) {
                                 @if (getControl(input.formControlName); as control) {
-                                    <mat-form-field [attr.data-form-input-name]="input.formControlName" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'">
+                                    <mat-form-field data-type="form-input" data-form-input-type="text" [attr.data-form-input-name]="input.formControlName" class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                                         <mat-label>{{ input.textLabel}}</mat-label>
                                         <input type="text" matInput [formControlName]="input.formControlName" [placeholder]="input.placeholder ?? input.textLabel" [maxlength]="input.maxLength ?? 255">
                                         @if (control.hasError('required')) { <mat-error>Campo requerido</mat-error> }
@@ -111,7 +111,7 @@
                         @case ('textarea') {
                             @if (field.textarea; as input) {
                                 @if (getControl(input.formControlName); as control) {
-                                    <mat-form-field [attr.data-form-input-name]="input.formControlName" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'">
+                                    <mat-form-field data-type="form-input" data-form-input-type="text-area" [attr.data-form-input-name]="input.formControlName" class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                                         <mat-label>{{ input.textLabel}}</mat-label>
                                         <textarea matInput [formControlName]="input.formControlName" [placeholder]="input.placeholder ?? input.textLabel" [maxlength]="input.maxLength ?? 2500"></textarea>
                                         @if (control.hasError('required')) { <mat-error>Campo requerido</mat-error> }
@@ -125,8 +125,8 @@
                         @case ('select') {
                             @if (field.select; as input) {
                                 @if (getControl(input.formControlName); as control) {
-                                    <app-input-select-template [attr.data-form-input-name]="input.formControlName"
-                                        [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'"
+                                    <app-input-select-template data-type="form-input" data-form-input-type="select" [attr.data-form-input-name]="input.formControlName"
+                                        class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null"
                                         [control]="control"
                                         [configuration]="input"
                                         />
@@ -136,8 +136,8 @@
                         @case ('select-local') {
                             @if (field.selectLocal; as input) {
                                 @if (getControl(input.formControlName); as control) {
-                                    <app-input-select-template [attr.data-form-input-name]="input.formControlName"
-                                        [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'"
+                                    <app-input-select-template data-type="form-input" data-form-input-type="select-local" [attr.data-form-input-name]="input.formControlName"
+                                        class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null"
                                         [control]="control"
                                         [configuration]="input"
                                         />
@@ -147,8 +147,8 @@
                         @case ('select-server') {
                             @if (field.selectServer; as input) {
                                 @if (getControl(input.formControlName); as control) {
-                                    <app-input-select-template [attr.data-form-input-name]="input.formControlName"
-                                        [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'"
+                                    <app-input-select-template data-type="form-input" data-form-input-type="select-server" [attr.data-form-input-name]="input.formControlName"
+                                        class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null"
                                         [control]="control"
                                         [configuration]="input"
                                         />
@@ -158,8 +158,8 @@
                         @case ('autocomplete') {
                             @if (field.autocomplete; as input) {
                                 @if (getControl(input.formControlName); as control) {
-                                    <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
-                                        [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'"
+                                    <app-input-autocomplete-template data-type="form-input" data-form-input-type="autocomplete" [attr.data-form-input-name]="input.formControlName"
+                                        class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null"
                                         [idControl]="control"
                                         [configuration]="input" />
                                 }
@@ -168,8 +168,8 @@
                         @case ('autocomplete-local') {
                             @if (field.autocompleteLocal; as input) {
                                 @if (getControl(input.formControlName); as control) {
-                                    <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
-                                        [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'"
+                                    <app-input-autocomplete-template data-type="form-input" data-form-input-type="autocomplete-local" [attr.data-form-input-name]="input.formControlName"
+                                        class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null"
                                         [idControl]="control"
                                         [configuration]="input" />
                                 }
@@ -178,8 +178,8 @@
                         @case ('autocomplete-server') {
                             @if (field.autocompleteServer; as input) {
                                 @if (getControl(input.formControlName); as control) {
-                                    <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName" 
-                                        [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full @2xl:col-span-4'"
+                                    <app-input-autocomplete-template data-type="form-input" data-form-input-type="autocomplete-server" [attr.data-form-input-name]="input.formControlName" 
+                                        class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null"
                                         [idControl]="control"
                                         [configuration]="input" />
                                 }
@@ -188,7 +188,7 @@
                         @case ('checkbox') {
                             @if (field.checkbox; as input) {
                                 @if (getControl(input.formControlName); as control) {
-                                    <div [attr.data-form-input-name]="input.formControlName" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full'">
+                                    <div data-type="form-input" data-form-input-type="checkbox" [attr.data-form-input-name]="input.formControlName" class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                                         <mat-checkbox [formControlName]="input.formControlName">{{ input.textLabel }}</mat-checkbox>
                                     </div>
                                 }
@@ -197,7 +197,7 @@
                         @case ('switch') {
                             @if (field.switch; as input) {
                                 @if (getControl(input.formControlName); as control) {
-                                    <div [attr.data-form-input-name]="input.formControlName" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full'">
+                                    <div data-type="form-input" data-form-input-type="switch" [attr.data-form-input-name]="input.formControlName" class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                                         <mat-slide-toggle [formControlName]="input.formControlName">{{ input.textLabel }}</mat-slide-toggle>
                                     </div>
                                 }
@@ -206,25 +206,12 @@
                         @case ('file') {
                             @if (field.file; as input) {
                                 @if (getControl(input.formControlName); as control) {
-                                    <div [attr.data-form-input-name]="input.formControlName" [class]="input.cssClass ? (input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null) : 'col-span-full'">
+                                    <div data-type="form-input" data-form-input-type="file" [attr.data-form-input-name]="input.formControlName" class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                                         <app-select-file [configuration]="input" [fileCtrl]="control" />
                                     </div>
                                 }
                             }
                         }
-                        <!-- @case ('file') {
-                            @if (field.checkbox; as input) {
-                                <div ILoad class="{{ input.cssClass ?? 'col-span-full' }}">
-                                    @if(configuration.dataItem; as dataItem){
-                                        @if (dataItem(); as item) {
-                                            <app-select-file [acceptFiles]="input.acceptFiles ?? '*'" [srcFileCloud]="item && input.imageKeyForGetValue ? item[input.imageKeyForGetValue] : null " [fileCtrl]="configuration.formGroup.get(input.formControlName)!" />
-                                        }
-                                    } @else {
-                                        <app-select-file [acceptFiles]="input.acceptFiles ?? '*'" [srcFileCloud]="null " [fileCtrl]="configuration.formGroup.get(input.formControlName)!" />
-                                    }
-                                </div>
-                            }
-                        } -->
                     }
                 }
             </div>
