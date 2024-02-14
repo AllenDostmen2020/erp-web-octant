@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe, Location, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewChild, Input, ContentChild, TemplateRef, ElementRef, Renderer2, ViewEncapsulation, signal, WritableSignal, computed, inject, Inject, Optional, InjectionToken, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, Input, ContentChild, TemplateRef, ElementRef, Renderer2, ViewEncapsulation, signal, WritableSignal, computed, inject, Inject, Optional, InjectionToken, EventEmitter, RendererStyleFlags2 } from '@angular/core';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -36,6 +36,7 @@ import { InputSelectTemplateComponent } from '@component/input-select-template/i
 import { EventGlobalSearch, NAME_EVENT_GLOBAL_SEARCH } from 'src/app/sidenav/sidenav/sidenav.component';
 import { ExecuteFunctionListPipe } from './execute-function-list.pipe';
 import { FormInput, dateRangeFormInput, switchFormInput } from '@component/item-form-template/item-form-template.component';
+import { RenameTitleColumnListPipe } from './rename-title-column-list.pipe';
 
 export const DATA_TYPE_LIST = new InjectionToken<'array' | 'paginator'>('KEY_GET_ITEMS_PAGINATOR_LIST');
 export const KEY_GET_ITEMS_PAGINATOR_LIST = new InjectionToken('KEY_GET_ITEMS_PAGINATOR_LIST');
@@ -592,12 +593,13 @@ export const editItemActionButton = () => routerLinkActionButton({
     InputAutocompleteTemplateComponent,
     InputSelectTemplateComponent,
     ExecuteFunctionListPipe,
+    RenameTitleColumnListPipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    // DatePipe,
     FirstLetterUppercasePipe,
     GetKeyItemPipe,
+    RenameTitleColumnListPipe,
   ],
   encapsulation: ViewEncapsulation.None,
 })
@@ -626,6 +628,7 @@ export class ItemListTemplateComponent {
   // private datePipe = inject(DatePipe);
   public firstLetterUppercasePipe = inject(FirstLetterUppercasePipe);
   public getKeyItemPipe = inject(GetKeyItemPipe);
+  public renameTitleColumnListPipe = inject(RenameTitleColumnListPipe);
 
   public lengthData = computed(() => this.data().length)
 
@@ -749,14 +752,32 @@ export class ItemListTemplateComponent {
   /* ---------------------------------------------------------------- */
   private async generateColumnsCss(): Promise<void> {
     const grid_cols: string[] = [];
-    if (this.configuration.rows?.selectable) grid_cols.push('auto');
-    if (this.configuration.rows?.index != false) grid_cols.push('auto');
-    for await (const column of this.configuration.columns()) {
-      if (!column.hidden) grid_cols.push(column.gridColumn ?? 'auto');
+    const grid_areas: string[] = []
+    if (this.configuration.rows?.selectable) {
+      grid_cols.push('auto');
+      grid_areas.push('selected');
     }
-    if (this.configuration.rows?.actions) grid_cols.push('auto');
-    if (this.configuration.rows?.options != false) grid_cols.push('auto');
+    if (this.configuration.rows?.index != false) {
+      grid_cols.push('auto');
+      grid_areas.push('index');
+    }
+    for await (const column of this.configuration.columns()) {
+      if (!column.hidden) {
+        grid_cols.push(column.gridColumn ?? 'auto');
+        grid_areas.push(this.renameTitleColumnListPipe.transform(column.title));
+      }
+    }
+    if (this.configuration.rows?.actions) {
+      grid_cols.push('auto');
+      grid_areas.push('actions');
+    }
+    if (this.configuration.rows?.options != false) {
+      grid_cols.push('auto');
+      grid_areas.push('options');
+    }
     this.renderer.setStyle(this.divList.nativeElement, 'grid-template-columns', grid_cols.join(' '));
+    this.renderer.setStyle(this.divList.nativeElement, '--items-list-grid-template-areas', `"${grid_areas.join(' ')}"`, RendererStyleFlags2.DashCase);
+    grid_areas.forEach((area, index) => this.renderer.setStyle(this.divList.nativeElement, `--items-list-grid-area-${index + 1}`, area, RendererStyleFlags2.DashCase));
   }
 
   /* ---------------------------------------------------------------- */
@@ -853,12 +874,12 @@ export class ItemListTemplateComponent {
   public lengthSelectedItems = computed(() => this.data().filter((e: ListItemExtended) => e.__selected__).length);
 
   public selectedItem(index: number, status: boolean): void {
-    this.data.update((data) => data.toSpliced(index, 1, {...data[index], __selected__: status}));
+    this.data.update((data) => data.toSpliced(index, 1, { ...data[index], __selected__: status }));
     this.checkSelectedItems();
   }
 
   public selectedAllItems(status: boolean): void {
-    this.data.update((data) => data.map((e) => ({...e, __selected__: status})));
+    this.data.update((data) => data.map((e) => ({ ...e, __selected__: status })));
     this.checkSelectedItems();
   }
 

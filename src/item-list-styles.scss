@@ -144,6 +144,7 @@
   display: grid;
   grid-column: 1 / -1;
   grid-template-columns: subgrid;
+  grid-template-areas: var(--items-list-grid-template-areas);
   padding: 0 var(--padding-x-card);
   border-bottom: 1px solid var(--color-outline-variant);
   transition: background .2s ease, border-color .2s ease;
@@ -251,17 +252,17 @@
   text-decoration: underline;
 }
 
-.list__items__row__cell[data-name="actions"] {
+.list__items__row__cell[data-column-name="actions"] {
   display: flex;
   gap: 4px;
   align-items: center;
 }
 
-.list__items__row__cell[data-name="actions"]:has(+ .list__items__row__cell-options) {
+.list__items__row__cell[data-column-name="actions"]:has(+ .list__items__row__cell-options) {
   margin-right: -12px;
 }
 
-.list__items__row__cell[data-name="selected"] {
+.list__items__row__cell[data-column-name="selected"] {
   margin-left: calc((var(--padding-left-item-row) / 2) * -1);
   margin-right: calc((var(--padding-left-item-row) / 2) * -1);
 }
@@ -297,6 +298,24 @@
 .list__items__row-header:has(.list__items__row__cell:nth-child(16):hover)~.list__items__row .list__items__row__cell:nth-child(16) {
   background: rgba(var(--rgb-surface-variant), 0.25);
 }
+
+.list__items__row > .list__items__row__cell:nth-child(1) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-1)); }
+.list__items__row > .list__items__row__cell:nth-child(2) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-2)); }
+.list__items__row > .list__items__row__cell:nth-child(3) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-3)); }
+.list__items__row > .list__items__row__cell:nth-child(4) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-4)); }
+.list__items__row > .list__items__row__cell:nth-child(5) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-5)); }
+.list__items__row > .list__items__row__cell:nth-child(6) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-6)); }
+.list__items__row > .list__items__row__cell:nth-child(7) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-7)); }
+.list__items__row > .list__items__row__cell:nth-child(8) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-8)); }
+.list__items__row > .list__items__row__cell:nth-child(9) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-9)); }
+.list__items__row > .list__items__row__cell:nth-child(10) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-10)); }
+.list__items__row > .list__items__row__cell:nth-child(11) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-11)); }
+.list__items__row > .list__items__row__cell:nth-child(12) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-12)); }
+.list__items__row > .list__items__row__cell:nth-child(13) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-13)); }
+.list__items__row > .list__items__row__cell:nth-child(14) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-14)); }
+.list__items__row > .list__items__row__cell:nth-child(15) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-15)); }
+.list__items__row > .list__items__row__cell:nth-child(16) { grid-area: var(--items-list-grid-area, var(--items-list-grid-area-16)); }
+
 
 /**
   * -----------------------------------------------------------
