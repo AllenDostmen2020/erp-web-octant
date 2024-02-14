@@ -586,14 +586,6 @@ video {
   grid-column-start: 1 !important;
 }
 
-.-mt-0 {
-  margin-top: -0px;
-}
-
-.-mt-0\.5 {
-  margin-top: -0.125rem;
-}
-
 .mb-1 {
   margin-bottom: 0.25rem;
 }
@@ -946,6 +938,10 @@ video {
 
   .\@2xl\:col-span-4 {
     grid-column: span 4 / span 4;
+  }
+
+  .\@2xl\:col-span-5 {
+    grid-column: span 5 / span 5;
   }
 
   .\@2xl\:col-span-6 {
