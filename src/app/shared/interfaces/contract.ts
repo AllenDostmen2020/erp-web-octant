@@ -31,6 +31,8 @@ export interface Contract extends BaseModel {
     client_responsible_document_number: string;
     client_responsible_role: string;
     client_responsible_name: string;
+    client_responsible_paternal_name: string;
+    client_responsible_maternal_name: string;
     client_responsible_phone: string;
     client_responsible_email: string;
     link_file: string;

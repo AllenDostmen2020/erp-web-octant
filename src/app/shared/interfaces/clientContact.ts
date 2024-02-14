@@ -6,6 +6,8 @@ export interface ClientContact extends BaseModel {
     document_type: string;
     document_number: string;
     name: string;
+    paternal_name: string;
+    maternal_name: string;
     email: string;
     address: string;
     phone: string;
