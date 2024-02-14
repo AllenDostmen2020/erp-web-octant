@@ -17,38 +17,23 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_BILLING_OPTION: FormInput[] = [
         formControlName: 'comprobant_type',
         textLabel: 'Tipo de comprobante',
         data: COMPROBANT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item })),
-        cssClass: 'col-span-6 @2xl:col-span-3',
     }),
     switchFormInput({
         formControlName: 'group_notes_single_voucher',
         textLabel: '¿Agrupar todas la notas de pedido en un solo comprobante?',
         defaultValue: false,
-        cssClass: 'col-span-full',
-    }),
-    switchFormInput({
-        formControlName: 'detraction',
-        textLabel: '¿Tiene detracción?',
-        defaultValue: false,
-        cssClass: 'col-span-full',
-    }),
-    numberFormInput({
-        formControlName: 'detraction_percent',
-        textLabel: 'Porcentaje de detracción',
-        cssClass: 'col-span-full @2xl:col-span-3',
-        min: 0.1,
-        max: 100,
     }),
     switchFormInput({
         formControlName: 'retention',
         textLabel: '¿Tiene retención?',
         defaultValue: false,
-        cssClass: 'col-span-full',
     }),
-    numberFormInput({
+    selectFormInput({
         formControlName: 'retention_percent',
         textLabel: 'Porcentaje de retención',
-        cssClass: 'col-span-full @2xl:col-span-3',
-        min: 0.1,
-        max: 100,
+        data: [
+            { name: '3%', id: '3.00' },
+            { name: '6%', id: '6.00' },
+        ],
     }),
 ]

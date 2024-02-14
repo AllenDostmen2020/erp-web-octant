@@ -21,7 +21,7 @@ import { DatabaseStorageService } from '@service/database-storage.service';
 registerLocaleData(localeEsPE, 'es-PE');
 
 const appareance: () => 'fill' | 'outline' = () => {
-  return localStorage.getItem('apareanceInputs') == 'outline' ? 'outline' : 'fill';
+  return localStorage.getItem('apareanceInputs') == 'fill' ? 'fill' : 'outline';
 }
 
 const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
