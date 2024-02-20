@@ -258,8 +258,8 @@
   align-items: center;
 }
 
-.list__items__row__cell[data-column-name="actions"]:has(+ .list__items__row__cell-options) {
-  margin-right: -12px;
+[data-column-name="options"] {
+  margin-left: calc((var(--padding-left-item-row) / 2) * -1);
 }
 
 .list__items__row__cell[data-column-name="selected"] {

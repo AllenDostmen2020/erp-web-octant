@@ -82,13 +82,13 @@
       <div class="list__items__row list__items__row-header" matSort>
 
         @if (configuration.rows?.selectable) {
-          <div data-column-name="selected" class="list__items__row__cell">
+          <div data-column-name="selected" data-column-key="selected" class="list__items__row__cell">
             <mat-checkbox (change)="selectedAllItems($event.checked)" [checked]="allSelectedItems()" [indeterminate]="someSelectedItems()" />
           </div>
         }
 
         @if (configuration.rows?.index != false) {
-          <div data-column-name="index" class="list__items__row__cell">
+          <div data-column-name="index" data-column-key="index" class="list__items__row__cell">
             <span>
               @if (configuration.rows?.index; as index) { {{ index.title }} }
               @else { N° }
@@ -98,7 +98,7 @@
 
         @for (column of columns; track column) {
           @if (!column.hidden) {
-            <div [attr.data-column-name]="column.title | renameTitleColumnList" [attr.data-align]="column.align" [attr.data-type]="column.type" class="list__items__row__cell">
+            <div [attr.data-column-name]="column.title" [attr.data-column-key]="column.title|renameTitleColumnList" [attr.data-align]="column.align" [attr.data-type]="column.type" class="list__items__row__cell">
               @if (column.sort; as sort) { <span [mat-sort-header]="sort.key">{{ column.title }}</span> }
               @else { <span>{{ column.title }}</span> }
             </div>
@@ -106,13 +106,13 @@
         }
 
         @if (configuration.rows?.actions) {
-          <div data-column-name="actions" class="list__items__row__cell">
+          <div data-column-name="actions" data-column-key="actions" class="list__items__row__cell">
             <span>Acciones</span>
           </div>
         }
 
         @if (configuration.rows?.options != false) {
-          <div data-column-name="options" class="list__items__row__cell">
+          <div data-column-name="options" data-column-key="options" class="list__items__row__cell">
             <button class="icon-button list__items__row__cell__option" [matMenuTriggerFor]="optionsColumnMenu">
               <span class="material-icons">settings</span>
             </button>
@@ -171,20 +171,20 @@
 <ng-template #rowDefault let-item let-columns="columns" let-index="index" let-rowMenu="optionsRowMenu" let-pageSize="pageSize" let-pageIndex="pageIndex">
   <div class="list__items__row {{(configuration.rows?.cssClass??'') | executeFunctionList:[item, index]}}" [ngClass]="{ 'container-loading': item?.__loading_status__, 'list__items__row-selected': item.__selected__}">
     @if (configuration.rows?.selectable) {
-      <div data-column-name="selected" class="list__items__row__cell list__items__row__cell-select">
+      <div data-column-name="selected" data-column-key="selected" class="list__items__row__cell list__items__row__cell-select">
         <mat-checkbox (change)="selectedItem(index, $event.checked)" [checked]="item.__selected__" />
       </div>
     }
 
     @if (configuration.rows?.index != false) {
-      <div data-column-name="index" class="list__items__row__cell list__items__row__cell-index">
+      <div data-column-name="index" data-column-key="index" class="list__items__row__cell list__items__row__cell-index">
         <div class="list__items__row__cell__value">{{ index | indexList : [pageIndex, pageSize] }}</div>
       </div>
     }
 
     @for (column of columns; track column;) {
       @if (!column.hidden) {
-        <div [attr.data-column-name]="column.title | renameTitleColumnList" [attr.data-type]="column.type" [attr.data-align]="column.align" class="list__items__row__cell {{(column.cssClass | executeFunctionList:[item, index]) ?? ''}}">
+        <div [attr.data-column-name]="column.title" [attr.data-column-key]="column.title|renameTitleColumnList" [attr.data-type]="column.type" [attr.data-align]="column.align" class="list__items__row__cell {{(column.cssClass | executeFunctionList:[item, index]) ?? ''}}">
               @if(column.displayValueFn; as displayValueFn){
                 <div data-type="value-row" class="list__items__row__cell__value {{(column.cssClassDisplayValue | executeFunctionList:[item, index]) ?? ''}}" [ngStyle]="column.cssStyleDisplayValue | executeFunctionList:[item, index]">
                   <ng-container [ngTemplateOutlet]="renderColumn" [ngTemplateOutletContext]="{ $implicit: column, value:displayValueFn | executeFunctionList:[item, index], item, index, routerLink: column.routerLinkValue, clickEvent: column.clickEventValue }" />
@@ -201,7 +201,7 @@
     }
 
     @if (configuration.rows?.actions; as actions) {
-      <div data-column-name="actions" class="list__items__row__cell">
+      <div data-column-name="actions" data-column-key="actions" class="list__items__row__cell">
         @for (bAction of actions; track bAction) {
           @if (!((bAction.hidden ?? false) | executeFunctionList:[item, index])) {
             @if (bAction.routerLink; as rLink) {
@@ -228,7 +228,7 @@
     }
     
     @if (configuration.rows?.options != false) {
-      <div data-column-name="options" class="list__items__row__cell">
+      <div data-column-name="options" data-column-key="options" class="list__items__row__cell">
         <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="rowMenu" [matMenuTriggerData]="{item, index}">
           <span class="material-icons">more_horiz</span>
         </button>
