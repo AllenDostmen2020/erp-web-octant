@@ -41,7 +41,7 @@
         @if (!configuration.hiddeFields) {
         <ng-content />
         @if (configuration.fields;as fields) {
-            <div class="form__content__autogenerate-form-fields">
+            <div class="form__content__inputs">
                 @for (field of fields; track field) {
                     @switch (field.type) {
                         @case ('date-range') {

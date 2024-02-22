@@ -82,7 +82,10 @@ export class DocumentListPageComponent {
         clickEventActionButton({
           text: 'Nota de crédito',
           icon: 'scan_delete',
-          fn: (item) => console.log('Anular con nota de crédito'),
+          fn: async (item, index, { updateChangesItemFn }) => {
+            const response = await this.anulateWithCreditNote(item);
+            if(response) updateChangesItemFn(index, { ...item, ...response });
+          },
         }),
         clickEventActionButton({
           text: 'Nota de débito',
@@ -193,6 +196,25 @@ export class DocumentListPageComponent {
       }
     };
     return await this.fetch.put<Document>(url, body, request);
+  }
+
+  private async anulateWithCreditNote(item: Document): Promise<Document | null> {
+    const url = 'credit-note';
+    const request: RequestInitFetch = {
+      confirmDialog: {
+        icon: 'error',
+        title: '¿Está seguro de anular documento con nota de crédito?',
+        description: 'Se generará una nota de crédito',
+        confirmButton: { text: 'Anular con nota de crédito' },
+      },
+      toast: {
+        loading: 'Anulando documento...',
+        success: 'Documento anulado',
+        error: (error) => 'Error al anular documento',
+      }
+    };
+    const body = { document_id: item.id }; 
+    return await this.fetch.post<Document>(url, null, request);
   }
 
 }

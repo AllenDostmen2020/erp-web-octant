@@ -115,20 +115,20 @@
   animation-range: calc(100% - 24px) calc(100% - 0px);
 }
 
-.form__content__autogenerate-form-fields {
+.form__content__inputs {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 8px 8px;
   align-items: flex-start;
-}
-
-[data-type="form-input"] {
   --grid-column-start-form-input: span;
   --grid-column-end-form-input: 4;
   --md-column-start-form-input: span;
   --md-column-end-form-input: 6;
   --sm-column-start-form-input: span;
   --sm-column-end-form-input: -1;
+}
+
+[data-type="form-input"] {
   grid-column: var(--grid-column-start-form-input) var(--grid-column-end-form-input) / var(--grid-column-start-form-input) var(--grid-column-end-form-input);
 }
 

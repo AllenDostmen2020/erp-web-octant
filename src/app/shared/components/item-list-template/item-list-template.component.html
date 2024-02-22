@@ -14,11 +14,11 @@
         <span>{{ configuration.title }}</span>
       }
 
-      <ng-content select="listHeaderTitle"></ng-content>
+      <ng-content select="listHeaderTitle"/>
 
     </div>
 
-    <ng-content select="listHeaderMiddle"></ng-content>
+    <ng-content select="listHeaderMiddle"/>
 
     <div class="list__header__actions">
       @if (configuration.disableFiltersInQueryParams) {
@@ -29,20 +29,20 @@
       }
 
       @if (configuration.updateButton != false) {
-        <button class="tonal-button" title="Actualizar" (click)="callGetData()">
+        <button class="tonal-icon-button" title="Actualizar" (click)="callGetData()">
           <span class="material-icons">refresh</span>
           <span>Actualizar</span>
         </button>
       }
 
       @if (configuration.filters != false) {
-        <button class="tonal-button" title="Filtros" [matMenuTriggerFor]="filterMenu">
+        <button class="tonal-icon-button" title="Filtros" [matMenuTriggerFor]="filterMenu">
           <span class="material-icons">tune</span>
           <span>Filtros</span>
         </button>
       }
 
-      <ng-content select="headerButtons"></ng-content>
+      <ng-content select="headerButtons" />
 
       @if (configuration.createButton != false) {
 

@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class RenameTitleColumnListPipe implements PipeTransform {
 
   transform(title:string): any {
-    return title.replaceAll(/[\s\/\\°\-]+/g, '_').toLowerCase().trim();
+    return title.trim().replaceAll(/[\s\/\\°\-\.]+/g, '_').toLowerCase();
   }
 
 }
