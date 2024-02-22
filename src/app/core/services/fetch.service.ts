@@ -167,18 +167,18 @@ export class FetchService extends FetchBase {
     return this._delete(`${baseUrl}/${url}`, request);
   }
 
-  public async blob<T>(url: string, requestInit?: RequestInitFetch, baseUrl: string = this.apiUrl): Promise<T> {
+  public async blob(url: string, requestInit?: RequestInitFetch, baseUrl: string = this.apiUrl): Promise<Blob> {
     const { toast, confirmDialog, ...request} = { ...requestInit ?? {} };
 
     if (confirmDialog) await this.confirmDialog(confirmDialog);
 
     if (toast) {
       request.ignoreInterceptErrors = true;
-      const promise = this._blob<T>(`${baseUrl}/${url}`, request);
-      return this.resolveToastPromise<T>(promise, toast, requestInit);
+      const promise = this._blob<Blob>(`${baseUrl}/${url}`, request);
+      return this.resolveToastPromise<Blob>(promise, toast, requestInit);
     }
 
-    return this._blob<T>(`${baseUrl}/${url}`, request);
+    return this._blob<Blob>(`${baseUrl}/${url}`, request);
   }
 
   /* -------------------------------------------------------------------------------------- */

@@ -83,14 +83,17 @@ export class DocumentListPageComponent {
           text: 'Nota de crédito',
           icon: 'scan_delete',
           fn: async (item, index, { updateChangesItemFn }) => {
-            const response = await this.anulateWithCreditNote(item);
+            const response = await this.anulateWithNote(item, 'crédito');
             if(response) updateChangesItemFn(index, { ...item, ...response });
           },
         }),
         clickEventActionButton({
           text: 'Nota de débito',
           icon: 'scan_delete',
-          fn: (item) => console.log('Anular con nota de débito'),
+          fn: async (item, index, { updateChangesItemFn }) => {
+            const response = await this.anulateWithNote(item, 'crédito');
+            if(response) updateChangesItemFn(index, { ...item, ...response });
+          }
         }),
         clickEventActionButton({
           text: 'Descargar PDF',
@@ -100,7 +103,12 @@ export class DocumentListPageComponent {
         clickEventActionButton({
           text: 'Descargar XML',
           icon: 'cloud_download',
-          fn: (item) => console.log('Descargar XML'),
+          fn: (item) => this.downloadFile(item, 'xml'),
+        }),
+        clickEventActionButton({
+          text: 'Descargar CDR',
+          icon: 'cloud_download',
+          fn: (item) => this.downloadFile(item, 'cdr'),
         }),
       ]
     },
@@ -185,8 +193,11 @@ export class DocumentListPageComponent {
     const confirm = await this.confirmDialog(dialogData);
     subscribe.unsubscribe();
     if(!confirm) return null;
-    const url = `document/anulate-simple-to-sunat/${item.id}`;
-    const body = { low_reason: this.commentCtrl.value };
+    const url = 'cancel-document-send';
+    const body = { 
+      low_reason: this.commentCtrl.value,
+      document_id: item.id,
+    };
     const request: RequestInitFetch = {
       confirmDialog: false,
       toast: {
@@ -198,23 +209,63 @@ export class DocumentListPageComponent {
     return await this.fetch.put<Document>(url, body, request);
   }
 
-  private async anulateWithCreditNote(item: Document): Promise<Document | null> {
-    const url = 'credit-note';
-    const request: RequestInitFetch = {
-      confirmDialog: {
-        icon: 'error',
-        title: '¿Está seguro de anular documento con nota de crédito?',
-        description: 'Se generará una nota de crédito',
-        confirmButton: { text: 'Anular con nota de crédito' },
+  private async anulateWithNote(item: Document, type : 'débito' | 'crédito'): Promise<Document | null> {
+    this.commentCtrl.reset('');
+    const dialogData: ConfirmDialogData = {
+      icon: 'error',
+      title: `¿Está seguro de anular documento con nota de ${type}?`,
+      description: `Se generará una nota de ${type}`,
+      confirmButton: { 
+        text: `Anular con nota de ${type}`,
+        disabled: true,
       },
+    };
+    const subscribe = this.commentCtrl.valueChanges.subscribe(() => dialogData.confirmButton!.disabled = this.commentCtrl.invalid);
+    const confirm = await this.confirmDialog(dialogData);
+    subscribe.unsubscribe();
+    if(!confirm) return null;
+    const url = `${type}-note`;
+    const request: RequestInitFetch = {
+      confirmDialog: false,
       toast: {
         loading: 'Anulando documento...',
         success: 'Documento anulado',
         error: (error) => 'Error al anular documento',
       }
     };
-    const body = { document_id: item.id }; 
+    const body = {
+      document_id: item.id,
+      low_reason: this.commentCtrl.value,
+    }; 
     return await this.fetch.post<Document>(url, body, request);
+  }
+
+  private async downloadFile(item: Document, type: 'xml' | 'cdr'): Promise<void> {
+    const url = `document/${item.id}/download/${type}`;
+    const request: RequestInitFetch = {
+      confirmDialog: {
+        icon: 'cloud_download',
+        title: `¿Está seguro de descargar ${type.toUpperCase()}?`,
+        description: `Se descargará el ${type.toUpperCase()} del documento`,
+        confirmButton: { text: `Descargar ${type.toUpperCase()}` },
+      
+      },
+      toast: {
+        loading: `Descargando ${type.toUpperCase()}...`,
+        success: `${type.toUpperCase()} descargado`,
+        error: () => `Error al descargar ${type.toUpperCase()}`,
+      }
+    };
+    const response = await this.fetch.blob(url, request);
+    if(response) {
+      const blob = new Blob([response], { type: 'application/xml' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `CDR-${item.serie}-${item.correlative}.xml`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
   }
 
 }
