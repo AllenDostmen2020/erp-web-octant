@@ -75,7 +75,7 @@ export class ClientDocumentCreateComponent {
         setDefaultOptions({ locale: es })
         const contractVehiclesActives = contract.contract_vehicles?.filter((contract_vehicle) => contract_vehicle.vehicle?.status == StatusModel.Habilitado);
         const platesString = contractVehiclesActives?.map(contractVehicle => contractVehicle.vehicle?.plate).join(', ');
-        const nextPeriod = contract.last_contract_document_item?.end_period ? contract.last_contract_document_item?.end_period : 1;
+        const nextPeriod = (contract.last_contract_document_item?.end_period ? contract.last_contract_document_item?.end_period : 1) - 1;
         const dateNextPeriod = addMonths(parseISO(contract.start_date), nextPeriod);
         const dateEndPeriod = subDays(addMonths(addMonths(parseISO(contract.start_date), nextPeriod), periods), 1);
         const dateStringInit = dateNextPeriod.getFullYear() == dateEndPeriod.getFullYear() ? format(dateNextPeriod, "dd 'DE' MMMM").toUpperCase() : format(dateNextPeriod, "dd 'DE' MMMM yyyy").toUpperCase();
