@@ -8,7 +8,7 @@
 
     <mat-form-field data-type="form-input" data-form-input-name="installation_price" class="col-span-full @2xl:col-span-2">
         <mat-label>Precio instalación Und.</mat-label>
-        <input matInput type="number" formControlName="installation_price" />
+        <input matInput type="number" [min]="1" formControlName="installation_price" />
         <span matTextPrefix>S/.&nbsp;</span>
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
@@ -24,21 +24,21 @@
 
     <mat-form-field data-type="form-input" data-form-input-name="buy_price" class="col-span-full @2xl:col-span-2">
         <mat-label>Precio compra Und.</mat-label>
-        <input matInput type="number" [min]="0" formControlName="buy_price" />
+        <input matInput type="number" [min]="1" formControlName="buy_price" />
         <span matTextPrefix>S/.&nbsp;</span>
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
     <mat-form-field data-type="form-input" data-form-input-name="sale_price" class="col-span-full @2xl:col-span-2">
         <mat-label>Precio venta Und.</mat-label>
-        <input matInput type="number" [min]="0" formControlName="sale_price" />
+        <input matInput type="number" [min]="1" formControlName="sale_price" />
         <span matTextPrefix>S/.&nbsp;</span>
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
     <mat-form-field data-type="form-input" data-form-input-name="quantity" class="col-span-full @2xl:col-span-2">
         <mat-label>Cantidad</mat-label>
-        <input matInput type="number" [min]="0" formControlName="quantity" />
+        <input matInput type="number" [min]="1" formControlName="quantity" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
