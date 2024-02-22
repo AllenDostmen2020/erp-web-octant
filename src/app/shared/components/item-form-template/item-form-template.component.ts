@@ -1,6 +1,6 @@
 import { Component, Input, WritableSignal, inject, signal } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { FetchService, RequestInitFetch, ToastForFecth } from '@service/fetch.service';
+import { FetchService, RequestInitFetch, ToastForFetch } from '@service/fetch.service';
 import { EventsService } from '@service/events.service';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SpinnerDefaultComponent } from '../spinner-default/spinner-default.component';
@@ -49,7 +49,7 @@ export interface ItemFormConfiguration<Item = any, Data = any> {
       itemQueryParams?: { [key: string]: string | number | boolean | null | undefined };
       fetch?: {
         confirmDialog?: ConfirmDialogData,
-        toast?: ToastForFecth,
+        toast?: ToastForFetch,
       }
   }
 

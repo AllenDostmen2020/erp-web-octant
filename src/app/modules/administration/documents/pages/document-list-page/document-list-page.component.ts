@@ -206,7 +206,7 @@ export class DocumentListPageComponent {
         error: (error) => 'Error al anular documento',
       }
     };
-    return await this.fetch.put<Document>(url, body, request);
+    return await this.fetch.post<Document>(url, body, request);
   }
 
   private async anulateWithNote(item: Document, type: 'débito' | 'crédito'): Promise<Document | null> {
