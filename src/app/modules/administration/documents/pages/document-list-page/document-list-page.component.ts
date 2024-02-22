@@ -214,7 +214,7 @@ export class DocumentListPageComponent {
       }
     };
     const body = { document_id: item.id }; 
-    return await this.fetch.post<Document>(url, null, request);
+    return await this.fetch.post<Document>(url, body, request);
   }
 
 }
