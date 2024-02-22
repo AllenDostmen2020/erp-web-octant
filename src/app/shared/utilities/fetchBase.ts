@@ -4,17 +4,17 @@ declare type ProcessBeforeCallRequest = (apiUrl: string, request: RequestInitFet
 
 declare type ProcessAfterCallRequest<T> = (response: Response, request: RequestInitFetch) => Promise<void> | void;
 
-declare type IntercepErrors = (error: FetchErrorResponse, request: RequestInitFetch) => Promise<void> | void;
+declare type InterceptErrors = (error: FetchErrorResponse, request: RequestInitFetch) => Promise<void> | void;
 
-declare type IntercepHeaders = (request: RequestInitFetch) => Promise<{ [Key: string]: string }> | { [Key: string]: string };
+declare type InterceptHeaders = (request: RequestInitFetch) => Promise<{ [Key: string]: string }> | { [Key: string]: string };
 
 export class FetchBase {
     constructor(
         private configurations: {
             beforeCallRequestFn?: ProcessBeforeCallRequest,
             afterCallRequestFn?: ProcessAfterCallRequest<any>,
-            interceptErrorsFn?: IntercepErrors,
-            interceptHeadersFn?: IntercepHeaders,
+            interceptErrorsFn?: InterceptErrors,
+            interceptHeadersFn?: InterceptHeaders,
         } = {}
     ) { }
 

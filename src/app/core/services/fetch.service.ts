@@ -10,14 +10,14 @@ import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
 import { environment } from 'src/environments/environment';
 
-export interface ToastForFecth extends Omit<ToastDataPromise, 'promise' | 'success' | 'error'> {
+export interface ToastForFetch extends Omit<ToastDataPromise, 'promise' | 'success' | 'error'> {
   success: string | ((data: any, snackbarRef: MatSnackBarRef<any>, currentMessage: string) => Promise<string> | string);
   error: string | ((error: any, snackbarRef: MatSnackBarRef<any>, currentMessage: string) => Promise<string> | string);
 }
 
 export interface RequestInitFetch extends Omit<RequestInit, 'confirmDialog'> {
   confirmDialog?: ConfirmDialogData | false;
-  toast?: ToastForFecth | false;
+  toast?: ToastForFetch | false;
 }
 
 
@@ -196,7 +196,7 @@ export class FetchService extends FetchBase {
     });
   }
 
-  private resolveToastPromise<T>(promise: Promise<T>, toastDataPromise: ToastForFecth, requestInit?: RequestInitFetch): Promise<T> {
+  private resolveToastPromise<T>(promise: Promise<T>, toastDataPromise: ToastForFetch, requestInit?: RequestInitFetch): Promise<T> {
     return new Promise(async (resolve, reject) => {
       this.toastService.promise(promise, {
         loading: toastDataPromise.loading ?? 'Cargando...',

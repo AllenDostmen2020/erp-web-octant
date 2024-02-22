@@ -63,12 +63,12 @@ export class DocumentListPageComponent {
           icon: 'send',
           text: 'Emitir',
           fn: async (item, index, { updateChangesItemFn }) => {
-            if(item.expiration_date) {
+            if (item.expiration_date) {
               const expireDate = parseISO(item.expiration_date);
               this.expireDateCtrl.setValue(this.minDate > expireDate ? this.minDate : expireDate);
             };
             const response = await this.emitDocument(item);
-            if(response) updateChangesItemFn(index, { ...item, ...response });
+            if (response) updateChangesItemFn(index, { ...item, ...response });
           },
         }),
         clickEventActionButton({
@@ -76,7 +76,7 @@ export class DocumentListPageComponent {
           icon: 'scan_delete',
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.cancelDocument(item);
-            if(response) updateChangesItemFn(index, { ...item, ...response });
+            if (response) updateChangesItemFn(index, { ...item, ...response });
           },
         }),
         clickEventActionButton({
@@ -84,7 +84,7 @@ export class DocumentListPageComponent {
           icon: 'scan_delete',
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.anulateWithNote(item, 'crédito');
-            if(response) updateChangesItemFn(index, { ...item, ...response });
+            if (response) updateChangesItemFn(index, { ...item, ...response });
           },
         }),
         clickEventActionButton({
@@ -92,7 +92,7 @@ export class DocumentListPageComponent {
           icon: 'scan_delete',
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.anulateWithNote(item, 'crédito');
-            if(response) updateChangesItemFn(index, { ...item, ...response });
+            if (response) updateChangesItemFn(index, { ...item, ...response });
           }
         }),
         clickEventActionButton({
@@ -125,7 +125,7 @@ export class DocumentListPageComponent {
       }),
       textColumn({
         title: 'Emitido',
-        displayValueFn: (item) => item.issue_date ?  format(parseISO(item.issue_date), 'dd/MM/yyyy') : '--',
+        displayValueFn: (item) => item.issue_date ? format(parseISO(item.issue_date), 'dd/MM/yyyy') : '--',
       }),
       numberColumn({
         title: 'Sub total',
@@ -166,7 +166,7 @@ export class DocumentListPageComponent {
     const subscribe = this.emitForm.valueChanges.subscribe(() => dialogData.confirmButton!.disabled = this.emitForm.invalid);
     const confirm = await this.confirmDialog(dialogData);
     subscribe.unsubscribe();
-    if(!confirm) return null;
+    if (!confirm) return null;
     const url = `document/send-to-sunat/${item.id}`;
     const body = this.emitForm.value;
     const request: RequestInitFetch = {
@@ -192,9 +192,9 @@ export class DocumentListPageComponent {
     const subscribe = this.commentCtrl.valueChanges.subscribe(() => dialogData.confirmButton!.disabled = this.commentCtrl.invalid);
     const confirm = await this.confirmDialog(dialogData);
     subscribe.unsubscribe();
-    if(!confirm) return null;
+    if (!confirm) return null;
     const url = 'cancel-document-send';
-    const body = { 
+    const body = {
       low_reason: this.commentCtrl.value,
       document_id: item.id,
     };
@@ -209,13 +209,13 @@ export class DocumentListPageComponent {
     return await this.fetch.put<Document>(url, body, request);
   }
 
-  private async anulateWithNote(item: Document, type : 'débito' | 'crédito'): Promise<Document | null> {
+  private async anulateWithNote(item: Document, type: 'débito' | 'crédito'): Promise<Document | null> {
     this.commentCtrl.reset('');
     const dialogData: ConfirmDialogData = {
       icon: 'error',
       title: `¿Está seguro de anular documento con nota de ${type}?`,
       description: `Se generará una nota de ${type}`,
-      confirmButton: { 
+      confirmButton: {
         text: `Anular con nota de ${type}`,
         disabled: true,
       },
@@ -223,7 +223,7 @@ export class DocumentListPageComponent {
     const subscribe = this.commentCtrl.valueChanges.subscribe(() => dialogData.confirmButton!.disabled = this.commentCtrl.invalid);
     const confirm = await this.confirmDialog(dialogData);
     subscribe.unsubscribe();
-    if(!confirm) return null;
+    if (!confirm) return null;
     const url = `${type}-note`;
     const request: RequestInitFetch = {
       confirmDialog: false,
@@ -236,7 +236,7 @@ export class DocumentListPageComponent {
     const body = {
       document_id: item.id,
       low_reason: this.commentCtrl.value,
-    }; 
+    };
     return await this.fetch.post<Document>(url, body, request);
   }
 
@@ -248,7 +248,7 @@ export class DocumentListPageComponent {
         title: `¿Está seguro de descargar ${type.toUpperCase()}?`,
         description: `Se descargará el ${type.toUpperCase()} del documento`,
         confirmButton: { text: `Descargar ${type.toUpperCase()}` },
-      
+
       },
       toast: {
         loading: `Descargando ${type.toUpperCase()}...`,
@@ -256,16 +256,14 @@ export class DocumentListPageComponent {
         error: () => `Error al descargar ${type.toUpperCase()}`,
       }
     };
-    const response = await this.fetch.blob(url, request);
-    if(response) {
-      const blob = new Blob([response], { type: 'application/xml' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `CDR-${item.serie}-${item.correlative}.xml`;
-      a.click();
-      window.URL.revokeObjectURL(url);
-    }
+    const blob: Blob = await this.fetch.blob(url, request);
+    const URL = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = URL;
+    a.download = `${type.toUpperCase()}-${item.serie}-${item.correlative}.${type == 'xml' ? 'xml' : 'zip'}`;
+    a.click();
+    window.URL.revokeObjectURL(URL);
+
   }
 
 }
