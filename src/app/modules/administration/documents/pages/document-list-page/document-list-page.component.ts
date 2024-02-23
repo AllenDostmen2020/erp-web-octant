@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild, inject, signal } from '@angular/core';
-import { ItemListTemplateComponent, ListItemExtended, dateColumn, itemCreatedAtColumn, itemStatusColumn, numberColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ListColumn, ListItemExtended, dateColumn, itemCreatedAtColumn, itemStatusColumn, numberColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
@@ -12,6 +12,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { addDays, format, parseISO } from 'date-fns';
 import { Router } from '@angular/router';
+import { StatusModel } from '@interface/baseModel';
 
 interface ExtDocument extends Document, ListItemExtended { }
 
@@ -47,7 +48,9 @@ export class DocumentListPageComponent {
     title: 'Documentos',
     server: {
       url: 'document',
-      queryParams: { relations: 'client,documentItems' },
+      queryParams: {
+        relations: this.router.url.includes('/organization/client/view') ? 'client,documentItems' : 'documentItems'
+      },
     },
     rows: {
       options: [
@@ -62,6 +65,7 @@ export class DocumentListPageComponent {
         clickEventActionButton({
           icon: 'send',
           text: 'Emitir',
+          hidden: (item) => item.status !== StatusModel.Generada,
           fn: async (item, index, { updateChangesItemFn }) => {
             if (item.expiration_date) {
               const expireDate = parseISO(item.expiration_date);
@@ -74,6 +78,9 @@ export class DocumentListPageComponent {
         clickEventActionButton({
           text: 'Anular',
           icon: 'scan_delete',
+          hidden: (item) => {
+            return item.status !== StatusModel.Aceptada;
+          },
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.cancelDocument(item);
             if (response) updateChangesItemFn(index, { ...item, ...response });
@@ -112,36 +119,42 @@ export class DocumentListPageComponent {
         }),
       ]
     },
-    columns: signal([
-      textColumn({
+    columns: signal(this.generateColumns()),
+  }
+
+  private generateColumns<T>(): ListColumn<Document>[] {
+    let columns = [
+      textColumn<Document>({
         title: 'Código/Descripción',
         displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '--',
         displayAdditionalValueFn: (item) => item.document_items?.map((item) => item.description).join(', '),
       }),
-      textColumn({
+      textColumn<Document>({
         title: 'Cliente',
         displayValueFn: (item) => item.client?.name,
         gridColumn: 'fit-content(200px)',
       }),
-      textColumn({
+      textColumn<Document>({
         title: 'Emitido',
         displayValueFn: (item) => item.issue_date ? format(parseISO(item.issue_date), 'dd/MM/yyyy') : '--',
       }),
-      numberColumn({
+      numberColumn<Document>({
         title: 'Sub total',
         displayValueFn: (item) => item.total_value,
       }),
-      numberColumn({
+      numberColumn<Document>({
         title: 'Igv',
         displayValueFn: (item) => item.total_taxes,
       }),
-      numberColumn({
+      numberColumn<Document>({
         title: 'Total',
         displayValueFn: (item) => item.total,
       }),
       itemCreatedAtColumn(),
       itemStatusColumn(),
-    ]),
+    ];
+    if(this.router.url.includes('/organization/client/view')) columns = columns.splice(1, 1);
+    return columns;
   }
 
   get expireDateCtrl(): FormControl { return this.emitForm.get('expire_date')! as FormControl; }
