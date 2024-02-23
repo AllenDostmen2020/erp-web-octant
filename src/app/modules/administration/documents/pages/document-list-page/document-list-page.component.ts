@@ -89,6 +89,9 @@ export class DocumentListPageComponent {
         clickEventActionButton({
           text: 'Nota de crédito',
           icon: 'scan_delete',
+          hidden: (item) => {
+            return item.status !== StatusModel.Aceptada;
+          },
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.anulateWithNote(item, 'crédito');
             if (response) updateChangesItemFn(index, { ...item, ...response });
@@ -97,6 +100,9 @@ export class DocumentListPageComponent {
         clickEventActionButton({
           text: 'Nota de débito',
           icon: 'scan_delete',
+          hidden: (item) => {
+            return item.status !== StatusModel.Aceptada;
+          },
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.anulateWithNote(item, 'crédito');
             if (response) updateChangesItemFn(index, { ...item, ...response });
@@ -105,16 +111,25 @@ export class DocumentListPageComponent {
         clickEventActionButton({
           text: 'Descargar PDF',
           icon: 'cloud_download',
+          hidden: (item) => {
+            return item.status !== StatusModel.Aceptada;
+          },
           fn: (item) => console.log('Descargar PDF'),
         }),
         clickEventActionButton({
           text: 'Descargar XML',
           icon: 'cloud_download',
+          hidden: (item) => {
+            return item.status !== StatusModel.Aceptada;
+          },
           fn: (item) => this.downloadFile(item, 'xml'),
         }),
         clickEventActionButton({
           text: 'Descargar CDR',
           icon: 'cloud_download',
+          hidden: (item) => {
+            return item.status !== StatusModel.Aceptada;
+          },
           fn: (item) => this.downloadFile(item, 'cdr'),
         }),
       ]
