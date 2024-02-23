@@ -30,6 +30,11 @@ export class ContractViewPageComponent {
         text: 'Resolución',
         routerLink: './resolution',
       },
+      {
+        text: 'Documentos',
+        routerLink: './document',
+      },
+
     ]
   }
 }
