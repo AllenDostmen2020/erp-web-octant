@@ -49,7 +49,7 @@ export class DocumentListPageComponent {
     server: {
       url: 'document',
       queryParams: {
-        relations: this.router.url.includes('/organization/client/view') ? 'client,documentItems' : 'documentItems'
+        relations: this.router.url.includes('/organization/client/view') ? 'documentItems' : 'client,documentItems'
       },
     },
     rows: {
