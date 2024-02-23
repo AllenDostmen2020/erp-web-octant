@@ -122,7 +122,7 @@ export class DocumentListPageComponent {
     columns: signal(this.generateColumns()),
   }
 
-  private generateColumns<T>(): ListColumn<Document>[] {
+  private generateColumns(): ListColumn<Document>[] {
     let columns = [
       textColumn<Document>({
         title: 'Código/Descripción',
