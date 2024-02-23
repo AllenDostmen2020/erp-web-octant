@@ -153,7 +153,7 @@ export class DocumentListPageComponent {
       itemCreatedAtColumn(),
       itemStatusColumn(),
     ];
-    if(this.router.url.includes('/organization/client/view')) columns = columns.splice(1, 1);
+    if(this.router.url.includes('/organization/client/view')) columns.splice(1, 1);
     return columns;
   }
 
