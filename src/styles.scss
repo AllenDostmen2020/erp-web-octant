@@ -3,6 +3,12 @@
 
 @use "./theme.scss";
 
+@use "./item-list-styles.scss";
+@use "./item-form-styles.scss";
+@use "./item-detail-styles.scss";
+@use "./item-view-styles.scss";
+
+@use "./output.scss";
 
 @use "./status-loading.scss";
 @use "./fakes-scrolling.scss";
@@ -36,14 +42,6 @@
 @use "./material-snackbar.scss";
 
 @use "./material-mdc-styles.scss";
-
-@use "./item-list-styles.scss";
-@use "./item-form-styles.scss";
-@use "./item-detail-styles.scss";
-@use "./item-view-styles.scss";
-
-@use "./output.scss";
-
 
 /* -------------------------------------------------------------------------------------- */
 /* -------------------------------------------------------------------------------------- */
