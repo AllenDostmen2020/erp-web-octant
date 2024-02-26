@@ -243,6 +243,7 @@ export class DocumentListPageComponent {
       icon: 'error',
       title: `¿Está seguro de anular documento con nota de ${type}?`,
       description: `Se generará una nota de ${type}`,
+      templateRef: this.anulateFormTemplate,
       confirmButton: {
         text: `Anular con nota de ${type}`,
         disabled: true,
