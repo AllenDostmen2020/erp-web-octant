@@ -49,6 +49,10 @@ export class ClientViewPageComponent {
                 routerLink: './vehicle',
                 text: 'Vehículos',
             },
+            {
+                routerLink: './comprobant-payments',
+                text: 'Pagar comprobantes',
+            },
         ]
     }
 }

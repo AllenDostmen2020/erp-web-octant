@@ -62,6 +62,10 @@ export const clientRoutes: Routes = [
                 children: clientVehiclesRoutes,
             },
             {
+                path: 'comprobant-payments',
+                loadComponent: () => import('./client-documents/pages/client-document-payment-create/client-document-payment-create.component').then(m => m.ClientDocumentPaymentCreateComponent)
+            },
+            {
                 path: '**',
                 redirectTo: 'detail',
                 pathMatch: 'full',
