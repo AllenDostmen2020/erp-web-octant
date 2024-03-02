@@ -10,6 +10,10 @@ export const clientDocumentRoutes: Routes = [
         loadComponent: () => import('./pages/client-document-create/client-document-create.component').then(m => m.ClientDocumentCreateComponent)
     },
     {
+        path: 'payment',
+        loadComponent: () => import('./pages/client-document-payment-create/client-document-payment-create.component').then(m => m.ClientDocumentPaymentCreateComponent)
+    },
+    {
         path: '**',
         redirectTo: 'list',
         pathMatch: 'full',

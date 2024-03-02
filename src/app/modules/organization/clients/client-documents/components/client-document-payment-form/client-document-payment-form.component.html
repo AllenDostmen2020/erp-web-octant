@@ -1,0 +1,5 @@
+@if(documents(); as docs) {
+    @for (item of docs; track $index) {
+        <div>{{item.created_at}}</div>
+    }
+}
