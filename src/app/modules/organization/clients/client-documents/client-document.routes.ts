@@ -3,7 +3,7 @@ import { Routes } from "@angular/router";
 export const clientDocumentRoutes: Routes = [
     {
         path: 'list',
-        loadComponent: () => import('./pages/client-document-list/client-document-list.component').then(m => m.ClientDocumentListComponent)
+        loadComponent: () => import('../../../administration/documents/pages/document-list-page/document-list-page.component').then(m => m.DocumentListPageComponent)
     },
     {
         path: 'create',

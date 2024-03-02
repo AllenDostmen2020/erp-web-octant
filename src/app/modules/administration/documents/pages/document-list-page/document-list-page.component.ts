@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { addDays, format, parseISO } from 'date-fns';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StatusModel } from '@interface/baseModel';
 
 interface ExtDocument extends Document, ListItemExtended { }
@@ -34,6 +34,7 @@ export class DocumentListPageComponent {
   @ViewChild('anulateFormTemplate', { static: true }) anulateFormTemplate!: TemplateRef<any>;
   @ViewChild('emitFormTemplate', { static: true }) emitFormTemplate!: TemplateRef<any>;
   private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
   private fetch = inject(FetchService);
   private matDialog = inject(MatDialog);
   public commentCtrl = new FormControl('', [Validators.required]);
@@ -49,7 +50,9 @@ export class DocumentListPageComponent {
     server: {
       url: 'document',
       queryParams: {
-        relations: this.router.url.includes('/organization/client/view') ? 'documentItems' : 'client,documentItems'
+        relations: this.router.url.includes('/organization/client/view') ? 'documentItems' : 'client,documentItems',
+        client_id: this.router.url.includes('/organization/client/view') ? this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id') : null,
+        contract_id: this.router.url.includes('/tracking/contract/view') ? this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id') : null,
       },
     },
     rows: {
@@ -253,7 +256,7 @@ export class DocumentListPageComponent {
     const confirm = await this.confirmDialog(dialogData);
     subscribe.unsubscribe();
     if (!confirm) return null;
-    const url = `${type}-note`;
+    const url = `${type == 'crédito' ? 'credit' : 'debit'}-note`;
     const request: RequestInitFetch = {
       confirmDialog: false,
       toast: {
