@@ -83,11 +83,14 @@
                 <!-- ---------------------------------------------- -->
                 @if (group.title) {
                     <div class="item-detail__group__header">
-                        @if (group.icon) {
-                            <div class="item-detail__group__header__icon">
+                        <div class="item-detail__group__header__icon">
+                            @if (group.icon) {
                                 <span class="material-icons">{{group.icon}}</span>
-                            </div>
-                        }
+                            } @else {
+                                <span class="material-icons">info</span>
+                            }
+                        </div>
+                        
                         <div class="item-detail__group__header__title">
                             {{group.title}}
                         </div>

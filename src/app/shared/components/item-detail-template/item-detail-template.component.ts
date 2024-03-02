@@ -130,28 +130,14 @@ export class ItemDetailTemplateComponent {
 
     ngOnInit(): void {
         this.setItemId();
-        /* -------------------------------------------------- */
-        /* ---------------     NEW UPDATE     --------------- */
-        /* -------------------------------------------------- */
+        
         if (this.configuration.dataItem && this.configuration.dataItem()) {
             this.configuration.loading = false;
         } else {
             this.configuration.dataItem = signal(null);
-
-            // /* PROVISIONAL POR ELIMINAR */
-            // if (this.configuration.item) {
-            //     this.configuration.loading = false;
-            //     this.configuration.dataItem!.set(this.configuration.item);
-            // } else {
-            //     this.getItem()
-            // };
-            // /* PROVISIONAL POR ELIMINAR */
-
             this.getItem();
         }
-        /* -------------------------------------------------- */
-        /* ---------------     END UPDATE     --------------- */
-        /* -------------------------------------------------- */
+        
         if (this.configuration.updateItemEvent) this.configuration.updateItemEvent.subscribe(() => this.getItem());
     }
 
@@ -193,18 +179,12 @@ export class ItemDetailTemplateComponent {
             const requestInit: RequestInitFetch = { signal: this.abortController.signal };
             if (ignoreShowError) requestInit.ignoreInterceptErrors = true;
             let response: T = await this.fetch.get<T>(url, requestInit);
-
-            /* -------------------------------------------------- */
-            /* ---------------     NEW UPDATE     --------------- */
-            /* -------------------------------------------------- */
+            
             const { parseItemFn } = this.configuration;
             this.configuration.dataItem!.set((await parseItemFn?.(response)) ?? response);
 
             const { afterSetItemFn } = this.configuration;
-            if (afterSetItemFn) afterSetItemFn(this.configuration.dataItem!()!);
-            /* -------------------------------------------------- */
-            /* ---------------     END UPDATE     --------------- */
-            /* -------------------------------------------------- */
+            if (afterSetItemFn) afterSetItemFn(this.configuration.dataItem!()!); 
         } catch (error) {
             this.configuration.httpError = error as FetchErrorResponse;
             const { interceptHttpErrorItemFn } = this.configuration;
