@@ -35,13 +35,12 @@ export class ClientDocumentPaymentFormComponent {
     }
     ngOnChanges() {
         this.sumItems()
-        this.sumItemsInit();
     }
 
     private async getDocuments() {
         const clientId = this.activatedRoute.snapshot.parent?.paramMap.get('id');
         this.documents.set((await this.fetch.get<PaginatorData<Document>>(`document?relations=documentItems&client_id=${clientId}`)).data);
-        this.sumItemsInit();
+        this.sumItems();
     }
 
     drop(event: CdkDragDrop<any[]>) {
@@ -55,20 +54,16 @@ export class ClientDocumentPaymentFormComponent {
                 event.currentIndex,
             );
             this.sumItems();
-            this.sumItemsInit();
         }
     }
 
-    public sumItemsInit() {
+    public sumItems() {
         this.sumSubtotalInit = (this.documents() ?? []).reduce((previousValue, item) => {
             return previousValue + Number(item.total_value)
         }, 0);
         this.sumIgvInit = (this.documents() ?? []).reduce((previousValue, item) => {
             return previousValue + Number(item.total_taxes)
         }, 0);
-
-    }
-    public sumItems() {
         this.sumSubtotal = (this.documentsToPay() ?? []).reduce((previousValue, item) => {
             return previousValue + Number(item.total_value)
         }, 0);
