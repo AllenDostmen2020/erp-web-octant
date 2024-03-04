@@ -50,15 +50,15 @@
 
                         <div class="items__resumen__label">Subtotal</div>
                         <div>:</div>
-                        <div class="items__resumen__value">00.00</div>
+                        <div class="items__resumen__value">{{sumSubtotalInit |number:'.2-2'}}</div>
 
                         <div class="items__resumen__label">IGV (18%)</div>
                         <div>:</div>
-                        <div class="items__resumen__value">00.00</div>
+                        <div class="items__resumen__value">{{sumIgvInit |number:'.2-2'}}</div>
 
                         <div class="items__resumen__label">Total</div>
                         <div>:</div>
-                        <div class="items__resumen__value">00.00</div>
+                        <div class="items__resumen__value">{{(sumSubtotalInit + sumIgvInit) |number:'.2-2'}}</div>
 
                     </div>
                 </div>
@@ -114,15 +114,15 @@
 
                         <div class="items__resumen__label">Subtotal</div>
                         <div>:</div>
-                        <div class="items__resumen__value">00.00</div>
+                        <div class="items__resumen__value">{{sumSubtotal |number:'.2-2'}}</div>
 
                         <div class="items__resumen__label">IGV (18%)</div>
                         <div>:</div>
-                        <div class="items__resumen__value">00.00</div>
+                        <div class="items__resumen__value">{{sumIgv |number:'.2-2'}}</div>
 
                         <div class="items__resumen__label">Total</div>
                         <div>:</div>
-                        <div class="items__resumen__value">00.00</div>
+                        <div class="items__resumen__value">{{(sumSubtotal + sumIgv) |number:'.2-2'}}</div>
 
                     </div>
                 </div>
