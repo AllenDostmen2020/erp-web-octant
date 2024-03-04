@@ -227,36 +227,36 @@
 
 
     @if (configuration.type == 'create' || (configuration.type == 'update' && configuration.dataItem && configuration.dataItem())) {
-    <div class="form__actions">
-        @if (configuration.cancelButton !== false) {
-        <button class="text-button" [disabled]="configuration.loading" type="button" (click)="location.back()">
-            @if (configuration.cancelButton?.icon && configuration.cancelButton?.iconPosition !== 'right') {
-            <span class="material-icons">{{ configuration.saveButton?.icon }}</span>
+        <div class="form__actions">
+            @if (configuration.cancelButton !== false) {
+            <button class="text-button" [disabled]="configuration.loading" type="button" (click)="location.back()">
+                @if (configuration.cancelButton?.icon && configuration.cancelButton?.iconPosition !== 'right') {
+                <span class="material-icons">{{ configuration.saveButton?.icon }}</span>
+                }
+
+                <span>{{ configuration.cancelButton?.text ?? 'Cancelar' }}</span>
+
+                @if (configuration.cancelButton?.icon && configuration.cancelButton?.iconPosition === 'right') {
+                <span class="material-icons">{{ configuration.saveButton?.icon }}</span>
+                }
+            </button>
             }
 
-            <span>{{ configuration.cancelButton?.text ?? 'Cancelar' }}</span>
+            <button class="filled-button" [disabled]="configuration.loading || this.configuration.formGroup.invalid" type="submit">
+                @if (configuration.saveButton?.icon && configuration.saveButton?.iconPosition !== 'right') {
+                <span class="material-icons">{{ configuration.saveButton?.icon }}</span>
+                }
+                <span>
+                    @if (configuration.saveButton?.text; as text) { {{text}} } 
+                    @else if (configuration.type == 'update') { Actualizar }
+                    @else { Guardar }
+                </span>
 
-            @if (configuration.cancelButton?.icon && configuration.cancelButton?.iconPosition === 'right') {
-            <span class="material-icons">{{ configuration.saveButton?.icon }}</span>
-            }
-        </button>
-        }
-
-        <button class="filled-button" [disabled]="configuration.loading || this.configuration.formGroup.invalid" type="submit">
-            @if (configuration.saveButton?.icon && configuration.saveButton?.iconPosition !== 'right') {
-            <span class="material-icons">{{ configuration.saveButton?.icon }}</span>
-            }
-            <span>
-                @if (configuration.saveButton?.text; as text) { {{text}} } 
-                @else if (configuration.type == 'update') { Actualizar }
-                @else { Guardar }
-            </span>
-
-            @if (configuration.saveButton?.icon && configuration.saveButton?.iconPosition === 'right') {
-            <span class="material-icons">{{ configuration.saveButton?.icon }}</span>
-            }
-        </button>
-    </div>
+                @if (configuration.saveButton?.icon && configuration.saveButton?.iconPosition === 'right') {
+                <span class="material-icons">{{ configuration.saveButton?.icon }}</span>
+                }
+            </button>
+        </div>
     }
 
 </form>

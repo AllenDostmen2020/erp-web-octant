@@ -1,44 +1,35 @@
-    @if (listFrom.length || listTo.length) {
-        <ng-container beforeContent>
+<ng-container beforeContent>
+    <div class="container__items">
+        <!-- ----------------- -->
+        <!-- ----------------- -->
+        <div class="container__block" cdkDropList #todoList="cdkDropList" [cdkDropListData]="documents()"
+            [cdkDropListConnectedTo]="[doneList]" (cdkDropListDropped)="drop($event)">
 
-            <div class="container__items">
-                <!-- ----------------- -->
-                <!-- ----------------- -->
-                <div class="container__block" cdkDropList #todoList="cdkDropList" [cdkDropListData]="listFrom" [cdkDropListConnectedTo]="[doneList]" (cdkDropListDropped)="drop($event)">
-                    <div class="block__title">
-                        Items disponibles ({{listFrom.length}})
-                    </div>
-
-                    <div class="block__items">
-                        @for (item of listFrom; track item; let i = $index) {
-                            <div class="col-span-full" cdkDrag>
-                                <div class="document__card">{{ item.document_items[0].description}} - {{item.correlative}}</div>
-                            </div>
-                        }
-                    </div>
-                    <br>
-                    <p class="body-small"><i>Arrastrar a la derecha para seleccionar</i></p>
+            <div class="block__items">
+                @for (item of documents(); track item; let i = $index) {
+                <div class="col-span-full" cdkDrag>
+                    <div class="document__card">{{ item.document_items[0].description}} - {{item.correlative}}</div>
                 </div>
-                <!-- ----------------- -->
-                <!-- ----------------- -->
-                <div class="container__block" cdkDropList #doneList="cdkDropList" [cdkDropListData]="listTo" [cdkDropListConnectedTo]="[todoList]" (cdkDropListDropped)="drop($event)">
+                }
+            </div>
+            <br>
+            <p class="body-small"><i>Arrastrar a la derecha para seleccionar</i></p>
+        </div>
+        <!-- ----------------- -->
+        <!-- ----------------- -->
+        <div class="container__block" cdkDropList #doneList="cdkDropList" [cdkDropListData]="documentsToPay()"
+            [cdkDropListConnectedTo]="[todoList]" (cdkDropListDropped)="drop($event)">
 
-                    <div class="block__title">
-                        Items seleccionados ({{listTo.length}})
-                    </div>
-
-                    <div class="block__items">
-                        @for (item of listTo; track item; let i = $index) {
-                        <div class="col-span-full !gap-y-2" cdkDrag>
-                            <div class="document__card">{{ item.document_items[0].description}} - {{item.correlative}}</div>
-                        </div>
-                        }
-                    </div>
-
+            <div class="block__items">
+                @for (item of documentsToPay(); track item; let i = $index) {
+                <div class="col-span-full !gap-y-2" cdkDrag>
+                    <div class="document__card">{{ item.document_items[0].description}} - {{item.correlative}}</div>
                 </div>
-                <!-- ----------------- -->
-                <!-- ----------------- -->
+                }
             </div>
 
-        </ng-container>
-    }
+        </div>
+        <!-- ----------------- -->
+        <!-- ----------------- -->
+    </div>
+</ng-container>
