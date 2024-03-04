@@ -38,7 +38,6 @@
     "@angular/cli": "~17.1.0",
     "@angular/compiler-cli": "^17.1.0",
     "@tailwindcss/container-queries": "^0.1.1",
-    "@types/d3-org-chart": "^2.6.3",
     "@types/jasmine": "~4.3.0",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
