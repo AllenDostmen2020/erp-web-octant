@@ -1,35 +1,135 @@
-<ng-container beforeContent>
-    <div class="container__items">
-        <!-- ----------------- -->
-        <!-- ----------------- -->
-        <div class="container__block" cdkDropList #todoList="cdkDropList" [cdkDropListData]="documents()"
-            [cdkDropListConnectedTo]="[doneList]" (cdkDropListDropped)="drop($event)">
 
-            <div class="block__items">
-                @for (item of documents(); track item; let i = $index) {
-                <div class="col-span-full" cdkDrag>
-                    <div class="document__card">{{ item.document_items[0].description}} - {{item.correlative}}</div>
+    <ng-container beforeContent>
+
+        <div class="container__items">
+            <!-- ----------------- -->
+            <!-- ----------------- -->
+            <div class="container__block" cdkDropList #todoList="cdkDropList" [cdkDropListData]="documents()" [cdkDropListConnectedTo]="[doneList]" (cdkDropListDropped)="drop($event)">
+                <div class="block__title">
+                    Items disponibles ({{documents().length}})
+                </div>
+
+                <div class="items">
+                    <div class="item__row item__row-header">
+                        <div class="item__row__cell item__row__cell-start">Ítem</div>
+                        <div class="item__row__cell">Nombre</div>
+                        <div class="item__row__cell" align="right">Subtotal</div>
+                        <div class="item__row__cell" align="right">IGV</div>
+                        <div class="item__row__cell item__row__cell-end" align="right">Total</div>
+                    </div>
+                    @for (item of documents(); track item; let i = $index) {
+                        <div class="item__row" cdkDrag>
+                            <div class="item__row__cell item__row__cell-start">
+                                {{i + 1}}
+                            </div>
+                            @for (document_item of item.document_items; track document_item; let i = $index){
+                                <div class="item__row__cell">
+                                    {{ document_item.description }} |
+                                </div>
+                            }
+                            <div class="item__row__cell" align="right">
+                                {{ item.total_value }}
+                            </div>
+                            <div class="item__row__cell" align="right">
+                                {{ item.total_taxes }}
+                            </div>
+                            <div class="item__row__cell item__row__cell-end" align="right">
+                                {{ item.total }}
+                            </div>
+                        </div>
+                    }
+                </div>
+                <br>
+                @if (documents().length) {
+                <div class="items__footer">
+                    <!-- <div class="items__footer__options">
+                        <mat-slide-toggle>¿Items incluyen IGV?</mat-slide-toggle>
+                    </div> -->
+
+                    <div class="items__footer__resumen">
+
+                        <div class="items__resumen__label">Subtotal</div>
+                        <div>:</div>
+                        <div class="items__resumen__value">00.00</div>
+
+                        <div class="items__resumen__label">IGV (18%)</div>
+                        <div>:</div>
+                        <div class="items__resumen__value">00.00</div>
+
+                        <div class="items__resumen__label">Total</div>
+                        <div>:</div>
+                        <div class="items__resumen__value">00.00</div>
+
+                    </div>
+                </div>
+                }
+                <p class="body-small"><i>Arrastrar a la derecha para seleccionar</i></p>
+            </div>
+            <!-- ----------------- -->
+            <!-- ----------------- -->
+            <div class="container__block" cdkDropList #doneList="cdkDropList" [cdkDropListData]="documentsToPay()" [cdkDropListConnectedTo]="[todoList]" (cdkDropListDropped)="drop($event)">
+
+                <div class="block__title">
+                    Items seleccionados ({{documentsToPay().length}})
+                </div>
+
+                <div class="items">
+                    <div class="item__row item__row-header">
+                        <div class="item__row__cell item__row__cell-start">Ítem</div>
+                        <div class="item__row__cell">Nombre</div>
+                        <div class="item__row__cell" align="right">Subtotal</div>
+                        <div class="item__row__cell" align="right">IGV</div>
+                        <div class="item__row__cell item__row__cell-end" align="right">Total</div>
+                    </div>
+                    @for (item of documentsToPay(); track item; let i = $index) {
+                        <div class="item__row" cdkDrag>
+                            <div class="item__row__cell item__row__cell-start">
+                                {{i + 1}}
+                            </div>
+                            @for (document_item of item.document_items; track document_item; let i = $index){
+                                <div class="item__row__cell">
+                                    {{ document_item.description }} |
+                                </div>
+                            }
+                            <div class="item__row__cell" align="right">
+                                {{ item.total_value }}
+                            </div>
+                            <div class="item__row__cell" align="right">
+                                {{ item.total_taxes }}
+                            </div>
+                            <div class="item__row__cell item__row__cell-end" align="right">
+                                {{ item.total }}
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                @if (documentsToPay().length) {
+                <div class="items__footer">
+                    <!-- <div class="items__footer__options">
+                        <mat-slide-toggle>¿Items incluyen IGV?</mat-slide-toggle>
+                    </div> -->
+
+                    <div class="items__footer__resumen">
+
+                        <div class="items__resumen__label">Subtotal</div>
+                        <div>:</div>
+                        <div class="items__resumen__value">00.00</div>
+
+                        <div class="items__resumen__label">IGV (18%)</div>
+                        <div>:</div>
+                        <div class="items__resumen__value">00.00</div>
+
+                        <div class="items__resumen__label">Total</div>
+                        <div>:</div>
+                        <div class="items__resumen__value">00.00</div>
+
+                    </div>
                 </div>
                 }
             </div>
-            <br>
-            <p class="body-small"><i>Arrastrar a la derecha para seleccionar</i></p>
+            <!-- ----------------- -->
+            <!-- ----------------- -->
         </div>
-        <!-- ----------------- -->
-        <!-- ----------------- -->
-        <div class="container__block" cdkDropList #doneList="cdkDropList" [cdkDropListData]="documentsToPay()"
-            [cdkDropListConnectedTo]="[todoList]" (cdkDropListDropped)="drop($event)">
 
-            <div class="block__items">
-                @for (item of documentsToPay(); track item; let i = $index) {
-                <div class="col-span-full !gap-y-2" cdkDrag>
-                    <div class="document__card">{{ item.document_items[0].description}} - {{item.correlative}}</div>
-                </div>
-                }
-            </div>
-
-        </div>
-        <!-- ----------------- -->
-        <!-- ----------------- -->
-    </div>
-</ng-container>
+    </ng-container>

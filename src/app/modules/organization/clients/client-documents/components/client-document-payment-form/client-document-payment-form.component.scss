@@ -25,17 +25,19 @@
     text-decoration: var(--label-large-text-decoration);
     margin-bottom: 8px;
 }
-.block__items {
-    display: grid;
-    gap: 8px;
-}
 
-.document__card {
+.quotation-material-provider__card {
     padding: 8px 16px;
     border-radius: 8px;
     background: var(--color-surface);
     color: var(--color-on-surface);
-    box-shadow: 0 0 0 1px var(--color-outline-variant);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+}
+
+.item__row {
+    --template-columns-item-row: 48px 1fr 64px 64px 80px;
 }
 
 .cdk-drag-preview {

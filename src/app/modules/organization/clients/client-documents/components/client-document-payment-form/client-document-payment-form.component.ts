@@ -19,7 +19,6 @@ import { ActivatedRoute } from '@angular/router';
   ],
   templateUrl: './client-document-payment-form.component.html',
   styleUrl: './client-document-payment-form.component.scss',
-  encapsulation: ViewEncapsulation.None
 })
 export class ClientDocumentPaymentFormComponent {
   private fetch = inject(FetchService);
