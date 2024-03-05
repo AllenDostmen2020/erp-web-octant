@@ -1,4 +1,4 @@
-import { Component, WritableSignal, inject, signal } from '@angular/core';
+import { Component, WritableSignal, computed, inject, signal } from '@angular/core';
 import { Document } from '@interface/document';
 import { FetchService } from '@service/fetch.service';
 import { PaginatorData } from '@interface/paginator';
@@ -30,6 +30,12 @@ export class ClientDocumentPaymentFormComponent {
     public sumSubtotalInit: number = 0;
     public sumIgvInit: number = 0;
 
+    public totalsToPay = signal({
+        subtotal: 0,
+        igv: 0,
+        total: 0
+    });
+
     ngOnInit() {
         this.getDocuments();
     }
@@ -58,6 +64,7 @@ export class ClientDocumentPaymentFormComponent {
     }
 
     public sumItems() {
+
         this.sumSubtotalInit = (this.documents() ?? []).reduce((previousValue, item) => {
             return previousValue + Number(item.total_value)
         }, 0);
@@ -70,6 +77,14 @@ export class ClientDocumentPaymentFormComponent {
         this.sumIgv = (this.documentsToPay() ?? []).reduce((previousValue, item) => {
             return previousValue + Number(item.total_taxes)
         }, 0);
-
+        
+        const documentToPay = this.documentsToPay();
+        const subtotalToPay = documentToPay.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
+        const igvToPay = documentToPay.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
+        this.totalsToPay.set({
+            subtotal: subtotalToPay,
+            igv: igvToPay,
+            total: subtotalToPay + igvToPay
+        });
     }
 }
