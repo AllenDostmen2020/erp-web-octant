@@ -1,7 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { ItemListTemplateComponent, selectableActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { Bank } from '@interface/bank';
-import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 
 @Component({
     selector: 'app-bank-list-page',
@@ -14,37 +13,22 @@ export class BankListPageComponent {
     public configList: ItemListConfiguration<Bank> = {
         title: 'Bancos',
         server: { url: 'bank' },
-        rows: {
-            selectable: {
-                actions: [
-                    selectableActionButton({
-                        icon: 'edit',
-                        fn: (data) => {
-                            console.log('Editar', data);
-                        },
-                    }),
-                    selectableActionButton({
-                        icon: 'delete',
-                        fn: (data) => {
-                            console.log('Eliminar', data);
-                        },
-                    }),
-                ]
-            },
-        },
         columns: signal([
             textColumn({
                 title: 'Código',
                 sort: { key: 'code' },
-                gridColumn: 'auto',
                 displayValueFn: (item) => item.code,
             }),
             textColumn({
                 title: 'Nombre',
-                sort: { key: 'name' },
-                routerLinkValue: { url: (item) => `../detail/${item.id}` },
                 gridColumn: '1fr',
-                displayValueFn: (item) => item?.name ? item.name : '--',
+                sort: {
+                    key: 'name',
+                },
+                routerLinkValue: {
+                    url: (item) => `../detail/${item.id}`,
+                },
+                displayValueFn: (item) => item.name,
             }),
             itemCreatedAtColumn(),
             itemUpdatedAtColumn(),
