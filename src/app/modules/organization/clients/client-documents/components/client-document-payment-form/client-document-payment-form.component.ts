@@ -1,10 +1,11 @@
-import { Component, WritableSignal, inject, signal } from '@angular/core';
+import { Component, Input, Signal, WritableSignal, inject, input, signal } from '@angular/core';
 import { Document } from '@interface/document';
 import { FetchService } from '@service/fetch.service';
 import { PaginatorData } from '@interface/paginator';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ActivatedRoute } from '@angular/router';
+import { AmountsByClient } from '../../pages/client-document-payment-create/client-document-payment-create.component';
 
 @Component({
     selector: 'app-client-document-payment-form',
@@ -19,9 +20,9 @@ import { ActivatedRoute } from '@angular/router';
     styleUrl: './client-document-payment-form.component.scss',
 })
 export class ClientDocumentPaymentFormComponent {
+    public AmountsByClient = input.required<Signal<AmountsByClient|undefined>>();
     private fetch = inject(FetchService);
     private activatedRoute = inject(ActivatedRoute);
-    // public documents = toSignal(from(this.fetch.get<PaginatorData<Document>>('document')).pipe(map(data => data.data)));
     public documents: WritableSignal<Document[]> = signal([]);
     public documentsToPay: WritableSignal<Document[]> = signal([]);
 
@@ -29,6 +30,12 @@ export class ClientDocumentPaymentFormComponent {
     public sumIgv: number = 0;
     public sumSubtotalInit: number = 0;
     public sumIgvInit: number = 0;
+
+    public totalsToPay = signal({
+        subtotal: 0,
+        igv: 0,
+        total: 0
+    });
 
     ngOnInit() {
         this.getDocuments();
@@ -58,6 +65,7 @@ export class ClientDocumentPaymentFormComponent {
     }
 
     public sumItems() {
+
         this.sumSubtotalInit = (this.documents() ?? []).reduce((previousValue, item) => {
             return previousValue + Number(item.total_value)
         }, 0);
@@ -71,5 +79,13 @@ export class ClientDocumentPaymentFormComponent {
             return previousValue + Number(item.total_taxes)
         }, 0);
 
+        const documentToPay = this.documentsToPay();
+        const subtotalToPay = documentToPay.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
+        const igvToPay = documentToPay.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
+        this.totalsToPay.set({
+            subtotal: subtotalToPay,
+            igv: igvToPay,
+            total: subtotalToPay + igvToPay
+        });
     }
 }
