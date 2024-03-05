@@ -11,17 +11,16 @@
 
                 <div class="items">
                     <div class="item__row item__row-header">
-                        <div class="item__row__cell item__row__cell-start">Ítem</div>
                         <div class="item__row__cell">Nombre</div>
                         <div class="item__row__cell" align="right">Subtotal</div>
                         <div class="item__row__cell" align="right">IGV</div>
+                        <div class="item__row__cell item__row__cell-end" align="right">Rec.</div>
+                        <div class="item__row__cell item__row__cell-end" align="right">Det.</div>
+                        <div class="item__row__cell item__row__cell-end" align="right">Ret.</div>
                         <div class="item__row__cell item__row__cell-end" align="right">Total</div>
                     </div>
                     @for (item of documents(); track item; let i = $index) {
                         <div class="item__row" cdkDrag>
-                            <div class="item__row__cell item__row__cell-start">
-                                {{i + 1}}
-                            </div>
                             @for (document_item of item.document_items; track document_item; let i = $index){
                                 <div class="item__row__cell">
                                     {{ document_item.description }} |
@@ -29,6 +28,15 @@
                             }
                             <div class="item__row__cell" align="right">
                                 {{ item.total_value }}
+                            </div>
+                            <div class="item__row__cell" align="right">
+                                {{ item.total_taxes }}
+                            </div>
+                            <div class="item__row__cell" align="right">
+                                {{ item.total_taxes }}
+                            </div>
+                            <div class="item__row__cell" align="right">
+                                {{ item.total_taxes }}
                             </div>
                             <div class="item__row__cell" align="right">
                                 {{ item.total_taxes }}
@@ -75,17 +83,16 @@
 
                 <div class="items">
                     <div class="item__row item__row-header">
-                        <div class="item__row__cell item__row__cell-start">Ítem</div>
                         <div class="item__row__cell">Nombre</div>
                         <div class="item__row__cell" align="right">Subtotal</div>
                         <div class="item__row__cell" align="right">IGV</div>
+                        <div class="item__row__cell item__row__cell-end" align="right">Rec.</div>
+                        <div class="item__row__cell item__row__cell-end" align="right">Det.</div>
+                        <div class="item__row__cell item__row__cell-end" align="right">Ret.</div>
                         <div class="item__row__cell item__row__cell-end" align="right">Total</div>
                     </div>
                     @for (item of documentsToPay(); track item; let i = $index) {
                         <div class="item__row" cdkDrag>
-                            <div class="item__row__cell item__row__cell-start">
-                                {{i + 1}}
-                            </div>
                             @for (document_item of item.document_items; track document_item; let i = $index){
                                 <div class="item__row__cell">
                                     {{ document_item.description }} |
@@ -93,6 +100,15 @@
                             }
                             <div class="item__row__cell" align="right">
                                 {{ item.total_value }}
+                            </div>
+                            <div class="item__row__cell" align="right">
+                                {{ item.total_taxes }}
+                            </div>
+                            <div class="item__row__cell" align="right">
+                                {{ item.total_taxes }}
+                            </div>
+                            <div class="item__row__cell" align="right">
+                                {{ item.total_taxes }}
                             </div>
                             <div class="item__row__cell" align="right">
                                 {{ item.total_taxes }}
