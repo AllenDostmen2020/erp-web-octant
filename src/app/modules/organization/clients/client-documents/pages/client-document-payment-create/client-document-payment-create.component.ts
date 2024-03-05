@@ -1,9 +1,11 @@
-import { Component, WritableSignal, inject, signal } from '@angular/core';
+import { Component, Signal, WritableSignal, inject, signal } from '@angular/core';
 import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { ClientDocumentPaymentFormComponent } from '../../components/client-document-payment-form/client-document-payment-form.component';
 import { clientFormGroup } from '../../../helpers';
 import { FetchService } from '@service/fetch.service';
 import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { from } from 'rxjs';
 
 export interface AmountsByClient {
     recaudation_amount: number;
@@ -21,24 +23,11 @@ export interface AmountsByClient {
 export class ClientDocumentPaymentCreateComponent {
     private fetch = inject(FetchService);
     private activatedRoute = inject(ActivatedRoute);
-    public amountsByClient: WritableSignal<AmountsByClient | null> = signal(null);
+    public amountsByClient = toSignal(from(this.fetch.get<AmountsByClient>(`client-payment/client/${this.activatedRoute.snapshot.parent?.paramMap.get('id')}`)))
     public configuration: ItemFormConfiguration = {
         type: 'create',
         titleModule: 'cliente',
         formGroup: clientFormGroup(),
         server: { url: 'client' },
     };
-
-    ngOnInit(){
-        this.getAmountsByClient();
-    }
-
-    private async getAmountsByClient(){
-        console.log('cargando datos');
-
-        const clientId = this.activatedRoute.snapshot.parent?.paramMap.get('id');
-        this.amountsByClient.set((await this.fetch.get<AmountsByClient>(`client-payment/client/${clientId}`)));
-        console.log(this.amountsByClient, 'datos');
-
-    }
 }
