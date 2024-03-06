@@ -26,12 +26,12 @@ export class ClientDocumentPaymentFormComponent {
     public documents: WritableSignal<Document[]> = signal([]);
     public documentsToPay: WritableSignal<Document[]> = signal([]);
 
-    public sumSubtotal: number = 0;
-    public sumIgv: number = 0;
-    public sumSubtotalInit: number = 0;
-    public sumIgvInit: number = 0;
-
     public totalsToPay = signal({
+        subtotal: 0,
+        igv: 0,
+        total: 0
+    });
+    public totals = signal({
         subtotal: 0,
         igv: 0,
         total: 0
@@ -66,22 +66,17 @@ export class ClientDocumentPaymentFormComponent {
 
     public sumItems() {
 
-        this.sumSubtotalInit = (this.documents() ?? []).reduce((previousValue, item) => {
-            return previousValue + Number(item.total_value)
-        }, 0);
-        this.sumIgvInit = (this.documents() ?? []).reduce((previousValue, item) => {
-            return previousValue + Number(item.total_taxes)
-        }, 0);
-        this.sumSubtotal = (this.documentsToPay() ?? []).reduce((previousValue, item) => {
-            return previousValue + Number(item.total_value)
-        }, 0);
-        this.sumIgv = (this.documentsToPay() ?? []).reduce((previousValue, item) => {
-            return previousValue + Number(item.total_taxes)
-        }, 0);
-
+        const document = this.documents();
+        const subtotal = document.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
+        const igv = document.reduce((previousValue, item) => previousValue + Number(item.total_taxes), 0);
+        this.totals.set({
+            subtotal: subtotal,
+            igv: igv,
+            total: subtotal + igv
+        });
         const documentToPay = this.documentsToPay();
         const subtotalToPay = documentToPay.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
-        const igvToPay = documentToPay.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
+        const igvToPay = documentToPay.reduce((previousValue, item) => previousValue + Number(item.total_taxes), 0);
         this.totalsToPay.set({
             subtotal: subtotalToPay,
             igv: igvToPay,
