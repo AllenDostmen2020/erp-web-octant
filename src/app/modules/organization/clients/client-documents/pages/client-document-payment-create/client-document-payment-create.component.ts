@@ -27,7 +27,8 @@ export class ClientDocumentPaymentCreateComponent {
     public amountsByClient = toSignal(from(this.fetch.get<AmountsByClient>(`client-payment/client/${this.activatedRoute.snapshot.parent?.paramMap.get('id')}`)))
     public configuration: ItemFormConfiguration = {
         type: 'create',
-        titleModule: 'cliente',
+        titleModule: 'Comprobantes',
+        title: 'Pagar comprobantes',
         formGroup: clientFormGroup(),
         server: { url: 'client' },
     };
