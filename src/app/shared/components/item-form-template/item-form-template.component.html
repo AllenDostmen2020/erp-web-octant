@@ -29,6 +29,8 @@
 
         </div>
 
+        <ng-content select="formHeaderContent" />
+
         <div class="form__header__actions">
             <button class="text-button" type="submit" [disabled]="configuration.loading">
                 {{configuration.saveButton?.text ?? 'Guardar'}}

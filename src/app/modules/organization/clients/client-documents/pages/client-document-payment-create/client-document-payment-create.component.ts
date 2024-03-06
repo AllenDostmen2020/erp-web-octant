@@ -6,6 +6,7 @@ import { FetchService } from '@service/fetch.service';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { from } from 'rxjs';
+import { DecimalPipe } from '@angular/common';
 
 export interface AmountsByClient {
     recaudation_amount: number;
@@ -16,7 +17,7 @@ export interface AmountsByClient {
 @Component({
     selector: 'app-client-document-payment-create',
     standalone: true,
-    imports: [ItemFormTemplateComponent, ClientDocumentPaymentFormComponent],
+    imports: [ItemFormTemplateComponent, ClientDocumentPaymentFormComponent, DecimalPipe],
     templateUrl: './client-document-payment-create.component.html',
     styleUrl: './client-document-payment-create.component.scss'
 })
@@ -26,7 +27,8 @@ export class ClientDocumentPaymentCreateComponent {
     public amountsByClient = toSignal(from(this.fetch.get<AmountsByClient>(`client-payment/client/${this.activatedRoute.snapshot.parent?.paramMap.get('id')}`)))
     public configuration: ItemFormConfiguration = {
         type: 'create',
-        titleModule: 'cliente',
+        titleModule: 'Comprobantes',
+        title: 'Pagar comprobantes',
         formGroup: clientFormGroup(),
         server: { url: 'client' },
     };
