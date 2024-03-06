@@ -66,11 +66,11 @@ export const CustomColor: Story = {
                 <!-- 
                     work with variable CSS (--rgb-color-alert)
                     Receives as value the three values ​​of an RGB color
-                    Example: --rgb-color-alert: 0, 0, 0
+                    Example: --rgb-color-alert: 135, 206, 235
                 -->
                 <app-alert-template
-                style="--rgb-color-alert: 0, 0, 0"
-                [configuration]="{title: 'Information Alert',description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit, delectus. Quis magnam molestiae ab rerum non! Nihil mollitia, ut architecto corporis velit impedit! Repellendus placeat, laboriosam quis voluptate sapiente nobis?',icon: 'home'}" />
+                style="--rgb-color-alert: 135, 206, 235"
+                [configuration]="{ title: 'Information Alert',description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit, delectus. Quis magnam molestiae ab rerum non! Nihil mollitia, ut architecto corporis velit impedit! Repellendus placeat, laboriosam quis voluptate sapiente nobis?',icon: 'home'}" />
             `
         }
     }
@@ -104,18 +104,13 @@ export const WithAction: Story = {
 };
 
 export const WithCloseButton: Story = {
-    render: (args: AlertTemplateComponent) => {
-        return {
-            template: `
-                <app-alert-template
-                [configuration]="{
-                    title: 'Information Alert',
-                    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit, delectus. Quis magnam molestiae ab rerum non! Nihil mollitia, ut architecto corporis velit impedit! Repellendus placeat, laboriosam quis voluptate sapiente nobis?',
-                    icon: 'home',
-                    showCloseButton: true
-                }"/>
-            `
-        }
-    }
-
+    args: {
+        configuration: {
+            title: 'Information Alert',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit, delectus. Quis magnam molestiae ab rerum non! Nihil mollitia, ut architecto corporis velit impedit! Repellendus placeat, laboriosam quis voluptate sapiente nobis?',
+            icon: 'home',
+            style: 'tertiary',
+            showCloseButton: true
+        },
+    },
 };
