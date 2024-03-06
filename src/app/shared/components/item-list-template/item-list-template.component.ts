@@ -26,7 +26,7 @@ import { LoadImagePrivateDirective } from '@directive/load-image-private.directi
 import { FirstLetterUppercasePipe } from '@pipe/first-letter-uppercase.pipe';
 import { NavigateLateralPanelOutletDirective } from '@directive/navigate-lateral-panel-outlet.directive';
 import { FetchErrorType } from 'src/app/shared/interfaces/fetch';
-import { MatPseudoCheckboxModule } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -37,6 +37,10 @@ import { EventGlobalSearch, NAME_EVENT_GLOBAL_SEARCH } from 'src/app/sidenav/sid
 import { ExecuteFunctionListPipe } from './execute-function-list.pipe';
 import { FormInput, dateRangeFormInput, switchFormInput } from '@component/item-form-template/item-form-template.component';
 import { RenameTitleColumnListPipe } from './rename-title-column-list.pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DateFnsAdapter } from '@angular/material-date-fns-adapter';
+import { MyDateAdapter } from '@utility/myDateAdapter';
+import { MY_DATE_FORMATS } from '@utility/myDateFormat';
 
 export const DATA_TYPE_LIST = new InjectionToken<'array' | 'paginator'>('KEY_GET_ITEMS_PAGINATOR_LIST');
 export const KEY_GET_ITEMS_PAGINATOR_LIST = new InjectionToken('KEY_GET_ITEMS_PAGINATOR_LIST');
@@ -561,7 +565,7 @@ export const editItemActionButton = () => routerLinkActionButton({
   selector: 'app-item-list-template',
   standalone: true,
   templateUrl: './item-list-template.component.html',
-  styleUrls: ['./item-list-template.component.scss'],
+  styleUrl: './item-list-template.component.css',
   imports: [
     CommonModule,
     SpinnerDefaultComponent,
@@ -578,7 +582,6 @@ export const editItemActionButton = () => routerLinkActionButton({
     MatPseudoCheckboxModule,
     IndexListPipe,
     GetKeyItemPipe,
-    ReactiveFormsModule,
     RouterLink,
     DiffDatePipe,
     HiddenOptionButtonRowPipe,
@@ -600,8 +603,9 @@ export const editItemActionButton = () => routerLinkActionButton({
     FirstLetterUppercasePipe,
     GetKeyItemPipe,
     RenameTitleColumnListPipe,
+    BrowserAnimationsModule,
+    DateFnsAdapter,
   ],
-  encapsulation: ViewEncapsulation.None,
 })
 export class ItemListTemplateComponent {
   @Input({ required: true }) configuration!: ItemListConfiguration;
@@ -675,7 +679,7 @@ export class ItemListTemplateComponent {
 
   ngOnInit(): void {
     this.configuration.data = signal([]);
-    if (!this.configuration.updateListEvent) this.configuration.updateListEvent = new EventEmitter();
+    this.configuration.updateListEvent = new EventEmitter();
     if (this.configuration.rows?.options != false && !this.configuration.rows?.options?.length) {
       this.configuration.rows = {
         ...(this.configuration.rows ?? {}),
@@ -731,8 +735,6 @@ export class ItemListTemplateComponent {
       this.navigateOrCallGetData(queryParams);
     });
 
-    this.configuration.updateListEvent?.subscribe(() => this.callGetData());
-
     this.eventsService
       .eventsFiltered([
         `${this.configuration.server.url}_created`,
@@ -740,6 +742,8 @@ export class ItemListTemplateComponent {
       ])
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => this.callGetData());
+
+    // this.configuration.updateListEvent!.subscribe(() => this.callGetData({}));
   }
 
   ngOnDestroy(): void {
@@ -798,7 +802,7 @@ export class ItemListTemplateComponent {
   }
 
   private verifyQueryParams(): void {
-    const queryParams = JSON.parse(JSON.stringify(this.activatedRoute.snapshot.queryParams ?? {}));
+    const queryParams = {} as any;
     const { page, per_page, order, search, ...filters } = queryParams;
     this.paginator.pageIndex = Number(page ?? 1) - 1;
     this.paginator.pageSize = Number(per_page) ?? 20;
@@ -808,7 +812,7 @@ export class ItemListTemplateComponent {
     this.searchCtrl.setValue(search ?? null, { emitEvent: false });
   }
 
-  public callGetData(queryParams: any = JSON.parse(JSON.stringify(this.activatedRoute.snapshot.queryParams ?? {}))): void {
+  public callGetData(queryParams: any = {}): void {
     const params = objectToURLSearchParams(queryParams);
     if (!params.has('page')) params.set('page', String(this.paginator.pageIndex + 1));
     if (!params.has('per_page')) params.set('per_page', String(this.paginator.pageSize));

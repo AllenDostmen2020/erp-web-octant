@@ -8,6 +8,37 @@ html {
     color: rgba(var(--rgb-on-surface-variant), 1);
     transition: background .25s ease;
 
+    --rgb-primary: 139, 80, 0;
+    --rgb-on-primary: 255, 255, 255;
+    --rgb-primary-container: 255, 221, 191;
+    --rgb-on-primary-container: 45, 22, 0;
+    --rgb-secondary: 115, 90, 66;
+    --rgb-on-secondary: 255, 255, 255;
+    --rgb-secondary-container: 255, 220, 190;
+    --rgb-on-secondary-container: 41, 24, 6;
+    --rgb-tertiary: 88, 99, 57;
+    --rgb-on-tertiary: 255, 255, 255;
+    --rgb-tertiary-container: 220, 232, 180;
+    --rgb-on-tertiary-container: 22, 30, 0;
+    --rgb-error: 186, 26, 26;
+    --rgb-error-container: 255, 218, 214;
+    --rgb-on-error: 255, 255, 255;
+    --rgb-on-error-container: 65, 0, 2;
+    --rgb-background: 255, 251, 255;
+    --rgb-on-background: 32, 27, 22;
+    --rgb-surface: 255, 251, 255;
+    --rgb-on-surface: 32, 27, 22;
+    --rgb-surface-variant: 242, 223, 209;
+    --rgb-on-surface-variant: 81, 69, 58;
+    --rgb-outline: 131, 116, 104;
+    --rgb-inverse-on-surface: 250, 239, 231;
+    --rgb-inverse-surface: 53, 47, 43;
+    --rgb-inverse-primary: 255, 184, 113;
+    --rgb-shadow: 0, 0, 0;
+    --rgb-surface-tint: 139, 80, 0;
+    --rgb-outline-variant: 213, 195, 181;
+    --rgb-scrim: 0, 0, 0;
+
     --color-primary: rgba(var(--rgb-primary), 1);
     --color-primary-container: rgba(var(--rgb-primary-container), 1);
     --color-on-primary: rgba(var(--rgb-on-primary), 1);

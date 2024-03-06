@@ -6,6 +6,7 @@ export interface AlertConfiguration {
   description: string;
   icon?: string;
   showCloseButton?: boolean;
+  style?: 'error' | 'primary' | 'tertiary';
   actionButton?: {
       icon?: string;
       text: string;

@@ -2,9 +2,9 @@ import { ApplicationConfig, DEFAULT_CURRENCY_CODE, LOCALE_ID, importProvidersFro
 import { provideRouter, withViewTransitions, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule, NativeDateModule } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule, NativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorIntl } from '@angular/material/paginator';
 import { CustomPaginator } from './paginator.intl';
 import { registerLocaleData } from '@angular/common';
@@ -12,11 +12,12 @@ import localeEsPE from '@angular/common/locales/es-PE';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { DateFnsAdapter } from '@angular/material-date-fns-adapter';
+import { DateFnsAdapter, provideDateFnsAdapter } from '@angular/material-date-fns-adapter';
 import { provideServiceWorker } from '@angular/service-worker';
 import { MyDateAdapter } from '@utility/myDateAdapter';
 import { MY_DATE_FORMATS } from '@utility/myDateFormat';
 import { DatabaseStorageService } from '@service/database-storage.service';
+import { MAT_SORT_DEFAULT_OPTIONS } from '@angular/material/sort';
 
 registerLocaleData(localeEsPE, 'es-PE');
 
@@ -35,12 +36,14 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(MatSnackBarModule),
     importProvidersFrom(MatNativeDateModule),
     importProvidersFrom(DatabaseStorageService),
+    importProvidersFrom(DateFnsAdapter),
 
     { provide: LOCALE_ID, useValue: 'es-PE' },
     { provide: MAT_DATE_LOCALE, useValue: 'es-PE' },
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'S/' },
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: appareance(), subscriptSizing: 'dynamic' } },
     { provide: MAT_PAGINATOR_DEFAULT_OPTIONS, useValue: { formFieldAppearance: 'fill', showFirstLastButtons: true, pageSizeOptions: [20, 50, 100], pageSize: 20 } },
+    { provide: MAT_SORT_DEFAULT_OPTIONS, useValue: { arrowPosition: 'after', disableClear: false } },
     { provide: MatPaginatorIntl, useClass: CustomPaginator },
     DateFnsAdapter,
     { provide: DateAdapter, useClass: MyDateAdapter, deps: [DateFnsAdapter] },
