@@ -12,11 +12,9 @@
                 <div class="items">
                     <div class="item__row item__row-header">
                         <div class="item__row__cell">Nombre</div>
-                        <div class="item__row__cell" align="right">Subtotal</div>
-                        <div class="item__row__cell" align="right">IGV</div>
-                        <div class="item__row__cell item__row__cell-end" align="right">Rec.</div>
                         <div class="item__row__cell item__row__cell-end" align="right">Det.</div>
                         <div class="item__row__cell item__row__cell-end" align="right">Ret.</div>
+                        <div class="item__row__cell item__row__cell-end" align="right">Rec.</div>
                         <div class="item__row__cell item__row__cell-end" align="right">Total</div>
                     </div>
                     @for (item of documents(); track item; let i = $index) {
@@ -27,22 +25,16 @@
                                 </div>
                             }
                             <div class="item__row__cell" align="right">
-                                {{ item.total_value }}
+                                {{ item.total_detraction |number:'.2-2' }}
                             </div>
                             <div class="item__row__cell" align="right">
-                                {{ item.total_taxes }}
+                                {{ item.total_retention |number:'.2-2' }}
                             </div>
                             <div class="item__row__cell" align="right">
-                                {{ item.total_taxes }}
-                            </div>
-                            <div class="item__row__cell" align="right">
-                                {{ item.total_taxes }}
-                            </div>
-                            <div class="item__row__cell" align="right">
-                                {{ item.total_taxes }}
+                                {{ item.total_recaudation |number:'.2-2' }}
                             </div>
                             <div class="item__row__cell item__row__cell-end" align="right">
-                                {{ item.total }}
+                                {{ item.total |number:'.2-2' }}
                             </div>
                         </div>
                     }
@@ -56,13 +48,15 @@
 
                     <div class="items__footer__resumen">
 
-                        <div class="items__resumen__label">Subtotal</div>
+                        <div class="items__resumen__label">Total detracción</div>
                         <div>:</div>
-                        <div class="items__resumen__value">{{totals().subtotal |number:'.2-2'}}</div>
-
-                        <div class="items__resumen__label">IGV (18%)</div>
+                        <div class="items__resumen__value">{{totals().total_detraction |number:'.2-2'}}</div>
+                        <div class="items__resumen__label">Total retención</div>
                         <div>:</div>
-                        <div class="items__resumen__value">{{totals().igv |number:'.2-2'}}</div>
+                        <div class="items__resumen__value">{{totals().total_retention |number:'.2-2'}}</div>
+                        <div class="items__resumen__label">Total recaudación</div>
+                        <div>:</div>
+                        <div class="items__resumen__value">{{totals().total_recaudation |number:'.2-2'}}</div>
 
                         <div class="items__resumen__label">Total</div>
                         <div>:</div>
@@ -84,11 +78,9 @@
                 <div class="items">
                     <div class="item__row item__row-header">
                         <div class="item__row__cell">Nombre</div>
-                        <div class="item__row__cell" align="right">Subtotal</div>
-                        <div class="item__row__cell" align="right">IGV</div>
-                        <div class="item__row__cell item__row__cell-end" align="right">Rec.</div>
                         <div class="item__row__cell item__row__cell-end" align="right">Det.</div>
                         <div class="item__row__cell item__row__cell-end" align="right">Ret.</div>
+                        <div class="item__row__cell item__row__cell-end" align="right">Rec.</div>
                         <div class="item__row__cell item__row__cell-end" align="right">Total</div>
                     </div>
                     @for (item of documentsToPay(); track item; let i = $index) {
@@ -99,22 +91,16 @@
                                 </div>
                             }
                             <div class="item__row__cell" align="right">
-                                {{ item.total_value }}
+                                {{ item.total_detraction |number:'.2-2' }}
                             </div>
                             <div class="item__row__cell" align="right">
-                                {{ item.total_taxes }}
+                                {{ item.total_retention |number:'.2-2' }}
                             </div>
                             <div class="item__row__cell" align="right">
-                                {{ item.total_taxes }}
-                            </div>
-                            <div class="item__row__cell" align="right">
-                                {{ item.total_taxes }}
-                            </div>
-                            <div class="item__row__cell" align="right">
-                                {{ item.total_taxes }}
+                                {{ item.total_recaudation |number:'.2-2' }}
                             </div>
                             <div class="item__row__cell item__row__cell-end" align="right">
-                                {{ item.total }}
+                                {{ item.total |number:'.2-2' }}
                             </div>
                         </div>
                     }
@@ -128,13 +114,15 @@
 
                     <div class="items__footer__resumen">
 
-                        <div class="items__resumen__label">Subtotal</div>
+                        <div class="items__resumen__label">Total detracción</div>
                         <div>:</div>
-                        <div class="items__resumen__value">{{totalsToPay().subtotal |number:'.2-2'}}</div>
-
-                        <div class="items__resumen__label">IGV (18%)</div>
+                        <div class="items__resumen__value">{{totalsToPay().total_detraction |number:'.2-2'}}</div>
+                        <div class="items__resumen__label">Total retención</div>
                         <div>:</div>
-                        <div class="items__resumen__value">{{totalsToPay().igv |number:'.2-2'}}</div>
+                        <div class="items__resumen__value">{{totalsToPay().total_retention |number:'.2-2'}}</div>
+                        <div class="items__resumen__label">Total recaudación</div>
+                        <div>:</div>
+                        <div class="items__resumen__value">{{totalsToPay().total_recaudation |number:'.2-2'}}</div>
 
                         <div class="items__resumen__label">Total</div>
                         <div>:</div>
