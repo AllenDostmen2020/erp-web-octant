@@ -8,7 +8,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { from } from 'rxjs';
 import { DecimalPipe } from '@angular/common';
 
-export interface AmountsByClient {
+export interface ClientAmounts {
     recaudation_amount: number;
     detraction_amount: number;
     retention_amount: number;
@@ -24,7 +24,7 @@ export interface AmountsByClient {
 export class ClientDocumentPaymentCreateComponent {
     private fetch = inject(FetchService);
     private activatedRoute = inject(ActivatedRoute);
-    public amountsByClient = toSignal(from(this.fetch.get<AmountsByClient>(`client-payment/client/${this.activatedRoute.snapshot.parent?.paramMap.get('id')}`)))
+    public clientAmounts = toSignal(from(this.fetch.get<ClientAmounts>(`client-payment/client/${this.activatedRoute.snapshot.parent?.paramMap.get('id')}`)))
     public configuration: ItemFormConfiguration = {
         type: 'create',
         titleModule: 'Comprobantes',

@@ -1,11 +1,11 @@
-import { Component, Input, Signal, WritableSignal, inject, input, signal } from '@angular/core';
+import { Component, Input, Signal, WritableSignal, effect, inject, input, signal } from '@angular/core';
 import { Document } from '@interface/document';
 import { FetchService } from '@service/fetch.service';
 import { PaginatorData } from '@interface/paginator';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ActivatedRoute } from '@angular/router';
-import { AmountsByClient } from '../../pages/client-document-payment-create/client-document-payment-create.component';
+import { ClientAmounts } from '../../pages/client-document-payment-create/client-document-payment-create.component';
 
 export interface ExtDocument extends Document {
     total_recaudation: number;
@@ -23,7 +23,7 @@ export interface ExtDocument extends Document {
     styleUrl: './client-document-payment-form.component.scss',
 })
 export class ClientDocumentPaymentFormComponent {
-    public AmountsByClient = input.required<AmountsByClient | undefined>();
+    public clientAmounts = input.required<ClientAmounts>();
     private fetch = inject(FetchService);
     private activatedRoute = inject(ActivatedRoute);
     public documents: WritableSignal<ExtDocument[]> = signal([]);
@@ -49,15 +49,11 @@ export class ClientDocumentPaymentFormComponent {
     ngOnInit() {
         this.getDocuments();
     }
-    ngOnChanges() {
-        console.log(this.AmountsByClient());
-        this.sumItems()
-    }
 
     private async getDocuments() {
         const clientId = this.activatedRoute.snapshot.parent?.paramMap.get('id');
         const response = (await this.fetch.get<PaginatorData<Document>>(`document?relations=documentItems&client_id=${clientId}`)).data;
-        const documentsData = response.map((document) => ({ ...document, total_recaudation: Number(Number(document.total_detraction) + Number(document.total_retention)) }));
+        const documentsData = response.map((document) => ({ ...document, total_recaudation: Number(document.total) - (Number(document.total_detraction ?? 0) + Number(document.total_retention ?? 0)) }));
         this.documents.set(documentsData);
         this.sumItems();
     }
