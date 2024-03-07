@@ -48,6 +48,8 @@ export class ClientDocumentPaymentFormComponent {
 
     ngOnInit() {
         this.getDocuments();
+        console.log(this.AmountsByClient());
+
     }
     ngOnChanges() {
         this.sumItems()
@@ -59,8 +61,6 @@ export class ClientDocumentPaymentFormComponent {
         const documentsData = response.map((document) => ({ ...document, total_recaudation: Number(Number(document.total_detraction) + Number(document.total_retention)) }));
         this.documents.set(documentsData);
         this.sumItems();
-        console.log(this.documents());
-
     }
 
     drop(event: CdkDragDrop<any[]>) {
