@@ -23,7 +23,7 @@ export interface ExtDocument extends Document {
     styleUrl: './client-document-payment-form.component.scss',
 })
 export class ClientDocumentPaymentFormComponent {
-    public AmountsByClient = input.required<Signal<AmountsByClient|undefined>>();
+    public AmountsByClient = input.required<AmountsByClient | undefined>();
     private fetch = inject(FetchService);
     private activatedRoute = inject(ActivatedRoute);
     public documents: WritableSignal<ExtDocument[]> = signal([]);
@@ -48,10 +48,9 @@ export class ClientDocumentPaymentFormComponent {
 
     ngOnInit() {
         this.getDocuments();
-        console.log(this.AmountsByClient());
-
     }
     ngOnChanges() {
+        console.log(this.AmountsByClient());
         this.sumItems()
     }
 
