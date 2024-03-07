@@ -20,6 +20,6 @@
     }
   </div>
   @if (clientAmounts(); as amounts) {
-  <app-client-document-payment-form [clientAmounts]="amounts" />
+  <app-client-document-payment-form [form]="configuration.formGroup" [clientAmounts]="amounts" />
   }
 </app-item-form-template>

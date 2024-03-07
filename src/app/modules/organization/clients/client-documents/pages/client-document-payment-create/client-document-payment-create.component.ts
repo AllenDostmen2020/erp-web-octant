@@ -1,12 +1,12 @@
-import { Component, Signal, WritableSignal, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { ClientDocumentPaymentFormComponent } from '../../components/client-document-payment-form/client-document-payment-form.component';
-import { clientFormGroup } from '../../../helpers';
 import { FetchService } from '@service/fetch.service';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { from } from 'rxjs';
 import { DecimalPipe } from '@angular/common';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export interface ClientAmounts {
     recaudation_amount: number;
@@ -29,7 +29,9 @@ export class ClientDocumentPaymentCreateComponent {
         type: 'create',
         titleModule: 'Comprobantes',
         title: 'Pagar comprobantes',
-        formGroup: clientFormGroup(),
+        formGroup: new FormGroup({
+            document_ids: new FormControl<null | []>(null, [Validators.required]),
+        }),
         server: { url: 'client' },
     };
 }

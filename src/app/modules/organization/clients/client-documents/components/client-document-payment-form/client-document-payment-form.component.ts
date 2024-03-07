@@ -1,4 +1,4 @@
-import { Component, WritableSignal, computed, inject, input, signal } from '@angular/core';
+import { Component, Input, WritableSignal, computed, effect, inject, input, signal } from '@angular/core';
 import { Document } from '@interface/document';
 import { FetchService } from '@service/fetch.service';
 import { PaginatorData } from '@interface/paginator';
@@ -6,6 +6,8 @@ import { DecimalPipe } from '@angular/common';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ActivatedRoute } from '@angular/router';
 import { ClientAmounts } from '../../pages/client-document-payment-create/client-document-payment-create.component';
+import { ToastService } from '@service/toast.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 export interface ExtDocument extends Document {
     total_recaudation: number;
@@ -22,8 +24,10 @@ export interface ExtDocument extends Document {
     styleUrl: './client-document-payment-form.component.scss',
 })
 export class ClientDocumentPaymentFormComponent {
+    @Input({required: true}) form!: FormGroup;
     public clientAmounts = input.required<ClientAmounts>();
     private fetch = inject(FetchService);
+    private toast = inject(ToastService);
     private activatedRoute = inject(ActivatedRoute);
     public documents: WritableSignal<ExtDocument[]> = signal([]);
     public documentsToPay: WritableSignal<ExtDocument[]> = signal([]);
@@ -60,7 +64,19 @@ export class ClientDocumentPaymentFormComponent {
             igv: igv,
             total: subtotal + igv
         };
-    })
+    });
+
+    constructor() {
+        effect(() => {
+            const documentsToPay = this.documentsToPay();
+            if(documentsToPay.length > 0) this.documentIdsCtrl.setValue(documentsToPay.map((document) => document.id));
+            else this.documentIdsCtrl.setValue(null);
+        });
+    }
+
+    get documentIdsCtrl() {
+        return this.form.get('document_ids') as FormControl;
+    }
 
     ngOnInit() {
         this.getDocuments();
@@ -79,7 +95,14 @@ export class ClientDocumentPaymentFormComponent {
                 this.documents.update((documents)=> documents.toSpliced(event.currentIndex, 0, this.documentsToPay()[event.previousIndex]))
                 this.documentsToPay.update((documents)=> documents.toSpliced(event.previousIndex, 1))
             } else {
-                this.documentsToPay.update((documents)=> documents.toSpliced(event.currentIndex, 0, this.documents()[event.previousIndex]))
+                const disponible = this.clientAmounts().recaudation_amount;
+                const curentRecaudation = this.totalsToPay().total_recaudation;
+                const currentItem = this.documents()[event.previousIndex];
+                if((curentRecaudation + currentItem.total_recaudation) > disponible) {
+                    this.toast.open('No se puede agregar el documento, el monto de recaudación supera el monto disponible')
+                    return;
+                }
+                this.documentsToPay.update((documents)=> documents.toSpliced(event.currentIndex, 0, currentItem))
                 this.documents.update((documents)=> documents.toSpliced(event.previousIndex, 1))
             }
         }

@@ -37,24 +37,25 @@
       </div>
       }
     </div>
-    <br>
+
     @if (documents().length) {
     <div class="items__footer">
       <div class="items__footer__resumen">
-
+        @if(totals(); as total) {
         <div class="items__resumen__label">Total detracción</div>
         <div>:</div>
-        <div class="items__resumen__value">{{totals().total_detraction |number:'.2-2'}}</div>
+        <div class="items__resumen__value">{{total.total_detraction |number:'.2-2'}}</div>
         <div class="items__resumen__label">Total retención</div>
         <div>:</div>
-        <div class="items__resumen__value">{{totals().total_retention |number:'.2-2'}}</div>
+        <div class="items__resumen__value">{{total.total_retention |number:'.2-2'}}</div>
         <div class="items__resumen__label">Total recaudación</div>
         <div>:</div>
-        <div class="items__resumen__value">{{totals().total_recaudation |number:'.2-2'}}</div>
+        <div class="items__resumen__value">{{total.total_recaudation |number:'.2-2'}}</div>
 
         <div class="items__resumen__label">Total</div>
         <div>:</div>
-        <div class="items__resumen__value">{{totals().total|number:'.2-2'}}</div>
+        <div class="items__resumen__value">{{total.total|number:'.2-2'}}</div>
+        }
 
       </div>
     </div>
