@@ -1,13 +1,13 @@
 <div class="container__items">
     <!-- ----------------- -->
     <!-- ----------------- -->
-    <div class="container__block" cdkDropList #todoList="cdkDropList" [cdkDropListData]="documents()"
-        [cdkDropListConnectedTo]="[doneList]" (cdkDropListDropped)="drop($event)">
+    <div class="container__block">
         <div class="block__title">
             Items disponibles ({{documents().length}})
         </div>
 
-        <div class="items">
+        <div class="items" cdkDropList #todoList="cdkDropList" [cdkDropListData]="documents()"
+            cdkDropListSortingDisabled [cdkDropListConnectedTo]="[doneList]" (cdkDropListDropped)="drop($event, 'uno')">
             <div class="item__row item__row-header">
                 <div class="item__row__cell">Nombre</div>
                 <div class="item__row__cell item__row__cell-end" align="right">Det.</div>
@@ -62,14 +62,14 @@
     </div>
     <!-- ----------------- -->
     <!-- ----------------- -->
-    <div class="container__block" cdkDropList #doneList="cdkDropList" [cdkDropListData]="documentsToPay()"
-        [cdkDropListConnectedTo]="[todoList]" (cdkDropListDropped)="drop($event)">
+    <div class="container__block">
 
         <div class="block__title">
             Items seleccionados ({{documentsToPay().length}})
         </div>
 
-        <div class="items">
+        <div class="items" cdkDropList #doneList="cdkDropList" [cdkDropListData]="documentsToPay()"
+            cdkDropListSortingDisabled [cdkDropListConnectedTo]="[todoList]" (cdkDropListDropped)="drop($event, 'dos')">
             <div class="item__row item__row-header">
                 <div class="item__row__cell">Nombre</div>
                 <div class="item__row__cell item__row__cell-end" align="right">Det.</div>

@@ -1,4 +1,4 @@
-import { Component, WritableSignal, inject, input, signal } from '@angular/core';
+import { Component, WritableSignal, computed, inject, input, signal } from '@angular/core';
 import { Document } from '@interface/document';
 import { FetchService } from '@service/fetch.service';
 import { PaginatorData } from '@interface/paginator';
@@ -28,22 +28,39 @@ export class ClientDocumentPaymentFormComponent {
     public documents: WritableSignal<ExtDocument[]> = signal([]);
     public documentsToPay: WritableSignal<ExtDocument[]> = signal([]);
 
-    public totalsToPay = signal({
-        total_detraction: 0,
-        total_retention: 0,
-        total_recaudation: 0,
-        subtotal: 0,
-        igv: 0,
-        total: 0
+    public totalsToPay = computed(() => {
+        const documents = this.documentsToPay();
+        const subtotal = documents.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
+        const igv = documents.reduce((previousValue, item) => previousValue + Number(item.total_taxes), 0);
+        const totalDetraction = documents.reduce((previousValue, item) => previousValue + Number(item.total_detraction), 0);
+        const totalRetention = documents.reduce((previousValue, item) => previousValue + Number(item.total_retention), 0);
+        const totalRecaudation = documents.reduce((previousValue, item) => previousValue + Number(item.total_recaudation), 0);
+        return {
+            total_detraction: totalDetraction,
+            total_retention: totalRetention,
+            total_recaudation: totalRecaudation,
+            subtotal: subtotal,
+            igv: igv,
+            total: subtotal + igv
+        };
     });
-    public totals = signal({
-        total_detraction: 0,
-        total_retention: 0,
-        total_recaudation: 0,
-        subtotal: 0,
-        igv: 0,
-        total: 0,
-    });
+
+    public totals = computed(() => {
+        const documents = this.documents();
+        const subtotal = documents.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
+        const igv = documents.reduce((previousValue, item) => previousValue + Number(item.total_taxes), 0);
+        const totalDetraction = documents.reduce((previousValue, item) => previousValue + Number(item.total_detraction), 0);
+        const totalRetention = documents.reduce((previousValue, item) => previousValue + Number(item.total_retention), 0);
+        const totalRecaudation = documents.reduce((previousValue, item) => previousValue + Number(item.total_recaudation), 0);
+        return {
+            total_detraction: totalDetraction,
+            total_retention: totalRetention,
+            total_recaudation: totalRecaudation,
+            subtotal: subtotal,
+            igv: igv,
+            total: subtotal + igv
+        };
+    })
 
     ngOnInit() {
         this.getDocuments();
@@ -52,53 +69,19 @@ export class ClientDocumentPaymentFormComponent {
     private async getDocuments() {
         const clientId = this.activatedRoute.snapshot.parent?.paramMap.get('id');
         const data = (await this.fetch.get<PaginatorData<Document>>(`document?relations=documentItems&client_id=${clientId}`)).data;
-        const documentsData = data.map((document) => ({ ...document, total_recaudation: Number(document.total) - (Number(document.total_detraction ?? 0) + Number(document.total_retention ?? 0)) }));
-        this.documents.set(documentsData);
-        this.sumItems();
+        const parseData = data.map((document) => ({ ...document, total_recaudation: Number(document.total) - (Number(document.total_detraction ?? 0) + Number(document.total_retention ?? 0)) }));
+        this.documents.set(parseData);
     }
 
-    drop(event: CdkDragDrop<any[]>) {
-        if (event.previousContainer === event.container) {
-            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-        } else {
-            transferArrayItem(
-                event.previousContainer.data,
-                event.container.data,
-                event.previousIndex,
-                event.currentIndex,
-            );
-            this.sumItems();
+    drop(event: CdkDragDrop<any[]>, container: 'uno' | 'dos') {
+        if (event.previousContainer !== event.container) {
+            if(container === 'uno') {
+                this.documents.update((documents)=> documents.toSpliced(event.currentIndex, 0, this.documentsToPay()[event.previousIndex]))
+                this.documentsToPay.update((documents)=> documents.toSpliced(event.previousIndex, 1))
+            } else {
+                this.documentsToPay.update((documents)=> documents.toSpliced(event.currentIndex, 0, this.documents()[event.previousIndex]))
+                this.documents.update((documents)=> documents.toSpliced(event.previousIndex, 1))
+            }
         }
-    }
-
-    public sumItems() {
-        const document = this.documents();
-        const subtotal = document.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
-        const igv = document.reduce((previousValue, item) => previousValue + Number(item.total_taxes), 0);
-        const totalDetraction = document.reduce((previousValue, item) => previousValue + Number(item.total_detraction), 0);
-        const totalRetention = document.reduce((previousValue, item) => previousValue + Number(item.total_retention), 0);
-        const totalRecaudation = document.reduce((previousValue, item) => previousValue + Number(item.total_recaudation), 0);
-        this.totals.set({
-            total_detraction: totalDetraction,
-            total_retention: totalRetention,
-            total_recaudation: totalRecaudation,
-            subtotal: subtotal,
-            igv: igv,
-            total: subtotal + igv
-        });
-        const documentToPay = this.documentsToPay();
-        const subtotalToPay = documentToPay.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
-        const igvToPay = documentToPay.reduce((previousValue, item) => previousValue + Number(item.total_taxes), 0);
-        const totalDetractionToPay = document.reduce((previousValue, item) => previousValue + Number(item.total_detraction), 0);
-        const totalRetentionToPay = document.reduce((previousValue, item) => previousValue + Number(item.total_retention), 0);
-        const totalRecaudationToPay = document.reduce((previousValue, item) => previousValue + Number(item.total_recaudation), 0);
-        this.totalsToPay.set({
-            total_detraction: totalDetractionToPay,
-            total_retention: totalRetentionToPay,
-            total_recaudation: totalRecaudationToPay,
-            subtotal: subtotalToPay,
-            igv: igvToPay,
-            total: subtotalToPay + igvToPay
-        });
     }
 }
