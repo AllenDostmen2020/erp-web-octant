@@ -1,8 +1,8 @@
-import { Component, Input, Signal, WritableSignal, effect, inject, input, signal } from '@angular/core';
+import { Component, WritableSignal, inject, input, signal } from '@angular/core';
 import { Document } from '@interface/document';
 import { FetchService } from '@service/fetch.service';
 import { PaginatorData } from '@interface/paginator';
-import { AsyncPipe, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ActivatedRoute } from '@angular/router';
 import { ClientAmounts } from '../../pages/client-document-payment-create/client-document-payment-create.component';
@@ -14,7 +14,6 @@ export interface ExtDocument extends Document {
     selector: 'app-client-document-payment-form',
     standalone: true,
     imports: [
-        AsyncPipe,
         CdkDropList,
         CdkDrag,
         DecimalPipe
@@ -52,8 +51,8 @@ export class ClientDocumentPaymentFormComponent {
 
     private async getDocuments() {
         const clientId = this.activatedRoute.snapshot.parent?.paramMap.get('id');
-        const response = (await this.fetch.get<PaginatorData<Document>>(`document?relations=documentItems&client_id=${clientId}`)).data;
-        const documentsData = response.map((document) => ({ ...document, total_recaudation: Number(document.total) - (Number(document.total_detraction ?? 0) + Number(document.total_retention ?? 0)) }));
+        const data = (await this.fetch.get<PaginatorData<Document>>(`document?relations=documentItems&client_id=${clientId}`)).data;
+        const documentsData = data.map((document) => ({ ...document, total_recaudation: Number(document.total) - (Number(document.total_detraction ?? 0) + Number(document.total_retention ?? 0)) }));
         this.documents.set(documentsData);
         this.sumItems();
     }
@@ -73,7 +72,6 @@ export class ClientDocumentPaymentFormComponent {
     }
 
     public sumItems() {
-
         const document = this.documents();
         const subtotal = document.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
         const igv = document.reduce((previousValue, item) => previousValue + Number(item.total_taxes), 0);
