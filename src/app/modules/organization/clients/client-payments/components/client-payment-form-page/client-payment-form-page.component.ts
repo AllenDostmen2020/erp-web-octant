@@ -55,10 +55,6 @@ export class ClientPaymentFormPageComponent {
     get paymentTypeCtrl(): FormControl {
         return this.boxMovementFormGroup.get('payment_type') as FormControl;
     }
-
-    get voucherTypeCtrl(): FormControl {
-        return this.boxMovementFormGroup.get('voucher_type') as FormControl;
-    }
     get voucherFileCtrl(): FormControl {
         return this.boxMovementFormGroup.get('voucher_file') as FormControl;
     }
@@ -92,13 +88,6 @@ export class ClientPaymentFormPageComponent {
         //         </span>
         //     </div>
         //     </div>` : '--',
-    }
-    public readonly voucherTypeSelectConfiguration: InputSelectConfiguration = {
-        textLabel: 'Tipo de comprobante',
-        data: [
-            { id: 'boleta', name: 'Boleta' },
-            { id: 'factura', name: 'Factura' },
-        ],
     }
     public readonly paymentTypeSelectConfiguration: InputSelectConfiguration = {
         textLabel: 'Tipo de pago',

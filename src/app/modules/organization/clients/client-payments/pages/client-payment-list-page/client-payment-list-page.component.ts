@@ -43,8 +43,9 @@ export class ClientPaymentListPageComponent {
             displayValueFn: (item) => item.box_movement?.coin ?? item.client_account?.coin,
           }),
           numberColumn({
-            title: 'Monto',
-            displayValueFn: (item) => item.box_movement?.amount,
+            title: 'Monto D / U',
+            displayValueFn: (item) => item.amount,
+            displayAdditionalValueFn: (item) => item.amount_used,
           }),
           itemCreatedAtColumn(),
           itemUpdatedAtColumn(),

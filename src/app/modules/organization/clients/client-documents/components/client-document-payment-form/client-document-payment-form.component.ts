@@ -3,7 +3,7 @@ import { Document } from '@interface/document';
 import { FetchService } from '@service/fetch.service';
 import { PaginatorData } from '@interface/paginator';
 import { DecimalPipe } from '@angular/common';
-import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { ActivatedRoute } from '@angular/router';
 import { ClientAmounts } from '../../pages/client-document-payment-create/client-document-payment-create.component';
 import { ToastService } from '@service/toast.service';
@@ -24,7 +24,7 @@ export interface ExtDocument extends Document {
     styleUrl: './client-document-payment-form.component.scss',
 })
 export class ClientDocumentPaymentFormComponent {
-    @Input({required: true}) form!: FormGroup;
+    @Input({ required: true }) form!: FormGroup;
     public clientAmounts = input.required<ClientAmounts>();
     private fetch = inject(FetchService);
     private toast = inject(ToastService);
@@ -69,7 +69,7 @@ export class ClientDocumentPaymentFormComponent {
     constructor() {
         effect(() => {
             const documentsToPay = this.documentsToPay();
-            if(documentsToPay.length > 0) this.documentIdsCtrl.setValue(documentsToPay.map((document) => document.id));
+            if (documentsToPay.length > 0) this.documentIdsCtrl.setValue(documentsToPay.map((document) => document.id));
             else this.documentIdsCtrl.setValue(null);
         });
     }
@@ -91,19 +91,19 @@ export class ClientDocumentPaymentFormComponent {
 
     drop(event: CdkDragDrop<any[]>, container: 'uno' | 'dos') {
         if (event.previousContainer !== event.container) {
-            if(container === 'uno') {
-                this.documents.update((documents)=> documents.toSpliced(event.currentIndex, 0, this.documentsToPay()[event.previousIndex]))
-                this.documentsToPay.update((documents)=> documents.toSpliced(event.previousIndex, 1))
+            if (container === 'uno') {
+                this.documents.update((documents) => documents.toSpliced(event.currentIndex, 0, this.documentsToPay()[event.previousIndex]))
+                this.documentsToPay.update((documents) => documents.toSpliced(event.previousIndex, 1))
             } else {
                 const disponible = this.clientAmounts().recaudation_amount;
                 const curentRecaudation = this.totalsToPay().total_recaudation;
                 const currentItem = this.documents()[event.previousIndex];
-                if((curentRecaudation + currentItem.total_recaudation) > disponible) {
+                if ((curentRecaudation + currentItem.total_recaudation) > disponible) {
                     this.toast.open('No se puede agregar el documento, el monto de recaudación supera el monto disponible')
                     return;
                 }
-                this.documentsToPay.update((documents)=> documents.toSpliced(event.currentIndex, 0, currentItem))
-                this.documents.update((documents)=> documents.toSpliced(event.previousIndex, 1))
+                this.documentsToPay.update((documents) => documents.toSpliced(event.currentIndex, 0, currentItem))
+                this.documents.update((documents) => documents.toSpliced(event.previousIndex, 1))
             }
         }
     }

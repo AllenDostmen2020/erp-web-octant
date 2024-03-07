@@ -44,15 +44,6 @@
             <mat-error>Campo requerido</mat-error>
         </mat-form-field>
         } -->
-
-        <app-input-select-template class="relative col-span-6 @2xl:col-span-3" [control]="voucherTypeCtrl"
-            [configuration]="voucherTypeSelectConfiguration" />
-
-        <mat-form-field class="col-span-3">
-            <mat-label>N° comprobante</mat-label>
-            <input matInput type="text" formControlName="invoice_number" placeholder="N° factura">
-            <mat-error>Campo requerido</mat-error>
-        </mat-form-field>
         <mat-form-field class="col-span-full">
             <mat-label>Observación</mat-label>
             <textarea matInput type="text" formControlName="observation" rows="1"></textarea>
