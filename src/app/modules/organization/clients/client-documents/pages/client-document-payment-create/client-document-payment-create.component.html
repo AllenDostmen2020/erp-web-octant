@@ -1,23 +1,25 @@
 <app-item-form-template [configuration]="configuration">
-    <div ngProjectAs="formHeaderContent">
-        @if (clientAmounts(); as amounts) {
-            <a class="client-amounts">
-                <div class="client-amounts__group">
-                    <span class="client-amounts__label label-small">Recaudación</span>
-                    <span class="client-amounts__value label-large">S/{{ amounts.recaudation_amount | number: '.2-2' }}</span>
-                </div>
-                <div class="client-amounts__group">
-                    <span class="client-amounts__label label-small">Retención</span>
-                    <span class="client-amounts__value label-large">S/{{ amounts.retention_amount | number: '.2-2' }}</span>
-                </div>
-                <div class="client-amounts__group">
-                    <span class="client-amounts__label label-small">Detracción</span>
-                    <span class="client-amounts__value label-large">S/{{ amounts.detraction_amount | number: '.2-2' }}</span>
-                </div>
-            </a>
-        }
-    </div>
+  <div ngProjectAs="formHeaderContent">
     @if (clientAmounts(); as amounts) {
-        <app-client-document-payment-form [clientAmounts]="amounts" />
+    <a class="client-amounts">
+      <div class="client-amounts__group">
+        <span class="client-amounts__label label-small">Recaudación</span>
+        <span class="client-amounts__value label-large">S/{{ amounts.recaudation_amount | number: '.2-2'
+          }}</span>
+      </div>
+      <div class="client-amounts__group">
+        <span class="client-amounts__label label-small">Retención</span>
+        <span class="client-amounts__value label-large">S/{{ amounts.retention_amount | number: '.2-2' }}</span>
+      </div>
+      <div class="client-amounts__group">
+        <span class="client-amounts__label label-small">Detracción</span>
+        <span class="client-amounts__value label-large">S/{{ amounts.detraction_amount | number: '.2-2'
+          }}</span>
+      </div>
+    </a>
     }
+  </div>
+  @if (clientAmounts(); as amounts) {
+  <app-client-document-payment-form [clientAmounts]="amounts" />
+  }
 </app-item-form-template>
