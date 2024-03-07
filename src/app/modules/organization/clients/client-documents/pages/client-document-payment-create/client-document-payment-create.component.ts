@@ -31,7 +31,8 @@ export class ClientDocumentPaymentCreateComponent {
         title: 'Pagar comprobantes',
         formGroup: new FormGroup({
             document_ids: new FormControl<null | []>(null, [Validators.required]),
+            client_id: new FormControl(this.activatedRoute.snapshot.parent?.paramMap.get('id')),
         }),
-        server: { url: 'client' },
+        server: { url: 'client-payment-document' },
     };
 }
