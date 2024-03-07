@@ -116,6 +116,7 @@ body {
 
   --mdc-filled-text-field-caret-color: var(--color-primary);
   --mdc-filled-text-field-focus-active-indicator-color: var(--color-primary);
+  --mdc-filled-text-field-hover-label-text-color: var(--color-on-surface);
   --mdc-filled-text-field-focus-label-text-color: rgba(var(--rgb-primary), 0.87);
   --mdc-filled-text-field-container-color: var(--color-surface-variant);
   --mdc-filled-text-field-disabled-container-color: var(--color-surface);
@@ -134,7 +135,8 @@ body {
   --mdc-filled-text-field-error-focus-active-indicator-color: var(--color-error);
   --mdc-filled-text-field-error-hover-active-indicator-color: var(--color-error);
   --mdc-outlined-text-field-caret-color: var(--color-primary);
-  --mdc-outlined-text-field-focus-outline-color: var(--color-primary);
+  --mdc-outlined-text-field-focus-outline-color: rgba(var(--rgb-primary), 0.87);
+  --mdc-outlined-text-field-hover-label-text-color: var(--color-on-surface);
   --mdc-outlined-text-field-focus-label-text-color: rgba(var(--rgb-primary), 0.87);
   --mdc-outlined-text-field-label-text-color: rgba(var(--rgb-on-surface), 0.6);
   --mdc-outlined-text-field-disabled-label-text-color: rgba(var(--rgb-on-surface), 0.38);
