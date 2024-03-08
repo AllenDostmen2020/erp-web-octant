@@ -76,7 +76,7 @@ export class ClientPaymentFormPageComponent {
     public readonly boxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
         textLabel: 'Caja',
         local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
-        displayTextFn: (item: BoxOpening)=> item.box?.name ?? '--',
+        displayTextFn: (item: BoxOpening) => item.box?.name ?? '--',
         // displayTextFn: (box_opening: BoxOpening) => box_opening.box ? `<div class="grid">
         //     <div class="label-large">
         //         ${box_opening?.box?.name}
