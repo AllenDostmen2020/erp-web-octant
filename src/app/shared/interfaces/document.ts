@@ -1,5 +1,6 @@
 import { BaseModel } from "./baseModel";
 import { Client } from "./client";
+import { ClientPaymentDocument } from "./clientPaymentDocument";
 import { DocumentItem } from "./documentItem";
 
 export interface Document extends BaseModel {
@@ -76,4 +77,5 @@ export interface Document extends BaseModel {
 
     client?: Client;
     document_items: DocumentItem[];
+    client_payment_documents?: ClientPaymentDocument[];
 }

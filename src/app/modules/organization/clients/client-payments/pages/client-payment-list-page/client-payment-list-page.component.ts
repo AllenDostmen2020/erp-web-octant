@@ -24,6 +24,7 @@ export class ClientPaymentListPageComponent {
           textColumn({
             title: 'Cuenta',
             displayValueFn: (item) => item.client_account?.name,
+            routerLinkValue: { url: (item) => `../detail/${item.id}` },
             gridColumn: '1fr',
           }),
           titlecaseColumn({

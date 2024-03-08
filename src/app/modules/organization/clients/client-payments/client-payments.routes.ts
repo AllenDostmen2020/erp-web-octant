@@ -10,6 +10,10 @@ export const clientPaymentRoutes: Routes = [
         loadComponent: () => import('./pages/client-payment-create-page/client-payment-create-page.component').then(m => m.ClientPaymentCreatePageComponent)
     },
     {
+        path: 'detail/:id',
+        loadComponent: () => import('./pages/client-payment-detail-page/client-payment-detail-page.component').then(m => m.ClientPaymentDetailPageComponent)
+    },
+    {
         path: '**',
         redirectTo: 'list',
         pathMatch: 'full',

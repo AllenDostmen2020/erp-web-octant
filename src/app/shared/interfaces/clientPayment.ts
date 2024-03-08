@@ -1,7 +1,8 @@
-import { BaseModel, CoinEnum } from "./baseModel";
+import { BaseModel } from "./baseModel";
 import { BoxMovement } from "./boxMovement";
 import { Client } from "./client";
 import { ClientAccount } from "./clientAccount";
+import { ClientPaymentDocument } from "./clientPaymentDocument";
 
 export interface ClientPayment extends BaseModel {
     client_id: number;
@@ -13,4 +14,5 @@ export interface ClientPayment extends BaseModel {
     client?: Client;
     client_account?: ClientAccount;
     box_movement?: BoxMovement;
+    client_payment_documents?: ClientPaymentDocument[];
 }
