@@ -35,7 +35,7 @@ export class ClientDocumentPaymentFormComponent {
     public totalsToPay = computed(() => {
         const documents = this.documentsToPay();
         const subtotal = documents.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
-        const igv = documents.reduce((previousValue, item) => previousValue + Number(item.total_taxes), 0);
+        const igv = documents.reduce((previousValue, item) => previousValue + Number(item.total_igv), 0);
         const totalDetraction = documents.reduce((previousValue, item) => previousValue + Number(item.total_detraction), 0);
         const totalRetention = documents.reduce((previousValue, item) => previousValue + Number(item.total_retention), 0);
         const totalRecaudation = documents.reduce((previousValue, item) => previousValue + Number(item.total_recaudation), 0);
@@ -52,7 +52,7 @@ export class ClientDocumentPaymentFormComponent {
     public totals = computed(() => {
         const documents = this.documents();
         const subtotal = documents.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
-        const igv = documents.reduce((previousValue, item) => previousValue + Number(item.total_taxes), 0);
+        const igv = documents.reduce((previousValue, item) => previousValue + Number(item.total_igv), 0);
         const totalDetraction = documents.reduce((previousValue, item) => previousValue + Number(item.total_detraction), 0);
         const totalRetention = documents.reduce((previousValue, item) => previousValue + Number(item.total_retention), 0);
         const totalRecaudation = documents.reduce((previousValue, item) => previousValue + Number(item.total_recaudation), 0);

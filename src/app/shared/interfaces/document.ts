@@ -1,81 +1,155 @@
-import { BaseModel } from "./baseModel";
+import { BaseModel, CoinEnum } from "./baseModel";
 import { Client } from "./client";
+import { ClientBusinessUnit } from "./clientBusinessUnit";
 import { ClientPaymentDocument } from "./clientPaymentDocument";
+import { Contract } from "./contract";
 import { DocumentItem } from "./documentItem";
 
 export interface Document extends BaseModel {
-    additional_information: null;
-    applied: number;
-    caja_id: null;
-    cdr: any;
-    client_business_unit_id: number;
     client_id: number;
-    correlative: number;
-    credit_days: any;
-    currency_type_id: string;
-    detraction_account: string;
-    detraction_pay_constancy: string;
-    detraction_percent: string;
-    detraction_type_id: string;
-    discounts: string;
-    document_type_id: string;
-    establishment_id: number;
-    establishment: null;
-    exchange_rate_sale: string;
-    expiration_date: string;
-    external_id: string;
-    fees_number: number;
-    filename: null;
-    group_id: string;
-    has_cdr: number;
-    has_pdf: number;
-    has_xml: number;
-    hash: null;
-    igv: string;
-    is_anulate_simple: number;
-    is_detraction: number;
-    is_fees: number;
-    is_perception: number;
-    is_retention: number;
-    issue_date: string | null;
-    legends: null;
-    low_reason: string;
-    operation_type_id: string;
-    pay_constancy_detraction: string;
-    payment_method_type_id: string;
-    pdf: any;
-    perception_percent: string;
-    purchase_order: string;
-    qr: null;
-    registration_date: string;
-    restore_user_id: null;
-    retention_percent: string;
+    contract_id: number;
+    client_business_unit_id: number;
+    description: string;
+    type: string;
     serie: string;
-    soap_type_id: string;
-    state_type_id: string;
-    status_paid: number;
-    sunat_information: null;
-    total_aplicado_nc: number;
-    total_applied_nc: number;
-    total_base_isc: number;
-    total_detraction: number;
+    correlative: string;
+    igv: number;
+    igv_total: number;
+    emit_date: string;
+    emit_comment: string;
+    expiration_date: string;
+    coin: CoinEnum;
+    exchange_rate: string;
+    detraction: boolean;
+    detraction_percent: number;
+    detraction_payment_type: DetractionPaymentTypeEnum;
+    detraction_type: DetractionTypeEnum;
+    perception: boolean;
+    perception_percent: number;
+    perception_type: string;
+    retention: boolean;
+    retention_percent: number;
+    retention_type: string;
+    fees: boolean;
+    fees_number: number;
+    payment_type: ComprobantPaymentTypeEnum;
+    operation_type: ComprobantOperationTypeEnum;
+    total_value: number;
+    total_igv: number;
     total_discount: number;
-    total_exonerated: number;
-    total_free: number;
-    total_isc: number;
-    total_paid: number;
-    total_pending: number;
+    total_detraction: number;
     total_perception: number;
     total_retention: number;
-    total_taxes: number;
     total_unaffected: number;
-    total_value: number;
+    total_exonerated: number;
+    total_free: number;
+    total_base_isc: number;
+    total_isc: number;
     total: number;
-    ubl_version: string;
-    warehouse_id: number;    
+    anulation_type: string;
+    anulation_reason: string;
+    filename: string;
+    hash: boolean;
     xml: any;
+    pdf: any;
+    cdr: string;
+    has_xml: boolean;
+    has_pdf: boolean;
+    has_cdr: boolean;
+    sunat_status: string;
+    sunat_information: string;
+    sunat_qr_code_string: string;
+    sunat_response_code: string;
 
+
+    contract?: Contract;
     client?: Client;
+    client_business_unit: ClientBusinessUnit[];
     document_items: DocumentItem[];
     client_payment_documents?: ClientPaymentDocument[];
+}
+
+
+export enum ComprobantOperationTypeEnum {
+    VentaInterna = '1',
+    Exportacion = '2',
+    VentaInternaAnticipos = '4',
+    VentasNoDomiciliadosNoExportacion = '29',
+    OperacionSujetaDetraccion = '30',
+    DetraccionServiciosTransporteCarga = '33',
+    OperacionSujetaPercepcion = '34',
+    DetraccionServiciosTransportePasajeros = '32',
+    DetraccionRecursosHidrobiologicos = '31',
+    VentaNacionalTuristasTaxFree = '35',
+}
+
+export enum DetractionTypeEnum {
+    AzucarYMelazaDeCana = '1',
+    Arroz = '2',
+    AlcoholEtilico = '3',
+    RecursosHidrobiologicos = '4',
+    MaizAmarilloDuro = '5',
+    CanaDeAzucar = '7',
+    Madera = '8',
+    ArenaYPiedra = '9',
+    ResiduosSubproductosDesechosRecortesYDesperdicios = '10',
+    BienesGravadosConElIGVORenunciaALaExoneracion = '11',
+    IntermediacionLaboralYTercerizacion = '12',
+    CarnesYDespojosComestibles = '13',
+    AceiteDePescado = '14',
+    HarinaPolvoYPelletsDePescadoCrustaceosMoluscosYDemasInvertebradosAcuaticos = '15',
+    ArrendamientoDeBienesMuebles = '17',
+    MantenimientoYReparacionDeBienesMuebles = '18',
+    MovimientoDeCarga = '19',
+    OtrosServiciosEmpresariales = '20',
+    Leche = '21',
+    ComisionMercantil = '22',
+    FabricacionDeBienesPorEncargo = '23',
+    ServicioDeTransporteDePersonas = '24',
+    ServicioDeTransporteDeCarga = '25',
+    TransporteDePasajeros = '26',
+    ContratosDeConstruccion = '28',
+    OroGravadoConElIGV = '29',
+    PaprikaYOtrosFrutosDeLosGenerosCapsicumOPimienta = '30',
+    MineralesMetalicosNoAuriferos = '32',
+    BienesExoneradosDelIGV = '33',
+    OroYDemasMineralesMetalicosExoneradosDelIGV = '34',
+    DemasServiciosGravadosConElIGV = '35',
+    MineralesNoMetalicos = '37',
+    BienInmuebleGravadoConIGV = '38',
+    Plomo = '39',
+    AnimalesVivos = '40',
+    AbonosCuerosYPielesDeOrigenAnimal = '41',
+    Ley30737 = '42',
+}
+
+export enum DetractionPaymentTypeEnum {
+    DepositoEnCuenta = '1',
+    Giro = '2',
+    TransferenciaDeFondos = '3',
+    OrdenDePago = '4',
+    TarjetaDeDebito = '5',
+    TarjetaDeCreditoEmitidaEnElPaisPorUnaEmpresaDelSistemaFinanciero = '6',
+    ChequesConLaCláusulaDeNONegociableIntransferiblesNoALaOrdenUOtraEquivalenteAQueSeRefiereElIncisoGDelArticulo5DeLaLey = '7',
+    EfectivoPorOperacionesEnLasQueNoExisteObligacionDeUtilizarMedioDePago = '8',
+    EfectivoEnLosDemasCasos = '9',
+    MediosDePagoUsadosEnComercioExterior = '10',
+    DocumentosEmitidosPorLasEDPYMESYLasCooperativasDeAhorroYCreditoNoAutorizadasACaptarDepositosDelPublico = '11',
+    TarjetaDeCreditoEmitidaEnElPaisOEnElExteriorPorUnaEmpresaNoPertenecienteAlSistemaFinancieroCuyoObjetoPrincipalSeaLaEmisionYAdministracionDeTarjetasDeCredito = '12',
+    TarjetasDeCreditoEmitidasEnElExteriorPorEmpresasBancariasOFinancierasNoDomiciliadas = '13',
+    TransferenciasComercioExterior = '14',
+    ChequesBancariosComercioExterior = '15',
+    OrdenDePagoSimpleComercioExterior = '16',
+    OrdenDePagoDocumentarioComercioExterior = '17',
+    RemesaSimpleComercioExterior = '18',
+    RemesaDocumentariaComercioExterior = '19',
+    CartaDeCreditoSimpleComercioExterior = '20',
+    CartaDeCreditoDocumentarioComercioExterior = '21',
+    OtrosMediosDePago = '22',
+}
+
+export enum ComprobantPaymentTypeEnum {
+    Contado = 'contado',
+    Credito = 'crédito',
+    Otros = 'otros',
 }

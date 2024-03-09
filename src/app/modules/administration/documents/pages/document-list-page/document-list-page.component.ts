@@ -154,7 +154,7 @@ export class DocumentListPageComponent {
       }),
       textColumn<Document>({
         title: 'Emitido',
-        displayValueFn: (item) => item.issue_date ? format(parseISO(item.issue_date), 'dd/MM/yyyy') : '--',
+        displayValueFn: (item) => item.emit_date ? format(parseISO(item.emit_date), 'dd/MM/yyyy') : '--',
       }),
       numberColumn<Document>({
         title: 'Sub total',
@@ -162,7 +162,7 @@ export class DocumentListPageComponent {
       }),
       numberColumn<Document>({
         title: 'Igv',
-        displayValueFn: (item) => item.total_taxes,
+        displayValueFn: (item) => item.total_igv,
       }),
       numberColumn<Document>({
         title: 'Total',

@@ -4,11 +4,11 @@ import { Bank } from '@interface/bank';
 import { ItemDetailConfiguration } from '@interface/itemDetail';
 
 @Component({
-  selector: 'app-bank-detail-page',
-  standalone: true,
-  imports: [ItemDetailTemplateComponent],
-  templateUrl: './bank-detail-page.component.html',
-  styleUrl: './bank-detail-page.component.scss'
+    selector: 'app-bank-detail-page',
+    standalone: true,
+    imports: [ItemDetailTemplateComponent],
+    templateUrl: './bank-detail-page.component.html',
+    styleUrl: './bank-detail-page.component.scss'
 })
 export class BankDetailPageComponent {
     public configuration: ItemDetailConfiguration<Bank> = {
