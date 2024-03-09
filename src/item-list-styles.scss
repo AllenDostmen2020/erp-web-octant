@@ -387,7 +387,8 @@
     animation: listFooterAnimation linear both;
     animation-timeline: scroll(block nearest);
     animation-range: calc(100% - var(--padding-y-card)) 100%;
-    border-radius: inherit;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
     overflow: hidden;
 }
 
