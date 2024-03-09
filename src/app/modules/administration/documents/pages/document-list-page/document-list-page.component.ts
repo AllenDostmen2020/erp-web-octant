@@ -75,7 +75,7 @@ export class DocumentListPageComponent {
               this.expireDateCtrl.setValue(this.minDate > expireDate ? this.minDate : expireDate);
             };
             const response = await this.emitDocument(item);
-            if (response) updateChangesItemFn(index, { ...item, ...response });
+            // if (response) updateChangesItemFn(index, { ...item, ...response });
           },
         }),
         clickEventActionButton({
