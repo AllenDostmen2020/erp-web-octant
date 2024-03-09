@@ -44,6 +44,8 @@ export interface Document extends BaseModel {
     total_free: number;
     total_base_isc: number;
     total_isc: number;
+    total_pay: number;
+    total_pending: number;
     total: number;
     anulation_type: string;
     anulation_reason: string;
