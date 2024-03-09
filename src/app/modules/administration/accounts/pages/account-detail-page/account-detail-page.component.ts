@@ -15,7 +15,7 @@ export class AccountDetailPageComponent {
         title: 'Detalles',
         server: {
             url: 'account',
-            queryParams: { relations: 'bank' },
+            queryParams: { relations: 'bank', },
         },
         groups: [
             {
