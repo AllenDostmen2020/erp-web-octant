@@ -14,7 +14,6 @@ export interface Document extends BaseModel {
     serie: string;
     correlative: string;
     igv: number;
-    igv_total: number;
     emit_date: string;
     emit_comment: string;
     expiration_date: string;
