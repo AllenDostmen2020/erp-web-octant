@@ -70,10 +70,6 @@ export class DocumentListPageComponent {
           text: 'Emitir',
           hidden: (item) => item.status !== StatusModel.Generada,
           fn: async (item, index, { updateChangesItemFn }) => {
-            if (item.expiration_date) {
-              const expireDate = parseISO(item.expiration_date);
-              this.expireDateCtrl.setValue(this.minDate > expireDate ? this.minDate : expireDate);
-            };
             const response = await this.emitDocument(item);
             // if (response) updateChangesItemFn(index, { ...item, ...response });
           },
@@ -175,8 +171,9 @@ export class DocumentListPageComponent {
     return columns;
   }
 
-  get expireDateCtrl(): FormControl { return this.emitForm.get('expire_date')! as FormControl; }
-  get creditCtrl(): FormControl { return this.emitForm.get('credit')! as FormControl; }
+  get emitExpireDateCtrl(): FormControl { return this.emitForm.get('expire_date')! as FormControl; }
+  get emitCreditCtrl(): FormControl { return this.emitForm.get('credit')! as FormControl; }
+  get emitCommentCtrl(): FormControl { return this.emitForm.get('comment')! as FormControl; }
 
   private confirmDialog(data: ConfirmDialogData): Promise<boolean> {
     return new Promise((resolve) => {
@@ -186,7 +183,17 @@ export class DocumentListPageComponent {
   }
 
   private async emitDocument(item: Document): Promise<Document | null> {
-    this.commentCtrl.reset('');
+    this.emitForm.reset();
+    if (item.fees) {
+      this.emitCreditCtrl.setValue(true);
+      if (item.expiration_date) {
+        const expireDate = parseISO(item.expiration_date);
+        this.emitExpireDateCtrl.setValue(this.minDate > expireDate ? this.minDate : expireDate);
+      };
+    } else {
+      this.emitCreditCtrl.setValue(false);
+      this.emitExpireDateCtrl.setValue(this.minDate);
+    }
     const dialogData: ConfirmDialogData = {
       icon: 'info',
       title: '¿Está seguro de emitir documento?',

@@ -19,7 +19,7 @@
             </div>
             <mat-slide-toggle formControlName="credit"/>
         </div>
-        @if (creditCtrl.value) {
+        @if (emitCreditCtrl.value) {
             <mat-form-field>
                 <mat-label>Fecha de expiración</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="expire_date" [min]="minDate">
