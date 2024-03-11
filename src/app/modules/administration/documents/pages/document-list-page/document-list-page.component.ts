@@ -40,7 +40,7 @@ export class DocumentListPageComponent {
   public commentCtrl = new FormControl('', [Validators.required]);
   public emitForm = new FormGroup({
     expire_date: new FormControl('', [Validators.required]),
-    comment: new FormControl('', [Validators.required]),
+    emit_comment: new FormControl('', [Validators.required]),
     credit: new FormControl(false, [Validators.required]),
   });
   public minDate = addDays(new Date(), 1);
@@ -173,7 +173,7 @@ export class DocumentListPageComponent {
 
   get emitExpireDateCtrl(): FormControl { return this.emitForm.get('expire_date')! as FormControl; }
   get emitCreditCtrl(): FormControl { return this.emitForm.get('credit')! as FormControl; }
-  get emitCommentCtrl(): FormControl { return this.emitForm.get('comment')! as FormControl; }
+  get emitCommentCtrl(): FormControl { return this.emitForm.get('emit_comment')! as FormControl; }
 
   private confirmDialog(data: ConfirmDialogData): Promise<boolean> {
     return new Promise((resolve) => {
@@ -212,7 +212,7 @@ export class DocumentListPageComponent {
       toast: {
         loading: 'Enviando a SUNAT...',
         success: 'Documento enviado a SUNAT',
-        error: (error) => error.error ?? 'Error al enviar a SUNAT',
+        error: (error) => error.error.message?? 'Error al enviar a SUNAT',
       }
     };
     return await this.fetch.put<Document>(url, body, request);
