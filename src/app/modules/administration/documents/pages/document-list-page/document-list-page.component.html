@@ -22,7 +22,7 @@
         @if (emitCreditCtrl.value) {
             <mat-form-field>
                 <mat-label>Fecha de expiración</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="expire_date" [min]="minDate">
+                <input matInput [matDatepicker]="picker" formControlName="expiration_date" [min]="minDate">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <mat-error>*Campo requerido</mat-error>

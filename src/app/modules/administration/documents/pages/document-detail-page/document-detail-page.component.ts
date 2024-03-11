@@ -35,68 +35,76 @@ export class DocumentDetailPageComponent {
                         displayValueFn: (item) => item.correlative
                     },
                     {
-                        title: 'IGV',
-                        displayValueFn: (item) => item.igv,
-                        type: 'number'
-                    },
-                    {
-                        title: 'Fecha de registro',
-                        displayValueFn: (item) => item.registration_date,
+                        title: 'Fecha emisión',
+                        displayValueFn: (item) => item.emit_date,
                         type: 'date'
                     },
                     {
-                        title: 'Fecha de asunto',
-                        displayValueFn: (item) => item.issue_date,
-                        type: 'date'
-                    },
-                    {
-                        title: 'Fecha de expiración',
+                        title: 'Fecha expira',
                         displayValueFn: (item) => item.expiration_date,
                         type: 'date'
                     },
                     {
-                        title: 'Tipo de cambio',
-                        displayValueFn: (item) => item.exchange_rate_sale,
+                        title: 'A crédito',
+                        displayValueFn: (item) => item.fees ? 'SI': 'NO',
+                    },
+                    {
+                        title: 'Subtotal.',
+                        displayValueFn: (item) => item.total_value,
                         type: 'number'
                     },
                     {
-                        title: 'A crédito',
-                        displayValueFn: (item) => item.credit_days ? 'SI': 'NO',
+                        title: 'IGV %',
+                        displayValueFn: (item) => item.igv,
+                        type: 'number'
                     },
                     {
-                        title: 'En cuotas',
-                        displayValueFn: (item) => item.is_fees ? 'SI' : 'NO',
+                        title: 'IGV S/.',
+                        displayValueFn: (item) => item.total_igv,
+                        type: 'number'
                     },
                     {
-                        title: 'Es retención',
-                        displayValueFn: (item) => item.is_retention ? 'SI' : 'NO',
+                        title: 'Retención',
+                        displayValueFn: (item) => item.retention ? 'SI' : 'NO',
                     },
                     {
-                        title: 'Retención en (%) y en (S/.)',
-                        displayValueFn: (item) => item.total_retention ? `${item.retention_percent}% - ${item.total_retention}0` : '--',
+                        title: 'Retención %',
+                        displayValueFn: (item) => item.retention_percent,
                     },
                     {
-                        title: 'Es percepción',
-                        displayValueFn: (item) => item.is_perception ? 'SI' : 'NO',
+                        title: 'Retención S/.',
+                        displayValueFn: (item) => item.total_retention,
                     },
                     {
-                        title: 'Percepción en (%) y en (S/.)',
-                        displayValueFn: (item) => item.total_perception ? `${item.perception_percent}% - ${item.total_perception}` : '--',
+                        title: 'Percepción',
+                        displayValueFn: (item) => item.perception ? 'SI' : 'NO',
                     },
                     {
-                        title: 'Es detracción',
-                        displayValueFn: (item) => item.is_detraction ? 'SI' : 'NO',
+                        title: 'Percepción %',
+                        displayValueFn: (item) => item.perception_percent,
                     },
                     {
-                        title: 'Detracción en (%) y en (S/.)',
-                        displayValueFn: (item) => item.total_detraction ? `${item.detraction_percent}% - ${item.total_detraction}` : '--',
+                        title: 'Percepción S/.',
+                        displayValueFn: (item) => item.total_perception,
                     },
                     {
-                        title: 'Información adicional',
-                        displayValueFn: (item) => item.additional_information,
+                        title: 'Detracción',
+                        displayValueFn: (item) => item.detraction ? 'SI' : 'NO',
                     },
                     {
-                        title: 'Información de la SUNAT',
+                        title: 'Detracción %',
+                        displayValueFn: (item) => item.detraction_percent,
+                    },
+                    {
+                        title: 'Detracción S/.',
+                        displayValueFn: (item) => item.total_detraction,
+                    },
+                    {
+                        title: 'Total',
+                        displayValueFn: (item) => item.total,
+                    },
+                    {
+                        title: 'SUNAT Inf.',
                         displayValueFn: (item) => item.sunat_information,
                     },
                 ]

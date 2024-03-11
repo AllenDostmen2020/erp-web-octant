@@ -39,7 +39,7 @@ export class DocumentListPageComponent {
   private matDialog = inject(MatDialog);
   public commentCtrl = new FormControl('', [Validators.required]);
   public emitForm = new FormGroup({
-    expire_date: new FormControl('', [Validators.required]),
+    expiration_date: new FormControl('', [Validators.required]),
     emit_comment: new FormControl('', [Validators.required]),
     credit: new FormControl(false, [Validators.required]),
   });
@@ -71,7 +71,7 @@ export class DocumentListPageComponent {
           hidden: (item) => item.status !== StatusModel.Generada,
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.emitDocument(item);
-            // if (response) updateChangesItemFn(index, { ...item, ...response });
+            if (response) updateChangesItemFn(index, { ...item, ...response });
           },
         }),
         clickEventActionButton({
@@ -171,7 +171,7 @@ export class DocumentListPageComponent {
     return columns;
   }
 
-  get emitExpireDateCtrl(): FormControl { return this.emitForm.get('expire_date')! as FormControl; }
+  get emitExpirationDateCtrl(): FormControl { return this.emitForm.get('expiration_date')! as FormControl; }
   get emitCreditCtrl(): FormControl { return this.emitForm.get('credit')! as FormControl; }
   get emitCommentCtrl(): FormControl { return this.emitForm.get('emit_comment')! as FormControl; }
 
@@ -188,11 +188,11 @@ export class DocumentListPageComponent {
       this.emitCreditCtrl.setValue(true);
       if (item.expiration_date) {
         const expireDate = parseISO(item.expiration_date);
-        this.emitExpireDateCtrl.setValue(this.minDate > expireDate ? this.minDate : expireDate);
+        this.emitExpirationDateCtrl.setValue(this.minDate > expireDate ? this.minDate : expireDate);
       };
     } else {
       this.emitCreditCtrl.setValue(false);
-      this.emitExpireDateCtrl.setValue(this.minDate);
+      this.emitExpirationDateCtrl.setValue(this.minDate);
     }
     const dialogData: ConfirmDialogData = {
       icon: 'info',
