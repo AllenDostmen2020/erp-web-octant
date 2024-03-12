@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-template/alert-template.component';
 import { ItemDetailTemplateComponent } from '@component/item-detail-template/item-detail-template.component';
 import { ContractResolution } from '@interface/contractResolution';
-import { ItemDetailConfiguration } from '@interface/itemDetail';
+import { ItemDetailConfiguration } from '@component/item-detail-template/item-detail-template.component';
 
 @Component({
   selector: 'app-contract-resolution-detail',

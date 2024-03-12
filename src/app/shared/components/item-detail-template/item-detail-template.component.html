@@ -3,25 +3,25 @@
     <div class="item-detail__header">
 
         @if (!(configuration.backButton == false)) {
-            <button class="item-detail__header__back-button icon-button" type="button" (click)="location.back()">
-                <span class="material-icons">arrow_back</span>
-            </button>
+        <button class="item-detail__header__back-button icon-button" type="button" (click)="location.back()">
+            <span class="material-icons">arrow_back</span>
+        </button>
         }
 
         <div class="item-detail__header__title">
             <div>{{configuration.title}}</div>
             @if (configuration.dataItem!(); as item) {
-                @if(this.configuration.subtitle != false) {
-                    @if (configuration.subtitle; as subtitleFn) {
-                        @if ((subtitleFn | getMixedValue:item); as subtitle) {
-                            <div class="item-detail__header__title__sub">{{subtitle}}</div>
-                        }
-                    } @else {
-                        @if (item?.name; as name) {
-                            <div class="item-detail__header__title__sub">{{name}}</div>
-                        }
-                    }
-                }
+            @if(this.configuration.subtitle != false) {
+            @if (configuration.subtitle; as subtitleFn) {
+            @if ((subtitleFn | getMixedValue:item); as subtitle) {
+            <div class="item-detail__header__title__sub">{{subtitle}}</div>
+            }
+            } @else {
+            @if (item?.name; as name) {
+            <div class="item-detail__header__title__sub">{{name}}</div>
+            }
+            }
+            }
             }
         </div>
 
@@ -30,7 +30,8 @@
             <ng-content select="[headerActions]" />
 
             @if (!(configuration.editButton == false)) {
-            <ng-container [ngTemplateOutlet]="editButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item, editButton: configuration.editButton }" />
+            <ng-container [ngTemplateOutlet]="editButtonTmpl"
+                [ngTemplateOutletContext]="{ $implicit: item, editButton: configuration.editButton }" />
             }
 
             @if (!(configuration.deleteButton == false) && !item.deleted_at) {
@@ -49,7 +50,8 @@
             }
             } @else {
             @for (actionButton of actionButtons; track actionButton.id) {
-                <ng-container [ngTemplateOutlet]="switchActionButton" [ngTemplateOutletContext]="{ $implicit: item, actionButton }" />
+            <ng-container [ngTemplateOutlet]="switchActionButton"
+                [ngTemplateOutletContext]="{ $implicit: item, actionButton }" />
             }
             }
             }
@@ -76,166 +78,206 @@
 
 <ng-template #itemDefaultTemplate let-item>
     @if (configuration.groups; as groups) {
-        @for (group of groups; track group) {
-            <div class="item-detail__group">
-                <!-- ---------------------------------------------- -->
-                <!-- ---------------------------------------------- -->
-                <!-- ---------------------------------------------- -->
-                @if (group.title) {
-                    <div class="item-detail__group__header">
-                        <div class="item-detail__group__header__icon">
-                            @if (group.icon) {
-                                <span class="material-icons">{{group.icon}}</span>
-                            } @else {
-                                <span class="material-icons">info</span>
-                            }
-                        </div>
-                        
-                        <div class="item-detail__group__header__title">
-                            {{group.title}}
-                        </div>
-                    </div>
+    @for (group of groups; track group) {
+    <div class="item-detail__group">
+        <!-- ---------------------------------------------- -->
+        <!-- ---------------------------------------------- -->
+        <!-- ---------------------------------------------- -->
+        @if (group.title) {
+        <div class="item-detail__group__header">
+            <div class="item-detail__group__header__icon">
+                @if (group.icon) {
+                <span class="material-icons">{{group.icon}}</span>
+                } @else {
+                <span class="material-icons">info</span>
                 }
-                <!-- ---------------------------------------------- -->
-                <!-- ---------------------------------------------- -->
-                <!-- ---------------------------------------------- -->
-                @if (group.template && group.template.position != 'after') {
-                    <ng-container [ngTemplateOutlet]="group.template.ref" [ngTemplateOutletContext]="{ $implicit: item }" />
-                }
-                <!-- ---------------------------------------------- -->
-                <!-- ---------------------------------------------- -->
-                <!-- ---------------------------------------------- -->
-                @if (group.details; as details) {
-                    @for (itemDetail of details; track itemDetail) {
-                        <div [attr.data-key]="itemDetail.key ?? ''" class="item-detail__group__row {{ itemDetail.cssClass ? (itemDetail.cssClass | getMixedValue:item) : '' }}">
-                            @if(itemDetail.displayValueFn; as displayValueFn){
-                                @if ((displayValueFn | executeFunction:item); as value) {
-                                    <ng-container [ngTemplateOutlet]="renderNormalFields" [ngTemplateOutletContext]="{ $implicit: itemDetail, value, item, routerLink: itemDetail.routerLink, clickEvent: itemDetail.clickEvent }" />
-                                }
-                            }
-                        </div>
-                    }
-                }
-                <!-- ---------------------------------------------- -->
-                <!-- ---------------------------------------------- -->
-                <!-- ---------------------------------------------- -->
-                @if (group.template && group.template.position == 'after') {
-                    <ng-container [ngTemplateOutlet]="group.template.ref" [ngTemplateOutletContext]="{ $implicit: item }" />
-                }
-                <!-- ---------------------------------------------- -->
-                <!-- ---------------------------------------------- -->
-                <!-- ---------------------------------------------- -->
             </div>
+
+            <div class="item-detail__group__header__title">
+                {{group.title}}
+            </div>
+        </div>
         }
+        <!-- ---------------------------------------------- -->
+        <!-- ---------------------------------------------- -->
+        <!-- ---------------------------------------------- -->
+        @if (group.template && group.template.position != 'after') {
+        <ng-container [ngTemplateOutlet]="group.template.ref" [ngTemplateOutletContext]="{ $implicit: item }" />
+        }
+        <!-- ---------------------------------------------- -->
+        <!-- ---------------------------------------------- -->
+        <!-- ---------------------------------------------- -->
+
+        @for (itemDetail of group.details; track itemDetail) {
+        <div [attr.data-key]="itemDetail.key ?? ''"
+            class="item-detail__group__row {{ itemDetail.cssClass ? (itemDetail.cssClass | getMixedValue:item) : '' }}">
+            @if (!((itemDetail.hidden ?? false) | getMixedValue:item)) {
+            @if(itemDetail.displayValueFn | executeFunction:item; as value) {
+            <ng-container [ngTemplateOutlet]="renderNormalFields"
+                [ngTemplateOutletContext]="{ $implicit: itemDetail, value, item, routerLink: itemDetail.routerLink, clickEvent: itemDetail.clickEvent }" />
+            }
+            }
+        </div>
+        }
+        <!-- ---------------------------------------------- -->
+        <!-- ---------------------------------------------- -->
+        <!-- ---------------------------------------------- -->
+        @if (group.template && group.template.position == 'after') {
+        <ng-container [ngTemplateOutlet]="group.template.ref" [ngTemplateOutletContext]="{ $implicit: item }" />
+        }
+        <!-- ---------------------------------------------- -->
+        <!-- ---------------------------------------------- -->
+        <!-- ---------------------------------------------- -->
+    </div>
+    }
     }
 </ng-template>
 
 
-<ng-template #renderNormalFields let-itemDetail let-item="item" let-value="value" let-routerLink="routerLink" let-clickEvent="clickEvent">
+<ng-template #renderNormalFields let-itemDetail let-item="item" let-value="value" let-routerLink="routerLink"
+    let-clickEvent="clickEvent">
     <div class="item-detail__group__row__label">{{itemDetail.title}}</div>
     <div>:</div>
     <div class="item-detail__group__row__value">
-            @switch (itemDetail.type ?? '') {
-                <!-- --------------------------------- -->
-                @case ('email') { <a href="mailto:{{value}}">{{value}}</a> }
-                <!-- --------------------------------- -->
-                @case ('phone') { <a href="tel:{{value}}">{{value}}</a> }
-                <!-- --------------------------------- -->
-                @case ('html') { <ng-container [ngTemplateOutlet]="renderValueHtml" [ngTemplateOutletContext]="{ $implicit: value, item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" /> }
-                <!-- --------------------------------- -->
-                @case ('number') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | number: itemDetail.numberFormat ?? '.2-2'), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" /> }
-                <!-- --------------------------------- -->
-                @case ('titlecase') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | titlecase), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" /> }
-                <!-- --------------------------------- -->
-                @case ('uppercase') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | uppercase), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" /> }
-                <!-- --------------------------------- -->
-                @case ('first-letter-uppercase') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | firstLetterUppercase), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" /> }
-                <!-- --------------------------------- -->
-                @case ('lowercase') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | lowercase), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" /> }
-                <!-- --------------------------------- -->
-                @case ('date') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | date: itemDetail.dateFormat ??'dd/MM/yyyy'), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" /> }
-                <!-- --------------------------------- -->
-                @case ('diff-date') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | diffDate | firstLetterUppercase), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" /> }
-                <!-- --------------------------------- -->
-                @case ('currency') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | currency), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" /> }
-                <!-- --------------------------------- -->
-                @case ('list-format') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | listFormat), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" /> }
-                <!-- --------------------------------- -->
-                @case ('user') { @if ((value | getUserById | async); as user) { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: user.name, item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" /> } }
-                <!-- --------------------------------- -->
-                @default { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: value, item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" /> }
-                <!-- --------------------------------- -->
-            }
+        @switch (itemDetail.type ?? '') {
+        <!-- --------------------------------- -->
+        @case ('email') { <a href="mailto:{{value}}">{{value}}</a> }
+        <!-- --------------------------------- -->
+        @case ('phone') { <a href="tel:{{value}}">{{value}}</a> }
+        <!-- --------------------------------- -->
+        @case ('html') { <ng-container [ngTemplateOutlet]="renderValueHtml"
+            [ngTemplateOutletContext]="{ $implicit: value, item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" />
+        }
+        <!-- --------------------------------- -->
+        @case ('number') { <ng-container [ngTemplateOutlet]="renderValue"
+            [ngTemplateOutletContext]="{ $implicit: (value | number: itemDetail.numberFormat ?? '.2-2'), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" />
+        }
+        <!-- --------------------------------- -->
+        @case ('titlecase') { <ng-container [ngTemplateOutlet]="renderValue"
+            [ngTemplateOutletContext]="{ $implicit: (value | titlecase), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" />
+        }
+        <!-- --------------------------------- -->
+        @case ('uppercase') { <ng-container [ngTemplateOutlet]="renderValue"
+            [ngTemplateOutletContext]="{ $implicit: (value | uppercase), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" />
+        }
+        <!-- --------------------------------- -->
+        @case ('first-letter-uppercase') { <ng-container [ngTemplateOutlet]="renderValue"
+            [ngTemplateOutletContext]="{ $implicit: (value | firstLetterUppercase), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" />
+        }
+        <!-- --------------------------------- -->
+        @case ('lowercase') { <ng-container [ngTemplateOutlet]="renderValue"
+            [ngTemplateOutletContext]="{ $implicit: (value | lowercase), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" />
+        }
+        <!-- --------------------------------- -->
+        @case ('date') { <ng-container [ngTemplateOutlet]="renderValue"
+            [ngTemplateOutletContext]="{ $implicit: (value | date: itemDetail.dateFormat ??'dd/MM/yyyy'), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" />
+        }
+        <!-- --------------------------------- -->
+        @case ('diff-date') { <ng-container [ngTemplateOutlet]="renderValue"
+            [ngTemplateOutletContext]="{ $implicit: (value | diffDate | firstLetterUppercase), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" />
+        }
+        <!-- --------------------------------- -->
+        @case ('currency') { <ng-container [ngTemplateOutlet]="renderValue"
+            [ngTemplateOutletContext]="{ $implicit: (value | currency), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" />
+        }
+        <!-- --------------------------------- -->
+        @case ('list-format') { <ng-container [ngTemplateOutlet]="renderValue"
+            [ngTemplateOutletContext]="{ $implicit: (value | listFormat), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" />
+        }
+        <!-- --------------------------------- -->
+        @case ('user') { @if ((value | getUserById | async); as user) { <ng-container [ngTemplateOutlet]="renderValue"
+            [ngTemplateOutletContext]="{ $implicit: user.name, item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" />
+        } }
+        <!-- --------------------------------- -->
+        @default { <ng-container [ngTemplateOutlet]="renderValue"
+            [ngTemplateOutletContext]="{ $implicit: value, item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" />
+        }
+        <!-- --------------------------------- -->
+        }
     </div>
 </ng-template>
 
-<ng-template #renderValue let-value let-tooltip="tooltip" let-item="item" let-routerLink="routerLink" let-clickEvent="clickEvent">
+<ng-template #renderValue let-value let-tooltip="tooltip" let-item="item" let-routerLink="routerLink"
+    let-clickEvent="clickEvent">
     @if (routerLink; as rLink) {
-      @if (rLink.outlet == 'route-lateral') { <a [matTooltip]="tooltip | getMixedValue:item" class="item-detail__group__row__value__hovered" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | getMixedValue:item" [routeState]="rLink.state | getMixedValue:item">{{value}}</a> }
-      @else { <a [matTooltip]="tooltip | getMixedValue:item" class="item-detail__group__row__value__hovered" [routerLink]="rLink.url | getMixedValue:item" [state]="rLink.state | getMixedValue:item">{{value}}</a> }
+    @if (rLink.outlet == 'route-lateral') { <a [matTooltip]="tooltip | getMixedValue:item"
+        class="item-detail__group__row__value__hovered" appNavigateLateralPanelOutlet
+        [navigateUrl]="rLink.url | getMixedValue:item" [routeState]="rLink.state | getMixedValue:item">{{value}}</a> }
+    @else { <a [matTooltip]="tooltip | getMixedValue:item" class="item-detail__group__row__value__hovered"
+        [routerLink]="rLink.url | getMixedValue:item" [state]="rLink.state | getMixedValue:item">{{value}}</a> }
     } @else if(clickEvent) {
-        <a [matTooltip]="tooltip | getMixedValue:item" class="item-detail__group__row__value__hovered" (click)="clickEvent(item)">{{value}}</a>
+    <a [matTooltip]="tooltip | getMixedValue:item" class="item-detail__group__row__value__hovered"
+        (click)="clickEvent(item)">{{value}}</a>
     } @else {
-        <span [title]="value" [matTooltip]="tooltip | getMixedValue:item">{{ value }}</span>
+    <span [title]="value" [matTooltip]="tooltip | getMixedValue:item">{{ value }}</span>
     }
 </ng-template>
 
-<ng-template #renderValueHtml let-value let-tooltip="tooltip" let-item="item" let-routerLink="routerLink" let-clickEvent="clickEvent">
+<ng-template #renderValueHtml let-value let-tooltip="tooltip" let-item="item" let-routerLink="routerLink"
+    let-clickEvent="clickEvent">
     @if (routerLink; as rLink) {
-      @if (rLink.outlet == 'route-lateral') { <div [matTooltip]="tooltip | getMixedValue:item" class="item-detail__group__row__value__hovered" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | getMixedValue:item" [routeState]="rLink.state | getMixedValue:item" [innerHTML]="value"></div> }
-      @else { <div [matTooltip]="tooltip | getMixedValue:item" class="item-detail__group__row__value__hovered" [routerLink]="rLink.url | getMixedValue:item" [state]="rLink.state | getMixedValue:item" [innerHTML]="value"></div> }
+    @if (rLink.outlet == 'route-lateral') { <div [matTooltip]="tooltip | getMixedValue:item"
+        class="item-detail__group__row__value__hovered" appNavigateLateralPanelOutlet
+        [navigateUrl]="rLink.url | getMixedValue:item" [routeState]="rLink.state | getMixedValue:item"
+        [innerHTML]="value"></div> }
+    @else { <div [matTooltip]="tooltip | getMixedValue:item" class="item-detail__group__row__value__hovered"
+        [routerLink]="rLink.url | getMixedValue:item" [state]="rLink.state | getMixedValue:item" [innerHTML]="value">
+    </div> }
     } @else if(clickEvent) {
-        <div [matTooltip]="tooltip | getMixedValue:item" class="item-detail__group__row__value__hovered" (click)="clickEvent(item)" [innerHTML]="value"></div>
+    <div [matTooltip]="tooltip | getMixedValue:item" class="item-detail__group__row__value__hovered"
+        (click)="clickEvent(item)" [innerHTML]="value"></div>
     } @else {
-        <div [title]="value" [matTooltip]="tooltip | getMixedValue:item" [innerHTML]="value"></div>
+    <div [title]="value" [matTooltip]="tooltip | getMixedValue:item" [innerHTML]="value"></div>
     }
 </ng-template>
 
 <ng-template #switchActionButton let-item let-actionButton="actionButton">
     @switch (actionButton.type) {
-        @case ('edit') {
-            <ng-container [ngTemplateOutlet]="editButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item, editButton: configuration.editButton }" />
-        }
-        @case ('delete') {
-            <ng-container [ngTemplateOutlet]="deleteButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
-        }
-        @case ('restore') {
-            <ng-container [ngTemplateOutlet]="restoreButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
-        }
-        @case ('clickEvent') {
-            <button class="tonal-button" (click)="actionButton.clickEvent(item)">
-                <span class="material-icons">{{actionButton.icon}}</span>
-                <span>{{actionButton.text}}</span>
-            </button>
-        }
+    @case ('edit') {
+    <ng-container [ngTemplateOutlet]="editButtonTmpl"
+        [ngTemplateOutletContext]="{ $implicit: item, editButton: configuration.editButton }" />
+    }
+    @case ('delete') {
+    <ng-container [ngTemplateOutlet]="deleteButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
+    }
+    @case ('restore') {
+    <ng-container [ngTemplateOutlet]="restoreButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
+    }
+    @case ('clickEvent') {
+    <button class="tonal-button" (click)="actionButton.clickEvent(item)">
+        <span class="material-icons">{{actionButton.icon}}</span>
+        <span>{{actionButton.text}}</span>
+    </button>
+    }
     }
 </ng-template>
 
 <ng-template #editButtonTmpl let-item let-editButton="editButton">
     @if (editButton) {
-        @if (editButton.routerLink; as rLink) {
-            @if (rLink.outlet == 'route-lateral') {
-                <button class="tonal-button add__button" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | getMixedValue:item">
-                    <span class="material-icons">edit</span>
-                    <span>{{ editButton?.text ?? 'Editar' }}</span>
-                </button>
-            }@else {
-                <button class="tonal-button add__button"  [routerLink]="rLink.url | getMixedValue:item">
-                    <span class="material-icons">edit</span>
-                    <span>{{ editButton?.text ?? 'Editar' }}</span>
-                </button>
-            }
-        } @else {
-            <button class="tonal-button add__button" (click)="navigateEdit()">
-                <span class="material-icons">edit</span>
-                <span>{{ editButton?.text ?? 'Editar' }}</span>
-            </button>
-        }
+    @if (editButton.routerLink; as rLink) {
+    @if (rLink.outlet == 'route-lateral') {
+    <button class="tonal-button add__button" appNavigateLateralPanelOutlet
+        [navigateUrl]="rLink.url | getMixedValue:item">
+        <span class="material-icons">edit</span>
+        <span>{{ editButton?.text ?? 'Editar' }}</span>
+    </button>
+    }@else {
+    <button class="tonal-button add__button" [routerLink]="rLink.url | getMixedValue:item">
+        <span class="material-icons">edit</span>
+        <span>{{ editButton?.text ?? 'Editar' }}</span>
+    </button>
+    }
     } @else {
-        <button class="tonal-button add__button" (click)="navigateEdit()">
-            <span class="material-icons">edit</span>
-            <span>Editar</span>
-        </button>
+    <button class="tonal-button add__button" (click)="navigateEdit()">
+        <span class="material-icons">edit</span>
+        <span>{{ editButton?.text ?? 'Editar' }}</span>
+    </button>
+    }
+    } @else {
+    <button class="tonal-button add__button" (click)="navigateEdit()">
+        <span class="material-icons">edit</span>
+        <span>Editar</span>
+    </button>
     }
 </ng-template>
 

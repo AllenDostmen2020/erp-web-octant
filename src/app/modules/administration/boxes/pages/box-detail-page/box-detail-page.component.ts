@@ -7,7 +7,7 @@ import { SpinnerDefaultComponent } from '@component/spinner-default/spinner-defa
 import { StatusModel } from '@interface/baseModel';
 import { Box } from '@interface/box';
 import { BoxOpening } from '@interface/boxOpening';
-import { ItemDetailConfiguration } from '@interface/itemDetail';
+import { ItemDetailConfiguration } from '@component/item-detail-template/item-detail-template.component';
 import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
 import { FetchService } from '@service/fetch.service';
 import { BoxOpeningCreatePageComponent } from '../../box-openings/pages/box-opening-create-page/box-opening-create-page.component';

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
 import { Client } from '@interface/client';
-import { ItemDetailConfiguration } from '@interface/itemDetail';
+import { ItemDetailConfiguration } from '@component/item-detail-template/item-detail-template.component';
 
 @Component({
   selector: 'app-client-detail-page',

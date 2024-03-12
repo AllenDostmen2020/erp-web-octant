@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
-import { ItemDetailConfiguration } from '@interface/itemDetail';
+import { ItemDetailConfiguration } from '@component/item-detail-template/item-detail-template.component';
 import { Vehicle } from '@interface/vehicle';
 
 @Component({

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
 import { ClientBillingOption } from '@interface/clientBillingOption';
 import { FetchErrorResponse } from '@interface/fetch';
-import { ItemDetailConfiguration } from '@interface/itemDetail';
+import { ItemDetailConfiguration } from '@component/item-detail-template/item-detail-template.component';
 
 @Component({
   selector: 'app-client-billing-option-detail-page',

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
+import { ItemDetailTemplateComponent, registerDataGroupDetail, ItemDetailConfiguration, textDetail, dateDetail, numberDetail } from '@component/item-detail-template/item-detail-template.component';
 import { Document } from '@interface/document';
-import { ItemDetailConfiguration } from '@interface/itemDetail';
 
 @Component({
   selector: 'app-document-detail-page',
@@ -21,92 +20,93 @@ export class DocumentDetailPageComponent {
             {
                 title: 'Datos generales',
                 icon: 'account_circle',
-                details: [
-                    {
-                        title: 'Cliente',
-                        displayValueFn: (item) => item.client?.name
-                    },
-                    {
+                details: [                    
+                    textDetail({
+                       title: 'Cliente',
+                        displayValueFn: (item) => item.client?.name, 
+                    }),
+                    textDetail({
                         title: 'Serie',
                         displayValueFn: (item) => item.serie
-                    },
-                    {
+                    }),
+                    textDetail({
                         title: 'Correlativo',
                         displayValueFn: (item) => item.correlative
-                    },
-                    {
+                    }),
+                    dateDetail({
                         title: 'Fecha emisión',
-                        displayValueFn: (item) => item.emit_date,
-                        type: 'date'
-                    },
-                    {
+                        displayValueFn: (item) => item.emit_date
+                    }),
+                    dateDetail({
                         title: 'Fecha expira',
-                        displayValueFn: (item) => item.expiration_date,
-                        type: 'date'
-                    },
-                    {
-                        title: 'A crédito',
-                        displayValueFn: (item) => item.fees ? 'SI': 'NO',
-                    },
-                    {
-                        title: 'Subtotal.',
-                        displayValueFn: (item) => item.total_value,
-                        type: 'number'
-                    },
-                    {
+                        displayValueFn: (item) => item.expiration_date
+                    }),
+                    textDetail({
+                        title: '¿En cuotas?',
+                        displayValueFn: (item) => item.fees ? 'SI': 'NO'
+                    }),
+                    numberDetail({
+                        title: 'Subtotal',
+                        displayValueFn: (item) => item.total_value
+                    }),
+                    numberDetail({
                         title: 'IGV %',
-                        displayValueFn: (item) => item.igv,
-                        type: 'number'
-                    },
-                    {
+                        displayValueFn: (item) => item.igv
+                    }),
+                    numberDetail({
                         title: 'IGV S/.',
-                        displayValueFn: (item) => item.total_igv,
-                        type: 'number'
-                    },
-                    {
-                        title: 'Retención',
-                        displayValueFn: (item) => item.retention ? 'SI' : 'NO',
-                    },
-                    {
+                        displayValueFn: (item) => item.total_igv
+                    }),
+                    textDetail({
+                        title: '¿Retención?',
+                        displayValueFn: (item) => item.retention ? 'SI' : 'NO'
+                    }),
+                    numberDetail({
                         title: 'Retención %',
-                        displayValueFn: (item) => item.retention_percent,
-                    },
-                    {
+                        hidden: (item) => !item.retention,
+                        displayValueFn: (item) => item.retention_percent
+                    }),
+                    numberDetail({
                         title: 'Retención S/.',
-                        displayValueFn: (item) => item.total_retention,
-                    },
-                    {
-                        title: 'Percepción',
-                        displayValueFn: (item) => item.perception ? 'SI' : 'NO',
-                    },
-                    {
+                        hidden: (item) => !item.retention,
+                        displayValueFn: (item) => item.total_retention
+                    }),
+                    textDetail({
+                        title: '¿Percepción?',
+                        displayValueFn: (item) => item.perception ? 'SI' : 'NO'
+                    }),
+                    numberDetail({
                         title: 'Percepción %',
-                        displayValueFn: (item) => item.perception_percent,
-                    },
-                    {
+                        hidden: (item) => !item.perception,
+                        displayValueFn: (item) => item.perception_percent
+                    }),
+                    numberDetail({
                         title: 'Percepción S/.',
-                        displayValueFn: (item) => item.total_perception,
-                    },
-                    {
-                        title: 'Detracción',
-                        displayValueFn: (item) => item.detraction ? 'SI' : 'NO',
-                    },
-                    {
+                        hidden: (item) => !item.perception,
+                        displayValueFn: (item) => item.total_perception
+                    }),
+                    textDetail({
+                        title: '¿Detracción?',
+                        displayValueFn: (item) => item.detraction ? 'SI' : 'NO'
+                    }),
+                    numberDetail({
                         title: 'Detracción %',
-                        displayValueFn: (item) => item.detraction_percent,
-                    },
-                    {
+                        hidden: (item) => !item.detraction,
+                        displayValueFn: (item) => item.detraction_percent
+                    }),
+                    numberDetail({
                         title: 'Detracción S/.',
-                        displayValueFn: (item) => item.total_detraction,
-                    },
-                    {
+                        hidden: (item) => !item.detraction,
+                        displayValueFn: (item) => item.total_detraction
+                    }),
+                    numberDetail({
                         title: 'Total',
-                        displayValueFn: (item) => item.total,
-                    },
-                    {
+                        displayValueFn: (item) => item.total
+                    }),
+                    textDetail({
                         title: 'SUNAT Inf.',
-                        displayValueFn: (item) => item.sunat_information,
-                    },
+                        displayValueFn: (item) => item.sunat_information
+                    }),
                 ]
             },
             registerDataGroupDetail(),

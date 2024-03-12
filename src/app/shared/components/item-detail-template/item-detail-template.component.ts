@@ -1,16 +1,14 @@
 import {
     Component,
+    EventEmitter,
     Input,
+    TemplateRef,
     ViewEncapsulation,
+    WritableSignal,
     inject,
     signal,
 } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import {
-    ItemDetail,
-    ItemDetailConfiguration,
-    ItemDetailGroup,
-} from 'src/app/shared/interfaces/itemDetail';
 import { FetchService } from '@service/fetch.service';
 import { SpinnerDefaultComponent } from '../spinner-default/spinner-default.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -30,6 +28,86 @@ import { ExecuteFunctionPipe } from '@pipe/execute-function.pipe';
 import { GetMixedValuePipe } from '@pipe/get-mixed-value.pipe';
 import { objectToURLSearchParams } from '@utility/queryParams';
 import { ConfirmDialogData } from '@component/confirm-dialog-template/confirm-dialog-template.component';
+import { TypeValueKeyItem } from '@component/item-list-template/item-list-template.component';
+
+export interface ItemDetailConfiguration<T = any> {
+    title: string;
+    subtitle?: ((item: T) => string | number | null | undefined) | false;
+    itemId?: string;
+    server: {
+        url: string;
+        queryParams?: { [key: string]: any };
+    }
+    loading?: boolean;
+    groups: ItemDetailGroup<T>[];
+    dataItem?: WritableSignal<T | null>;
+    parseItemFn?: (item: T) => (T | Promise<T>);
+    afterSetItemFn?: (item: T) => void;
+    afterDeleteItemFn?: (item: T) => void;
+    afterRestoreItemFn?: (item: T) => void;
+
+    editButton?: {
+        text?: string;
+        routerLink?: RouterLinkItem<T>
+    } | false;
+
+    deleteButton?: boolean;
+    restoreButton?: boolean;
+    backButton?: boolean;
+    actionButtons?: ActionButton<T, ActionButtonType>[];
+    ignoreShowError?: boolean;
+    interceptHttpErrorItemFn?: (error: FetchErrorResponse) => void;
+    httpError?: FetchErrorResponse;
+    hiddeHeader?: boolean;
+    updateItemEvent?: EventEmitter<boolean>;
+}
+
+export interface ItemDetailGroup<T> {
+    icon?: string,
+    title?: string,
+    details: ItemDetail<T>[]
+    template?: {
+        ref: TemplateRef<any>,
+        position?: 'before' | 'after',
+    },
+    actions?: ActionButton<T>[] 
+}
+
+export interface ItemDetail<T> {
+    clickEvent?: (item: T) => void;
+    cssClass?: ((item: T) => string) | string;
+    hidden?: (item: T) => boolean;
+    dateFormat?: string;
+    displayValueFn: (item: T) => string | number | null | undefined | string[];
+    key?: string;
+    title: string;
+    numberFormat?: string;
+    routerLink?: RouterLinkItem<T>
+    tooltip?: ((item: T) => string) | string;
+    type?: TypeValueKeyItem | 'image' | 'image-server' | 'private-image-server' | 'html';
+}
+
+export interface ActionButton<T, Type = 'clickEvent'> {
+    id: number | string;
+    type?: Type;
+    style: StyleButton;
+    icon?: string;
+    text?: string;
+    title?: string;
+    clickEvent: (item: T) => void;
+}
+
+export type StyleButton = 'filled-button' | 'tonal-button' | 'text-button' | 'outlined-button' | 'elevated-button' | 'icon-button' | 'tonal-icon-button' | 'filled-icon-button' | 'outlined-icon-button';
+
+export type ActionButtonType = 'clickEvent' | 'update' | 'delete' | 'restore';
+
+export interface RouterLinkItem<T> {
+    url: ((item: T) => string) | string;
+    outlet?: 'route-lateral' | 'principal';
+    queryParams?: { [key: string]: any },
+    state?: ((item: T) => (string | {[key: string]: any} | any[] | number | null)) | string | {[key: string]: any} | any[] | number | null;
+}
+
 
 export const registerDataGroupDetail = (): ItemDetailGroup<any> => {
     return {
@@ -88,10 +166,22 @@ export const registerDataGroupDetail = (): ItemDetailGroup<any> => {
         ],
     };
 };
-interface TextDetail<T = any> extends ItemDetail<T> {
 
-}
-export const textDetail = () => {}
+interface SimpleDetail<T = any> extends Omit<ItemDetail<T>, 'numberFormat' | 'dateFormat' | 'type'> { }
+interface NumberDetail<T = any> extends SimpleDetail<T> { numberFormat?: string; }
+interface DateDetail<T = any> extends SimpleDetail<T> { dateFormat?: string; }
+export const textDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'text' });
+export const numberDetail = <T=any>(options: NumberDetail): ItemDetail<T> => ({ ...options, type: 'number' });
+export const dateDetail = <T=any>(options: DateDetail): ItemDetail<T> => ({ ...options, type: 'date' });
+export const titlecaseDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'titlecase' });
+export const uppercaseDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'uppercase' });
+export const lowercaseDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'lowercase' });
+export const htmlDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'html' });
+export const firstLetterUppercaseDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'first-letter-uppercase' });
+export const emailDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'email' });
+export const phoneDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'phone' });
+export const userDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'user' });
+export const imageColumnDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'image' });
 
 @Component({
     selector: 'app-item-detail-template',
