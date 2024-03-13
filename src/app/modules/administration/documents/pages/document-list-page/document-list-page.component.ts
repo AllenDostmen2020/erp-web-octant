@@ -13,6 +13,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { addDays, format, parseISO } from 'date-fns';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatusModel } from '@interface/baseModel';
+import { ComprobantTypeEnum } from '@interface/clientBillingOption';
 
 interface ExtDocument extends Document, ListItemExtended { }
 
@@ -78,7 +79,7 @@ export class DocumentListPageComponent {
           text: 'Anular',
           icon: 'scan_delete',
           hidden: (item) => {
-            return item.status !== StatusModel.Aceptada;
+            return item.status !== StatusModel.PendienteAceptar;
           },
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.cancelDocument(item);
@@ -231,9 +232,9 @@ export class DocumentListPageComponent {
     const confirm = await this.confirmDialog(dialogData);
     subscribe.unsubscribe();
     if (!confirm) return null;
-    const url = 'cancel-document-send';
+    const url = `cancel-document-send`;
     const body = {
-      low_reason: this.commentCtrl.value,
+      anulation_reason: this.commentCtrl.value,
       document_id: item.id,
     };
     const request: RequestInitFetch = {

@@ -1,5 +1,6 @@
 import { BaseModel, CoinEnum } from "./baseModel";
 import { Client } from "./client";
+import { ComprobantTypeEnum } from "./clientBillingOption";
 import { ClientBusinessUnit } from "./clientBusinessUnit";
 import { ClientPaymentDocument } from "./clientPaymentDocument";
 import { Contract } from "./contract";
@@ -10,7 +11,7 @@ export interface Document extends BaseModel {
     contract_id: number;
     client_business_unit_id: number;
     description: string;
-    type: string;
+    type: ComprobantTypeEnum;
     serie: string;
     correlative: string;
     igv: number;
