@@ -44,7 +44,7 @@
 
     <mat-form-field data-type="form-input" data-form-input-name="recurrently" class="col-span-full @2xl:col-span-2">
         <mat-label>Recurrente mensual</mat-label>
-        <input matInput type="text" [value]="((quantityCtrl.value ?? 0) * (buyPriceCtrl.value ?? 0)) | number:'.2-2'"
+        <input matInput type="text" [value]="((quantityCtrl.value ?? 0) * (salePriceCtrl.value ?? 0)) | number:'.2-2'"
             [disabled]="true" />
         <span matTextPrefix>S/.</span>
         <mat-error>*Requerido</mat-error>

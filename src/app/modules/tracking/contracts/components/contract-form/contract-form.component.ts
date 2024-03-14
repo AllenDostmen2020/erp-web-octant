@@ -100,6 +100,9 @@ export class ContractFormComponent {
     return this.form.get('quantity') as FormControl;
   }
 
+  get salePriceCtrl(): FormControl {
+    return this.form.get('sale_price') as FormControl;
+  }
   get buyPriceCtrl(): FormControl {
     return this.form.get('buy_price') as FormControl;
   }

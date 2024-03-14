@@ -78,5 +78,6 @@ export enum StatusModel {
   Anulada= 'anulada',
   PorAnular= 'por anular',
   Aplicada= 'aplicada',
+  Emitida= 'emitida',
 }
 
