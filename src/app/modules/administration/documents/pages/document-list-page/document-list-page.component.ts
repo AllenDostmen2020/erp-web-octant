@@ -79,7 +79,7 @@ export class DocumentListPageComponent {
           text: 'Anular',
           icon: 'scan_delete',
           hidden: (item) => {
-            return item.status !== StatusModel.PendienteAceptar;
+            return item.status !== StatusModel.Emitida;
           },
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.cancelDocument(item);
@@ -90,7 +90,7 @@ export class DocumentListPageComponent {
           text: 'Nota de crédito',
           icon: 'scan_delete',
           hidden: (item) => {
-            return item.status !== StatusModel.Aceptada;
+            return item.status !== StatusModel.Emitida;
           },
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.anulateWithNote(item, 'crédito');
@@ -101,7 +101,7 @@ export class DocumentListPageComponent {
           text: 'Nota de débito',
           icon: 'scan_delete',
           hidden: (item) => {
-            return item.status !== StatusModel.Aceptada;
+            return item.status !== StatusModel.Emitida;
           },
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.anulateWithNote(item, 'crédito');
@@ -232,10 +232,9 @@ export class DocumentListPageComponent {
     const confirm = await this.confirmDialog(dialogData);
     subscribe.unsubscribe();
     if (!confirm) return null;
-    const url = `cancel-document-send`;
+    const url = `document/anulate-to-sunat/${item.id}`;
     const body = {
-      anulation_reason: this.commentCtrl.value,
-      document_id: item.id,
+      anulation_reason: this.commentCtrl.value
     };
     const request: RequestInitFetch = {
       confirmDialog: false,
