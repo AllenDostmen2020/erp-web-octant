@@ -3,27 +3,27 @@ import { ItemDetailTemplateComponent, registerDataGroupDetail, ItemDetailConfigu
 import { Document } from '@interface/document';
 
 @Component({
-  selector: 'app-document-detail-page',
-  standalone: true,
-  imports: [ItemDetailTemplateComponent],
-  templateUrl: './document-detail-page.component.html',
-  styleUrl: './document-detail-page.component.scss'
+    selector: 'app-document-detail-page',
+    standalone: true,
+    imports: [ItemDetailTemplateComponent],
+    templateUrl: './document-detail-page.component.html',
+    styleUrl: './document-detail-page.component.scss'
 })
 export class DocumentDetailPageComponent {
     public configuration: ItemDetailConfiguration<Document> = {
         title: 'Detalles',
         server: {
             url: 'document',
-            queryParams: {relations: 'client'}
+            queryParams: { relations: 'client' }
         },
         groups: [
             {
                 title: 'Datos generales',
                 icon: 'account_circle',
-                details: [                    
+                details: [
                     textDetail({
-                       title: 'Cliente',
-                        displayValueFn: (item) => item.client?.name, 
+                        title: 'Cliente',
+                        displayValueFn: (item) => item.client?.name,
                     }),
                     textDetail({
                         title: 'Serie',
@@ -43,7 +43,7 @@ export class DocumentDetailPageComponent {
                     }),
                     textDetail({
                         title: '¿En cuotas?',
-                        displayValueFn: (item) => item.fees ? 'SI': 'NO'
+                        displayValueFn: (item) => item.fees ? 'SI' : 'NO'
                     }),
                     numberDetail({
                         title: 'Subtotal',
