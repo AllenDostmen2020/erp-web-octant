@@ -17,11 +17,14 @@
       </div>
       @for (item of documents(); track item; let i = $index) {
       <div class="item__row" cdkDrag>
-        @for (document_item of item.document_items; track document_item; let i = $index){
         <div class="item__row__cell">
-          {{ document_item.description }} |
+          <p>{{item.serie}} - {{item.correlative}}</p>
+          <p class="body-small" style="opacity: 0.75;">
+            @for (document_item of item.document_items; track document_item; let i = $index){
+            {{ document_item.description }} |
+            }
+          </p>
         </div>
-        }
         <div class="item__row__cell" align="right">
           {{ item.total_detraction |number:'.2-2' }}
         </div>
@@ -80,11 +83,14 @@
       </div>
       @for (item of documentsToPay(); track item; let i = $index) {
       <div class="item__row" cdkDrag>
-        @for (document_item of item.document_items; track document_item; let i = $index){
         <div class="item__row__cell">
-          {{ document_item.description }} |
+          <p>{{item.serie}} - {{item.correlative|number:'4.0-0'}}</p>
+          <p class="body-small" style="opacity: 0.75;">
+            @for (document_item of item.document_items; track document_item; let i = $index){
+              {{ document_item.description }} |
+            }
+          </p>
         </div>
-        }
         <div class="item__row__cell" align="right">
           {{ item.total_detraction |number:'.2-2' }}
         </div>
@@ -106,20 +112,20 @@
       <div class="items__footer__resumen">
 
         @if(totalsToPay(); as totalToPay) {
-            <div class="items__resumen__label">Total detracción</div>
-            <div>:</div>
-            <div class="items__resumen__value">{{totalToPay.total_detraction |number:'.2-2'}}</div>
-            <div class="items__resumen__label">Total retención</div>
-            <div>:</div>
-            <div class="items__resumen__value">{{totalToPay.total_retention |number:'.2-2'}}</div>
-            <div class="items__resumen__label">Total recaudación</div>
-            <div>:</div>
-            <div class="items__resumen__value">{{totalToPay.total_recaudation |number:'.2-2'}}</div>
-    
-            <div class="items__resumen__label">Total</div>
-            <div>:</div>
-            <div class="items__resumen__value">{{totalToPay.total|number:'.2-2'}}</div>
-            }
+        <div class="items__resumen__label">Total detracción</div>
+        <div>:</div>
+        <div class="items__resumen__value">{{totalToPay.total_detraction |number:'.2-2'}}</div>
+        <div class="items__resumen__label">Total retención</div>
+        <div>:</div>
+        <div class="items__resumen__value">{{totalToPay.total_retention |number:'.2-2'}}</div>
+        <div class="items__resumen__label">Total recaudación</div>
+        <div>:</div>
+        <div class="items__resumen__value">{{totalToPay.total_recaudation |number:'.2-2'}}</div>
+
+        <div class="items__resumen__label">Total</div>
+        <div>:</div>
+        <div class="items__resumen__value">{{totalToPay.total|number:'.2-2'}}</div>
+        }
 
       </div>
     </div>

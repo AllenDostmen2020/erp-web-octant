@@ -84,7 +84,7 @@ export class ClientDocumentPaymentFormComponent {
 
     private async getDocuments() {
         const clientId = this.activatedRoute.snapshot.parent?.paramMap.get('id');
-        const data = (await this.fetch.get<PaginatorData<Document>>(`document?relations=documentItems&client_id=${clientId}`)).data;
+        const data = (await this.fetch.get<PaginatorData<Document>>(`document?status=emitida&order=correlative|ASC&relations=documentItems&client_id=${clientId}`)).data;
         const parseData = data.map((document) => ({ ...document, total_recaudation: Number(document.total) - (Number(document.total_detraction ?? 0) + Number(document.total_retention ?? 0)) }));
         this.documents.set(parseData);
     }
