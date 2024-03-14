@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ClientAmounts } from '../../pages/client-document-payment-create/client-document-payment-create.component';
 import { ToastService } from '@service/toast.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Sort, MatSortModule } from '@angular/material/sort';
 
 export interface ExtDocument extends Document {
     total_recaudation: number;
@@ -18,7 +19,8 @@ export interface ExtDocument extends Document {
     imports: [
         CdkDropList,
         CdkDrag,
-        DecimalPipe
+        DecimalPipe,
+        MatSortModule
     ],
     templateUrl: './client-document-payment-form.component.html',
     styleUrl: './client-document-payment-form.component.scss',
@@ -84,10 +86,39 @@ export class ClientDocumentPaymentFormComponent {
 
     private async getDocuments() {
         const clientId = this.activatedRoute.snapshot.parent?.paramMap.get('id');
-        const data = (await this.fetch.get<PaginatorData<Document>>(`document?status=emitida&order=correlative|ASC&relations=documentItems&client_id=${clientId}`)).data;
+        const data = (await this.fetch.get<PaginatorData<Document>>(`document?order=correlative|ASC&relations=documentItems&client_id=${clientId}`)).data;
         const parseData = data.map((document) => ({ ...document, total_recaudation: Number(document.total) - (Number(document.total_detraction ?? 0) + Number(document.total_retention ?? 0)) }));
         this.documents.set(parseData);
     }
+
+    sortData(sort: Sort | any) {
+        if (!sort.active || sort.direction === '') {
+            this.documents.update((items) => {
+                return items.sort((a, b) => a.correlative - b.correlative)
+            })
+            return;
+        }
+        this.documents.update(items=>{
+            return items.sort((a, b)=> {
+                const isAsc = sort.direction === 'asc';
+            switch (sort.active) {
+              case 'name':
+                return compare(a.correlative, b.correlative, isAsc);
+              case 'detraction':
+                return compare(a.total_detraction, b.total_detraction, isAsc);
+              case 'retention':
+                return compare(a.total_retention, b.total_retention, isAsc);
+              case 'recaudation':
+                return compare(a.total_recaudation, b.total_recaudation, isAsc);
+              case 'total':
+                return compare(a.total, b.total, isAsc);
+              default:
+                return 0;
+            }
+            })
+        })
+    }
+
 
     drop(event: CdkDragDrop<any[]>, container: 'uno' | 'dos') {
         if (event.previousContainer !== event.container) {
@@ -108,3 +139,7 @@ export class ClientDocumentPaymentFormComponent {
         }
     }
 }
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }

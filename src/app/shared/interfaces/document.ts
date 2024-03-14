@@ -13,7 +13,7 @@ export interface Document extends BaseModel {
     description: string;
     type: ComprobantTypeEnum;
     serie: string;
-    correlative: string;
+    correlative: number;
     igv: number;
     emit_date: string;
     emit_comment: string;

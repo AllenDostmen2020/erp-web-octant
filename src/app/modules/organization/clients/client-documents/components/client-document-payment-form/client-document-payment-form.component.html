@@ -2,18 +2,15 @@
   <!-- ----------------- -->
   <!-- ----------------- -->
   <div class="container__block">
-    <div class="block__title">
-      Items disponibles ({{documents().length}})
-    </div>
 
     <div class="items" cdkDropList #todoList="cdkDropList" [cdkDropListData]="documents()" cdkDropListSortingDisabled
       [cdkDropListConnectedTo]="[doneList]" (cdkDropListDropped)="drop($event, 'uno')">
-      <div class="item__row item__row-header">
-        <div class="item__row__cell">Nombre</div>
-        <div class="item__row__cell item__row__cell-end" align="right">Det.</div>
-        <div class="item__row__cell item__row__cell-end" align="right">Ret.</div>
-        <div class="item__row__cell item__row__cell-end" align="right">Rec.</div>
-        <div class="item__row__cell item__row__cell-end" align="right">Total</div>
+      <div class="item__row item__row-header" matSort (matSortChange)="sortData($event)">
+        <div class="item__row__cell"  mat-sort-header="name">Nombre</div>
+        <div class="item__row__cell item__row__cell-end" align="right" mat-sort-header="detraction">Det.</div>
+        <div class="item__row__cell item__row__cell-end" align="right" mat-sort-header="retention">Ret.</div>
+        <div class="item__row__cell item__row__cell-end" align="right" mat-sort-header="recaudation">Rec.</div>
+        <div class="item__row__cell item__row__cell-end" align="right" mat-sort-header="total">Total</div>
       </div>
       @for (item of documents(); track item; let i = $index) {
       <div class="item__row" cdkDrag>
@@ -67,10 +64,6 @@
   <!-- ----------------- -->
   <!-- ----------------- -->
   <div class="container__block">
-
-    <div class="block__title">
-      Items seleccionados ({{documentsToPay().length}})
-    </div>
 
     <div class="items" cdkDropList #doneList="cdkDropList" [cdkDropListData]="documentsToPay()"
       cdkDropListSortingDisabled [cdkDropListConnectedTo]="[todoList]" (cdkDropListDropped)="drop($event, 'dos')">
