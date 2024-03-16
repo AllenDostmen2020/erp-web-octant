@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, titlecaseColumn, userColumn } from '@component/item-list-template/item-list-template.component';
-import { ClientPayment } from '@interface/clientPayment';
+import { ClientBoxMovement } from '@interface/clientBoxMovement';
 
 @Component({
   selector: 'app-client-payment-list-page',
@@ -10,11 +10,11 @@ import { ClientPayment } from '@interface/clientPayment';
   styleUrl: './client-payment-list-page.component.scss'
 })
 export class ClientPaymentListPageComponent {
-  public listConfiguration: ItemListConfiguration<ClientPayment> = {
+  public listConfiguration: ItemListConfiguration<ClientBoxMovement> = {
     title: 'Documentos',
     server: {
-      url: 'client-payment',
-      queryParams: { relations: 'clientAccount,boxMovement' }
+      url: 'client-box-movement',
+      queryParams: { relations: 'clientBoxes,boxMovement' }
     },
     columns: signal([
       textColumn({
@@ -23,7 +23,7 @@ export class ClientPaymentListPageComponent {
       }),
       textColumn({
         title: 'Cuenta',
-        displayValueFn: (item) => item.client_account?.name,
+        displayValueFn: (item) => item.client_box?.name,
         routerLinkValue: { url: (item) => `../detail/${item.id}` },
         gridColumn: '1fr',
       }),
@@ -41,12 +41,11 @@ export class ClientPaymentListPageComponent {
       }),
       titlecaseColumn({
         title: 'Moneda',
-        displayValueFn: (item) => item.box_movement?.coin ?? item.client_account?.coin,
+        displayValueFn: (item) => item.box_movement?.coin ?? item.client_box?.coin,
       }),
       numberColumn({
-        title: 'Monto D / U',
+        title: 'Monto Disponible',
         displayValueFn: (item) => item.amount,
-        displayAdditionalValueFn: (item) => item.amount_used,
       }),
       itemCreatedAtColumn(),
       itemUpdatedAtColumn(),

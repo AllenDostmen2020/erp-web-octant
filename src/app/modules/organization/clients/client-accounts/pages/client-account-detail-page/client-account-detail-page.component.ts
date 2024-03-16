@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
-import { ClientAccount } from '@interface/clientAccount';
+import { ClientBox } from '@interface/clientBox';
 import { ItemDetailConfiguration } from '@component/item-detail-template/item-detail-template.component';
 
 @Component({
@@ -11,9 +11,9 @@ import { ItemDetailConfiguration } from '@component/item-detail-template/item-de
     styleUrl: './client-account-detail-page.component.scss'
 })
 export class ClientAccountDetailPageComponent {
-    public configuration: ItemDetailConfiguration<ClientAccount> = {
+    public configuration: ItemDetailConfiguration<ClientBox> = {
         title: 'Detalles',
-        server: { url: 'client-account' },
+        server: { url: 'client-box' },
         groups: [
             {
                 title: 'Datos generales',

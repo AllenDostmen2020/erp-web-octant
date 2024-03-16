@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ItemFormConfiguration, ItemFormTemplateComponent, selectFormInput, textFormInput } from '@component/item-form-template/item-form-template.component';
 import { COIN } from '@interface/baseModel';
-import { ClientAccount, ClientAccountTypeEnum } from '@interface/clientAccount';
+import { ClientBox, ClientAccountTypeEnum } from '@interface/clientBox';
 
 @Component({
     selector: 'app-client-account-create-page',
@@ -14,7 +14,7 @@ import { ClientAccount, ClientAccountTypeEnum } from '@interface/clientAccount';
 })
 export class ClientAccountCreatePageComponent {
     public activatedRoute = inject(ActivatedRoute);
-    public configuration: ItemFormConfiguration<ClientAccount> = {
+    public configuration: ItemFormConfiguration<ClientBox> = {
         titleModule: 'cuenta',
         type: 'create',
         formGroup: new FormGroup({
@@ -42,6 +42,6 @@ export class ClientAccountCreatePageComponent {
                 cssClass: 'col-span-full @2xl:col-span-6',
             })
         ],
-        server: { url: 'client-account' },
+        server: { url: 'client-box' },
     }
 }

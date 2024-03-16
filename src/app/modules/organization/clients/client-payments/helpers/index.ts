@@ -1,11 +1,10 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { PaymentTypeEnum } from "@interface/boxMovement";
-import { ComprobantTypeEnum } from "@interface/clientBillingOption";
-import { ClientPayment } from "@interface/clientPayment";
+import { ClientBoxMovement } from "@interface/clientBoxMovement";
 
-export const clientPaymentFormGroup = (data?: Partial<ClientPayment>) => new FormGroup({
+export const clientPaymentFormGroup = (data?: Partial<ClientBoxMovement>) => new FormGroup({
     client_id: new FormControl<number|null|undefined>(data?.client_id, [Validators.required]),
-    client_account_id: new FormControl<number|undefined>(data?.client_account_id, [Validators.required]),
+    client_box_id: new FormControl<number|undefined>(data?.client_box_id, [Validators.required]),
     box_movement: new FormGroup({
         box_opening_id: new FormControl<number|null|undefined>(data?.box_movement?.box_opening_id, [Validators.required]),
         payment_date: new FormControl<string|Date|null|undefined>(data?.box_movement?.payment_date ?? new Date(), [Validators.required]),

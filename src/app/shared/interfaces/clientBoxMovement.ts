@@ -1,18 +1,19 @@
 import { BaseModel } from "./baseModel";
 import { BoxMovement } from "./boxMovement";
 import { Client } from "./client";
-import { ClientAccount } from "./clientAccount";
+import { ClientBox } from "./clientBox";
 import { ClientPaymentDocument } from "./clientPaymentDocument";
 
-export interface ClientPayment extends BaseModel {
+export interface ClientBoxMovement extends BaseModel {
     client_id: number;
-    client_account_id: number;
+    client_box_id: number;
     box_movement_id: number;
+    to_client_box_id: number;
+    from_client_box_id: number;
     amount: number;
-    amount_used: number;
 
     client?: Client;
-    client_account?: ClientAccount;
+    client_box?: ClientBox;
     box_movement?: BoxMovement;
     client_payment_documents?: ClientPaymentDocument[];
 }

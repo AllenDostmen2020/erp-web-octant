@@ -1,5 +1,5 @@
 import { BaseModel } from "./baseModel";
-import { ClientPayment } from "./clientPayment";
+import { ClientBoxMovement } from "./clientBoxMovement";
 import { Document } from "./document";
 
 export interface ClientPaymentDocument extends BaseModel {
@@ -8,5 +8,5 @@ export interface ClientPaymentDocument extends BaseModel {
     amount: number;
 
     document?: Document;
-    client_payment?: ClientPayment;
+    client_box_movement?: ClientBoxMovement;
 }

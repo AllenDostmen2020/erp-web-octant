@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
-import { ClientPayment } from '@interface/clientPayment';
+import { ClientBoxMovement } from '@interface/clientBoxMovement';
 import { ItemDetailConfiguration } from '@component/item-detail-template/item-detail-template.component';
 
 @Component({
@@ -11,10 +11,10 @@ import { ItemDetailConfiguration } from '@component/item-detail-template/item-de
     styleUrl: './client-payment-detail-page.component.scss'
 })
 export class ClientPaymentDetailPageComponent {
-    public configuration: ItemDetailConfiguration<ClientPayment> = {
+    public configuration: ItemDetailConfiguration<ClientBoxMovement> = {
         title: 'Detalles',
         subtitle: false,
-        server: { url: 'client-payment', queryParams: { relations: 'clientPaymentDocuments.document,boxMovement,clientAccount' } },
+        server: { url: 'client-box-movement', queryParams: { relations: 'clientPaymentDocuments.document,boxMovement,clientBox' } },
         backButton: true,
         groups: [
             {
@@ -23,7 +23,7 @@ export class ClientPaymentDetailPageComponent {
                 details: [
                     {
                         title: 'Cuenta',
-                        displayValueFn: (item) => item.client_account?.name,
+                        displayValueFn: (item) => item.client_box?.name,
                     },
                     {
                         title: 'Tipo de pago',

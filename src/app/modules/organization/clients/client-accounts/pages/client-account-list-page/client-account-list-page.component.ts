@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
-import { ClientAccount } from '@interface/clientAccount';
+import { ClientBox } from '@interface/clientBox';
 import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 
 @Component({
@@ -13,10 +13,10 @@ import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdat
 })
 export class ClientAccountListPageComponent {
     private activatedRoute = inject(ActivatedRoute);
-    public configList: ItemListConfiguration<ClientAccount> = {
+    public configList: ItemListConfiguration<ClientBox> = {
         title: 'Cuentas del cliente',
         server: {
-            url: 'client-account',
+            url: 'client-box',
             queryParams: {
                 client_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')
             },

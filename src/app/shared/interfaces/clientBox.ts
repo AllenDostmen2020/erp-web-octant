@@ -1,7 +1,7 @@
 import { BaseModel, CoinEnum } from "./baseModel";
 import { Client } from "./client";
 
-export interface ClientAccount extends BaseModel {
+export interface ClientBox extends BaseModel {
     client_id: number;
     name: string;
     type: ClientAccountTypeEnum;
