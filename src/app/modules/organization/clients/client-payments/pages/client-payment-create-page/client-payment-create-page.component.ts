@@ -20,6 +20,6 @@ export class ClientPaymentCreatePageComponent {
         formGroup: clientPaymentFormGroup({
             client_id: Number(this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')) ?? null,
         }),
-        server: { url: 'client-payment' },
+        server: { url: 'client-box-movement' },
     };
 }
