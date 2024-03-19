@@ -92,10 +92,7 @@ export class BoxOpeningListPageComponent {
         });
         dialogRef.afterClosed().subscribe(async (response: BoxOpening) => {
             if (response && response.amount_init >= 0) {
-                const body = {
-                    ...response,
-                    box_id: this.item!.id,
-                };
+                const body = { ...response, box_id: this.item!.id };
                 await this.fetch.post('box-opening', body);
                 this.databaseStorage.updateDataLocal(NameModuleDatabase.BoxOpenings);
                 this.getBox();

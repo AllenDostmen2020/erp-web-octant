@@ -113,11 +113,8 @@ export class BoxDetailPageComponent {
             },
         });
         dialogRef.afterClosed().subscribe(async (response: BoxOpening) => {
-            if (response.amount_init) {
-                const body = {
-                    ...response,
-                    box_id: this.dataItem()!.id,
-                };
+            if (response && response.amount_init >= 0) {
+                const body = { ...response, box_id: this.dataItem()!.id };
                 await this.fetch.post('box-opening', body, { confirmDialog: false });
                 this.databaseStorage.updateDataLocal(NameModuleDatabase.BoxOpenings);
                 this.configuration.updateItemEvent?.emit(true);

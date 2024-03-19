@@ -29,7 +29,6 @@ export class BoxOpeningCreatePageComponent {
     }
 
     ngOnInit() {
-        console.log(this.data_dialog);
         if (this.data_dialog.last_box_opening) {
             this.amountInitCtrl.setValue(this.data_dialog.amount);
             this.amountInitCtrl.disable()
@@ -37,7 +36,7 @@ export class BoxOpeningCreatePageComponent {
     }
 
     public save() {
-        if (this.form.value) this.dialogRef.close({ ...this.form.getRawValue() });
+        if (this.form.valid) this.dialogRef.close({ ...this.form.getRawValue() });
     }
 
     public edit() {
