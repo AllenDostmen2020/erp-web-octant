@@ -11,6 +11,7 @@ import { InputSelectConfiguration, InputSelectServerConfiguration, InputSelectTe
 import { SelectFileComponent } from '@component/select-file/select-file.component';
 import { BoxMovementTypeEnum } from '@interface/boxMovement';
 import { BoxOpening } from '@interface/boxOpening';
+import { ClientBox } from '@interface/clientBox';
 import { NameModuleDatabase } from '@service/database-storage.service';
 
 @Component({
@@ -37,8 +38,8 @@ export class ClientPaymentFormPageComponent {
     get boxMovementFormGroup(): FormGroup {
         return this.form.get('box_movement') as FormGroup;
     }
-    get clientAccountIdCtrl(): FormControl {
-        return this.form.get('client_account_id') as FormControl;
+    get clientBoxIdCtrl(): FormControl {
+        return this.form.get('client_box_id') as FormControl;
     }
     get bankIdCtrl(): FormControl {
         return this.boxMovementFormGroup.get('bank_id') as FormControl;
@@ -61,13 +62,13 @@ export class ClientPaymentFormPageComponent {
     get toBoxOpeningIdCtrl(): FormControl | null {
         return this.boxMovementFormGroup.get('to_box_opening_id') as FormControl;
     }
-    public readonly clientAccountSelectServerConfiguration: InputSelectServerConfiguration = {
+    public readonly clientBoxSelectServerConfiguration: InputSelectServerConfiguration <ClientBox> = {
         textLabel: 'Cuenta',
         server: {
             url: 'client-box',
             queryParams: `client_id=${this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')}`
         },
-        displayTextFn: (item)=> item.type
+        displayTextFn: (item)=> (item.type).toUpperCase()
     }
 
     public readonly bankAutocompleteLocalConfiguration: InputAutocompleteLocalConfiguration = {
