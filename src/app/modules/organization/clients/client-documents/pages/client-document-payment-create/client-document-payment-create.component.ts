@@ -5,26 +5,22 @@ import { FetchService } from '@service/fetch.service';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { from } from 'rxjs';
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, UpperCasePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ClientBox } from '@interface/clientBox';
 
-export interface ClientAmounts {
-    recaudation_amount: number;
-    detraction_amount: number;
-    retention_amount: number;
-}
 
 @Component({
     selector: 'app-client-document-payment-create',
     standalone: true,
-    imports: [ItemFormTemplateComponent, ClientDocumentPaymentFormComponent, DecimalPipe],
+    imports: [ItemFormTemplateComponent, ClientDocumentPaymentFormComponent, DecimalPipe, UpperCasePipe],
     templateUrl: './client-document-payment-create.component.html',
     styleUrl: './client-document-payment-create.component.scss'
 })
 export class ClientDocumentPaymentCreateComponent {
     private fetch = inject(FetchService);
     private activatedRoute = inject(ActivatedRoute);
-    public clientAmounts = toSignal(from(this.fetch.get<ClientAmounts>(`client-payment/client/${this.activatedRoute.snapshot.parent?.paramMap.get('id')}`)))
+    public clientAmounts = toSignal(from(this.fetch.get<ClientBox[]>(`client-box`)))
     public configuration: ItemFormConfiguration = {
         type: 'create',
         titleModule: 'Comprobantes',

@@ -7,6 +7,9 @@ export interface ClientBox extends BaseModel {
     type: ClientAccountTypeEnum;
     coin: CoinEnum;
     total: any;
+    amount_available: number;
+    amount_entered: number;
+    amount_graduated: number;
 
     client?: Client;
 }

@@ -31,7 +31,7 @@ export class ClientViewPageComponent {
             },
             {
                 routerLink: './account',
-                text: 'Cuentas',
+                text: 'Cajas',
             },
             {
                 routerLink: './contract',

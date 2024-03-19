@@ -5,10 +5,10 @@ import { PaginatorData } from '@interface/paginator';
 import { DecimalPipe } from '@angular/common';
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { ActivatedRoute } from '@angular/router';
-import { ClientAmounts } from '../../pages/client-document-payment-create/client-document-payment-create.component';
 import { ToastService } from '@service/toast.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Sort, MatSortModule } from '@angular/material/sort';
+import { ClientBox } from '@interface/clientBox';
 
 export interface ExtDocument extends Document {
     total_recaudation: number;
@@ -27,7 +27,7 @@ export interface ExtDocument extends Document {
 })
 export class ClientDocumentPaymentFormComponent {
     @Input({ required: true }) form!: FormGroup;
-    public clientAmounts = input.required<ClientAmounts>();
+    public clientAmounts = input.required<ClientBox[]>();
     private fetch = inject(FetchService);
     private toast = inject(ToastService);
     private activatedRoute = inject(ActivatedRoute);
@@ -126,10 +126,12 @@ export class ClientDocumentPaymentFormComponent {
                 this.documents.update((documents) => documents.toSpliced(event.currentIndex, 0, this.documentsToPay()[event.previousIndex]))
                 this.documentsToPay.update((documents) => documents.toSpliced(event.previousIndex, 1))
             } else {
-                const disponible = this.clientAmounts().recaudation_amount;
+                const recaudationClientBox = this.clientAmounts().find(item=> item.type.toLowerCase() == 'recaudación');
+                const detractionClientBox = this.clientAmounts().find(item=> item.type.toLowerCase() == 'detracción');
+                const retentionClientBox = this.clientAmounts().find(item=> item.type.toLowerCase() == 'retención');
                 const curentRecaudation = this.totalsToPay().total_recaudation;
                 const currentItem = this.documents()[event.previousIndex];
-                if ((curentRecaudation + currentItem.total_recaudation) > disponible) {
+                if ((curentRecaudation + currentItem.total_recaudation) > recaudationClientBox?.amount_available!) {
                     this.toast.open('No se puede agregar el documento, el monto de recaudación supera el monto disponible')
                     return;
                 }
