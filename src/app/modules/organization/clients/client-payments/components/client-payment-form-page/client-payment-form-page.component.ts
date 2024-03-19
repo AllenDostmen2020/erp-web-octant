@@ -64,9 +64,10 @@ export class ClientPaymentFormPageComponent {
     public readonly clientAccountSelectServerConfiguration: InputSelectServerConfiguration = {
         textLabel: 'Cuenta',
         server: {
-            url: 'client-account',
+            url: 'client-box',
             queryParams: `client_id=${this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')}`
         },
+        displayTextFn: (item)=> item.type
     }
 
     public readonly bankAutocompleteLocalConfiguration: InputAutocompleteLocalConfiguration = {
