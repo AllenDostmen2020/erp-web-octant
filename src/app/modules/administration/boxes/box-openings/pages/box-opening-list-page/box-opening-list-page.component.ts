@@ -91,7 +91,7 @@ export class BoxOpeningListPageComponent {
             },
         });
         dialogRef.afterClosed().subscribe(async (response: BoxOpening) => {
-            if (response.amount_init) {
+            if (response && response.amount_init >= 0) {
                 const body = {
                     ...response,
                     box_id: this.item!.id,
