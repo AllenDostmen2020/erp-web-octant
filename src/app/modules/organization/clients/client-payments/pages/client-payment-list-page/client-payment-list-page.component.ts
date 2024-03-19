@@ -14,7 +14,7 @@ export class ClientPaymentListPageComponent {
     title: 'Documentos',
     server: {
       url: 'client-box-movement',
-      queryParams: { relations: 'clientBoxes,boxMovement' }
+      queryParams: { relations: 'clientBox,boxMovement' }
     },
     columns: signal([
       textColumn({

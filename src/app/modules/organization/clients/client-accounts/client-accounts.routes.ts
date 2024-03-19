@@ -10,6 +10,10 @@ export const clientAccountRoutes: Routes = [
         loadComponent: () => import('./pages/client-account-create-page/client-account-create-page.component').then(m => m.ClientAccountCreatePageComponent),
     },
     {
+        path: 'transfer',
+        loadComponent: () => import('./pages/client-box-transfer-form/client-box-transfer-form.component').then(m => m.ClientBoxTransferFormComponent),
+    },
+    {
         path: 'edit/:id',
         loadComponent: () => import('./pages/client-account-edit-page/client-account-edit-page.component').then(m => m.ClientAccountEditPageComponent),
     },

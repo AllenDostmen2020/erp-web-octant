@@ -14,7 +14,7 @@ export class ClientPaymentDetailPageComponent {
     public configuration: ItemDetailConfiguration<ClientBoxMovement> = {
         title: 'Detalles',
         subtitle: false,
-        server: { url: 'client-box-movement', queryParams: { relations: 'clientPaymentDocuments.document,boxMovement,clientBox' } },
+        server: { url: 'client-box-movement', queryParams: { relations: 'boxMovement,clientBox' } },
         backButton: true,
         groups: [
             {
@@ -33,11 +33,6 @@ export class ClientPaymentDetailPageComponent {
                         title: 'Fecha de pago',
                         displayValueFn: (item) => item.box_movement?.payment_date,
                         type: 'date'
-                    },
-                    {
-                        title: 'Documentos pagados',
-                        displayValueFn: (item) => item.client_payment_documents?.length ? `<div class="flex gap-2">${item.client_payment_documents?.map((cpd) => `<div>${cpd.amount} | </div>`).join('')}</div>` : 'No tiene documentos asignados',
-                        type: 'html'
                     },
                 ]
             },

@@ -1,19 +1,20 @@
 <app-item-form-template [configuration]="configuration">
   <div ngProjectAs="formHeaderContent">
-    
-    @if (clientAmounts(); as amounts) {
-      @for (item of clientAmounts(); track $index) {
-        <a class="client-amounts">
-          <div class="client-amounts__group">
-            <span class="client-amounts__label label-small">{{item.type | uppercase}}</span>
-            <span class="client-amounts__value label-large">S/{{ item.amount_available| number: '.2-2'
-              }}</span>
-          </div>
-        </a>
+
+    @if (clientBoxes(); as amounts) {
+    <div class="client-amounts">
+      @for (item of clientBoxes(); track $index) {
+
+      <div class="client-amounts__group">
+        <span class="client-amounts__label label-small">{{item.type | uppercase}}</span>
+        <span class="client-amounts__value label-large">S/{{ item.amount_available| number: '.2-2'
+          }}</span>
+      </div>
       }
+    </div>
     }
   </div>
-  @if (clientAmounts(); as amounts) {
+  @if (clientBoxes(); as amounts) {
   <app-client-document-payment-form [form]="configuration.formGroup" [clientAmounts]="amounts" />
   }
 </app-item-form-template>

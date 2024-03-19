@@ -42,6 +42,6 @@ export class ClientAccountCreatePageComponent {
                 cssClass: 'col-span-full @2xl:col-span-6',
             })
         ],
-        server: { url: 'client-box' },
+        server: { url: 'client-box' },        
     }
 }

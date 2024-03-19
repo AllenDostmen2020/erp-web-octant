@@ -4,10 +4,11 @@ import { ClientDocumentPaymentFormComponent } from '../../components/client-docu
 import { FetchService } from '@service/fetch.service';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { from } from 'rxjs';
+import { from, map } from 'rxjs';
 import { DecimalPipe, UpperCasePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ClientBox } from '@interface/clientBox';
+import { PaginatorData } from '@interface/paginator';
 
 
 @Component({
@@ -20,7 +21,7 @@ import { ClientBox } from '@interface/clientBox';
 export class ClientDocumentPaymentCreateComponent {
     private fetch = inject(FetchService);
     private activatedRoute = inject(ActivatedRoute);
-    public clientAmounts = toSignal(from(this.fetch.get<ClientBox[]>(`client-box`)))
+    public clientBoxes = toSignal(from(this.fetch.get<PaginatorData<ClientBox>>(`client-box`)).pipe(map(value=> value.data)))
     public configuration: ItemFormConfiguration = {
         type: 'create',
         titleModule: 'Comprobantes',
