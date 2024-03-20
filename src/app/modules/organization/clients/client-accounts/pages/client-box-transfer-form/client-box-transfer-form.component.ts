@@ -25,7 +25,7 @@ import { NameModuleDatabase } from '@service/database-storage.service';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatSelectModule,
-    InputSelectTemplateComponent,
+    InputSelectTemplateComponent, 
     InputAutocompleteTemplateComponent,
     SelectFileComponent
   ],
@@ -38,8 +38,9 @@ export class ClientBoxTransferFormComponent {
     type: 'create',
     titleModule: 'transferencia',
     formGroup: new FormGroup({
-      to_client_box_id: new FormControl('', [Validators.required]),
+      from_client_box: new FormControl('', [Validators.required]),
       from_client_box_id: new FormControl('', [Validators.required]),
+      to_client_box_id: new FormControl('', [Validators.required]),
       box_movement: new FormGroup({
         to_box_opening_id: new FormControl('', [Validators.required]),
         from_box_opening_id: new FormControl('', [Validators.required]),
@@ -65,6 +66,9 @@ export class ClientBoxTransferFormComponent {
   get fromClientBoxIdCtrl(): FormControl {
     return this.configuration.formGroup.get('from_client_box_id') as FormControl;
   }
+  get fromClientBoxCtrl(): FormControl {
+    return this.configuration.formGroup.get('from_client_box') as FormControl;
+  }
   get bankIdCtrl(): FormControl {
     return this.boxMovementFormGroup.get('bank_id') as FormControl;
   }
@@ -72,6 +76,7 @@ export class ClientBoxTransferFormComponent {
   get toBoxOpeningIdCtrl(): FormControl {
     return this.boxMovementFormGroup.get('to_box_opening_id') as FormControl;
   }
+
   get fromBoxOpeningIdCtrl(): FormControl {
     return this.boxMovementFormGroup.get('from_box_opening_id') as FormControl;
   }
@@ -83,9 +88,11 @@ export class ClientBoxTransferFormComponent {
   get paymentTypeCtrl(): FormControl {
     return this.boxMovementFormGroup.get('payment_type') as FormControl;
   }
+
   get voucherFileCtrl(): FormControl {
     return this.boxMovementFormGroup.get('voucher_file') as FormControl;
   }
+
   public readonly toClientBoxSelectServerConfiguration: InputSelectServerConfiguration<ClientBox> = {
     textLabel: 'Cuenta destino',
     server: {
@@ -110,17 +117,18 @@ export class ClientBoxTransferFormComponent {
   public readonly toBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
     textLabel: 'Caja destino',
     local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
-    // parseDataFn: (data) => data.filter(item=>{
-    //   const toBoxOpeningId = this.toBoxOpeningIdCtrl.value ?? null;
-    //   if (toBoxOpeningId) return item.id != toBoxOpeningId
-    //   return true;
-    // }),
-    displayTextFn: (item: BoxOpening) => item.box?.name ?? '--',
+    parseDataFn: (data) => data.filter(item=> {
+      const toBoxOpeningId = this.fromBoxOpeningIdCtrl.value;
+      console.log('toBoxOpeningId', toBoxOpeningId);
+      if (toBoxOpeningId) return item.id != toBoxOpeningId
+      return true;
+    }),
+    displayTextFn: (item: BoxOpening) => item instanceof Object ? (item.box?.name ?? '') : '',
   }
   public readonly fromBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
     textLabel: 'Caja origen',
     local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
-    displayTextFn: (item: BoxOpening) => item.box?.name ?? '--',
+    displayTextFn: (item: BoxOpening) => item instanceof Object ? (item.box?.name ?? '') : '',
   }
   public readonly paymentTypeSelectConfiguration: InputSelectConfiguration = {
     textLabel: 'Tipo de pago',

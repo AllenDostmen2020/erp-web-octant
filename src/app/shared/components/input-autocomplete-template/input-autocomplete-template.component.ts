@@ -99,7 +99,7 @@ export class InputAutocompleteTemplateComponent {
       };
     }
     this.autocompleteControl.valueChanges.pipe(tap(() => this.loading.set(true)), debounceTime(250))
-      .subscribe((data: (string | { [key: string]: any })) => {
+      .subscribe((data: (string | { [key: string]: any })) => {        
         this.init.set(true);
         if (data instanceof Object) {
           const value = this.configuration.displayValueFn ? this.configuration.displayValueFn(data) : data['id'];

@@ -62,13 +62,13 @@ export class ClientPaymentFormPageComponent {
     get toBoxOpeningIdCtrl(): FormControl | null {
         return this.boxMovementFormGroup.get('to_box_opening_id') as FormControl;
     }
-    public readonly clientBoxSelectServerConfiguration: InputSelectServerConfiguration <ClientBox> = {
+    public readonly clientBoxSelectServerConfiguration: InputSelectServerConfiguration<ClientBox> = {
         textLabel: 'Cuenta',
         server: {
             url: 'client-box',
             queryParams: `client_id=${this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')}`
         },
-        displayTextFn: (item)=> (item.type).toUpperCase()
+        displayTextFn: (item) => (item.type).toUpperCase()
     }
 
     public readonly bankAutocompleteLocalConfiguration: InputAutocompleteLocalConfiguration = {
