@@ -131,7 +131,7 @@ export class ClientDocumentPaymentFormComponent {
                 const retentionClientBox = this.clientAmounts().find(item=> item.type.toLowerCase() == 'retención');
                 const curentRecaudation = this.totalsToPay().total_recaudation;
                 const currentItem = this.documents()[event.previousIndex];
-                if ((curentRecaudation + currentItem.total_recaudation) > recaudationClientBox?.amount_available!) {
+                if (((curentRecaudation + currentItem.total_recaudation) > recaudationClientBox?.amount_available!)) {
                     this.toast.open('No se puede agregar el documento, el monto de recaudación supera el monto disponible')
                     return;
                 }
