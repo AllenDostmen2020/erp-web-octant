@@ -38,7 +38,6 @@ export class ClientBoxTransferFormComponent {
     type: 'create',
     titleModule: 'transferencia',
     formGroup: new FormGroup({
-      from_client_box: new FormControl('', [Validators.required]),
       from_client_box_id: new FormControl('', [Validators.required]),
       to_client_box_id: new FormControl('', [Validators.required]),
       box_movement: new FormGroup({
@@ -65,9 +64,6 @@ export class ClientBoxTransferFormComponent {
   }
   get fromClientBoxIdCtrl(): FormControl {
     return this.configuration.formGroup.get('from_client_box_id') as FormControl;
-  }
-  get fromClientBoxCtrl(): FormControl {
-    return this.configuration.formGroup.get('from_client_box') as FormControl;
   }
   get bankIdCtrl(): FormControl {
     return this.boxMovementFormGroup.get('bank_id') as FormControl;
