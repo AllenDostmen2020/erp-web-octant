@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ItemListTemplateComponent } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, numberColumn } from '@component/item-list-template/item-list-template.component';
 import { ClientBox } from '@interface/clientBox';
 import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 
@@ -28,6 +28,11 @@ export class ClientAccountListPageComponent {
                 routerLinkValue: { url: (item) => `../detail/${item.id}` },
                 gridColumn: '1fr',
                 displayValueFn: (item) => item?.name ? item.name : '--',
+            }),
+            numberColumn({
+                title: 'Saldo',
+                gridColumn: 'auto',
+                displayValueFn: (item) => item?.amount_available,
             }),
             textColumn({
                 title: 'Tipo',
