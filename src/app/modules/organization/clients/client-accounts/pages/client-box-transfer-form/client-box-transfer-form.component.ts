@@ -25,7 +25,7 @@ import { NameModuleDatabase } from '@service/database-storage.service';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatSelectModule,
-    InputSelectTemplateComponent, 
+    InputSelectTemplateComponent,
     InputAutocompleteTemplateComponent,
     SelectFileComponent
   ],
@@ -97,7 +97,7 @@ export class ClientBoxTransferFormComponent {
     },
     displayTextFn: (item) => (item.type).toUpperCase()
   }
-  public readonly fromClientBoxSelectServerConfiguration: InputSelectServerConfiguration<ClientBox> = {
+  public fromClientBoxSelectServerConfiguration: InputSelectServerConfiguration<ClientBox> = {
     textLabel: 'Cuenta origen',
     server: {
       url: 'client-box',
@@ -113,9 +113,8 @@ export class ClientBoxTransferFormComponent {
   public readonly toBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
     textLabel: 'Caja destino',
     local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
-    parseDataFn: (data) => data.filter(item=> {
+    parseDataFn: (data) => data.filter(item => {
       const toBoxOpeningId = this.fromBoxOpeningIdCtrl.value;
-      console.log('toBoxOpeningId', toBoxOpeningId);
       if (toBoxOpeningId) return item.id != toBoxOpeningId
       return true;
     }),
@@ -136,8 +135,11 @@ export class ClientBoxTransferFormComponent {
     ],
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.paymentTypeCtrl.setValue('transferencia');
     this.paymentTypeCtrl.disable();
+    this.fromBoxOpeningIdCtrl.valueChanges.subscribe((fromIdSelected) => {
+      this.fromClientBoxSelectServerConfiguration.data = (this.fromClientBoxSelectServerConfiguration.data ?? []).filter((item) => item.id !== fromIdSelected);
+    })
   }
 }

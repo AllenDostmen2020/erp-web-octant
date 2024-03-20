@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ItemListTemplateComponent, numberColumn } from '@component/item-list-template/item-list-template.component';
 import { ClientBox } from '@interface/clientBox';
 import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
@@ -7,7 +7,7 @@ import { ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdat
 @Component({
   selector: 'app-client-account-list-page',
   standalone: true,
-  imports: [ItemListTemplateComponent],
+  imports: [ItemListTemplateComponent, RouterLink],
   templateUrl: './client-account-list-page.component.html',
   styleUrl: './client-account-list-page.component.scss'
 })

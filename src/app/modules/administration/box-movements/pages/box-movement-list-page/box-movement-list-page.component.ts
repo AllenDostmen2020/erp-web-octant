@@ -34,7 +34,6 @@ export class BoxMovementListPageComponent {
             }),
             textColumn({
                 title: 'Caja',
-                gridColumn: 'fit-content(160px)',
                 displayValueFn: (item) => item.box_opening?.box?.name ?? '--',
             }),
             numberColumn({
