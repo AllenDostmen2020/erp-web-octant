@@ -21,7 +21,7 @@ import { PaginatorData } from '@interface/paginator';
 export class ClientDocumentPaymentCreateComponent {
     private fetch = inject(FetchService);
     private activatedRoute = inject(ActivatedRoute);
-    public clientBoxes = toSignal(from(this.fetch.get<PaginatorData<ClientBox>>(`client-box`)).pipe(map(value=> value.data)))
+    public clientBoxes = toSignal(from(this.fetch.get<PaginatorData<ClientBox>>(`client-box?client_id=${this.activatedRoute.snapshot.parent?.paramMap.get('id')}`)).pipe(map(value=> value.data)))
     public configuration: ItemFormConfiguration = {
         type: 'create',
         titleModule: 'Comprobantes',
