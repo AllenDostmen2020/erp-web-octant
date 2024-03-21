@@ -8,7 +8,7 @@
 
         <div class="form__header__title">
             <div>
-                {{ configuration.title ?? ((configuration.type == 'update' ? 'Actualizar ' : 'Crear ') + configuration.titleModule) }}
+                {{ configuration.title ?? ((configuration.type == 'update' ? 'Actualizar ' : 'Registrar ') + configuration.titleModule) }}
             </div>
 
             @if(configuration.dataItem; as dataItem) {

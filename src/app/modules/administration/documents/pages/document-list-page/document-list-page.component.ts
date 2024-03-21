@@ -98,17 +98,6 @@ export class DocumentListPageComponent {
           },
         }),
         clickEventActionButton({
-          text: 'Nota de débito',
-          icon: 'scan_delete',
-          hidden: (item) => {
-            return item.status !== StatusModel.Emitida;
-          },
-          fn: async (item, index, { updateChangesItemFn }) => {
-            const response = await this.anulateWithNote(item, 'crédito');
-            if (response) updateChangesItemFn(index, { ...item, ...response });
-          }
-        }),
-        clickEventActionButton({
           text: 'Descargar PDF',
           icon: 'cloud_download',
           hidden: (item) => {
@@ -274,7 +263,7 @@ export class DocumentListPageComponent {
     };
     const body = {
       document_id: item.id,
-      low_reason: this.commentCtrl.value,
+      anulation_reason: this.commentCtrl.value,
     };
     return await this.fetch.post<Document>(url, body, request);
   }

@@ -16,7 +16,7 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_CLIENT: FormInput[] = [
     selectFormInput({
         formControlName: 'document_type',
         textLabel: 'Tipo de documento',
-        data: DOCUMENT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item })),
+        data: DOCUMENT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item })).sort((a, b) => a.name.localeCompare(b.name)),
         cssClass: 'col-span-6 @2xl:col-span-2',
     }),
     textFormInput({
@@ -44,7 +44,7 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_CLIENT: FormInput[] = [
         textLabel: 'Correo electrónico',
         cssClass: 'col-span-full @2xl:col-span-6',
     }),
-    textareaFormInput({
+    textFormInput({
         formControlName: 'address',
         textLabel: 'Dirección',
         cssClass: 'col-span-full'

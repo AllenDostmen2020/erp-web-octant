@@ -31,10 +31,10 @@
       <app-input-select-template class="relative col-span-6 @2xl:col-span-2" [control]="paymentTypeCtrl"
         [configuration]="paymentTypeSelectConfiguration" />
 
-      @if (paymentTypeCtrl.value =='transferencia' || paymentTypeCtrl.value =='depósito') {
+      <!-- @if (paymentTypeCtrl.value =='transferencia' || paymentTypeCtrl.value =='depósito') {
       <app-input-select-template class="col-span-6 @2xl:col-span-3" [control]="bankIdCtrl"
         [configuration]="bankAutocompleteLocalConfiguration" />
-      }
+      } -->
 
       @if (paymentTypeCtrl.value !='efectivo' && paymentTypeCtrl.value) {
       <mat-form-field class="col-span-3 @2xl:col-span-3">

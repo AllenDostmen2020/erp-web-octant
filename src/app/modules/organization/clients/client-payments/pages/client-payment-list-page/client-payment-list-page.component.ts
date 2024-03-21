@@ -1,17 +1,18 @@
 import { Component, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, titlecaseColumn, userColumn } from '@component/item-list-template/item-list-template.component';
 import { ClientBoxMovement } from '@interface/clientBoxMovement';
 
 @Component({
   selector: 'app-client-payment-list-page',
   standalone: true,
-  imports: [ItemListTemplateComponent],
+  imports: [ItemListTemplateComponent, RouterLink],
   templateUrl: './client-payment-list-page.component.html',
   styleUrl: './client-payment-list-page.component.scss'
 })
 export class ClientPaymentListPageComponent {
   public listConfiguration: ItemListConfiguration<ClientBoxMovement> = {
-    title: 'Documentos',
+    title: 'Pagos y movimientos',
     server: {
       url: 'client-box-movement',
       queryParams: { relations: 'clientBox,boxMovement' }

@@ -14,6 +14,10 @@ export const clientPaymentRoutes: Routes = [
         loadComponent: () => import('./pages/client-payment-detail-page/client-payment-detail-page.component').then(m => m.ClientPaymentDetailPageComponent)
     },
     {
+        path: 'transfer',
+        loadComponent: () => import('../client-accounts/pages/client-box-transfer-form/client-box-transfer-form.component').then(m => m.ClientBoxTransferFormComponent)
+    },
+    {
         path: '**',
         redirectTo: 'list',
         pathMatch: 'full',
