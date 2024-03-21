@@ -28,8 +28,8 @@ export class ClientPaymentListPageComponent {
         gridColumn: '1fr',
       }),
       titlecaseColumn({
-        title: 'Tipo pago',
-        displayValueFn: (item) => item.box_movement?.payment_type,
+        title: 'Tipo mov.',
+        displayValueFn: (item) => item.box_movement?.type,
       }),
       dateColumn({
         title: 'Fecha pago',

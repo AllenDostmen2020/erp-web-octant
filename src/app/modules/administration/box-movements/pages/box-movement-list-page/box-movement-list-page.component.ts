@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
-import { ItemListConfiguration, ItemListTemplateComponent, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { Component, inject, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ItemListConfiguration, ItemListTemplateComponent, ListColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { BoxMovement } from '@interface/boxMovement';
 
 @Component({
@@ -10,21 +11,30 @@ import { BoxMovement } from '@interface/boxMovement';
   styleUrl: './box-movement-list-page.component.scss'
 })
 export class BoxMovementListPageComponent {
-    public configList: ItemListConfiguration<BoxMovement> = {
+    private router = inject(Router);
+    private activatedRoute = inject(ActivatedRoute);
+
+    public configuration: ItemListConfiguration<BoxMovement> = {
+        title: 'Movimientos',
         server: {
             url: 'box-movement',
-            queryParams: 'relations=boxOpening.box'
+          queryParams: {
+            relations: 'boxOpening.box',
+            box_id: this.router.url.includes('/administration/box/view') ? this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id') : null,
+          },
         },
-        createButton: false,
-        title: 'Cajas',
-        columns: signal([
+        columns: signal(this.generateColumns()),
+      }
+    
+      private generateColumns(): ListColumn<BoxMovement>[] {
+        let columns = [
             textColumn({
                 title: 'Código',
                 sort: { key: 'code' },
                 displayValueFn: (item) => item.code,
             }),
             textColumn({
-                title: 'Nombre',
+                title: 'Concepto',
                 routerLinkValue: {
                     url: (item) => `box-movement/detail/${item.id}`,
                     outlet: 'route-lateral'
@@ -36,6 +46,10 @@ export class BoxMovementListPageComponent {
                 title: 'Caja',
                 displayValueFn: (item) => item.box_opening?.box?.name ?? '--',
             }),
+            textColumn({
+                title: 'Tipo',
+                displayValueFn: (item) => item.type ?? '--',
+            }),
             numberColumn({
                 title: 'Monto',
                 displayValueFn: (item) => item.amount,
@@ -43,6 +57,8 @@ export class BoxMovementListPageComponent {
             itemCreatedAtColumn(),
             itemUpdatedAtColumn(),
             itemStatusColumn(),
-        ]),
-    }
+        ];
+        if (this.router.url.includes('/administration/box/view')) columns.splice(2, 1);
+        return columns;
+      }
 }

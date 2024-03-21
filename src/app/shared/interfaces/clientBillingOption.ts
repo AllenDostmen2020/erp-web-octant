@@ -7,6 +7,7 @@ export interface ClientBillingOption extends BaseModel {
     detraction: boolean;
     detraction_percent: number;
     retention: boolean;
+    igv_apply: boolean;
     retention_percent: number;
 }
 

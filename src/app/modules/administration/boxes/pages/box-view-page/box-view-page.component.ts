@@ -21,6 +21,10 @@ export class BoxViewPageComponent {
                 routerLink: './box-opening/list',
                 text: 'Aperturas',
             },
+            {
+                routerLink: './box-movements',
+                text: 'Movimientos',
+            },
         ]
     }
 }

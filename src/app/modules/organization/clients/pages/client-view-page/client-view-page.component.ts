@@ -30,8 +30,8 @@ export class ClientViewPageComponent {
                 text: 'Contactos',
             },
             {
-                routerLink: './account',
-                text: 'Cajas',
+                routerLink: './box-movements',
+                text: 'Pagos y movimientos',
             },
             {
                 routerLink: './contract',
@@ -40,10 +40,6 @@ export class ClientViewPageComponent {
             {
                 routerLink: './document',
                 text: 'Documentos',
-            },
-            {
-                routerLink: './payment',
-                text: 'Pagos',
             },
             {
                 routerLink: './vehicle',

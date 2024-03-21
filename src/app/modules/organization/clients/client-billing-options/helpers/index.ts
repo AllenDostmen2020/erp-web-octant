@@ -10,6 +10,7 @@ export const clientBillingOptionFormGroup = (item?: Partial<ClientBillingOption>
     detraction_percent: new FormControl(item?.detraction_percent, [Validators.required]),
     retention: new FormControl(item?.retention ?? true),
     retention_percent: new FormControl(item?.retention_percent, [Validators.required]),
+    igv_apply: new FormControl(item?.retention_percent, [Validators.required]),
 });
 
 export const DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_BILLING_OPTION: FormInput[] = [
@@ -35,5 +36,10 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_BILLING_OPTION: FormInput[] = [
             { name: '3%', id: '3.00' },
             { name: '6%', id: '6.00' },
         ],
+    }),
+    switchFormInput({
+        formControlName: 'igv_apply',
+        textLabel: '¿Aplica IGV?',
+        defaultValue: false,
     }),
 ]

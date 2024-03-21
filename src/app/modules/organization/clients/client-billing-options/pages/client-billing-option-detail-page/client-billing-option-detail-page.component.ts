@@ -58,6 +58,10 @@ export class ClientBillingOptionDetailPageComponent {
             displayValueFn: (item) => item.retention_percent ? item.retention_percent : 0,
             type: 'number'
           },
+          {
+            title: 'Aplica IGV',
+            displayValueFn: (item) => item.igv_apply ? 'SI' : 'NO',
+          },
         ]
       },
       registerDataGroupDetail(),

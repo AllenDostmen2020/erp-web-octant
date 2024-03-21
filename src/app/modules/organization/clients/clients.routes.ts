@@ -54,7 +54,7 @@ export const clientRoutes: Routes = [
                 children: clientDocumentRoutes,
             },
             {
-                path: 'payment',
+                path: 'box-movements',
                 children: clientPaymentRoutes,
             },
             {

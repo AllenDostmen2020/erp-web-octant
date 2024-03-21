@@ -1,5 +1,6 @@
 import { Routes } from "@angular/router";
 import { boxOpeningRoutes } from "./box-openings/box-openings.routes";
+import { boxMovementRoutes } from "../box-movements/box-movements.routes";
 
 export const boxRoutes: Routes = [
     {
@@ -25,6 +26,10 @@ export const boxRoutes: Routes = [
             {
                 path: 'box-opening',
                 children: boxOpeningRoutes
+            },
+            {
+                path: 'box-movements',
+                children: boxMovementRoutes
             },
             {
                 path: '**',
