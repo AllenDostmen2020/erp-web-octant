@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, titlecaseColumn, userColumn } from '@component/item-list-template/item-list-template.component';
 import { ClientBoxMovement } from '@interface/clientBoxMovement';
 
@@ -11,11 +11,16 @@ import { ClientBoxMovement } from '@interface/clientBoxMovement';
   styleUrl: './client-payment-list-page.component.scss'
 })
 export class ClientPaymentListPageComponent {
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
   public listConfiguration: ItemListConfiguration<ClientBoxMovement> = {
     title: 'Pagos y movimientos',
     server: {
       url: 'client-box-movement',
-      queryParams: { relations: 'clientBox,boxMovement' }
+      queryParams: { 
+        relations: 'clientBox,boxMovement', 
+        client_id:  this.router.url.includes('/organization/client/view/') ? this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id') : null,
+      }
     },
     columns: signal([
       textColumn({
