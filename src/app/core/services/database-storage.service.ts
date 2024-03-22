@@ -55,6 +55,7 @@ export enum NameModuleDatabase {
     DocumentTypes = 'documentTypes',
     Plans = 'plans',
     VehicleTypes = 'vehicleTypes',
+    CodeCountries = 'codeCountries'
 }
 
 enum Recurrent {
@@ -143,6 +144,14 @@ export class DatabaseStorageService {
             recurrent: Recurrent.Daily,
             config: {
                 url: 'database-storage/vehicle-types'
+            },
+        },
+        {
+            name: 'Códigos de país',
+            key: NameModuleDatabase.CodeCountries,
+            recurrent: Recurrent.Daily,
+            config: {
+                url: 'database-storage/code-countries'
             },
         },
     ];

@@ -1,0 +1,36 @@
+<div [formGroup]="form" class="grid grid-cols-12 gap-2 items-start">
+
+  <app-input-select-template class="col-span-6 @2xl:col-span-2" [control]="documentTypeCtrl"
+    [configuration]="documentTypeSelectConfiguration" />
+
+  <mat-form-field class="col-span-6 @2xl:col-span-2">
+    <mat-label>Número Documento</mat-label>
+    <input matInput type="text" placeholder="Numero de documento..." [maxlength]="minMaxlengthDocumentNumber"
+      formControlName="document_number" />
+    <mat-error>Campo requerido</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="col-span-full @2xl:col-span-8">
+    <mat-label>Nombre o razón social</mat-label>
+    <input matInput type="text" placeholder="Nombre o razón social..." formControlName="name" />
+    <mat-error>Campo requerido</mat-error>
+  </mat-form-field>
+
+  <app-tel-code-form-field-template class="col-span-full @2xl:col-span-2" [codeCtrl]="codePhoneCtrl"
+    [phoneCtrl]="phoneCtrl" />
+
+  <app-tel-code-form-field-template class="col-span-full @2xl:col-span-2" [label]="'Celular'" [codeCtrl]="codeCellphoneCtrl"
+    [phoneCtrl]="cellphoneCtrl" />
+
+  <mat-form-field class="col-span-full @2xl:col-span-8">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" placeholder="Email..." formControlName="email"/>
+    <mat-error>Campo requerido</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="col-span-full">
+    <mat-label>Dirección</mat-label>
+    <input matInput type="text" placeholder="Dirección..." formControlName="address" />
+    <mat-error>Campo requerido</mat-error>
+  </mat-form-field>
+</div>

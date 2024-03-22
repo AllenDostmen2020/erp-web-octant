@@ -273,6 +273,11 @@ const DRAWER_LINKS: GroupDrawerLink[] = [
                 icon: 'airport_shuttle',
                 route: '/configuration/vehicle-type',
             },
+            {
+                label: 'Código de país',
+                icon: 'developer_mode',
+                route: '/configuration/code-country',
+            },
         ]
     },
     {
