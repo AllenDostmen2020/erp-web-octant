@@ -47,6 +47,7 @@ export class ClientListPageComponent {
                 sort: { key: 'address' },
                 gridColumn: 'fit-content(120px)',
                 displayValueFn: (item) => item.address,
+                hidden: true,
             }),
             itemCreatedAtColumn(),
             itemUpdatedAtColumn(),
