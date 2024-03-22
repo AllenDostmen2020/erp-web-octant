@@ -67,7 +67,7 @@ export class ClientFormComponent {
   public readonly documentTypeSelectConfiguration: InputSelectConfiguration = {
     textLabel: 'Tipo de documento',
     placeholder: 'Seleccione un tipo de documento',
-    data: DOCUMENT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item })).sort((a, b) => a.name.localeCompare(b.name)) 
+    data: DOCUMENT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item })).sort((a, b) => a.name.localeCompare(b.name))
   }
 
   ngOnInit(): void {
