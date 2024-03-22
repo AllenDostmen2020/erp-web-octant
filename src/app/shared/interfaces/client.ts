@@ -9,6 +9,8 @@ export interface Client extends BaseModel {
   name: string;
   address: string;
   phone: string;
+  code_phone: string;
+  code_cellphone: string;
   cellphone: string;
   avatar: string;
   birth_date: string;
