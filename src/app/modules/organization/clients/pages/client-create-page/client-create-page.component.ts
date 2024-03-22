@@ -19,7 +19,6 @@ export class ClientCreatePageComponent {
     private fetch = inject(FetchService);
     public searchDocumentNumber: boolean = false;
     private abortController: AbortController = new AbortController();
-    public minMaxlengthDocumentNumber: number = 12;
     public configuration: ItemFormConfiguration = {
         type: 'create',
         titleModule: 'cliente',
@@ -54,9 +53,16 @@ export class ClientCreatePageComponent {
         this.documentTypeCtrl.valueChanges.subscribe(() => {
             const documentSelected = this.documentTypes.find(d => d.toLowerCase() == this.documentTypeCtrl.value);
             if (!documentSelected) return;
-            if (documentSelected.toLowerCase() == 'ruc') this.updateValidatorsForDocumentNumberCtrl(11);
-            else if (documentSelected.toLowerCase() == 'dni') this.updateValidatorsForDocumentNumberCtrl(8);
-            else if (documentSelected.toLowerCase() != 'dni' || documentSelected.toLowerCase() != 'dni') this.updateValidatorsForDocumentNumberCtrl(14);
+            if (documentSelected.toLowerCase() == 'ruc') {
+                this.updateValidatorsForDocumentNumberCtrl(11);
+                this.configuration.fields![1].text!.maxLength = 11; 
+            } else if (documentSelected.toLowerCase() == 'dni') {
+                this.updateValidatorsForDocumentNumberCtrl(8);
+                this.configuration.fields![1].text!.maxLength = 8; 
+            } else if (documentSelected.toLowerCase() != 'dni' || documentSelected.toLowerCase() != 'dni') {
+                this.updateValidatorsForDocumentNumberCtrl(14);
+                this.configuration.fields![1].text!.maxLength = 14; 
+            }
         });
         this.phoneCtrl.valueChanges.subscribe((value) => this.phoneCtrl.setValue(value.replace(/[^0-9]/gi, ''), { emitEvent: false }));
         this.documentNumberCtrl.valueChanges.subscribe((value) => this.documentNumberCtrl.setValue(value.replace(/[^0-9]/gi, ''), { emitEvent: false }));
@@ -64,8 +70,6 @@ export class ClientCreatePageComponent {
     }
 
     public updateValidatorsForDocumentNumberCtrl(length: number): void {
-        console.log(length);
-
         this.documentNumberCtrl.setValidators([
             Validators.required,
             Validators.minLength(length),
@@ -73,7 +77,6 @@ export class ClientCreatePageComponent {
             Validators.pattern(`[0-9]+`),
         ]);
         this.documentNumberCtrl.updateValueAndValidity();
-        this.minMaxlengthDocumentNumber = length;
     }
 
     private async verifyDocuments() {

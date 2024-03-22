@@ -19,4 +19,10 @@ export class ClientEditPageComponent extends ClientCreatePageComponent{
         this.configuration.type = 'update';
         this.configuration.hiddeFields = true;
     }
+
+    override ngOnInit(): void {
+      this.documentTypeCtrl.disable();
+      this.documentNumberCtrl.disable();
+      this.nameCtrl.disable();
+    }
 }
