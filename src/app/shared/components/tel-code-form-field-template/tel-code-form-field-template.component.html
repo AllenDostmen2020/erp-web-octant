@@ -1,18 +1,18 @@
 <mat-form-field class="col-span-full @2xl:col-span-2">
-  <mat-label>{{label}}</mat-label>
-  <div role="group" class="flex gap-2">
-      <mat-select [formControl]="codeCtrl" class="select-code">
-          <mat-select-trigger>
-              {{codeCtrl.value?.split('-')[0]}}
-          </mat-select-trigger>
-          @for (codeCountry of codeCountries; track codeCountry) {
-<mat-option [value]="codeCountry.code">
-              {{ codeCountry.code }} - {{codeCountry.country}}
-          </mat-option>
-}
-      </mat-select>
-      <input (click)="$event.stopPropagation()" matInput maxlength="9" type="tel" placeholder="Teléfono..."
-          [formControl]="phoneCtrl" />
-  </div>
-  <mat-error>Campo requerido</mat-error>
+    <mat-label>{{label}}</mat-label>
+    <div role="group" class="flex gap-2">
+        <mat-select [formControl]="codeCtrl" class="select-code">
+            <mat-select-trigger>
+                {{codeCtrl.value?.split('-')[0]}}
+            </mat-select-trigger>
+            @for (codeCountry of codeCountries; track codeCountry) {
+            <mat-option [value]="codeCountry.code">
+                {{ codeCountry.code }} - {{codeCountry.country}}
+            </mat-option>
+            }
+        </mat-select>
+        <input (click)="$event.stopPropagation()" matInput maxlength="9" type="tel" placeholder="Teléfono..."
+            [formControl]="phoneCtrl" />
+    </div>
+    <mat-error>Campo requerido</mat-error>
 </mat-form-field>
