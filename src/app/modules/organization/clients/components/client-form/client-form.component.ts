@@ -9,6 +9,8 @@ import { InputSelectConfiguration, InputSelectTemplateComponent } from '@compone
 import { TelCodeFormFieldTemplateComponent } from '@component/tel-code-form-field-template/tel-code-form-field-template.component';
 import { getDataPersonFormDocumentNumber } from '@helper/index';
 import { DOCUMENT_TYPES, DocumentTypeEnum } from '@interface/baseModel';
+import { Client } from '@interface/client';
+import { PaginatorData } from '@interface/paginator';
 import { FetchService } from '@service/fetch.service';
 import { filter } from 'rxjs';
 
@@ -88,8 +90,6 @@ export class ClientFormComponent {
   }
 
   public updateValidatorsForDocumentNumberCtrl(length: number): void {
-    console.log(length);
-
     this.documentNumberCtrl.setValidators([
       Validators.required,
       Validators.minLength(length),
