@@ -812,7 +812,7 @@ export class ItemListTemplateComponent {
     this.searchCtrl.setValue(search ?? null, { emitEvent: false });
   }
 
-  public callGetData(queryParams: any = {}): void {
+  public callGetData(queryParams: any = this.activatedRoute.snapshot.queryParams ?? {}): void {
     const params = objectToURLSearchParams(queryParams);
     if (!params.has('page')) params.set('page', String(this.paginator.pageIndex + 1));
     if (!params.has('per_page')) params.set('per_page', String(this.paginator.pageSize));

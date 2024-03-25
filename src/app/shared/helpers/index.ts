@@ -45,7 +45,7 @@ export const getDataPersonFormDocumentNumber = async (fetch: FetchService, docum
         toast: {
             loading: `Buscando ${type.toUpperCase()}...`,
             success: `${type.toUpperCase()} encontrado`,
-            error: `No se encontró el ${type.toUpperCase()}`,
+            error: (error) => error.error?.message ?? 'Error al buscar',
         }
     });
     if ((data as DataDNI).nombres) return {
@@ -68,5 +68,5 @@ export const getDataPersonFormDocumentNumber = async (fetch: FetchService, docum
         sunat_condition: data.estado,
         legal_representatives: data.representantes_legales ?? [],
     }
-    else return undefined;
+    return undefined;
 }
