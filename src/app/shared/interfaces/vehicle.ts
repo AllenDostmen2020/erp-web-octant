@@ -1,5 +1,6 @@
 import { BaseModel } from "./baseModel";
 import { Client } from "./client";
+import { ContractPlanVehicle } from "./contractPlanVehicle";
 import { ContractVehicle } from "./contractVehicle";
 import { VehicleType } from "./vehicleType";
 
@@ -17,6 +18,6 @@ export interface Vehicle extends BaseModel {
 
     client?: Client;
     vehicle_type?: VehicleType;
-    latest_contract_vehicle?: ContractVehicle;
+    latest_contract_plan_vehicle?: ContractPlanVehicle;
     contract_vehicles?: ContractVehicle[];
 }
