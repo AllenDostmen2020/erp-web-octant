@@ -9,18 +9,11 @@ export const getContractFormGroup = (): FormGroup => {
         client_id: new FormControl(null, [Validators.required]),
         client: new FormControl(null),
 
-        plan_id: new FormControl(null, [Validators.required]),
-        plan: new FormControl(null),
-
         installation_date: new FormControl(new Date(), [Validators.required]),
         start_date: new FormControl({ value: null, disabled: true }),
         end_date: new FormControl({ value: null, disabled: true }),
         period: new FormControl(null, [Validators.required]),
-        buy_price: new FormControl('0.00', [Validators.required]),
-        sale_price: new FormControl('0.00', [Validators.required]),
-        installation_price: new FormControl('0.00', [Validators.required]),
-        total_installation_price: new FormControl(null),
-        quantity: new FormControl(null, { validators: [Validators.required], updateOn: 'blur' }),
+        
         proration_days: new FormControl({ value: null, disabled: true }),
         recurrent_type: new FormControl(RecurrentTypeEnum.MENSUAL, [Validators.required]),
 
@@ -33,10 +26,37 @@ export const getContractFormGroup = (): FormGroup => {
         client_responsible_email: new FormControl(null),
 
         sale_user_id: new FormControl(null, [Validators.required]),
-
-        contract_vehicles: new FormArray([]),
+        
+        contract_plans: new FormArray([
+            getContractPlanFormGroup(),
+        ]),
     })
 }
+
+export const getContractPlanFormGroup = (): FormGroup => new FormGroup({
+    contract_id: new FormControl(null),
+    plan_id: new FormControl(null, [Validators.required]),
+    plan: new FormControl(null),
+    quantity: new FormControl(null, [Validators.required]),
+    buy_price: new FormControl('0.00', [Validators.required]),
+    sale_price: new FormControl('0.00', [Validators.required]),
+    installation_price: new FormControl('0.00', [Validators.required]),
+    total_installation_price: new FormControl(null),
+    total: new FormControl(null),
+    contract_plan_vehicles: new FormArray([]),
+})
+
+export const getContractPlanVehicleFormGroup = (): FormGroup => new FormGroup({
+    contract_plan_id: new FormControl(null),
+    vehicle_id: new FormControl(null),
+    vehicle: new FormGroup({
+        vehicle_type_id: new FormControl(null, [Validators.required]),
+        vehicle_type: new FormControl(null),
+        plate: new FormControl(null, [Validators.required]),
+        brand: new FormControl(null),
+        model: new FormControl(null),
+    }),
+})
 
 export const contractColumnsList = () => [
     textColumn<Contract>({

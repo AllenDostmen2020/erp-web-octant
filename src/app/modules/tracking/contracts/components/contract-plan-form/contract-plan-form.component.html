@@ -1,0 +1,31 @@
+<div [formGroup]="form" class="contract-plan-form-group">
+
+  <div class="contract-plan-form-group__title title-medium">Plan {{(index() + 1) | number:'2.0-0'}}</div>
+
+  <app-input-select-template data-input-name="plan" [control]="planIdCtrl" [configuration]="planAutocompleteConfiguration" />
+
+  <mat-form-field data-input-name="buy_price">
+    <mat-label>Precio Compra</mat-label>
+    <input matInput type="text" formControlName="buy_price" />
+    <mat-error>*Requerido</mat-error>
+  </mat-form-field>
+
+  <mat-form-field data-input-name="sale_price">
+    <mat-label>Precio Venta</mat-label>
+    <input matInput type="text" formControlName="sale_price" />
+    <mat-error>*Requerido</mat-error>
+  </mat-form-field>
+
+  <mat-form-field data-input-name="quantity">
+    <mat-label>Cantidad</mat-label>
+    <input matInput type="text" formControlName="quantity" />
+    <mat-error>*Requerido</mat-error>
+  </mat-form-field>
+
+  <mat-form-field data-input-name="total">
+    <mat-label>Total</mat-label>
+    <input matInput type="text" formControlName="total" />
+    <mat-error>*Requerido</mat-error>
+  </mat-form-field>
+
+</div>

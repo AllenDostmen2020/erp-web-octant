@@ -16,6 +16,8 @@ import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
 import { NameModuleDatabase } from '@service/database-storage.service';
 import { getDate, getMonth, getYear, format, differenceInDays } from 'date-fns';
 import { startWith } from 'rxjs/operators';
+import { ContractPlanFormComponent } from '../contract-plan-form/contract-plan-form.component';
+import { getContractPlanFormGroup } from '../../helpers';
 
 @Component({
   selector: 'app-contract-form',
@@ -32,6 +34,7 @@ import { startWith } from 'rxjs/operators';
     LoadImagePrivateDirective,
     DatepickerTemplateComponent,
     PathFilesServerPipe,
+    ContractPlanFormComponent,
   ],
   templateUrl: './contract-form.component.html',
   styleUrls: ['./contract-form.component.css'],
@@ -52,11 +55,6 @@ export class ContractFormComponent {
         relations: 'clientBusinessUnits'
       }
     }
-  }
-
-  public readonly planAutocompleteConfiguration: InputSelectLocalConfiguration = {
-    textLabel: 'Plan',
-    local: { nameModuleDatabase: NameModuleDatabase.Plans }
   }
 
   public readonly saleUserAutocompleteConfiguration: InputSelectLocalConfiguration = {
@@ -88,16 +86,8 @@ export class ContractFormComponent {
     return this.form.get('client') as FormControl;
   }
 
-  get planIdCtrl(): FormControl {
-    return this.form.get('plan_id') as FormControl;
-  }
-
-  get planCtrl(): FormControl {
-    return this.form.get('plan') as FormControl;
-  }
-
-  get quantityCtrl(): FormControl {
-    return this.form.get('quantity') as FormControl;
+  get contractPlansFormArray(): FormArray<FormGroup> {
+    return this.form.get('contract_plans') as FormArray<FormGroup>;
   }
 
   get salePriceCtrl(): FormControl {
@@ -148,8 +138,6 @@ export class ContractFormComponent {
   }
 
   ngOnInit() {
-    this.quantityCtrlChange();
-
     this.periodCtrl.valueChanges.subscribe((period: number) => {
       this.calculationDates(this.installationDateCtrl.value);
     });
@@ -166,6 +154,10 @@ export class ContractFormComponent {
         }
       }
     });
+  }
+
+  public addContractPlan() {
+    this.contractPlansFormArray.push(getContractPlanFormGroup());
   }
 
   private calculationDates(installation_date: Date) {
@@ -198,22 +190,6 @@ export class ContractFormComponent {
     return `^(?!${this.contractVehiclesFormArray.value.filter((_, index) => index != indexExcept).map((contractVehicle: ContractVehicle) => contractVehicle.vehicle!.plate).filter(item => item).join('$|') ?? '----'}$).*`;
   }
 
-  private quantityCtrlChange() {
-    this.quantityCtrl.valueChanges.subscribe((value: number) => {
-      if (value > this.contractVehiclesFormArray.length) {
-        for (let i = this.contractVehiclesFormArray.length; i < value; i++) {
-          this.contractVehiclesFormArray.push(new FormGroup({
-            vehicle: this.formGroupVehicle()
-          }));
-        }
-      } else {
-        for (let i = this.contractVehiclesFormArray.length; i > value; i--) {
-          this.contractVehiclesFormArray.removeAt(i - 1);
-        }
-      }
-    });
-  }
-
   private formGroupVehicle(vehicle?: Vehicle) {
     return new FormGroup({
       id: new FormControl(vehicle?.id),
@@ -231,10 +207,5 @@ export class ContractFormComponent {
 
   public getVehicleTypeIdFormGroup(formGroupContractVehicle: FormGroup): FormControl {
     return formGroupContractVehicle.get('vehicle')?.get('vehicle_type_id') as FormControl;
-  }
-
-  public deleteContractVehicle(index: number) {
-    this.contractVehiclesFormArray.removeAt(index);
-    this.quantityCtrl.setValue(this.contractVehiclesFormArray.length, { emitEvent: false });
   }
 }
