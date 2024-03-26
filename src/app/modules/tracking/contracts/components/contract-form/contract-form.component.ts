@@ -123,10 +123,6 @@ export class ContractFormComponent {
     return this.form.get('sale_user_id') as FormControl;
   }
 
-  get prorationDaysCtrl(): FormControl {
-    return this.form.get('proration_days') as FormControl;
-  }
-
   get periodCtrl(): FormControl {
     return this.form.get('period') as FormControl;
   }
@@ -168,11 +164,9 @@ export class ContractFormComponent {
     const yearInitContract = dayInstallationDate > dayInitContract && monthInstallationDate == 11 ? yearInstallationDate + 1 : yearInstallationDate;
 
     const startDate = new Date(yearInitContract, monthInitContract, dayInitContract);
-    const prorationDays = differenceInDays(startDate, installation_date);
     const period = Number(this.periodCtrl.value ?? 0);
     const endDate = new Date(yearInitContract, monthInitContract + period, dayInitContract - 1);
     
-    this.prorationDaysCtrl.setValue(prorationDays, { emitEvent: false });
     this.startDateCtrl.setValue(format(startDate, 'dd/MM/yyyy'), { emitEvent: false });
     this.endDateCtrl.setValue(format(endDate, 'dd/MM/yyyy'), { emitEvent: false });
   }
