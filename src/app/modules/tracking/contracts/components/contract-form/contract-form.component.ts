@@ -1,6 +1,6 @@
 import { DecimalPipe, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, WritableSignal, signal } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -10,8 +10,6 @@ import { InputSelectConfiguration, InputSelectLocalConfiguration, InputSelectTem
 import { LoadImagePrivateDirective } from '@directive/load-image-private.directive';
 import { Client } from '@interface/client';
 import { RECURRENT_TYPE_VALUES } from '@interface/contract';
-import { ContractVehicle } from '@interface/contractVehicle';
-import { Vehicle } from '@interface/vehicle';
 import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
 import { NameModuleDatabase } from '@service/database-storage.service';
 import { getDate, getMonth, getYear, format, differenceInDays } from 'date-fns';
@@ -179,33 +177,12 @@ export class ContractFormComponent {
     this.endDateCtrl.setValue(format(endDate, 'dd/MM/yyyy'), { emitEvent: false });
   }
 
-  public changesContractVehiclesFormArray() {
-    this.contractVehiclesFormArray.controls.forEach((formGroupContractVehicle: FormGroup, index) => {
-      formGroupContractVehicle.get('vehicle')?.get('plate')?.setValidators([Validators.required, Validators.pattern(this.patternAddPlates(index))]);
-      formGroupContractVehicle.get('vehicle')?.get('plate')?.updateValueAndValidity({ emitEvent: false });
-    });
-  }
-
-  private patternAddPlates(indexExcept: number = -1): string {
-    return `^(?!${this.contractVehiclesFormArray.value.filter((_, index) => index != indexExcept).map((contractVehicle: ContractVehicle) => contractVehicle.vehicle!.plate).filter(item => item).join('$|') ?? '----'}$).*`;
-  }
-
-  private formGroupVehicle(vehicle?: Vehicle) {
-    return new FormGroup({
-      id: new FormControl(vehicle?.id),
-      vehicle_type: new FormControl(vehicle?.vehicle_type),
-      vehicle_type_id: new FormControl(vehicle?.vehicle_type_id, [Validators.required]),
-      plate: new FormControl(vehicle?.plate, { validators: [Validators.required, Validators.pattern(this.patternAddPlates())], updateOn: 'blur' }),
-      brand: new FormControl(vehicle?.brand),
-      model: new FormControl(vehicle?.model),
-    });
-  }
-
-  public getVehicleTypeFormGroup(formGroupContractVehicle: FormGroup): FormControl {
-    return formGroupContractVehicle.get('vehicle')?.get('vehicle_type') as FormControl;
-  }
-
-  public getVehicleTypeIdFormGroup(formGroupContractVehicle: FormGroup): FormControl {
-    return formGroupContractVehicle.get('vehicle')?.get('vehicle_type_id') as FormControl;
+  public deleteContractPlan(i: number): void {
+    if(this.contractPlansFormArray.at(i).dirty) {
+      console.log('No se puede eliminar un plan de contrato que ha sido tocado');
+      this.contractPlansFormArray.removeAt(i);
+    } else {
+      this.contractPlansFormArray.removeAt(i);
+    }
   }
 }

@@ -1,17 +1,62 @@
-.contract-plan-form-group {
+mat-expansion-panel {
   grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: subgrid; /* 12 columns */
-  gap: 8px;
-  border-radius: 12px;
-  padding: 16px;
-  background: var(--color-tertiary-container);
+}
+mat-panel-description button {
+  margin-left: auto;
 }
 
-.contract-plan-form-group__title {
+.contract-plan-form {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.contract-plan-form__title {
   grid-column: 1 / -1;
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -8px;
 }
 
 [data-input-name] {
   grid-column: span 2;
+}
+
+.contract-plan-form__plans {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px 24px;
+  border-radius: 8px;
+  background: var(--color-surface);
+  padding: 16px;
+}
+
+.contract-plan-form__plans__item {
+  display: grid;
+  grid-template-columns: 2fr 1fr auto;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+.contract-plan-form__plans__item__delete-button {
+  margin-top: 8px;
+}
+
+.contract-plan-form__plans__add {
+  --height-mdc-button: auto;
+  --corner-mdc-button: 8px;
+  border-style: dashed;
+}
+
+.contract-plan-form__plans__title {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  align-items: center;
 }

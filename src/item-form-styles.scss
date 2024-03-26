@@ -118,17 +118,27 @@
 .form__content__inputs {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 8px 8px;
+  gap: 10px;
   align-items: flex-start;
   --grid-column-start-form-input: span;
-  --grid-column-end-form-input: 4;
-  --md-column-start-form-input: span;
-  --md-column-end-form-input: 6;
-  --sm-column-start-form-input: span;
-  --sm-column-end-form-input: -1;
+  --grid-column-end-form-input: 3;
+  --md-grid-column-start-form-input: span;
+  --md-grid-column-end-form-input: 6;
+  --sm-grid-column-start-form-input: span;
+  --sm-grid-column-end-form-input: -1;
 }
 
-[data-type="form-input"] {
+.form__content__inputs__subtitle {
+  grid-column: 1 / -1;
+  font-weight: var(--label-medium-font-weight);
+  font-size: var(--label-medium-font-size);
+  letter-spacing: var(--label-medium-letter-spacing);
+  line-height: var(--label-medium-line-height);
+  color: var(--rgb-on-surface-variant);
+  margin: 10px 0 2px 0;
+}
+
+[data-input-name] {
   grid-column: var(--grid-column-start-form-input) var(--grid-column-end-form-input) / var(--grid-column-start-form-input) var(--grid-column-end-form-input);
 }
 
@@ -136,19 +146,29 @@
 [data-form-input-type="switch"] {
   --grid-column-start-form-input: span;
   --grid-column-end-form-input: 12;
-  --md-column-start-form-input: span;
-  --md-column-end-form-input: 12;
-  --sm-column-start-form-input: span;
-  --sm-column-end-form-input: 12;
+  --md-grid-column-start-form-input: span;
+  --md-grid-column-end-form-input: 12;
+  --sm-grid-column-start-form-input: span;
+  --sm-grid-column-end-form-input: 12;
 }
 
-@container (width <=42rem) {
+@container (width <=46rem) {
+  [data-input-name] {
+    grid-column: var(--md-grid-column-start-form-input) var(--md-grid-column-end-form-input) / var(--md-grid-column-start-form-input) var(--md-grid-column-end-form-input);
+  }
+}
+
+@container (width <=32rem) {
   .form__header__actions {
     display: flex !important;
   }
 
   .form__actions {
     display: none !important;
+  }
+
+  [data-input-name] {
+    grid-column: var(--sm-grid-column-start-form-input) var(--sm-grid-column-end-form-input) / var(--sm-grid-column-start-form-input) var(--sm-grid-column-end-form-input);
   }
 }
 

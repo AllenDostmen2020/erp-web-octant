@@ -1,3 +1,32 @@
 .mat-expansion-panel {
-    color: rgb(var(--rgb-on-surface)) !important;
+    box-shadow: none !important;
+    background-color: rgba(var(--rgb-secondary-container), .5) !important;
+    border-radius: calc(var(--corner-mdc-card) / 2) !important;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.mat-expansion-panel-header {
+    height: 56px !important;
+    background-color: transparent !important;
+}
+
+.mat-expansion-panel-header-title {
+    color: rgba(var(--rgb-on-surface)) !important;
+}
+
+mat-expansion-panel.mat-expansion-panel {
+    --mat-expansion-container-background-color: rgba(var(--rgb-surface-variant));
+    --mat-expansion-container-text-color: var(--color-on-surface);
+    --mat-expansion-actions-divider-color: var(--color-outline-variant);
+    --mat-expansion-header-hover-state-layer-color: rgba(var(--rgb-on-surface), .4);
+    --mat-expansion-header-focus-state-layer-color: rgba(var(--rgb-on-surface), .4);
+    --mat-expansion-header-disabled-state-text-color: rgba(var(--rgb-on-surface), .3);
+    --mat-expansion-header-text-color: var(--color-on-surface);
+    --mat-expansion-header-description-color: rgba(var(--rgb-on-surface), .7);
+    --mat-expansion-header-indicator-color: rgba(var(--rgb-on-surface), .7);
+}
+
+.mat-expansion-indicator::after {
+    border-color: currentColor !important;
 }

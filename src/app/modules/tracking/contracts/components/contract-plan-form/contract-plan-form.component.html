@@ -1,31 +1,96 @@
-<div [formGroup]="form" class="contract-plan-form-group">
+  <mat-expansion-panel [formGroup]="form" expanded>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Plan {{(index() + 1) | number:'2.0-0'}}
+      </mat-panel-title>
+      <mat-panel-description>
+        <span class="body-small">{{contractPlanVehiclesFormArray.length| number:'2.0-0'}} vehículos</span>
+        @if(index() > 0) {
+          <button type="button" (click)="$event.stopPropagation(); deleteItem.emit()" class="icon-button">
+            <span class="material-icons">delete</span>
+          </button>
+        }
+      </mat-panel-description>
+    </mat-expansion-panel-header>
 
-  <div class="contract-plan-form-group__title title-medium">Plan {{(index() + 1) | number:'2.0-0'}}</div>
+    <div [formGroup]="form" class="contract-plan-form">
+    
+      <app-input-select-template data-input-name="plan" [control]="planIdCtrl" [configuration]="planAutocompleteConfiguration" />
+    
+      <mat-form-field data-input-name="installation_price">
+        <mat-label>P. Instalación</mat-label>
+        <span matTextPrefix>S/.</span>
+        <input matInput type="number" formControlName="installation_price" />
+        @if (installationPriceCtrl.hasError('required')) { <mat-error>*Requerido</mat-error> }
+        @else if (installationPriceCtrl.hasError('min')) { <mat-error>*Mínimo 1</mat-error> }
+      </mat-form-field>
+    
+      <mat-form-field data-input-name="total_installation_price">
+        <mat-label>Total Instalación</mat-label>
+        <span matTextPrefix>S/.</span>
+        <input matInput type="number" formControlName="total_installation_price" />
+        @if (installationPriceCtrl.hasError('required')) { <mat-error>*Requerido</mat-error> }
+        @else if (installationPriceCtrl.hasError('min')) { <mat-error>*Mínimo 1</mat-error> }
+      </mat-form-field>
+    
+      <mat-form-field data-input-name="buy_price">
+        <mat-label>P. Compra</mat-label>
+        <span matTextPrefix>S/.</span>
+        <input matInput type="number" formControlName="buy_price" />
+        @if (salePriceCtrl.hasError('required')) { <mat-error>*Requerido</mat-error> }
+        @else if (salePriceCtrl.hasError('min')) { <mat-error>*Mínimo 1</mat-error> }
+      </mat-form-field>
+    
+      <mat-form-field data-input-name="sale_price">
+        <mat-label>P. Venta</mat-label>
+        <span matTextPrefix>S/.</span>
+        <input matInput type="number" formControlName="sale_price" />
+        @if (buyPriceCtrl.hasError('required')) { <mat-error>*Requerido</mat-error> }
+        @else if (buyPriceCtrl.hasError('min')) { <mat-error>*Mínimo 1</mat-error> }
+      </mat-form-field>
+    
+      <mat-form-field data-input-name="total">
+        <span matTextPrefix>S/.</span>
+        <mat-label>Total</mat-label>
+        <input matInput type="text" formControlName="total" />
+        <mat-error>*Requerido</mat-error>
+      </mat-form-field>
+    
+    
+    <div class="contract-plan-form__plans">
+      <div class="contract-plan-form__plans__title">
+        <span class="label-medium">Vehículos</span>
+        <button class="text-button">
+          <span>Limpiar todos</span>
+        </button>
+      </div>
+      @for (fgCV of contractPlanVehiclesFormArray.controls; track fgCV; let i = $index)
+      {
+      <ng-container [formGroup]="fgCV">
+        <section class="contract-plan-form__plans__item" formGroupName="vehicle">
+          <app-input-autocomplete-template [autocompleteControl]="getVehicleTypeFormGroup(fgCV)" [idControl]="getVehicleTypeIdFormGroup(fgCV)" [configuration]="{ textLabel: 'Tipo de vehículo', local: { nameModuleDatabase: nameModuleDatabase.VehicleTypes } }" />
+    
+          <mat-form-field>
+            <mat-label>Placa</mat-label>
+            <input matInput type="text" formControlName="plate" (ngModelChange)="changesContractVehiclesFormArray()" />
+            @if (fgCV.get('vehicle')?.get('plate')?.hasError('required')) { <mat-error>*Requerido</mat-error> } 
+            @else if (fgCV.get('vehicle')?.get('plate')?.hasError('pattern')) { <mat-error>*Placa existe</mat-error> }
+          </mat-form-field>
+    
+          <button class="contract-plan-form__plans__item__delete-button icon-button" (click)="deleteContractVehicle(i)">
+            <span class="material-icons">delete</span>
+          </button>
+        </section>
+      </ng-container>
+      }
+    
+      <button class="contract-plan-form__plans__add outlined-button" type="button" (click)="addContractPlanVehicle()">
+        <span class="material-icons">add</span>
+        <span>Agregar vehículo</span>
+      </button>
+    
+    </div>
+    
+    </div>
 
-  <app-input-select-template data-input-name="plan" [control]="planIdCtrl" [configuration]="planAutocompleteConfiguration" />
-
-  <mat-form-field data-input-name="buy_price">
-    <mat-label>Precio Compra</mat-label>
-    <input matInput type="text" formControlName="buy_price" />
-    <mat-error>*Requerido</mat-error>
-  </mat-form-field>
-
-  <mat-form-field data-input-name="sale_price">
-    <mat-label>Precio Venta</mat-label>
-    <input matInput type="text" formControlName="sale_price" />
-    <mat-error>*Requerido</mat-error>
-  </mat-form-field>
-
-  <mat-form-field data-input-name="quantity">
-    <mat-label>Cantidad</mat-label>
-    <input matInput type="text" formControlName="quantity" />
-    <mat-error>*Requerido</mat-error>
-  </mat-form-field>
-
-  <mat-form-field data-input-name="total">
-    <mat-label>Total</mat-label>
-    <input matInput type="text" formControlName="total" />
-    <mat-error>*Requerido</mat-error>
-  </mat-form-field>
-
-</div>
+  </mat-expansion-panel>

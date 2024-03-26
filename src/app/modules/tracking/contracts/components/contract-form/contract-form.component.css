@@ -1,0 +1,25 @@
+[data-input-name="client_id"]{
+  --grid-column-start-form-input: span;
+  --grid-column-end-form-input: 4;
+}
+
+[data-input-name*="client_responsible"],
+[data-input-name="client_business_id"],
+[data-input-name="recurrent_type"],
+[data-input-name="period"],
+[data-input-name="installation_date"],
+[data-input-name="start_date"],
+[data-input-name="end_date"] {
+  --grid-column-start-form-input: span;
+  --grid-column-end-form-input: 2;
+}
+
+[data-input-name="client_responsible_email"] {
+  --grid-column-start-form-input: span;
+  --grid-column-end-form-input: 4;
+}
+
+[data-input-name="sale_user_id"] {
+  --grid-column-start-form-input: span;
+  --grid-column-end-form-input: 6;
+}

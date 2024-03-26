@@ -1,92 +1,76 @@
 <div [formGroup]="form" class="form__content__inputs">
 
-    <app-input-autocomplete-template data-type="form-input" data-form-input-name="client_id" class="col-span-full @2xl:col-span-6" [idControl]="clientIdCtrl" [autocompleteControl]="clientCtrl" [configuration]="clientAutocompleteConfiguration" />
+    <app-input-autocomplete-template data-input-name="client_id" [idControl]="clientIdCtrl" [autocompleteControl]="clientCtrl" [configuration]="clientAutocompleteConfiguration" />
 
-    <app-input-select-template data-type="form-input" data-form-input-name="client_business_id" class="col-span-full @2xl:col-span-3" [control]="clientBusinessUnitIdCtrl" [configuration]="{ textLabel: 'Unidad de negocio', data: clientCtrl.value?.client_business_units ?? [] }" />
+    <app-input-select-template data-input-name="client_business_id" [control]="clientBusinessUnitIdCtrl" [configuration]="{ textLabel: 'Unidad de negocio', data: clientCtrl.value?.client_business_units ?? [] }" />
 
-    <mat-form-field data-type="form-input" data-form-input-name="recurrently" class="col-span-full @2xl:col-span-2">
-        <mat-label>Recurrente mensual</mat-label>
-        <input matInput type="text" [disabled]="true" />
-        <span matTextPrefix>S/.</span>
-        <mat-error>*Requerido</mat-error>
-    </mat-form-field>
+    <app-input-select-template data-input-name="recurrent_type" [control]="recurrentTypeCtrl" [configuration]="recurrentTypeSelectConfiguration" />
 
-    <app-input-select-template data-type="form-input" class="col-span-full @2xl:col-span-2" [control]="recurrentTypeCtrl"
-        [configuration]="recurrentTypeSelectConfiguration" />
+    <app-input-select-template data-input-name="period" [control]="periodCtrl" [configuration]="periodSelectConfiguration" />
 
-    <app-input-select-template data-type="form-input" class="col-span-full @2xl:col-span-2" [control]="periodCtrl"
-        [configuration]="periodSelectConfiguration" />
+    <app-datepicker-template data-input-name="installation_date" [configuration]="{ label: 'Fecha de instalación' }" formControlName="installation_date" />
 
-    <app-datepicker-template data-type="form-input" class="col-span-full @2xl:col-span-2" [configuration]="{ label: 'Fecha de instalación' }"
-        formControlName="installation_date" />
-
-    <mat-form-field data-type="form-input" class="col-span-full @2xl:col-span-2">
+    <mat-form-field data-input-name="start_date">
         <mat-label>Fecha de inicio</mat-label>
         <input matInput type="text" formControlName="start_date" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
-    <mat-form-field data-type="form-input" class="col-span-full @2xl:col-span-2">
+    <mat-form-field data-input-name="end_date">
         <mat-label>Fecha de fin</mat-label>
         <input matInput type="text" formControlName="end_date" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
-    <mat-form-field data-type="form-input" class="col-span-full @2xl:col-span-2">
-        <mat-label>Días de prorrateo</mat-label>
-        <input matInput type="text" formControlName="proration_days" />
-        <mat-error>*Requerido</mat-error>
-    </mat-form-field>
-
-
-    <div class="col-span-full label-medium mt-4 mb-2 text-primary">Detalles del cierre de la venta</div>
-
-    <mat-form-field data-type="form-input" class="col-span-full @2xl:col-span-2">
+    <mat-form-field data-input-name="client_responsible_document_number">
         <mat-label>N° Doc. del contacto</mat-label>
         <input matInput type="text" formControlName="client_responsible_document_number" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
-    <mat-form-field data-type="form-input" class="col-span-full @2xl:col-span-4">
+    <mat-form-field data-input-name="client_responsible_name">
         <mat-label>Nombre del contacto</mat-label>
         <input matInput type="text" formControlName="client_responsible_name" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
-    <mat-form-field data-type="form-input" class="col-span-full @2xl:col-span-3">
+
+    <mat-form-field data-input-name="client_responsible_paternal_name">
         <mat-label>Apellido paterno</mat-label>
         <input matInput type="text" formControlName="client_responsible_paternal_name" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
-    <mat-form-field data-type="form-input" class="col-span-full @2xl:col-span-3">
+
+    <mat-form-field data-input-name="client_responsible_maternal_name">
         <mat-label>Apellido materno</mat-label>
         <input matInput type="text" formControlName="client_responsible_maternal_name" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
-    <mat-form-field data-type="form-input" class="col-span-full @2xl:col-span-2">
+    <mat-form-field data-input-name="client_responsible_phone">
         <mat-label>Teléfono del contacto</mat-label>
         <input matInput type="text" formControlName="client_responsible_phone" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
-    <mat-form-field data-type="form-input" class="col-span-full @2xl:col-span-5">
+    <mat-form-field data-input-name="client_responsible_email">
         <mat-label>Email del contacto</mat-label>
         <input matInput type="text" formControlName="client_responsible_email" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
-    <app-input-autocomplete-template data-type="form-input" class="col-span-full @2xl:col-span-5" [idControl]="saleUserIdCtrl" [configuration]="saleUserAutocompleteConfiguration" />
+    <app-input-autocomplete-template data-input-name="sale_user_id" [idControl]="saleUserIdCtrl" [configuration]="saleUserAutocompleteConfiguration" />
 
-    <div class="col-span-full label-medium mt-4 mb-2 text-primary">Planes</div>
+
+    <div class="form__content__inputs__subtitle">Planes</div>
 
     <div formArrayName="contract_plans" style="display: contents;">
         @for (contractPlanFormGroup of contractPlansFormArray.controls; track i; let i = $index) {
-           <app-contract-plan-form style="display: contents;" [form]="contractPlanFormGroup" [index]="i" />
+           <app-contract-plan-form style="display: contents;" [form]="contractPlanFormGroup" [index]="i" (deleteItem)="deleteContractPlan(i)" />
         }
     </div>
 
     <div class="col-span-full grid">
-        <button class="text-button" type="button" (click)="addContractPlan()">
+        <button class="outlined-button" type="button" (click)="addContractPlan()">
             <span class="material-icons">add</span>
             <span>Agregar plan</span>
         </button>

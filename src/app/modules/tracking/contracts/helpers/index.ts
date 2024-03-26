@@ -13,8 +13,7 @@ export const getContractFormGroup = (): FormGroup => {
         start_date: new FormControl({ value: null, disabled: true }),
         end_date: new FormControl({ value: null, disabled: true }),
         period: new FormControl(null, [Validators.required]),
-        
-        proration_days: new FormControl({ value: null, disabled: true }),
+
         recurrent_type: new FormControl(RecurrentTypeEnum.MENSUAL, [Validators.required]),
 
         client_responsible_document_number: new FormControl(null),
@@ -37,12 +36,12 @@ export const getContractPlanFormGroup = (): FormGroup => new FormGroup({
     contract_id: new FormControl(null),
     plan_id: new FormControl(null, [Validators.required]),
     plan: new FormControl(null),
-    quantity: new FormControl(null, [Validators.required]),
-    buy_price: new FormControl('0.00', [Validators.required]),
-    sale_price: new FormControl('0.00', [Validators.required]),
-    installation_price: new FormControl('0.00', [Validators.required]),
-    total_installation_price: new FormControl(null),
-    total: new FormControl(null),
+    quantity: new FormControl(null, [Validators.required, Validators.min(1)]),
+    buy_price: new FormControl('0.00', [Validators.required, Validators.min(1)]),
+    sale_price: new FormControl('0.00', [Validators.required, Validators.min(1)]),
+    installation_price: new FormControl('0.00', [Validators.required, Validators.min(1)]),
+    total_installation_price: new FormControl({ value: '0.00', disabled: true }),
+    total: new FormControl({ value: '0.00', disabled: true }),
     contract_plan_vehicles: new FormArray([]),
 })
 
