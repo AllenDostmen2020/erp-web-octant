@@ -1,7 +1,7 @@
 import { BaseModel } from "./baseModel";
 import { Client } from "./client";
 import { ClientBusinessUnit } from "./clientBusinessUnit";
-import { ContractDocumentItem } from "./contractDocumentItem";
+import { ContractPlanDocumentItem } from "./contractPlanDocumentItem";
 import { ContractVehicle } from "./contractVehicle";
 import { Plan } from "./plan";
 
@@ -41,7 +41,7 @@ export interface Contract extends BaseModel {
     client_business_unit?: ClientBusinessUnit;
     plan?: Plan;
     contract_vehicles?: ContractVehicle[];
-    last_contract_document_item?: ContractDocumentItem;
+    last_contract_document_item?: ContractPlanDocumentItem;
 }
 
 export enum RecurrentTypeEnum {
