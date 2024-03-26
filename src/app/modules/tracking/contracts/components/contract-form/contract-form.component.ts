@@ -1,5 +1,5 @@
 import { DecimalPipe, NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, WritableSignal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, WritableSignal, inject, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,6 +16,8 @@ import { getDate, getMonth, getYear, format, differenceInDays } from 'date-fns';
 import { startWith } from 'rxjs/operators';
 import { ContractPlanFormComponent } from '../contract-plan-form/contract-plan-form.component';
 import { getContractPlanFormGroup } from '../../helpers';
+import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-contract-form',
@@ -40,7 +42,7 @@ import { getContractPlanFormGroup } from '../../helpers';
 })
 export class ContractFormComponent {
   @Input({ required: true }) form!: FormGroup;
-  
+  private matDialog = inject(MatDialog);
   public vehicleDetail: WritableSignal<'full' | 'single'> = signal('single');
 
   public readonly nameModuleDatabase = NameModuleDatabase;
@@ -145,9 +147,9 @@ export class ContractFormComponent {
       this.calculationDates(installationDate);
     });
 
-    this.clientCtrl.valueChanges.subscribe((client: Client) => {      
+    this.clientCtrl.valueChanges.subscribe((client: Client) => {
       if (client instanceof Object) {
-        if(client.client_business_units?.length == 1) {
+        if (client.client_business_units?.length == 1) {
           this.clientBusinessUnitIdCtrl.setValue(client.client_business_units[0].id, { emitEvent: false });
         }
       }
@@ -171,18 +173,33 @@ export class ContractFormComponent {
     const prorationDays = differenceInDays(startDate, installation_date);
     const period = Number(this.periodCtrl.value ?? 0);
     const endDate = new Date(yearInitContract, monthInitContract + period, dayInitContract - 1);
-    
+
     this.prorationDaysCtrl.setValue(prorationDays, { emitEvent: false });
     this.startDateCtrl.setValue(format(startDate, 'dd/MM/yyyy'), { emitEvent: false });
     this.endDateCtrl.setValue(format(endDate, 'dd/MM/yyyy'), { emitEvent: false });
   }
 
-  public deleteContractPlan(i: number): void {
-    if(this.contractPlansFormArray.at(i).dirty) {
+  public async deleteContractPlan(i: number): Promise<any | null> {
+    if (this.contractPlansFormArray.at(i).dirty) {
       console.log('No se puede eliminar un plan de contrato que ha sido tocado');
+      const dialogData: ConfirmDialogData = {
+        icon: 'info',
+        title: '¿Está seguro de eliminar la información?',
+        description: '',
+        confirmButton: { disabled: false },
+      };
+      const confirm = await this.confirmDialog(dialogData);
+      if (!confirm) return null;
       this.contractPlansFormArray.removeAt(i);
     } else {
       this.contractPlansFormArray.removeAt(i);
     }
+  }
+
+  private confirmDialog(data: ConfirmDialogData): Promise<boolean> {
+    return new Promise((resolve) => {
+      const dialogRef = this.matDialog.open(ConfirmDialogTemplateComponent, { data });
+      dialogRef.afterClosed().subscribe((result) => resolve(result));
+    });
   }
 }
