@@ -47,37 +47,39 @@ export class ContractPlanFormComponent {
   get installationPriceCtrl(): FormControl {
     return this.form.get('installation_price') as FormControl;
   }
+  get totalInstallationPriceCtrl(): FormControl {
+    return this.form.get('total_installation_price') as FormControl;
+  }
   get planIdCtrl(): FormControl {
     return this.form.get('plan_id') as FormControl;
   }
   get quantityCtrl(): FormControl {
     return this.form.get('quantity') as FormControl;
   }
+  get totalCtrl(): FormControl {
+    return this.form.get('total') as FormControl;
+  }
   get contractPlanVehiclesFormArray(): FormArray<FormGroup> {
     return this.form.get('contract_plan_vehicles') as FormArray;
   }
 
   ngOnInit(): void {
-    // this.quantityCtrlChange();
+
   }
 
-  // private quantityCtrlChange() {
-  //   this.quantityCtrl.valueChanges.subscribe((value: number) => {
-  //     if (value > this.contractPlanVehiclesFormArray.length) {
-  //       for (let i = this.contractPlanVehiclesFormArray.length; i < value; i++) {
-  //         this.contractPlanVehiclesFormArray.push(getContractPlanVehicleFormGroup());
-  //       }
-  //     } else {
-  //       for (let i = this.contractPlanVehiclesFormArray.length; i > value; i--) {
-  //         this.contractPlanVehiclesFormArray.removeAt(i - 1);
-  //       }
-  //     }
-  //   });
-  // }
+  private totalInstallationPriceCtrlChange() {
+    if (this.installationPriceCtrl.value) {
+      this.totalInstallationPriceCtrl.setValue((this.installationPriceCtrl.value * this.contractPlanVehiclesFormArray.length).toFixed(2), { emitEvent: false });
+    }
+    if (this.salePriceCtrl.value) {
+      this.totalCtrl.setValue((this.salePriceCtrl.value * this.contractPlanVehiclesFormArray.length).toFixed(2), { emitEvent: false });
+    }
+  }
 
   public addContractPlanVehicle(): void {
     this.contractPlanVehiclesFormArray.push(getContractPlanVehicleFormGroup());
     this.quantityCtrl.setValue(this.contractPlanVehiclesFormArray.length, { emitEvent: false });
+    this.totalInstallationPriceCtrlChange();
   }
 
   public changesContractVehiclesFormArray() {
@@ -102,5 +104,7 @@ export class ContractPlanFormComponent {
   public deleteContractVehicle(index: number) {
     this.contractPlanVehiclesFormArray.removeAt(index);
     this.quantityCtrl.setValue(this.contractPlanVehiclesFormArray.length, { emitEvent: false });
+    this.totalInstallationPriceCtrlChange();
+    // this.deleteItem.emit()
   }
 }
