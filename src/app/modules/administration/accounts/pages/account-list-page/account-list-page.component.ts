@@ -28,7 +28,6 @@ export class AccountListPageComponent {
             textColumn({
                 title: 'Número',
                 sort: { key: 'number' },
-                gridColumn: 'fit-content(120px)',
                 displayValueFn: (item) => item.number,
             }),
             textColumn({

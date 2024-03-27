@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_CONTACT, clientContactFormGroup } from '../../helpers';
 import { FormControl } from '@angular/forms';
 import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
+import { DocumentTypeEnum } from '@interface/baseModel';
 
 @Component({
     selector: 'app-client-contact-create-page',
@@ -36,5 +37,6 @@ export class ClientContactCreatePageComponent {
         //     const index = this.configuration.fields!.findIndex(f => f.text?.formControlName == 'document_number');
         //     if (index != -1) this.configuration.fields![index].text?.maxLength  = value == DocumentTypeEnum.DNI ? 8 : value == DocumentTypeEnum.RUC ? 11 : 14;
         // })
+        
     }
 }
