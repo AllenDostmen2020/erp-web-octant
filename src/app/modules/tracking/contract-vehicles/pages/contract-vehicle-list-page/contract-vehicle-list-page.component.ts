@@ -17,7 +17,7 @@ export class ContractVehicleListPageComponent {
         server: {
             url: 'vehicle',
             queryParams: {
-                relations: 'client,vehicleType',
+                relations: 'client,vehicleType,latestContractPlanVehicle.contractPlan.plan',
                 contract_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')
             },
         },
@@ -37,6 +37,10 @@ export class ContractVehicleListPageComponent {
                 title: 'Color',
                 sort: { key: 'color' },
                 displayValueFn: (item) => item.color ?? '--',
+            }),
+            textColumn({
+                title: 'Plan',
+                displayValueFn: (item) => item.latest_contract_plan_vehicle?.contract_plan?.plan?.name ?? '--',
             }),
             textColumn({
                 title: 'Marca',

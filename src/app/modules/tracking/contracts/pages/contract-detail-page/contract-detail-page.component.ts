@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
 import { Contract } from '@interface/contract';
 import { ItemDetailConfiguration } from '@component/item-detail-template/item-detail-template.component';
@@ -18,7 +17,7 @@ export class ContractDetailPageComponent {
         server: {
             url: 'contract',
             queryParams: {
-                relations: 'client,plan,clientBusinessUnit'
+                relations: 'client,clientBusinessUnit,contractPlans.plan'
             },
         },
         backButton: false,
@@ -38,10 +37,6 @@ export class ContractDetailPageComponent {
                     {
                         title: 'Unidad de negocio',
                         displayValueFn: (item) => item.client_business_unit?.name
-                    },
-                    {
-                        title: 'Plan',
-                        displayValueFn: (item) => item.plan?.name
                     },
                     {
                         title: 'Fecha de instalación',
@@ -82,8 +77,9 @@ export class ContractDetailPageComponent {
                         type: 'currency',
                     },
                     {
-                        title: 'Recurrente de pago',
-                        displayValueFn: (item) => item.recurrent_type.toUpperCase(),
+                        title: 'Planes',
+                        type: 'html',
+                        displayValueFn: (item) => item.contract_plans?.length ? `<div >${item.contract_plans?.map((contractPlan) => `<div>${contractPlan.plan?.name} (${contractPlan.quantity})</div>`).join(',')}</div>` : 'No tiene rubros asignados'
                     },
                 ]
             },

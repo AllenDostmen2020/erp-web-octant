@@ -15,7 +15,7 @@ export class VehicleListPageComponent {
         server: {
             url: 'vehicle',
             queryParams: { 
-                relations: 'client,vehicleType,latestContractVehicle.contract'
+                relations: 'client,vehicleType,latestContractPlanVehicle.contractPlan.contract'
             },
         },
         columns: signal([
@@ -33,7 +33,7 @@ export class VehicleListPageComponent {
             }),
             textColumn({
                 title: 'Contrato',
-                displayValueFn: (item) => item?.latest_contract_vehicle?.contract?.code,
+                displayValueFn: (item) => item?.latest_contract_plan_vehicle?.contract_plan?.contract?.code,
             }),
             textColumn({
                 title: 'Color',

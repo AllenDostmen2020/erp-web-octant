@@ -15,7 +15,7 @@ export class ContractListPageComponent {
     title: 'Contratos',
     server: {
       url: 'contract',
-      queryParams: { relations: 'client,clientBusinessUnit,plan' },
+      queryParams: { relations: 'client,clientBusinessUnit' },
     },
     columns: signal(contractColumnsList())
   };

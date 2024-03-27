@@ -1,12 +1,12 @@
-import { BaseModel } from "./baseModel";
-import { Contract } from "./contract";
+import { BaseModel } from "./baseModel"
+import { ContractPlan } from "./contractPlan";
 import { Vehicle } from "./vehicle";
 
 export interface ContractPlanVehicle extends BaseModel {
-    contract_id: number;
+    contract_plan_id: number;
     vehicle_id: number;
     installation_date: string;
 
     vehicle?: Vehicle;
-    contract?: Contract;
+    contract_plan?: ContractPlan;
 }

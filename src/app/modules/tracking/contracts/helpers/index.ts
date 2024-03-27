@@ -72,10 +72,6 @@ export const contractColumnsList = () => [
         routerLinkValue: { url: (item) => `/organization/client/view/${item.client?.id}` },
     }),
     uppercaseColumn<Contract>({
-        title: 'Plan',
-        displayValueFn: (item) => item.plan?.name,
-    }),
-    uppercaseColumn<Contract>({
         title: 'T. Periodo',
         displayValueFn: (item) => item.recurrent_type,
     }),

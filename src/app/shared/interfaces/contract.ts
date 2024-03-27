@@ -1,6 +1,7 @@
 import { BaseModel } from "./baseModel";
 import { Client } from "./client";
 import { ClientBusinessUnit } from "./clientBusinessUnit";
+import { ContractPlan } from "./contractPlan";
 import { ContractPlanDocumentItem } from "./contractPlanDocumentItem";
 import { ContractVehicle } from "./contractVehicle";
 import { Plan } from "./plan";
@@ -40,6 +41,7 @@ export interface Contract extends BaseModel {
     client?: Client;
     client_business_unit?: ClientBusinessUnit;
     plan?: Plan;
+    contract_plans?: ContractPlan[];
     contract_vehicles?: ContractVehicle[];
     last_contract_document_item?: ContractPlanDocumentItem;
 }
