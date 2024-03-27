@@ -24,7 +24,7 @@ export class VehicleListPageComponent {
                 sort: { key: 'plate' },
                 routerLinkValue: { url: (item) => `../view/${item.id}` },
                 displayValueFn: (item) => `${item.plate} / ${item.vehicle_type?.name.toUpperCase()}`,
-                gridColumn: '1fr',
+                gridColumn: 'fit-content(250px)',
             }),
             textColumn({
                 title: 'Cliente',
@@ -35,6 +35,7 @@ export class VehicleListPageComponent {
             textColumn({
                 title: 'Contrato',
                 displayValueFn: (item) => item?.latest_contract_plan_vehicle?.contract_plan?.contract?.code,
+                gridColumn: 'fit-content(250px)',
                 routerLinkValue: { url: (item) => `/tracking/contract/view/${item.latest_contract_plan_vehicle?.contract_plan?.contract_id}` },
             }),
             textColumn({
