@@ -77,6 +77,16 @@
             @else if (fgCV.get('vehicle')?.get('plate')?.hasError('pattern')) { <mat-error>*Placa existe</mat-error> }
           </mat-form-field>
     
+          <mat-form-field>
+            <mat-label>Modelo</mat-label>
+            <input matInput type="text" formControlName="model" />
+          </mat-form-field>
+    
+          <mat-form-field>
+            <mat-label>Marca</mat-label>
+            <input matInput type="text" formControlName="brand" />
+          </mat-form-field>
+    
           <button class="contract-plan-form__plans__item__delete-button icon-button" (click)="deleteContractVehicle(i)">
             <span class="material-icons">delete</span>
           </button>
