@@ -72,7 +72,9 @@
   </div>
   <!-- ----------------------------------------- -->
   <!-- ----------------------------------------- -->
-  <ng-content select="listInformation"/>
+  <div class="list__information">
+    <ng-content select="listInformation"/>
+  </div>
   <!-- ----------------------------------------- -->
   <!-- ----------------------------------------- -->
   <div #divListItems class="list__items" [ngClass]="{ 'container-loading': loading() }">

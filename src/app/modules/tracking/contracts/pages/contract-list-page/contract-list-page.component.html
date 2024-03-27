@@ -1,16 +1,24 @@
-@if (configurationList) {
 <app-item-list-template [configuration]="configurationList">
   <ng-container ngProjectAs="listHeaderMiddle">
     <div class="list-button-group">
-      <button class="list-button-group-item" (click)="changeFilterContracts()">
+      <button class="list-button-group-item" [ngClass]="{active: type() == 'todos'}"
+        (click)="changeFilterContracts('todos')">
         Todos
       </button>
-      <button class="list-button-group-item" (click)="changeFilterContracts()">
-        Vencidos
+      <button class="list-button-group-item" [ngClass]="{active: type() == 'por expirar'}"
+        (click)="changeFilterContracts('por expirar')">
+        Por expirar
+      </button>
+      <button class="list-button-group-item" [ngClass]="{active: type() == 'expirados'}"
+        (click)="changeFilterContracts('expirados')">
+        Expirados
       </button>
     </div>
   </ng-container>
+
+  <ng-container ngProjectAs="listInformation">
+    @if(alertConfiguration(); as alertConf) {
+    <app-alert-template [configuration]="alertConf" />
+    }
+  </ng-container>
 </app-item-list-template>
-} @else {
-<app-spinner-default />
-}
