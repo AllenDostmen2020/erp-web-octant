@@ -1,6 +1,7 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { COIN } from "@interface/baseModel";
 import { FormInput, autocompleteServerFormInput, selectFormInput, textFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
+import { signal } from "@angular/core";
 
 export const accountFormGroup = () => new FormGroup({
     bank_id: new FormControl(null, [Validators.required]),
@@ -32,7 +33,7 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_ACCOUNT: FormInput[] = [
     selectFormInput({
         formControlName: 'coin',
         textLabel: 'Moneda',
-        data: COIN.map((item) => ({ name: item.toUpperCase(), id: item })),
+        data: signal(COIN.map((item) => ({ name: item.toUpperCase(), id: item }))),
         cssClass: 'col-span-full @2xl:col-span-2',
     }),
     textareaFormInput({

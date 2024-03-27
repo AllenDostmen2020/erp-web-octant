@@ -1,6 +1,7 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { DOCUMENT_TYPES, USER_ROLES } from "@interface/baseModel";
 import { FormInput, dateFormInput, selectFormInput, textFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
+import { signal } from "@angular/core";
 
 export const userFormGroup = () => new FormGroup({
     document_type: new FormControl(null, [Validators.required]),
@@ -18,13 +19,13 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_USER: FormInput[] = [
     selectFormInput({
         formControlName: 'role',
         textLabel: 'Tipo de documento',
-        data: USER_ROLES.map((item) => ({ name: item.toUpperCase(), id: item })),
+        data: signal(USER_ROLES.map((item) => ({ name: item.toUpperCase(), id: item }))),
         cssClass: 'col-span-6 @2xl:col-span-2',
     }),
     selectFormInput({
         formControlName: 'document_type',
         textLabel: 'Tipo de documento',
-        data: DOCUMENT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item })),
+        data: signal(DOCUMENT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item }))),
         cssClass: 'col-span-6 @2xl:col-span-2',
     }),
     textFormInput({

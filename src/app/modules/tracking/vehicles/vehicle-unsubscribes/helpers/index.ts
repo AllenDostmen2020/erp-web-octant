@@ -1,3 +1,4 @@
+import { signal } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { FormInput, autocompleteLocalFormInput, dateFormInput, selectFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
 import { VEHICLE_UNSUBSCRIBE_PROGRAMMING_TYPE, VehicleUnsubscribe } from "@interface/vehicleUnsubscribe";
@@ -17,7 +18,7 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_VEHICLE: FormInput[] = [
     selectFormInput({
         formControlName: 'programming_type',
         textLabel: 'Tipo de programación',
-        data: VEHICLE_UNSUBSCRIBE_PROGRAMMING_TYPE.map((item) => ({ name: item.toUpperCase(), id: item })),
+        data: signal(VEHICLE_UNSUBSCRIBE_PROGRAMMING_TYPE.map((item) => ({ name: item.toUpperCase(), id: item }))),
         cssClass: 'col-span-6 @2xl:col-span-2',
     }),
     dateFormInput({

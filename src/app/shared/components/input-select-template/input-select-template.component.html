@@ -1,7 +1,7 @@
 <mat-form-field>
     <mat-label>{{configuration.textLabel}}</mat-label>
     <mat-select [formControl]="control">
-        @for (item of data; track item.id) {
+        @for (item of data(); track item.id) {
             <mat-option 
                 [class]="(configuration.cssClassOption | getMixedValue: item) ?? ''"
                 [ngStyle]="configuration.cssStyleOption | getMixedValue: item"

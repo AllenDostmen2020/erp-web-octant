@@ -1,5 +1,5 @@
 import { NgClass, UpperCasePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -40,17 +40,17 @@ export class BoxFormPageComponent {
 
     public readonly typeSelectConfiguration: InputSelectConfiguration = {
         textLabel: 'Tipo',
-        data: [
+        data: signal([
             { id: 'fisica', name: 'Fisica' },
             { id: 'virtual', name: 'Virtual' },
-        ],
+        ]),
     }
     public readonly coinSelectConfiguration: InputSelectConfiguration = {
         textLabel: 'Moneda',
-        data: [
+        data: signal([
             { id: 'soles', name: 'Soles' },
             { id: 'dólares', name: 'Dólares' },
-        ],
+        ],)
     }
     public readonly accountSelectConfiguration: InputSelectServerConfiguration<Account> = {
         textLabel: 'Cuenta',

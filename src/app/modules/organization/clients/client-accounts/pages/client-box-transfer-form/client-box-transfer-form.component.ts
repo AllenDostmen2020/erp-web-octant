@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -127,19 +127,19 @@ export class ClientBoxTransferFormComponent {
   }
   public readonly paymentTypeSelectConfiguration: InputSelectConfiguration = {
     textLabel: 'Tipo de pago',
-    data: [
+    data: signal([
       { id: 'transferencia', name: 'Transferencia' },
       { id: 'depósito', name: 'Depósito' },
       { id: 'efectivo', name: 'Efectivo' },
       { id: 'cheque', name: 'Cheque' },
-    ],
+    ]),
   }
 
   ngOnInit() {
     this.paymentTypeCtrl.setValue('transferencia');
     this.paymentTypeCtrl.disable();
     this.fromBoxOpeningIdCtrl.valueChanges.subscribe((fromIdSelected) => {
-      this.fromClientBoxSelectServerConfiguration.data = (this.fromClientBoxSelectServerConfiguration.data ?? []).filter((item) => item.id !== fromIdSelected);
+      this.fromClientBoxSelectServerConfiguration.data!.set((this.fromClientBoxSelectServerConfiguration.data!() ?? []).filter((item) => item.id !== fromIdSelected));
     })
   }
 }

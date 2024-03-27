@@ -2,6 +2,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { DOCUMENT_TYPES } from "@interface/baseModel";
 import { ClientContact } from "@interface/clientContact";
 import { FormInput, selectFormInput, switchFormInput, textFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
+import { signal } from "@angular/core";
 
 export const clientContactFormGroup = (item?: Partial<ClientContact>) => new FormGroup({
     client_id: new FormControl(item?.client_id, [Validators.required]),
@@ -21,7 +22,7 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_CONTACT: FormInput[] = [
     selectFormInput({
         formControlName: 'document_type',
         textLabel: 'Tipo de documento',
-        data: DOCUMENT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item })),
+        data: signal(DOCUMENT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item }))),
         cssClass: 'col-span-6 @2xl:col-span-2',
     }),
     textFormInput({
