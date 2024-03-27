@@ -80,21 +80,21 @@ export const contractColumnsList = () => [
         displayValueFn: (item) => item.period,
     }),
     numberColumn<Contract>({
-        title: 'N° planes',
+        title: 'N° Planes',
         displayValueFn: (item) => item.plan_quantity,
         numberFormat: '2.0-0',
     }),
     numberColumn<Contract>({
-        title: 'N° vehículos',
+        title: 'N° Vehículos',
         displayValueFn: (item) => item.contract_plans?.reduce((previousValue, item) => previousValue + Number(item.quantity), 0),
         numberFormat: '2.0-0',
     }),
     dateColumn<Contract>({
-        title: 'Fecha inicio',
+        title: 'Fecha Inicio',
         displayValueFn: (item) => item.start_date,
     }),
     dateColumn<Contract>({
-        title: 'Fecha fin',
+        title: 'Fecha Fin',
         displayValueFn: (item) => item.end_date,
     }),
     itemCreatedAtColumn(),
