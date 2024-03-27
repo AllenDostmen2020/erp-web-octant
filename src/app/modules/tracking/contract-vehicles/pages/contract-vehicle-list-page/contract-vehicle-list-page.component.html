@@ -1,1 +1,16 @@
-<app-item-list-template [configuration]="configList" />
+
+@if (contractPlans().length && configurationList) {
+<app-item-list-template [configuration]="configurationList">
+  <ng-container ngProjectAs="listHeaderMiddle">
+    <div class="list-button-group">
+      @for (item of contractPlans(); track item.id; let i = $index) {
+      <button class="list-button-group-item" [ngClass]="{ active: item.id == contractPlanIdActive() }" (click)="changeFilterPlan(item)">
+        {{item.plan?.name}}
+      </button>
+      }
+    </div>
+  </ng-container>
+</app-item-list-template>
+} @else {
+<app-spinner-default />
+}

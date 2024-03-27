@@ -26,7 +26,9 @@ export class BoxOpeningListPageComponent {
     public configList: ItemListConfiguration<BoxOpening> = {
         server: {
             url: 'box-opening',
-            queryParams: `box_id=${(this.activatedRoute.parent?.parent?.snapshot?.params as any)?.id}`,
+            queryParams: {
+                box_id:  this.activatedRoute.parent?.parent?.snapshot?.paramMap.get('id')
+            },
         },
         title: 'Aperturas de caja',
         createButton: false,

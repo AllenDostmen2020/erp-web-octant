@@ -70,7 +70,7 @@ export interface ItemListConfiguration<T = any> {
 
   server: {
     readonly url: string,
-    queryParams?: { [key: string]: any } | string;
+    queryParams?: { [key: string]: any };
   }
 
   createButton?: {
@@ -743,7 +743,7 @@ export class ItemListTemplateComponent {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => this.callGetData());
 
-    // this.configuration.updateListEvent!.subscribe(() => this.callGetData({}));
+    this.configuration.updateListEvent?.subscribe(() => this.callGetData({}));
   }
 
   ngOnDestroy(): void {
@@ -827,11 +827,10 @@ export class ItemListTemplateComponent {
     }
     this.loading.set(true);
     const serverUrl = this.configuration.server.url;
-    let queryParams = this.configuration.server.queryParams ?? {};
-    if (queryParams instanceof Object) {
-      queryParams = objectToURLSearchParams(queryParams);
-      queryParams = queryParams.toString();
-    }
+    let queryParams: any = this.configuration.server.queryParams ?? {};
+    queryParams = objectToURLSearchParams(queryParams);
+    queryParams = queryParams.toString();
+    
     const url = `${serverUrl}?${searchParams.toString()}&${queryParams ?? ''}`;
     const config = { signal: this.abortController.signal };
     try {

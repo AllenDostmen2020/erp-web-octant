@@ -14,7 +14,7 @@ export class ContractViewPageComponent {
     titleModule: 'Contrato',
     server: {
       url: 'contract',
-      queryParams: { relations: 'client,clientBusinessUnit' },
+      queryParams: { relations: 'client,contractPlans' },
     },
     nameItemFn: (item) => `${item.code} - ${item.client?.name}`,
     links: [

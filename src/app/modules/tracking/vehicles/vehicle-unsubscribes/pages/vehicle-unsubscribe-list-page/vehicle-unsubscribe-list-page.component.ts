@@ -3,18 +3,20 @@ import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, itemCreat
 import { VehicleUnsubscribe } from '@interface/vehicleUnsubscribe';
 
 @Component({
-  selector: 'app-vehicle-unsubscribe-list-page',
-  standalone: true,
-  imports: [ItemListTemplateComponent],
-  templateUrl: './vehicle-unsubscribe-list-page.component.html',
-  styleUrl: './vehicle-unsubscribe-list-page.component.scss'
+    selector: 'app-vehicle-unsubscribe-list-page',
+    standalone: true,
+    imports: [ItemListTemplateComponent],
+    templateUrl: './vehicle-unsubscribe-list-page.component.html',
+    styleUrl: './vehicle-unsubscribe-list-page.component.scss'
 })
 export class VehicleUnsubscribeListPageComponent {
     public configList: ItemListConfiguration<VehicleUnsubscribe> = {
         title: 'Historial de bajas',
         server: {
             url: 'vehicle-unsubscribe',
-            queryParams: 'relations=user',
+            queryParams: {
+                relations: 'user'
+            },
         },
         columns: signal([
             textColumn({

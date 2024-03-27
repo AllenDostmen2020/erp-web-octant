@@ -13,7 +13,9 @@ export class BoxListPageComponent {
     public configList: ItemListConfiguration<Box> = {
         server: {
             url: 'box',
-            queryParams: 'relations=account,lastBoxOpening'
+            queryParams: {
+                relations: 'account,lastBoxOpening'
+            }
         },
         title: 'Cajas',
         columns: signal([

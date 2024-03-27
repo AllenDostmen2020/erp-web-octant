@@ -79,7 +79,7 @@ export class ContractDetailPageComponent {
                     {
                         title: 'Planes',
                         type: 'html',
-                        displayValueFn: (item) => item.contract_plans?.length ? `<div >${item.contract_plans?.map((contractPlan) => `<div>${contractPlan.plan?.name} (${contractPlan.quantity})</div>`).join(',')}</div>` : 'No tiene rubros asignados'
+                        displayValueFn: (item) => item.contract_plans?.map((contractPlan) => `${contractPlan.plan?.name} (${contractPlan.quantity})`).join(', ')
                     },
                 ]
             },
