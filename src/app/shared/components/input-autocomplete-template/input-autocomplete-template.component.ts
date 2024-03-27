@@ -24,7 +24,8 @@ export interface InputAutocompleteConfiguration<T = any> {
   displayValueFn?: (item: T) => string | number | { [key: string]: any };
   displayTextFn?: (item: T) => string | number;
   parseDataFn?: (data: T[]) => (T[] | Promise<T[]>);
-  data?: T[];
+  data?: WritableSignal<T[]>;
+  initializeData?: boolean;
   addButton?: RouterLinkInputAutocomplete;
 }
 
@@ -98,6 +99,12 @@ export class InputAutocompleteTemplateComponent {
         this.findLocalItem(this.idControl.value);
       };
     }
+    if(this.configuration.initializeData) {
+      this.init.set(true);
+      if (this.configuration.data) this.getItemsFromData('');
+      else if ((this.configuration as InputAutocompleteLocalConfiguration).local) this.getItemsLocal('');
+      else if ((this.configuration as InputAutocompleteServerConfiguration).server) this.getItemsServer('');
+    }
     this.autocompleteControl.valueChanges.pipe(tap(() => this.loading.set(true)), debounceTime(250))
       .subscribe((data: (string | { [key: string]: any })) => {        
         this.init.set(true);
@@ -124,7 +131,7 @@ export class InputAutocompleteTemplateComponent {
   }
 
   private async getItemsFromData(value: string): Promise<void> {
-    let data = this.configuration.data!;
+    let data = this.configuration.data!()!;
     const { parseDataFn } = this.configuration;
     if (parseDataFn) data = await parseDataFn(data);
     this.filterData.set(data.filter((item) => this.conditionFilterFn(item, value)));

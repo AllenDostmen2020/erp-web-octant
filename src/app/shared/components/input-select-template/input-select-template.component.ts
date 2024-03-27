@@ -22,7 +22,7 @@ export interface InputSelectConfiguration<T = any> {
   displayValueFn?: (item: T) => string | number | { [key: string]: any };
   displayTextFn?: (item: T) => string | number;
   parseDataFn?: (data: T[]) => (T[] | Promise<T[]>);
-  data?: T[];
+  data?: WritableSignal<T[]>;
   addButton?: ButtonAddInputSelect;
 }
 
@@ -70,7 +70,7 @@ export class InputSelectTemplateComponent {
 
   ngOnInit(): void {
     if (!this.configuration.data) {
-      this.configuration.data = [];
+      this.configuration.data = signal([]);
       this.getData();
     }
   }
@@ -102,13 +102,13 @@ export class InputSelectTemplateComponent {
     const response = await this.fetch.get<PaginatorData<any> | any[]>(endpoint, { signal: this.abortController.signal });
     const data = response instanceof Array ? response : response.data
     const { parseDataFn } = this.configuration;
-    this.configuration.data = parseDataFn ? await parseDataFn(data) : data;
+    this.configuration.data?.set(parseDataFn ? await parseDataFn(data) : data);
   }
 
   private async getItemsLocal(): Promise<void> {
     const response = await this.databaseStorage.getData((this.configuration as InputSelectLocalConfiguration).local!.nameModuleDatabase);
     const { parseDataFn } = this.configuration;
-    this.configuration.data = parseDataFn ? await parseDataFn(response) : response;
+    this.configuration.data?.set(parseDataFn ? await parseDataFn(response) : response);
   }
   
 }

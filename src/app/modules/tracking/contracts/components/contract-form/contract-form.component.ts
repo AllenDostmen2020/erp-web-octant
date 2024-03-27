@@ -64,18 +64,18 @@ export class ContractFormComponent {
 
   public readonly recurrentTypeSelectConfiguration: InputSelectConfiguration = {
     textLabel: 'Tipo de recurrente',
-    data: RECURRENT_TYPE_VALUES.map((recurrentType: string) => ({ id: recurrentType, name: recurrentType.toUpperCase() })),
+    data: signal(RECURRENT_TYPE_VALUES.map((recurrentType: string) => ({ id: recurrentType, name: recurrentType.toUpperCase() }))),
   };
 
   public readonly periodSelectConfiguration: InputSelectConfiguration = {
     textLabel: 'Duración',
-    data: [
+    data: signal([
       { id: 12, name: '1 año' },
       { id: 24, name: '2 años' },
       { id: 36, name: '3 años' },
       { id: 48, name: '4 años' },
       { id: 60, name: '5 años' },
-    ],
+    ]),
   };
 
   get clientIdCtrl(): FormControl {
@@ -168,7 +168,7 @@ export class ContractFormComponent {
     const startDate = new Date(yearInitContract, monthInitContract, dayInitContract);
     const period = Number(this.periodCtrl.value ?? 0);
     const endDate = new Date(yearInitContract, monthInitContract + period, dayInitContract - 1);
-    
+
     this.startDateCtrl.setValue(format(startDate, 'dd/MM/yyyy'), { emitEvent: false });
     this.endDateCtrl.setValue(format(endDate, 'dd/MM/yyyy'), { emitEvent: false });
   }

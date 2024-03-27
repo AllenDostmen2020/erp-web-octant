@@ -1,6 +1,7 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { COMPROBANT_TYPES, ClientBillingOption } from "@interface/clientBillingOption";
 import { FormInput, numberFormInput, selectFormInput, switchFormInput } from "@component/item-form-template/item-form-template.component";
+import { signal } from "@angular/core";
 
 export const clientBillingOptionFormGroup = (item?: Partial<ClientBillingOption>) => new FormGroup({
     client_id: new FormControl(item?.id, [Validators.required]),
@@ -17,7 +18,7 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_BILLING_OPTION: FormInput[] = [
     selectFormInput({
         formControlName: 'comprobant_type',
         textLabel: 'Tipo de comprobante',
-        data: COMPROBANT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item })),
+        data: signal(COMPROBANT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item }))),
     }),
     switchFormInput({
         formControlName: 'group_notes_single_voucher',
@@ -32,10 +33,10 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_BILLING_OPTION: FormInput[] = [
     selectFormInput({
         formControlName: 'retention_percent',
         textLabel: 'Porcentaje de retención',
-        data: [
+        data: signal([
             { name: '3%', id: '3.00' },
             { name: '6%', id: '6.00' },
-        ],
+        ]),
     }),
     switchFormInput({
         formControlName: 'igv_apply',

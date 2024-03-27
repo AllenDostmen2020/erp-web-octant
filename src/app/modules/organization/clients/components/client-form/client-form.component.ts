@@ -1,5 +1,5 @@
 import { NgClass, UpperCasePipe } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -69,7 +69,7 @@ export class ClientFormComponent {
   public readonly documentTypeSelectConfiguration: InputSelectConfiguration = {
     textLabel: 'Tipo de documento',
     placeholder: 'Seleccione un tipo de documento',
-    data: DOCUMENT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item })).sort((a, b) => a.name.localeCompare(b.name))
+    data: signal(DOCUMENT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item })).sort((a, b) => a.name.localeCompare(b.name)))
   }
 
   ngOnInit(): void {

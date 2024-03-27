@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ItemFormConfiguration, ItemFormTemplateComponent, selectFormInput, textFormInput } from '@component/item-form-template/item-form-template.component';
@@ -27,13 +27,13 @@ export class ClientAccountCreatePageComponent {
             selectFormInput({
                 formControlName: 'type',
                 textLabel: 'Tipo de cuenta',
-                data: Object.values(ClientAccountTypeEnum).map((item) => ({ name: item.toUpperCase(), id: item })),
+                data: signal(Object.values(ClientAccountTypeEnum).map((item) => ({ name: item.toUpperCase(), id: item }))),
                 cssClass: 'col-span-6 @2xl:col-span-3',
             }),
             selectFormInput({
                 formControlName: 'coin',
                 textLabel: 'Tipo de moneda',
-                data: COIN.map((item) => ({ name: item.toUpperCase(), id: item })),
+                data: signal(COIN.map((item) => ({ name: item.toUpperCase(), id: item }))),
                 cssClass: 'col-span-6 @2xl:col-span-3',
             }),
             textFormInput({
