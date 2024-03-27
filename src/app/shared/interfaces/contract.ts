@@ -16,6 +16,7 @@ export interface Contract extends BaseModel {
     end_date: string;
     period: string;
     proration_days: number;
+    plan_quantity: number;
 
     quantity: number;
     buy_price: number;
