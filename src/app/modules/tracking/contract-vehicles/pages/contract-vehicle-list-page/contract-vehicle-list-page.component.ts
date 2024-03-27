@@ -42,7 +42,7 @@ export class ContractVehicleListPageComponent {
             server: {
                 url: 'vehicle',
                 queryParams: {
-                    relations: 'client,vehicleType,latestContractPlanVehicle.contractPlan.plan',
+                    relations: 'vehicleType,latestContractPlanVehicle.contractPlan.plan',
                     contract_plan_id: contractPlan.id
                 },
             },
@@ -54,9 +54,8 @@ export class ContractVehicleListPageComponent {
                     gridColumn: '1fr',
                 }),
                 textColumn({
-                    title: 'Cliente',
-                    gridColumn: 'fit-content(250px)',
-                    displayValueFn: (item) => item?.client?.name ? item.client?.name : '--',
+                    title: 'Plan',
+                    displayValueFn: (item) => item.latest_contract_plan_vehicle?.contract_plan?.plan?.name ?? '--',
                 }),
                 textColumn({
                     title: 'Color',
@@ -64,13 +63,14 @@ export class ContractVehicleListPageComponent {
                     displayValueFn: (item) => item.color ?? '--',
                 }),
                 textColumn({
-                    title: 'Plan',
-                    displayValueFn: (item) => item.latest_contract_plan_vehicle?.contract_plan?.plan?.name ?? '--',
-                }),
-                textColumn({
                     title: 'Marca',
                     sort: { key: 'brand' },
                     displayValueFn: (item) => item.brand ?? '--',
+                }),
+                textColumn({
+                    title: 'Modelo',
+                    sort: { key: 'model' },
+                    displayValueFn: (item) => item.model ?? '--',
                 }),
                 itemCreatedAtColumn(),
                 itemUpdatedAtColumn(),
