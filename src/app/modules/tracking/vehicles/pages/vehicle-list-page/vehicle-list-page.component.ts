@@ -29,23 +29,32 @@ export class VehicleListPageComponent {
             textColumn({
                 title: 'Cliente',
                 gridColumn: 'fit-content(250px)',
+                routerLinkValue: { url: (item) => `/organization/client/view/${item.client_id}` },
                 displayValueFn: (item) => item?.client?.name ? item.client?.name : '--',
             }),
             textColumn({
                 title: 'Contrato',
                 displayValueFn: (item) => item?.latest_contract_plan_vehicle?.contract_plan?.contract?.code,
+                routerLinkValue: { url: (item) => `/tracking/contract/view/${item.latest_contract_plan_vehicle?.contract_plan?.contract_id}` },
+            }),
+            textColumn({
+                title: 'Plan',
+                displayValueFn: (item) => item.latest_contract_plan_vehicle?.contract_plan?.plan?.name ?? '--',
             }),
             textColumn({
                 title: 'Color',
                 sort: { key: 'color' },
-                hidden: true,
                 displayValueFn: (item) => item.color ?? '--',
             }),
             textColumn({
                 title: 'Marca',
                 sort: { key: 'brand' },
-                hidden: true,
                 displayValueFn: (item) => item.brand ?? '--',
+            }),
+            textColumn({
+                title: 'Modelo',
+                sort: { key: 'model' },
+                displayValueFn: (item) => item.model ?? '--',
             }),
             itemCreatedAtColumn(),
             itemUpdatedAtColumn(),
