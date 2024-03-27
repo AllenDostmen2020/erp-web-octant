@@ -2,7 +2,7 @@
 
     <app-input-autocomplete-template data-input-name="client_id" [idControl]="clientIdCtrl" [autocompleteControl]="clientCtrl" [configuration]="clientAutocompleteConfiguration" />
 
-    <app-input-select-template data-input-name="client_business_id" [control]="clientBusinessUnitIdCtrl" [configuration]="{ textLabel: 'Unidad de negocio', data: clientCtrl.value?.client_business_units ?? [] }" />
+    <app-input-select-template data-input-name="client_business_id" [control]="clientBusinessUnitIdCtrl" [configuration]="clientBusinessUnitAutocompleteConfiguration" />
 
     <app-input-select-template data-input-name="recurrent_type" [control]="recurrentTypeCtrl" [configuration]="recurrentTypeSelectConfiguration" />
 

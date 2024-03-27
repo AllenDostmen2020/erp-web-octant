@@ -79,10 +79,6 @@ export class InputSelectTemplateComponent {
     this.abortController.abort();
   }
 
-  get data() {
-    return this.configuration.data!;
-  }
-
   private getData() {
     if ((this.configuration as InputSelectServerConfiguration).server) {
       this.getItemsServer();
@@ -102,13 +98,13 @@ export class InputSelectTemplateComponent {
     const response = await this.fetch.get<PaginatorData<any> | any[]>(endpoint, { signal: this.abortController.signal });
     const data = response instanceof Array ? response : response.data
     const { parseDataFn } = this.configuration;
-    this.configuration.data?.set(parseDataFn ? await parseDataFn(data) : data);
+    this.configuration.data!.set(parseDataFn ? await parseDataFn(data) : data);
   }
 
   private async getItemsLocal(): Promise<void> {
     const response = await this.databaseStorage.getData((this.configuration as InputSelectLocalConfiguration).local!.nameModuleDatabase);
     const { parseDataFn } = this.configuration;
-    this.configuration.data?.set(parseDataFn ? await parseDataFn(response) : response);
+    this.configuration.data!.set(parseDataFn ? await parseDataFn(response) : response);
   }
   
 }

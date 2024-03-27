@@ -57,6 +57,11 @@ export class ContractFormComponent {
     }
   }
 
+  public clientBusinessUnitAutocompleteConfiguration: InputSelectConfiguration = {
+    textLabel: 'Unidad de negocio',
+    data: signal([]),
+  }
+
   public readonly saleUserAutocompleteConfiguration: InputSelectLocalConfiguration = {
     textLabel: 'Vendedor',
     local: { nameModuleDatabase: NameModuleDatabase.Users }
@@ -145,9 +150,12 @@ export class ContractFormComponent {
 
     this.clientCtrl.valueChanges.subscribe((client: Client) => {
       if (client instanceof Object) {
+        this.clientBusinessUnitAutocompleteConfiguration.data!.set(client.client_business_units ?? []);
         if (client.client_business_units?.length == 1) {
           this.clientBusinessUnitIdCtrl.setValue(client.client_business_units[0].id, { emitEvent: false });
         }
+      } else {
+        this.clientBusinessUnitAutocompleteConfiguration.data?.set([]);
       }
     });
   }
