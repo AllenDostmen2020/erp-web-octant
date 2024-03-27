@@ -72,7 +72,7 @@ export const contractColumnsList = () => [
         routerLinkValue: { url: (item) => `/organization/client/view/${item.client?.id}` },
     }),
     uppercaseColumn<Contract>({
-        title: 'T. Periodo',
+        title: 'Recurrente',
         displayValueFn: (item) => item.recurrent_type,
     }),
     textColumn<Contract>({
@@ -82,6 +82,11 @@ export const contractColumnsList = () => [
     numberColumn<Contract>({
         title: 'N° planes',
         displayValueFn: (item) => item.plan_quantity,
+        numberFormat: '2.0-0',
+    }),
+    numberColumn<Contract>({
+        title: 'N° vehículos',
+        displayValueFn: (item) => item.contract_plans?.reduce((previousValue, item) => previousValue + Number(item.quantity), 0),
         numberFormat: '2.0-0',
     }),
     dateColumn<Contract>({
