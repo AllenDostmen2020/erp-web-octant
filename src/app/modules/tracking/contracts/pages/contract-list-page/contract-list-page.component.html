@@ -1,1 +1,16 @@
-<app-item-list-template [configuration]="configuration" />
+@if (configurationList) {
+<app-item-list-template [configuration]="configurationList">
+  <ng-container ngProjectAs="listHeaderMiddle">
+    <div class="list-button-group">
+      <button class="list-button-group-item" (click)="changeFilterContracts()">
+        Todos
+      </button>
+      <button class="list-button-group-item" (click)="changeFilterContracts()">
+        Vencidos
+      </button>
+    </div>
+  </ng-container>
+</app-item-list-template>
+} @else {
+<app-spinner-default />
+}
