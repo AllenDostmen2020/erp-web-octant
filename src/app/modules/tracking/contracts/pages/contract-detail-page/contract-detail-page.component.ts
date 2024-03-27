@@ -77,6 +77,11 @@ export class ContractDetailPageComponent {
                         type: 'currency',
                     },
                     {
+                        title: 'N° de vehículos',
+                        displayValueFn: (item) => item.contract_plans?.reduce((previousValue, item) => previousValue + Number(item.quantity), 0),
+                        type: 'currency',
+                    },
+                    {
                         title: 'Planes',
                         type: 'html',
                         displayValueFn: (item) => item.contract_plans?.map((contractPlan) => `${contractPlan.plan?.name} (${contractPlan.quantity})`).join(', ')

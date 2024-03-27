@@ -51,7 +51,7 @@ export class ContractVehicleListPageComponent {
                     title: 'Placa / Tipo',
                     sort: { key: 'plate' },
                     displayValueFn: (item) => `${item.plate} / ${item.vehicle_type?.name.toUpperCase()}`,
-                    gridColumn: '1fr',
+                    gridColumn: 'fit-content(250px)',
                 }),
                 textColumn({
                     title: 'Plan',
