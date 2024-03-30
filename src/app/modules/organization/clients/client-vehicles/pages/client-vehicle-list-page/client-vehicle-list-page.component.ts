@@ -47,5 +47,6 @@ export class ClientVehicleListPageComponent {
             itemUpdatedAtColumn(),
             itemStatusColumn(),
         ]),
+        createButton: false,
     }
 }

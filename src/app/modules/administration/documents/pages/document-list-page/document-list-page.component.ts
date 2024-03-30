@@ -56,6 +56,7 @@ export class DocumentListPageComponent {
         contract_id: this.router.url.includes('/tracking/contract/view') ? this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id') : null,
       },
     },
+    createButton: false,
     rows: {
       options: [
         viewItemActionButton(),

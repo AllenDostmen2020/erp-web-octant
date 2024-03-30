@@ -24,6 +24,7 @@ export class BoxMovementListPageComponent {
           },
         },
         columns: signal(this.generateColumns()),
+        createButton: false,
       }
     
       private generateColumns(): ListColumn<BoxMovement>[] {
