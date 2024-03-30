@@ -20,6 +20,8 @@ export class VehicleDetailPageComponent {
             },
         },
         subtitle: false,
+        deleteButton: false,
+        editButton: false,
         groups: [
             {
                 title: 'Datos generales',

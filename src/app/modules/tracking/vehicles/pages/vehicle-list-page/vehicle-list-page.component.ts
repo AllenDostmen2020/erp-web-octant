@@ -61,5 +61,6 @@ export class VehicleListPageComponent {
             itemUpdatedAtColumn(),
             itemStatusColumn(),
         ]),
+        createButton: false,
     }
 }

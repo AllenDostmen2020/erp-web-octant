@@ -18,6 +18,7 @@ export class ClientBillingOptionDetailPageComponent {
   public configuration: ItemDetailConfiguration<ClientBillingOption> = {
     title: 'Detalles de opciones de facturación',
     server: { url: 'client-billing-option' },
+    deleteButton: false,
     editButton: {
       routerLink: {
         url: '../edit'
