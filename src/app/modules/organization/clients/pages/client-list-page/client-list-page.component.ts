@@ -34,13 +34,13 @@ export class ClientListPageComponent {
                 title: 'Teléfono',
                 sort: { key: 'phone' },
                 gridColumn: 'fit-content(120px)',
-                displayValueFn: (item) => `(${item.code_phone}) ${item.phone}`,
+                displayValueFn: (item) => item.code_phone ? `(${item.code_phone}) ${item.phone}` : `(--) ${item.phone}`,
             }),
             phoneColumn({
                 title: 'Celular',
                 sort: { key: 'cellphone' },
                 gridColumn: 'fit-content(120px)',
-                displayValueFn: (item) => `(${item.code_cellphone}) ${item.cellphone}`,
+                displayValueFn: (item) => item.code_cellphone ? `(${item.code_cellphone}) ${item.cellphone}` : `(--) ${item.cellphone}`,
             }),
             textColumn({
                 title: 'Dirección',

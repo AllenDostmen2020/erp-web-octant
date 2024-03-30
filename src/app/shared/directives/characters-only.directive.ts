@@ -12,20 +12,20 @@ export class CharactersOnlyDirective {
     return this.validateCharacter(event);
   }
 
-  validateCharacter(event: KeyboardEvent) {
-    console.log('event => ', event);
-    const code = event.keyCode? event.keyCode: 0;
-    if (code === 8) {
+  validateCharacter(event: KeyboardEvent): boolean {
+    const allowedChars = /[a-zA-Z]/;
+    const key = event.key;
+
+    if (event.ctrlKey || event.metaKey || key === 'Backspace') {
       return true;
-    } else if (code >= 65 && code <= 90) { // A to Z
-      return true;
-    } else if (code >= 97 && code <= 122) { // a to z
-      return true;
-    } else if (event.ctrlKey) { // for ctrl + v
-      return true;
-    } else {
+    }
+
+    if (!allowedChars.test(key)) {
+      event.preventDefault();
       return false;
     }
+
+    return true;
   }
 
   @HostListener('paste', ['$event']) blockPaste(event: KeyboardEvent) {

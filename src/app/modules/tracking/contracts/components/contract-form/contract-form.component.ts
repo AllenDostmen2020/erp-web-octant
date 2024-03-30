@@ -18,6 +18,8 @@ import { ContractPlanFormComponent } from '../contract-plan-form/contract-plan-f
 import { getContractPlanFormGroup } from '../../helpers';
 import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CharactersOnlyDirective } from '@directive/characters-only.directive';
+import { NumbersOnlyDirective } from '@directive/numbers-only.directive';
 
 @Component({
   selector: 'app-contract-form',
@@ -35,6 +37,8 @@ import { MatDialog } from '@angular/material/dialog';
     DatepickerTemplateComponent,
     PathFilesServerPipe,
     ContractPlanFormComponent,
+    CharactersOnlyDirective,
+    NumbersOnlyDirective
   ],
   templateUrl: './contract-form.component.html',
   styleUrls: ['./contract-form.component.css'],

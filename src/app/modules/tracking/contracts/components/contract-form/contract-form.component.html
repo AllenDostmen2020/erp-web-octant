@@ -24,13 +24,13 @@
 
     <mat-form-field data-input-name="client_responsible_document_number">
         <mat-label>N° Doc. del contacto</mat-label>
-        <input matInput type="text" formControlName="client_responsible_document_number" />
+        <input matInput appNumbersOnly type="text" formControlName="client_responsible_document_number" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
     <mat-form-field data-input-name="client_responsible_name">
         <mat-label>Nombre del contacto</mat-label>
-        <input matInput type="text" formControlName="client_responsible_name" />
+        <input matInput appCharactersOnly type="text" formControlName="client_responsible_name" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 

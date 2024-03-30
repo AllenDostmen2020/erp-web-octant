@@ -19,16 +19,12 @@ export class ClientContractListPageComponent {
         server: {
             url: 'contract',
             queryParams: {
-                relations: 'plan',
+                relations: 'clientBusinessUnit,contractPlans',
                 client_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')
             },
         },
         createButton: false,
-        columns: signal(contractColumnsList().toSpliced(1, 2, uppercaseColumn<Contract>({
-            title: 'Plan',
-            displayValueFn: (item) => item.plan?.name,
-            gridColumn: '1fr',
-        }))),
+        columns: signal(contractColumnsList().toSpliced(1, 1)),
         rows: {
             options: [
                 routerLinkActionButton({
