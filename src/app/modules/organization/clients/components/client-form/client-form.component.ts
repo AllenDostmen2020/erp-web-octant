@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { InputSelectConfiguration, InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 import { TelCodeFormFieldTemplateComponent } from '@component/tel-code-form-field-template/tel-code-form-field-template.component';
+import { NumbersOnlyDirective } from '@directive/numbers-only.directive';
 import { getDataPersonFormDocumentNumber } from '@helper/index';
 import { DOCUMENT_TYPES, DocumentTypeEnum } from '@interface/baseModel';
 import { Client } from '@interface/client';
@@ -26,7 +27,8 @@ import { filter } from 'rxjs';
     MatInputModule,
     UpperCasePipe,
     InputSelectTemplateComponent,
-    TelCodeFormFieldTemplateComponent
+    TelCodeFormFieldTemplateComponent,
+    NumbersOnlyDirective,
   ],
   templateUrl: './client-form.component.html',
   styleUrl: './client-form.component.scss'

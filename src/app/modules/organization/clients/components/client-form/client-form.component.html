@@ -5,8 +5,7 @@
 
   <mat-form-field class="col-span-6 @2xl:col-span-2">
     <mat-label>Número Documento</mat-label>
-    <input matInput type="text" placeholder="Numero de documento..." [maxlength]="minMaxlengthDocumentNumber"
-      formControlName="document_number" />
+    <input matInput appNumbersOnly type="text" placeholder="Numero de documento..." [maxlength]="minMaxlengthDocumentNumber" formControlName="document_number" />
     <mat-error>Campo requerido</mat-error>
   </mat-form-field>
 

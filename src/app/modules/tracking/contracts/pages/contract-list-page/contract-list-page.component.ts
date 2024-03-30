@@ -1,4 +1,4 @@
-import { Component, WritableSignal, inject, signal } from '@angular/core';
+import { Component, ViewEncapsulation, WritableSignal, inject, signal } from '@angular/core';
 import { ItemListTemplateComponent, ItemListConfiguration } from '@component/item-list-template/item-list-template.component';
 import { Contract } from '@interface/contract';
 import { contractColumnsList } from '../../helpers';
@@ -12,7 +12,8 @@ import { FetchService } from '@service/fetch.service';
   standalone: true,
   imports: [ItemListTemplateComponent, NgClass, AlertTemplateComponent],
   templateUrl: './contract-list-page.component.html',
-  styleUrl: './contract-list-page.component.scss'
+  styleUrl: './contract-list-page.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class ContractListPageComponent {
   private fetch = inject(FetchService);

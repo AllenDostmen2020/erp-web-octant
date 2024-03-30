@@ -1,0 +1,10 @@
+.list__items__row.next-expired::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0px;
+  bottom: 0;
+  border-left: 3px dotted var(--color-error);
+  border-left-style: groove;
+}
