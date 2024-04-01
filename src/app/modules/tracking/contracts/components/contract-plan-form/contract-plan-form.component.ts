@@ -11,6 +11,7 @@ import { getContractPlanVehicleFormGroup } from '../../helpers';
 import { ContractPlanVehicle } from '@interface/contractPlanVehicle';
 import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
 import { Plan } from '@interface/plan';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-contract-plan-form',
@@ -30,12 +31,12 @@ import { Plan } from '@interface/plan';
 })
 export class ContractPlanFormComponent {
   @Input({ required: true }) form!: FormGroup;
-  @Input({ required: true }) planIdSelectedEvent!: EventEmitter<{index: number, values: number[]}>;
-  @Input({ required: true }) planIdsSelected!:{index: number, value: number}[];
+  @Input({ required: true }) planIdSelectedEvent!: EventEmitter<{ index: number, values: number[] }>;
+  @Input({ required: true }) planIdsSelected!: { index: number, value: number }[];
   public plans = input.required<Plan[]>();
-  @Output() public planIdSelected: EventEmitter<{index: number, value: number}> = new EventEmitter();
+  @Output() public planIdSelected: EventEmitter<{ index: number, value: number }> = new EventEmitter();
   @Output() public deleteItem: EventEmitter<void> = new EventEmitter();
-  
+
   public index = input.required<number>();
   public readonly nameModuleDatabase = NameModuleDatabase;
 
@@ -74,17 +75,17 @@ export class ContractPlanFormComponent {
     this.planIdCtrl.valueChanges.subscribe((planId: number) => {
       this.planIdSelected.emit({ index: this.index(), value: planId });
     });
-   
-    this.planIdSelectedEvent.subscribe(({index, values}) => {
-      if(this.index() != index && index < this.index()) {
-        this.planSelectConfiguration?.data?.set(this.plans().filter((plan) => !values.includes(plan.id)));
-        this.planIdCtrl.setValue(null, { emitEvent: false })
-      }
+
+    this.planIdSelectedEvent.pipe(
+      filter(({ index }) => this.index() != index && index < this.index())
+    ).subscribe(({ index, values }) => {
+      this.planSelectConfiguration?.data?.set(this.plans().filter((plan) => !values.includes(plan.id)));
+      this.planIdCtrl.setValue(null, { emitEvent: false })
     });
   }
 
   private initDataSelectPlans() {
-    this.planSelectConfiguration?.data?.set(this.plans().filter((plan) => !this.planIdsSelected.map(({value})=>value).includes(plan.id)));
+    this.planSelectConfiguration?.data?.set(this.plans().filter((plan) => !this.planIdsSelected.map(({ value }) => value).includes(plan.id)));
   }
 
   private totalInstallationPriceCtrlChange() {
