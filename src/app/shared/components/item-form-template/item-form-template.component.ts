@@ -22,6 +22,8 @@ import { InputAutocompleteConfiguration, InputAutocompleteLocalConfiguration, In
 import { InputSelectConfiguration, InputSelectLocalConfiguration, InputSelectServerConfiguration, InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 import { objectToURLSearchParams } from '@utility/queryParams';
 import { ConfirmDialogData } from '@component/confirm-dialog-template/confirm-dialog-template.component';
+import { NumbersOnlyDirective } from '@directive/numbers-only.directive';
+import { CharactersOnlyDirective } from '@directive/characters-only.directive';
 
 export interface ItemFormConfiguration<Item = any, Data = any> {
   title?: string;
@@ -121,6 +123,7 @@ export interface TextFormInput<T = any> {
   minLength?: number;
   maxLength?: number;
   cssClass?: string | ((item: T) => string);
+  validationOnly?: 'numbers' | 'letters' | 'numbersAndLetters';
 }
 
 export interface NumberFormInput<T = any> {
@@ -326,6 +329,8 @@ export const fileFormInput = (configuration: FileFormInput): FormInput => ({
     GetMixedValuePipe,
     InputAutocompleteTemplateComponent,
     InputSelectTemplateComponent,
+    NumbersOnlyDirective,
+    CharactersOnlyDirective,
   ],
   templateUrl: './item-form-template.component.html',
   styleUrls: ['./item-form-template.component.css']
