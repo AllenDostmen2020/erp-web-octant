@@ -39,7 +39,7 @@ export class ClientViewPageComponent {
             },
             {
                 routerLink: './document',
-                text: 'Documentos',
+                text: 'Facturas',
             },
             {
                 routerLink: './vehicle',
