@@ -38,7 +38,7 @@
     line-height: var(--line-height-content-dialog, var(--body-medium-line-height));
     letter-spacing: var(--letter-spacing-content-dialog, var(--body-medium-letter-spacing));
     color: var(--color-content-dialog, var(--color-on-surface-variant));
-    padding: 0 24px;
+    padding: 8px 24px;
     overflow-y: auto;
     overflow-x: hidden;
     display: grid;
