@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ItemListConfiguration, ItemListTemplateComponent, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { SpinnerDefaultComponent } from '@component/spinner-default/spinner-default.component';
 import { ContractPlan } from '@interface/contractPlan';
 import { PaginatorData } from '@interface/paginator';
@@ -39,6 +39,7 @@ export class ContractVehicleListPageComponent {
         this.contractPlanIdActive.set(contractPlan.id);
         this.configurationList = {
             title: 'Vehículos',
+            createButton: false,
             server: {
                 url: 'vehicle',
                 queryParams: {
@@ -76,6 +77,11 @@ export class ContractVehicleListPageComponent {
                 itemUpdatedAtColumn(),
                 itemStatusColumn(),
             ]),
+            rows: {
+                options: [
+                  viewItemActionButton()
+                ]
+              }
         }
     }
 
