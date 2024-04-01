@@ -27,7 +27,7 @@
 
     <mat-form-field data-input-name="client_responsible_document_number">
         <mat-label>N° Doc. del contacto</mat-label>
-        <input matInput appNumbersOnly type="text" [maxlength]="minMaxlengthDocumentNumber" formControlName="client_responsible_document_number" />
+        <input matInput appNumbersOnly type="text" [maxlength]="maxLengthDocumentNumber" formControlName="client_responsible_document_number" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
@@ -66,17 +66,21 @@
 
     <div class="form__content__inputs__subtitle">Planes</div>
 
-    <div formArrayName="contract_plans" style="display: contents;">
-        @for (contractPlanFormGroup of contractPlansFormArray.controls; track i; let i = $index) {
-           <app-contract-plan-form style="display: contents;" [form]="contractPlanFormGroup" [index]="i" (deleteItem)="deleteContractPlan(i)" />
+    @if (lengthPlans(); as lengthPlansData) {
+        <div formArrayName="contract_plans" style="display: contents;">
+            @for (contractPlanFormGroup of contractPlansFormArray.controls; track i; let i = $index) {
+               <app-contract-plan-form style="display: contents;" [form]="contractPlanFormGroup" [index]="i" [planIdSelectedEvent]="planIdSelectedEvent" [planIdsSelected]="planIdsSelected" [plans]="plans()" (deleteItem)="deleteContractPlan(i)" (planIdSelected)="planIdSelected($event)" />
+            }
+        </div>
+        @if (contractPlansFormArray.controls.length < lengthPlansData) {
+            <div class="col-span-full grid">
+                <button class="outlined-button" type="button" (click)="addContractPlan()">
+                    <span class="material-icons">add</span>
+                    <span>Agregar plan</span>
+                </button>
+            </div>
         }
-    </div>
+    }
 
-    <div class="col-span-full grid">
-        <button class="outlined-button" type="button" (click)="addContractPlan()">
-            <span class="material-icons">add</span>
-            <span>Agregar plan</span>
-        </button>
-    </div>
 
 </div>

@@ -1,5 +1,5 @@
 import { DecimalPipe, NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, WritableSignal, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, WritableSignal, computed, inject, input, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,7 +11,7 @@ import { LoadImagePrivateDirective } from '@directive/load-image-private.directi
 import { Client } from '@interface/client';
 import { RECURRENT_TYPE_VALUES } from '@interface/contract';
 import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
-import { NameModuleDatabase } from '@service/database-storage.service';
+import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
 import { getDate, getMonth, getYear, format, differenceInDays } from 'date-fns';
 import { startWith } from 'rxjs/operators';
 import { ContractPlanFormComponent } from '../contract-plan-form/contract-plan-form.component';
@@ -21,6 +21,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CharactersOnlyDirective } from '@directive/characters-only.directive';
 import { NumbersOnlyDirective } from '@directive/numbers-only.directive';
 import { DOCUMENT_TYPES, DocumentTypeEnum } from '@interface/baseModel';
+import { Plan } from '@interface/plan';
 
 @Component({
   selector: 'app-contract-form',
@@ -47,8 +48,13 @@ import { DOCUMENT_TYPES, DocumentTypeEnum } from '@interface/baseModel';
 })
 export class ContractFormComponent {
   @Input({ required: true }) form!: FormGroup;
+  private databaseStorage = inject(DatabaseStorageService);
   private matDialog = inject(MatDialog);
   public vehicleDetail: WritableSignal<'full' | 'single'> = signal('single');
+  public planIdSelectedEvent = new EventEmitter<{index: number, values: number[]}>();
+  public planIdsSelected: { index: number, value: number }[] = [];
+  public plans = signal<Plan[]>([]);
+  public lengthPlans = computed(() => this.plans().length);
 
   public readonly nameModuleDatabase = NameModuleDatabase;
 
@@ -156,6 +162,7 @@ export class ContractFormComponent {
   }
 
   ngOnInit() {
+    this.getPlans();
     this.documentTypeCtrl.valueChanges.subscribe((documentType)=>{      
       if(documentType == DocumentTypeEnum.DNI) this.updateValidatorsForDocumentNumberCtrl(8);
       else this.updateValidatorsForDocumentNumberCtrl(12);
@@ -182,7 +189,11 @@ export class ContractFormComponent {
     });
   }
 
-  public minMaxlengthDocumentNumber: number = 12;
+  private async getPlans() {
+    this.plans.set(await this.databaseStorage.getData<Plan>(NameModuleDatabase.Plans));
+  }
+
+  public maxLengthDocumentNumber: number = 12;
   public updateValidatorsForDocumentNumberCtrl(length: number): void {
     this.documentNumberCtrl.setValidators([
       Validators.required,
@@ -190,7 +201,7 @@ export class ContractFormComponent {
       Validators.maxLength(length),
     ]);
     this.documentNumberCtrl.updateValueAndValidity();
-    this.minMaxlengthDocumentNumber = length;
+    this.maxLengthDocumentNumber = length;
   }
 
   public addContractPlan() {
@@ -236,5 +247,13 @@ export class ContractFormComponent {
       const dialogRef = this.matDialog.open(ConfirmDialogTemplateComponent, { data });
       dialogRef.afterClosed().subscribe((result) => resolve(result));
     });
+  }
+
+  public planIdSelected($event: { index: number, value: number }) {
+    if(!this.planIdsSelected.some((item) => item.index == $event.index)) this.planIdsSelected.push($event);
+    else this.planIdsSelected = this.planIdsSelected.map((item) => item.index == $event.index ? $event : item);
+    this.planIdsSelected = this.planIdsSelected.sort((a, b) => a.index - b.index); [0,1,2,3,4]
+    if($event.index < (this.planIdsSelected.length - 1)) this.planIdsSelected = this.planIdsSelected.toSpliced($event.index + 1, (this.planIdsSelected.length - 1) - $event.index)
+    this.planIdSelectedEvent.emit({index: $event.index, values: this.planIdsSelected.map((item) => item.value)});
   }
 }
