@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, WritableSignal, inject, signal } from '@angular/core';
-import { ItemListTemplateComponent, ItemListConfiguration } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Contract } from '@interface/contract';
 import { contractColumnsList } from '../../helpers';
 import { addMonths, parseISO } from 'date-fns';
@@ -27,9 +27,12 @@ export class ContractListPageComponent {
     columns: signal(contractColumnsList()),
     rows: {
       cssClass: (item) => parseISO(item.end_date) < addMonths(new Date(), 2) ? 'next-expired' : '',
+      options: [
+        viewItemActionButton()
+      ]
     }
   };
-  public alertConfiguration: WritableSignal<null|AlertConfiguration> = signal(null);
+  public alertConfiguration: WritableSignal<null | AlertConfiguration> = signal(null);
 
   ngOnInit(): void {
     this.getNextExpiredContracts();
@@ -37,7 +40,7 @@ export class ContractListPageComponent {
 
   private async getNextExpiredContracts() {
     const data = await this.fetch.get<Contract[]>('contract/next-expired/list');
-    if(data.length === 0) return;
+    if (data.length === 0) return;
     this.alertConfiguration!.set({
       icon: 'warning',
       title: 'Hay contratos próximos a expirar',
@@ -49,11 +52,11 @@ export class ContractListPageComponent {
       }
     });
   }
-  
+
   public changeFilterContracts(type: 'todos' | 'por expirar' | 'expirados') {
-    if(type == this.type()) return;
+    if (type == this.type()) return;
     this.type.set(type);
-    if(type === 'por expirar') {
+    if (type === 'por expirar') {
       this.configurationList!.server!.queryParams!['next_expired'] = 'true';
       this.configurationList!.server!.queryParams!['expired'] = null;
     } else if (type === 'expirados') {

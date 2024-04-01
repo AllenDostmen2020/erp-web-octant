@@ -1,6 +1,6 @@
 import { DecimalPipe, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, WritableSignal, inject, signal } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -20,6 +20,7 @@ import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/co
 import { MatDialog } from '@angular/material/dialog';
 import { CharactersOnlyDirective } from '@directive/characters-only.directive';
 import { NumbersOnlyDirective } from '@directive/numbers-only.directive';
+import { DOCUMENT_TYPES, DocumentTypeEnum } from '@interface/baseModel';
 
 @Component({
   selector: 'app-contract-form',
@@ -38,7 +39,7 @@ import { NumbersOnlyDirective } from '@directive/numbers-only.directive';
     PathFilesServerPipe,
     ContractPlanFormComponent,
     CharactersOnlyDirective,
-    NumbersOnlyDirective
+    NumbersOnlyDirective,
   ],
   templateUrl: './contract-form.component.html',
   styleUrls: ['./contract-form.component.css'],
@@ -59,6 +60,12 @@ export class ContractFormComponent {
         relations: 'clientBusinessUnits'
       }
     }
+  }
+
+  public readonly documentTypeSelectConfiguration: InputSelectConfiguration = {
+    textLabel: 'Tipo de documento',
+    placeholder: 'Seleccione un tipo de documento',
+    data: signal(DOCUMENT_TYPES.filter((item)=> item != DocumentTypeEnum.RUC).map((item) => ({ name: item.toUpperCase(), id: item })).sort((a, b) => a.name.localeCompare(b.name)))
   }
 
   public clientBusinessUnitAutocompleteConfiguration: InputSelectConfiguration = {
@@ -137,12 +144,23 @@ export class ContractFormComponent {
   get periodCtrl(): FormControl {
     return this.form.get('period') as FormControl;
   }
+  get documentTypeCtrl(): FormControl {
+    return this.form.get('client_responsible_document_type') as FormControl;
+  }
+  get documentNumberCtrl(): FormControl {
+    return this.form.get('client_responsible_document_number') as FormControl;
+  }
 
   get clientBusinessUnitIdCtrl(): FormControl {
     return this.form.get('client_business_unit_id') as FormControl;
   }
 
   ngOnInit() {
+    this.documentTypeCtrl.valueChanges.subscribe((documentType)=>{      
+      if(documentType == DocumentTypeEnum.DNI) this.updateValidatorsForDocumentNumberCtrl(8);
+      else this.updateValidatorsForDocumentNumberCtrl(12);
+    })
+
     this.periodCtrl.valueChanges.subscribe((period: number) => {
       this.calculationDates(this.installationDateCtrl.value);
     });
@@ -162,6 +180,17 @@ export class ContractFormComponent {
         this.clientBusinessUnitAutocompleteConfiguration.data?.set([]);
       }
     });
+  }
+
+  public minMaxlengthDocumentNumber: number = 12;
+  public updateValidatorsForDocumentNumberCtrl(length: number): void {
+    this.documentNumberCtrl.setValidators([
+      Validators.required,
+      Validators.minLength(length),
+      Validators.maxLength(length),
+    ]);
+    this.documentNumberCtrl.updateValueAndValidity();
+    this.minMaxlengthDocumentNumber = length;
   }
 
   public addContractPlan() {

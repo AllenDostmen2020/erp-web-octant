@@ -25,38 +25,17 @@ export class ClientContactCreatePageComponent {
         server: { url: 'client-contact' },
     }
 
-    get documentTypes(): DocumentTypeEnum[] {
-        return DOCUMENT_TYPES;
-    }
-
-    get documentTypeCtrl(): FormControl {
-        return this.configuration.formGroup.get('document_type') as FormControl;
-    }
-
     get documentNumberCtrl(): FormControl {
         return this.configuration.formGroup.get('document_number') as FormControl;
-    }
-
-    ngAfterView(): void {
-       
-        // this.documentTypeCtrl.valueChanges.subscribe(() => {            
-        //     const documentSelected = this.documentTypes.find(d => d.toLowerCase() == this.documentTypeCtrl.value);
-        //     if (!documentSelected) return;
-        //     if (documentSelected.toLowerCase() == 'ruc') this.updateValidatorsForDocumentNumberCtrl(11);
-        //     else if (documentSelected.toLowerCase() == 'dni') this.updateValidatorsForDocumentNumberCtrl(8);
-        //     else if (documentSelected.toLowerCase() != 'dni' || documentSelected.toLowerCase() != 'dni') this.updateValidatorsForDocumentNumberCtrl(14);
-        // });
-
-    }
-
-    // public updateValidatorsForDocumentNumberCtrl(length: number): void {
-    //     this.documentNumberCtrl.setValidators([
-    //         Validators.required,
-    //         Validators.minLength(length),
-    //         Validators.maxLength(length),
-    //         Validators.pattern(`[0-9]+`),
-    //     ]);
-    //     this.documentNumberCtrl.updateValueAndValidity();
-    //     this.minMaxlengthDocumentNumber = length;
-    // }
+      }
+      get documentTypeCtrl(): FormControl {
+        return this.configuration.formGroup.get('document_type') as FormControl;
+      }
+    
+      ngOnInit() {
+        this.documentTypeCtrl.valueChanges.subscribe((documentType) => {
+          if (documentType == DocumentTypeEnum.DNI) this.configuration.fields![1].text!.maxLength = 8;
+          else this.configuration.fields![2].text!.maxLength = 12;
+        })
+      }
 }

@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { DOCUMENT_TYPES } from "@interface/baseModel";
+import { DOCUMENT_TYPES, DocumentTypeEnum } from "@interface/baseModel";
 import { ClientContact } from "@interface/clientContact";
 import { FormInput, selectFormInput, switchFormInput, textFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
 import { signal } from "@angular/core";
@@ -22,7 +22,7 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_CONTACT: FormInput[] = [
     selectFormInput({
         formControlName: 'document_type',
         textLabel: 'Tipo de documento',
-        data: signal(DOCUMENT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item }))),
+        data: signal(DOCUMENT_TYPES.filter((item)=> item != DocumentTypeEnum.RUC).map((item) => ({ name: item.toUpperCase(), id: item }))),
         cssClass: 'col-span-6 @2xl:col-span-2',
     }),
     textFormInput({
@@ -31,36 +31,42 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_CONTACT: FormInput[] = [
         placeholder: 'Ingrese el número de documento',
         cssClass: 'col-span-6 @2xl:col-span-2',
         maxLength: 12,
+        validationOnly: "numbers",
     }),
     textFormInput({
         formControlName: 'name',
         textLabel: 'Nombre',
         placeholder: 'Ingrese el nombre',
         cssClass: 'col-span-full @2xl:col-span-4',
+        validationOnly: 'letters'
     }),
     textFormInput({
         formControlName: 'paternal_name',
         textLabel: 'Apellido paterno',
         placeholder: 'Ingrese el apellido',
         cssClass: 'col-span-full @2xl:col-span-2',
+        validationOnly: 'letters'
     }),
     textFormInput({
         formControlName: 'maternal_name',
         textLabel: 'Apellido materno',
         placeholder: 'Ingrese el apellido',
         cssClass: 'col-span-full @2xl:col-span-2',
+        validationOnly: 'letters'
     }),
     textFormInput({
         formControlName: 'phone',
         textLabel: 'Teléfono',
         placeholder: 'Ingrese el teléfono',
         cssClass: 'col-span-full @2xl:col-span-4',
+        validationOnly: 'numbers'
     }),
     textFormInput({
         formControlName: 'cellphone',
         textLabel: 'Celular',
         placeholder: 'Ingrese el celular',
         cssClass: 'col-span-full @2xl:col-span-4',
+        validationOnly: 'letters'
     }),
     textFormInput({
         formControlName: 'email',

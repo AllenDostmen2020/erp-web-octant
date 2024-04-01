@@ -1,20 +1,20 @@
 import { Component, signal } from '@angular/core';
-import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Vehicle } from '@interface/vehicle';
 
 @Component({
-  selector: 'app-vehicle-list-page',
-  standalone: true,
-  imports: [ItemListTemplateComponent],
-  templateUrl: './vehicle-list-page.component.html',
-  styleUrl: './vehicle-list-page.component.scss'
+    selector: 'app-vehicle-list-page',
+    standalone: true,
+    imports: [ItemListTemplateComponent],
+    templateUrl: './vehicle-list-page.component.html',
+    styleUrl: './vehicle-list-page.component.scss'
 })
 export class VehicleListPageComponent {
     public configList: ItemListConfiguration<Vehicle> = {
         title: 'Vehículos',
         server: {
             url: 'vehicle',
-            queryParams: { 
+            queryParams: {
                 relations: 'client,vehicleType,latestContractPlanVehicle.contractPlan.contract'
             },
         },
@@ -28,7 +28,7 @@ export class VehicleListPageComponent {
             }),
             textColumn({
                 title: 'Cliente',
-                gridColumn: 'fit-content(250px)',
+                gridColumn: '1fr',
                 routerLinkValue: { url: (item) => `/organization/client/view/${item.client_id}` },
                 displayValueFn: (item) => item?.client?.name ? item.client?.name : '--',
             }),
@@ -62,5 +62,10 @@ export class VehicleListPageComponent {
             itemStatusColumn(),
         ]),
         createButton: false,
+        rows: {
+            options: [
+                viewItemActionButton()
+            ]
+        }
     }
 }

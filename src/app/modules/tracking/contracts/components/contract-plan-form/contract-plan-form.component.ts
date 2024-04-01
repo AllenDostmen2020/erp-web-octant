@@ -1,12 +1,12 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, EventEmitter, Input, Output, input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject, input } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
 import { InputSelectLocalConfiguration, InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
-import { NameModuleDatabase } from '@service/database-storage.service';
+import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
 import { getContractPlanVehicleFormGroup } from '../../helpers';
 import { ContractPlanVehicle } from '@interface/contractPlanVehicle';
 import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
@@ -28,6 +28,7 @@ import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
   styleUrl: './contract-plan-form.component.css'
 })
 export class ContractPlanFormComponent {
+  private databaseStorage = inject(DatabaseStorageService);
   @Input({ required: true }) form!: FormGroup;
   @Output() public deleteItem: EventEmitter<void> = new EventEmitter();
   public index = input.required<number>();
