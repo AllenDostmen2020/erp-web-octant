@@ -101,7 +101,13 @@
                                 @if (getControl(input.formControlName); as control) {
                                     <mat-form-field data-type="form-input" data-form-input-type="text" [attr.data-input-name]="input.formControlName" class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                                         <mat-label>{{ input.textLabel}}</mat-label>
-                                        <input type="text" matInput [formControlName]="input.formControlName" [placeholder]="input.placeholder ?? input.textLabel" [maxlength]="input.maxLength ?? 255">
+                                        @if(input.validationOnly == 'numbers') {
+                                            <input appNumbersOnly type="text" matInput [formControlName]="input.formControlName" [placeholder]="input.placeholder ?? input.textLabel" [maxlength]="input.maxLength ?? 255">
+                                        } @else if(input.validationOnly == 'letters') {
+                                            <input appCharactersOnly type="text" matInput [formControlName]="input.formControlName" [placeholder]="input.placeholder ?? input.textLabel" [maxlength]="input.maxLength ?? 255">
+                                        } @else {
+                                            <input type="text" matInput [formControlName]="input.formControlName" [placeholder]="input.placeholder ?? input.textLabel" [maxlength]="input.maxLength ?? 255">
+                                        }
                                         @if (control.hasError('required')) { <mat-error>Campo requerido</mat-error> }
                                         @else if (control.hasError('email')) { <mat-error>Email no válido</mat-error> }
                                         @else if (control.hasError('pattern')) { <mat-error>Contenido no válido</mat-error> }
