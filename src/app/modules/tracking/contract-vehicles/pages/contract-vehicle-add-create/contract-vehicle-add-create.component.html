@@ -1,0 +1,9 @@
+<app-item-form-template [configuration]="configuration">
+  @for (item of contractPlanVehicles; track item) {
+  <div class="container__vehicles">
+    <mat-checkbox>
+      Placa: {{item.vehicle?.plate}} | Modelo: {{item.vehicle?.model}} | Marca: {{item.vehicle?.brand}}
+    </mat-checkbox>
+  </div>
+  }
+</app-item-form-template>

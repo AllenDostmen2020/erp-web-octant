@@ -63,7 +63,7 @@ export class ClientPaymentFormPageComponent {
         return this.boxMovementFormGroup.get('to_box_opening_id') as FormControl;
     }
     public readonly clientBoxSelectServerConfiguration: InputSelectServerConfiguration<ClientBox> = {
-        textLabel: 'Cuenta',
+        textLabel: 'Cuenta del cliente',
         server: {
             url: 'client-box',
             queryParams: `client_id=${this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')}`
@@ -76,7 +76,7 @@ export class ClientPaymentFormPageComponent {
         local: { nameModuleDatabase: NameModuleDatabase.Banks }
     }
     public readonly boxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
-        textLabel: 'Caja',
+        textLabel: 'Caja de la empresa',
         local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
         displayTextFn: (item: BoxOpening) => item.box?.name ?? '--',
         // displayTextFn: (box_opening: BoxOpening) => box_opening.box ? `<div class="grid">
