@@ -51,7 +51,7 @@ export class ContractFormComponent {
   private databaseStorage = inject(DatabaseStorageService);
   private matDialog = inject(MatDialog);
   public vehicleDetail: WritableSignal<'full' | 'single'> = signal('single');
-  public planIdSelectedEvent = new EventEmitter<{index: number, values: number[]}>();
+  public planIdSelectedEvent = new EventEmitter<{ index: number, values: number[] }>();
   public planIdsSelected: { index: number, value: number }[] = [];
   public plans = signal<Plan[]>([]);
   public lengthPlans = computed(() => this.plans().length);
@@ -71,7 +71,7 @@ export class ContractFormComponent {
   public readonly documentTypeSelectConfiguration: InputSelectConfiguration = {
     textLabel: 'Tipo de documento',
     placeholder: 'Seleccione un tipo de documento',
-    data: signal(DOCUMENT_TYPES.filter((item)=> item != DocumentTypeEnum.RUC).map((item) => ({ name: item.toUpperCase(), id: item })).sort((a, b) => a.name.localeCompare(b.name)))
+    data: signal(DOCUMENT_TYPES.filter((item) => item != DocumentTypeEnum.RUC).map((item) => ({ name: item.toUpperCase(), id: item })).sort((a, b) => a.name.localeCompare(b.name)))
   }
 
   public clientBusinessUnitAutocompleteConfiguration: InputSelectConfiguration = {
@@ -163,8 +163,8 @@ export class ContractFormComponent {
 
   ngOnInit() {
     this.getPlans();
-    this.documentTypeCtrl.valueChanges.subscribe((documentType)=>{      
-      if(documentType == DocumentTypeEnum.DNI) this.updateValidatorsForDocumentNumberCtrl(8);
+    this.documentTypeCtrl.valueChanges.subscribe((documentType) => {
+      if (documentType == DocumentTypeEnum.DNI) this.updateValidatorsForDocumentNumberCtrl(8);
       else this.updateValidatorsForDocumentNumberCtrl(12);
     })
 
@@ -250,10 +250,43 @@ export class ContractFormComponent {
   }
 
   public planIdSelected($event: { index: number, value: number }) {
-    if(!this.planIdsSelected.some((item) => item.index == $event.index)) this.planIdsSelected.push($event);
+    if (!this.planIdsSelected.some((item) => item.index == $event.index)) this.planIdsSelected.push($event);
     else this.planIdsSelected = this.planIdsSelected.map((item) => item.index == $event.index ? $event : item);
-    this.planIdsSelected = this.planIdsSelected.sort((a, b) => a.index - b.index); [0,1,2,3,4]
-    if($event.index < (this.planIdsSelected.length - 1)) this.planIdsSelected = this.planIdsSelected.toSpliced($event.index + 1, (this.planIdsSelected.length - 1) - $event.index)
-    this.planIdSelectedEvent.emit({index: $event.index, values: this.planIdsSelected.map((item) => item.value)});
+    this.planIdsSelected = this.planIdsSelected.sort((a, b) => a.index - b.index);[0, 1, 2, 3, 4]
+    if ($event.index < (this.planIdsSelected.length - 1)) this.planIdsSelected = this.planIdsSelected.toSpliced($event.index + 1, (this.planIdsSelected.length - 1) - $event.index)
+    this.planIdSelectedEvent.emit({ index: $event.index, values: this.planIdsSelected.map((item) => item.value) });
+  }
+
+  public platesChanges(indexContractPlan: number, indexContractPlanVehicle: number): void {
+    const platesArray: string[] = [];
+    this.contractPlansFormArray.controls.forEach((formGroup) => {
+      const contractPlanVehiclesFormArray = formGroup.get('contract_plan_vehicles') as FormArray<FormGroup>;
+      contractPlanVehiclesFormArray.controls.forEach((formGroupContractVehicle: FormGroup, index) => {
+        const vehiclePlateCtrl = formGroupContractVehicle.get('vehicle')?.get('plate') as FormControl;
+        platesArray.push(vehiclePlateCtrl.value);
+      });
+    });
+    this.contractPlansFormArray.controls.forEach((formGroup, indexFather) => {
+      const contractPlanVehiclesFormArray = formGroup.get('contract_plan_vehicles') as FormArray<FormGroup>;
+      contractPlanVehiclesFormArray.controls.forEach((formGroupContractVehicle: FormGroup, index) => {
+        const vehiclePlateCtrl = formGroupContractVehicle.get('vehicle')?.get('plate') as FormControl;
+        let indexInAllPlates = 0;
+        if (indexFather > 0) {
+          for (let fi = 0; fi < indexFather; fi++) {
+            indexInAllPlates += (this.contractPlansFormArray.at(fi).get('contract_plan_vehicles') as FormArray<FormGroup>).length
+          }
+          indexInAllPlates += index;
+        } else {
+          indexInAllPlates = index
+        }
+        vehiclePlateCtrl.setValidators([Validators.required, Validators.pattern(this.patternAddPlates(platesArray, indexInAllPlates))]);
+        vehiclePlateCtrl.updateValueAndValidity({ emitEvent: false });
+      });
+    });
+  }
+  private patternAddPlates(platesArray: string[], indexExcept: number = -1): string {
+    console.log('pattern', platesArray, indexExcept);
+    
+    return `^(?!${platesArray.filter((_, index) => index != indexExcept).filter(plate=>plate).join('$|') ?? '----'}$).*`;
   }
 }
