@@ -39,19 +39,19 @@
 
     <mat-form-field data-input-name="client_responsible_paternal_name">
         <mat-label>Apellido paterno</mat-label>
-        <input matInput type="text" formControlName="client_responsible_paternal_name" />
+        <input matInput appCharactersOnly type="text" formControlName="client_responsible_paternal_name" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
     <mat-form-field data-input-name="client_responsible_maternal_name">
         <mat-label>Apellido materno</mat-label>
-        <input matInput type="text" formControlName="client_responsible_maternal_name" />
+        <input matInput appCharactersOnly type="text" formControlName="client_responsible_maternal_name" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
     <mat-form-field data-input-name="client_responsible_phone">
         <mat-label>Teléfono del contacto</mat-label>
-        <input matInput type="text" formControlName="client_responsible_phone" />
+        <input matInput appNumbersOnly type="text" formControlName="client_responsible_phone" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
