@@ -257,7 +257,7 @@ export class ContractFormComponent {
     this.planIdSelectedEvent.emit({ index: $event.index, values: this.planIdsSelected.map((item) => item.value) });
   }
 
-  public platesChanges(indexContractPlan: number, indexContractPlanVehicle: number): void {
+  public platesChanges(): void {
     const platesArray: string[] = [];
     this.contractPlansFormArray.controls.forEach((formGroup) => {
       const contractPlanVehiclesFormArray = formGroup.get('contract_plan_vehicles') as FormArray<FormGroup>;
@@ -285,8 +285,6 @@ export class ContractFormComponent {
     });
   }
   private patternAddPlates(platesArray: string[], indexExcept: number = -1): string {
-    console.log('pattern', platesArray, indexExcept);
-    
     return `^(?!${platesArray.filter((_, index) => index != indexExcept).filter(plate=>plate).join('$|') ?? '----'}$).*`;
   }
 }
