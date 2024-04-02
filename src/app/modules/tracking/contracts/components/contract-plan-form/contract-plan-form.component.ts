@@ -35,6 +35,7 @@ export class ContractPlanFormComponent {
   @Input({ required: true }) planIdsSelected!: { index: number, value: number }[];
   public plans = input.required<Plan[]>();
   @Output() public planIdSelected: EventEmitter<{ index: number, value: number }> = new EventEmitter();
+  @Output() public platesChanges: EventEmitter<number> = new EventEmitter();
   @Output() public deleteItem: EventEmitter<void> = new EventEmitter();
 
   public index = input.required<number>();
@@ -103,15 +104,8 @@ export class ContractPlanFormComponent {
     this.totalInstallationPriceCtrlChange();
   }
 
-  public changesContractVehiclesFormArray() {
-    this.contractPlanVehiclesFormArray.controls.forEach((formGroupContractVehicle: FormGroup, index) => {
-      formGroupContractVehicle.get('vehicle')?.get('plate')?.setValidators([Validators.required, Validators.pattern(this.patternAddPlates(index))]);
-      formGroupContractVehicle.get('vehicle')?.get('plate')?.updateValueAndValidity({ emitEvent: false });
-    });
-  }
-
-  private patternAddPlates(indexExcept: number = -1): string {
-    return `^(?!${this.contractPlanVehiclesFormArray.value.filter((_, index) => index != indexExcept).map((contractVehicle: ContractPlanVehicle) => contractVehicle.vehicle!.plate).filter(item => item).join('$|') ?? '----'}$).*`;
+  public changesContractVehiclesFormArray(i: number) {
+    this.platesChanges.emit(i)
   }
 
   public getVehicleTypeFormGroup(formGroupContractVehicle: FormGroup): FormControl {
