@@ -104,8 +104,8 @@ export class ContractPlanFormComponent {
     this.totalInstallationPriceCtrlChange();
   }
 
-  public changesContractVehiclesFormArray(i: number) {
-    this.platesChanges.emit(i)
+  public changesContractVehiclesFormArray() {
+    this.platesChanges.emit()
   }
 
   public getVehicleTypeFormGroup(formGroupContractVehicle: FormGroup): FormControl {

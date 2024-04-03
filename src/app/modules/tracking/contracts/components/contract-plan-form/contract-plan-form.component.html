@@ -72,7 +72,7 @@
     
           <mat-form-field>
             <mat-label>Placa</mat-label>
-            <input matInput type="text" formControlName="plate" (ngModelChange)="changesContractVehiclesFormArray(i)" />
+            <input matInput type="text" formControlName="plate" (ngModelChange)="changesContractVehiclesFormArray()" />
             @if (fgCV.get('vehicle')?.get('plate')?.hasError('required')) { <mat-error>*Requerido</mat-error> } 
             @else if (fgCV.get('vehicle')?.get('plate')?.hasError('pattern')) { <mat-error>*Placa existe</mat-error> }
           </mat-form-field>

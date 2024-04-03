@@ -77,7 +77,7 @@
                 [plans]="plans()"
                 (deleteItem)="deleteContractPlan(i)"
                 (planIdSelected)="planIdSelected($event)"
-                (platesChanges)="platesChanges(i, $event)"/>
+                (platesChanges)="platesChanges()"/>
             }
         </div>
         @if (contractPlansFormArray.controls.length < lengthPlansData) {
