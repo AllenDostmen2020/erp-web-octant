@@ -2,3 +2,26 @@
   display: grid;
   gap: 4px;
 }
+
+[data-input-name*="responsible"],
+[data-input-name="date"] {
+  --grid-column-start-form-input: span;
+  --grid-column-end-form-input: 2;
+}
+
+[data-input-name="observation"] {
+  --grid-column-start-form-input: span;
+  --grid-column-end-form-input: 12;
+}
+
+[data-input-name="gps_imei"] {
+  --grid-column-start-form-input: span;
+  --grid-column-end-form-input: 12;
+}
+
+.container__groups {
+  grid-column: 1 / -1;
+  .group__vehicle{
+    display: grid;
+  }
+}
