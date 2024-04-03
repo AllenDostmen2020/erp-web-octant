@@ -44,27 +44,23 @@
       <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
-    @if(contractPlanVehicles.length){
-    @for (item of contractPlanVehicles; track item) {
+
     <ng-container formArrayName="contract_plan_vehicles">
       @for (contractPlanVehicleFormGroup of contractPlanVehiclesFormArray.controls; track i; let i = $index) {
       <div [formGroup]="contractPlanVehicleFormGroup" class="container__groups">
-        <mat-checkbox formControlName="selected" (change)="changeChecked(item, i)">
-          <div class="group__vehicle">
-            <span class="title-small">{{item.vehicle?.plate}}</span>
+        <mat-checkbox formControlName="selected"></mat-checkbox>
+        <div class="group__vehicle">
+          <span class="title-small">{{contractPlanVehicleFormGroup.get('plate_name')?.value}}</span>
 
-            <mat-form-field data-input-name="gps_imei">
-              <mat-label>Código GPS</mat-label>
-              <input matInput appCharactersOnly type="text" formControlName="gps_imei" />
-              <mat-error>*Requerido</mat-error>
-            </mat-form-field>
-          </div>
-        </mat-checkbox>
+          <mat-form-field data-input-name="gps_imei">
+            <mat-label>Código GPS</mat-label>
+            <input matInput appCharactersOnly type="text" formControlName="gps_imei" />
+            <mat-error>*Requerido</mat-error>
+          </mat-form-field>
+        </div>
       </div>
       }
     </ng-container>
-    }
-    }
   </div>
 
 </app-item-form-template>

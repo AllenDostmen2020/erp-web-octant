@@ -48,14 +48,7 @@ export class ContractVehicleAddCreateComponent {
       date: new FormControl(new Date()),
       observation: new FormControl(null),
 
-      contract_plan_vehicles: new FormArray([
-        new FormGroup({
-          contract_plan_vehicle_id: new FormControl(null),
-          plate_name: new FormControl(null),
-          gps_imei: new FormControl(),
-          selected: new FormControl(false),
-        })
-      ]),
+      contract_plan_vehicles: new FormArray([]),
     }),
     server: { url: 'contract-installation' },
   };
@@ -63,6 +56,7 @@ export class ContractVehicleAddCreateComponent {
   get documentTypeCtrl(): FormControl {
     return this.configuration.formGroup.get('responsible_document_type') as FormControl;
   }
+
   get documentNumberCtrl(): FormControl {
     return this.configuration.formGroup.get('responsible_document_number') as FormControl;
   }
@@ -87,9 +81,18 @@ export class ContractVehicleAddCreateComponent {
   private async getVehicles() {
     const contractId = this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id');
     this.contractPlanVehicles = await this.fetch.get(`contract/${contractId}/contract-plan-vehicle`);
+    this.contractPlanVehicles.forEach((item) => {
+      const formGroup = new FormGroup({
+        contract_plan_vehicle_id: new FormControl(item.id),
+        plate_name: new FormControl(item.vehicle!.plate),
+        selected: new FormControl(false),
+      });
+      this.contractPlanVehiclesFormArray.push(formGroup);
+    });
   }
 
   public maxLengthDocumentNumber: number = 12;
+
   public updateValidatorsForDocumentNumberCtrl(length: number): void {
     this.documentNumberCtrl.setValidators([
       Validators.required,
@@ -98,14 +101,6 @@ export class ContractVehicleAddCreateComponent {
     ]);
     this.documentNumberCtrl.updateValueAndValidity();
     this.maxLengthDocumentNumber = length;
-  }
-
-  public async changeChecked(item: ContractPlanVehicle, index: number) {
-    const contractPlanVehiclesFormArray = this.configuration.formGroup.get('contract_plan_vehicles') as FormArray;
-    contractPlanVehiclesFormArray.at(index).patchValue({
-      contract_plan_vehicle_id: item.id,
-      plate_name: item.vehicle!.plate,
-    });
   }
 
 }
