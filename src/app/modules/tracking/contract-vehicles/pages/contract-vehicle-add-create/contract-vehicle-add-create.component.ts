@@ -7,6 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute } from '@angular/router';
 import { InputSelectConfiguration, InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
+import { CharactersOnlyDirective } from '@directive/characters-only.directive';
+import { NumbersOnlyDirective } from '@directive/numbers-only.directive';
 import { DOCUMENT_TYPES, DocumentTypeEnum } from '@interface/baseModel';
 import { ContractInstallation } from '@interface/contractInstallation';
 import { ContractPlanVehicle } from '@interface/contractPlanVehicle';
@@ -25,7 +27,9 @@ interface ExtContractInstallation extends ContractInstallation {
     MatFormFieldModule,
     MatInputModule,
     InputSelectTemplateComponent,
-    MatDatepickerModule
+    MatDatepickerModule,
+    NumbersOnlyDirective,
+    CharactersOnlyDirective
   ],
   templateUrl: './contract-vehicle-add-create.component.html',
   styleUrl: './contract-vehicle-add-create.component.scss'
