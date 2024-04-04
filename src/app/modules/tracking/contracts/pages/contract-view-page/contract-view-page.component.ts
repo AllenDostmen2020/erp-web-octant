@@ -34,6 +34,10 @@ export class ContractViewPageComponent {
         text: 'Documentos',
         routerLink: './document',
       },
+      {
+        text: 'Instalaciones',
+        routerLink: './installation',
+      },
 
     ]
   }

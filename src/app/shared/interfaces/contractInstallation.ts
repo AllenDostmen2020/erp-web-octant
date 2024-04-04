@@ -1,5 +1,6 @@
 import { BaseModel } from "./baseModel";
 import { Contract } from "./contract";
+import { ContractPlanVehicle } from "./contractPlanVehicle";
 
 export interface ContractInstallation extends BaseModel {
     contract_id: number;
@@ -12,4 +13,5 @@ export interface ContractInstallation extends BaseModel {
     observation: string;
 
     contract?: Contract;
+    contract_plan_vehicles?: ContractPlanVehicle[];
 }

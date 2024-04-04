@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { contractResolutionRoutes } from "./contract-resolutions/contractResolution.rutes";
 import { contractVehiclesRoutes } from "../contract-vehicles/contract-vehicles.routes";
 import { clientDocumentRoutes } from "../../organization/clients/client-documents/client-document.routes";
+import { contractInstallationsRoutes } from "./contract-installations/contract-installations.routes";
 
 export const contractRoutes: Routes = [
     {
@@ -45,6 +46,10 @@ export const contractRoutes: Routes = [
             {
                 path: 'document',
                 children: clientDocumentRoutes,
+            },
+            {
+                path: 'installation',
+                children: contractInstallationsRoutes,
             },
             {
                 path: '**',
