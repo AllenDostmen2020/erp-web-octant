@@ -17,7 +17,6 @@ export class NumbersOnlyDirective {
   }
 
   validateNumber(event: KeyboardEvent) {
-    console.log(event);    
     const code = event.keyCode ? event.keyCode: 0;
     if (code === 8 || code === 0) {
       return true;
