@@ -55,6 +55,10 @@ export class ContractVehicleAddCreateComponent {
       contract_plan_vehicles: new FormArray([]),
     }),
     server: { url: 'contract-installation' },
+    parseDataItemBeforeSendFormFn: (body) => {
+      body['contract_plan_vehicles'] = (body.contract_plan_vehicles as any[]).filter((item) => item.selected).map((item) => ({ id: item.id, gps_imei: item.gps_imei}));
+      return body;
+    }
   };
 
   get documentTypeCtrl(): FormControl {
@@ -87,9 +91,9 @@ export class ContractVehicleAddCreateComponent {
     const contractPlanVehicles = await this.fetch.get<ContractPlanVehicle[]>(`contract/${contractId}/contract-plan-vehicle`);
     contractPlanVehicles.forEach((item) => {
       const formGroup = new FormGroup({
-        contract_plan_vehicle_id: new FormControl(item.id),
+        id: new FormControl(item.id),
         plate_name: new FormControl(item.vehicle!.plate),
-        gps_imei: new FormControl(item.vehicle!.plate),
+        gps_imei: new FormControl(''),
         selected: new FormControl(false),
       });
       this.contractPlanVehiclesFormArray.push(formGroup);
