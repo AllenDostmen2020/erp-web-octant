@@ -59,7 +59,7 @@
           @if (contractPlanVehicleFormGroup.get('selected')?.value) {
             <mat-form-field>
               <mat-label>Código GPS</mat-label>
-              <input matInput appCharactersOnly type="text" formControlName="gps_imei" />
+              <input matInput type="text" formControlName="gps_imei" />
               <mat-error>*Requerido</mat-error>
             </mat-form-field>
           } @else {
