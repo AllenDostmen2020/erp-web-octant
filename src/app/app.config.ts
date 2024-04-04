@@ -42,7 +42,7 @@ export const appConfig: ApplicationConfig = {
     { provide: MAT_DATE_LOCALE, useValue: 'es-PE' },
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'S/' },
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: appareance(), subscriptSizing: 'dynamic' } },
-    { provide: MAT_PAGINATOR_DEFAULT_OPTIONS, useValue: { formFieldAppearance: 'fill', showFirstLastButtons: true, pageSizeOptions: [20, 50, 100], pageSize: 20 } },
+    { provide: MAT_PAGINATOR_DEFAULT_OPTIONS, useValue: { showFirstLastButtons: true, pageSizeOptions: [20, 50, 100], pageSize: 20 } },
     { provide: MAT_SORT_DEFAULT_OPTIONS, useValue: { arrowPosition: 'after', disableClear: false } },
     { provide: MatPaginatorIntl, useClass: CustomPaginator },
     DateFnsAdapter,

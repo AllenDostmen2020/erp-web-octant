@@ -492,7 +492,7 @@ export const itemStatusColumn = <T = any>(config?: Partial<Omit<StringListColumn
   sort: { key: 'status' },
   align: 'center',
   displayValueFn: (item: any) => item.status,
-  cssClassDisplayValue: (item: any) => `status-chip ${item.status}`,
+  cssClassDisplayValue: (item: any) => `status-chip ${((item.status??'')as string).replaceAll(' ', '-').toLowerCase()}`,
   ...config,
 });
 export const itemCreatedAtColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'title' | 'displayValueFn' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({
