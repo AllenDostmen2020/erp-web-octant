@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, WritableSignal, inject, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -37,7 +37,7 @@ interface ExtContractInstallation extends ContractInstallation {
 export class ContractVehicleAddCreateComponent {
   private fetch = inject(FetchService);
   private activatedRoute = inject(ActivatedRoute);
-  public contractPlanVehicles: ContractPlanVehicle[] = [];
+  public contractPlanVehicles: WritableSignal<ContractPlanVehicle[]> = signal([]);
 
   public configuration: ItemFormConfiguration = {
     type: 'create',
@@ -84,15 +84,17 @@ export class ContractVehicleAddCreateComponent {
 
   private async getVehicles() {
     const contractId = this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id');
-    this.contractPlanVehicles = await this.fetch.get(`contract/${contractId}/contract-plan-vehicle`);
-    this.contractPlanVehicles.forEach((item) => {
+    const contractPlanVehicles = await this.fetch.get<ContractPlanVehicle[]>(`contract/${contractId}/contract-plan-vehicle`);
+    contractPlanVehicles.forEach((item) => {
       const formGroup = new FormGroup({
         contract_plan_vehicle_id: new FormControl(item.id),
         plate_name: new FormControl(item.vehicle!.plate),
+        gps_imei: new FormControl(item.vehicle!.plate),
         selected: new FormControl(false),
       });
       this.contractPlanVehiclesFormArray.push(formGroup);
     });
+    this.contractPlanVehicles.set(contractPlanVehicles);
   }
 
   public maxLengthDocumentNumber: number = 12;

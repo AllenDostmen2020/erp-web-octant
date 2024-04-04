@@ -1,6 +1,6 @@
 <app-item-form-template [configuration]="configuration">
 
-  <div [formGroup]="configuration.formGroup" class="form__content__inputs">
+  <div ngProjectAs="beforeContent" [formGroup]="configuration.formGroup" class="form__content__inputs">
 
     <app-input-select-template data-input-name="responsible_document_type" [control]="documentTypeCtrl"
       [configuration]="documentTypeSelectConfiguration" />
@@ -44,22 +44,41 @@
       <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
+    <div class="form__content__inputs__subtitle">Vehículos</div>
 
-    <div formArrayName="contract_plan_vehicles" class="mmm">
-      @for (contractPlanVehicleFormGroup of contractPlanVehiclesFormArray.controls; track i; let i = $index) {
-      <div [formGroup]="contractPlanVehicleFormGroup" class="container__groups bg-surface-variant">
-        <div>
-          <mat-checkbox formControlName="selected"></mat-checkbox>
-          <span class="title-small">{{contractPlanVehicleFormGroup.get('plate_name')?.value}}</span>
-        </div>
-        <div class="group__vehicle">
-          <mat-form-field data-input-name="gps_imei">
-            <mat-label>Código GPS</mat-label>
-            <input matInput appCharactersOnly type="text" formControlName="gps_imei" />
-            <mat-error>*Requerido</mat-error>
-          </mat-form-field>
+    <div formArrayName="contract_plan_vehicles" class="contract-plan-vehicles">
+      @if(contractPlanVehicles().length) {
+      @for (contractPlanVehicleFormGroup of contractPlanVehiclesFormArray.controls; track contractPlanVehicleFormGroup;
+      let i = $index) {
+      <div [formGroup]="contractPlanVehicleFormGroup" [class.checked]="contractPlanVehicleFormGroup.get('selected')?.value" class="contract-plan-vehicles__item">
+
+        <mat-checkbox formControlName="selected" />
+
+        <div class="contract-plan-vehicles__item__section">
+          <span class="title-medium">{{contractPlanVehicleFormGroup.get('plate_name')?.value}}</span>
+          @if (contractPlanVehicleFormGroup.get('selected')?.value) {
+            <mat-form-field>
+              <mat-label>Código GPS</mat-label>
+              <input matInput appCharactersOnly type="text" formControlName="gps_imei" />
+              <mat-error>*Requerido</mat-error>
+            </mat-form-field>
+          } @else {
+            <div class="contract-plan-vehicles__item__section__detail">
+                <p>
+                  <span>Modelo</span>
+                  <span>:</span>
+                  <span>Nombre modelo</span>
+                </p>
+                <p>
+                  <span>Marca</span>
+                  <span>:</span>
+                  <span>Nombre marca</span>
+                </p>
+            </div>
+          }
         </div>
       </div>
+      }
       }
     </div>
   </div>
