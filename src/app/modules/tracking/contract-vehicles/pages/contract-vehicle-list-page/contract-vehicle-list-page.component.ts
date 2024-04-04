@@ -40,7 +40,12 @@ export class ContractVehicleListPageComponent {
         this.contractPlanIdActive.set(contractPlan.id);
         this.configurationList = {
             title: 'Vehículos',
-            createButton: false,
+            createButton: {
+                text: 'Instalar vehículos',
+                routerLink: {
+                    url: '../add/create'
+                }
+            },
             server: {
                 url: 'contract-plan-vehicle',
                 queryParams: {
