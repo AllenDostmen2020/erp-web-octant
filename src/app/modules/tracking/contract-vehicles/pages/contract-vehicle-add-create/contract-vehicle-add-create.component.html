@@ -45,13 +45,14 @@
     </mat-form-field>
 
 
-    <ng-container formArrayName="contract_plan_vehicles">
+    <div formArrayName="contract_plan_vehicles" class="mmm">
       @for (contractPlanVehicleFormGroup of contractPlanVehiclesFormArray.controls; track i; let i = $index) {
-      <div [formGroup]="contractPlanVehicleFormGroup" class="container__groups">
-        <mat-checkbox formControlName="selected"></mat-checkbox>
-        <div class="group__vehicle">
+      <div [formGroup]="contractPlanVehicleFormGroup" class="container__groups bg-surface-variant">
+        <div>
+          <mat-checkbox formControlName="selected"></mat-checkbox>
           <span class="title-small">{{contractPlanVehicleFormGroup.get('plate_name')?.value}}</span>
-
+        </div>
+        <div class="group__vehicle">
           <mat-form-field data-input-name="gps_imei">
             <mat-label>Código GPS</mat-label>
             <input matInput appCharactersOnly type="text" formControlName="gps_imei" />
@@ -60,7 +61,7 @@
         </div>
       </div>
       }
-    </ng-container>
+    </div>
   </div>
 
 </app-item-form-template>

@@ -14,14 +14,20 @@
   --grid-column-end-form-input: 12;
 }
 
-[data-input-name="gps_imei"] {
-  --grid-column-start-form-input: span;
-  --grid-column-end-form-input: 12;
+.container__groups {
+  border-radius: 8px;
+  .group__vehicle {
+    display: grid;
+    padding: 8px;
+
+    > span {
+      margin-bottom: 4px;
+    }
+  }
 }
 
-.container__groups {
+.mmm {
   grid-column: 1 / -1;
-  .group__vehicle{
-    display: grid;
-  }
+  display: flex;
+  gap: 8px;
 }
