@@ -65,14 +65,19 @@
           } @else {
             <div class="contract-plan-vehicles__item__section__detail">
                 <p>
-                  <span>Modelo</span>
+                  <span class="subtitles__card">Tipo de vehículo</span>
                   <span>:</span>
-                  <span>Nombre modelo</span>
+                  <span>{{contractPlanVehicles()[i].vehicle!.vehicle_type?.name}}</span>
                 </p>
                 <p>
-                  <span>Marca</span>
+                  <span class="subtitles__card">Modelo</span>
                   <span>:</span>
-                  <span>Nombre marca</span>
+                  <span>{{contractPlanVehicles()[i].vehicle!.model}}</span>
+                </p>
+                <p>
+                  <span class="subtitles__card">Marca</span>
+                  <span>:</span>
+                  <span>{{contractPlanVehicles()[i].vehicle!.brand}}</span>
                 </p>
             </div>
           }

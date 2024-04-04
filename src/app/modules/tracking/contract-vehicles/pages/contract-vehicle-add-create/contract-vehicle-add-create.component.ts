@@ -99,6 +99,8 @@ export class ContractVehicleAddCreateComponent {
       this.contractPlanVehiclesFormArray.push(formGroup);
     });
     this.contractPlanVehicles.set(contractPlanVehicles);
+    console.log(this.contractPlanVehicles());
+    
   }
 
   public maxLengthDocumentNumber: number = 12;

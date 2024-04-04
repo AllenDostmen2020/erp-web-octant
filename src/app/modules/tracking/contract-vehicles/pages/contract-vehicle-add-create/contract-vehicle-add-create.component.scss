@@ -12,7 +12,7 @@
 .contract-plan-vehicles {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 8px;
 }
 
@@ -45,7 +45,9 @@ mat-checkbox {
   display: grid;
   grid-template-columns: auto auto 1fr;
   column-gap: 4px;
-
+  .subtitles__card{
+    font-weight: 500;
+  }
 }
 .contract-plan-vehicles__item__section__detail p {
   grid-column: 1 / -1;
