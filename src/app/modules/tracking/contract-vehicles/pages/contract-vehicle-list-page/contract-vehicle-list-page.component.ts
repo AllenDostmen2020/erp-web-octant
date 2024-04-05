@@ -43,7 +43,7 @@ export class ContractVehicleListPageComponent {
             createButton: {
                 text: 'Instalar vehículos',
                 routerLink: {
-                    url: '../add/create'
+                    url: '../installation/create'
                 }
             },
             server: {
