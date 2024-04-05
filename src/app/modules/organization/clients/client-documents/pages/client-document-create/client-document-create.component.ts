@@ -63,27 +63,27 @@ export class ClientDocumentCreateComponent {
     }
 
     private addData(contracts: Contract[]) {
-        const newData: ItemFormDocumentContractItem[] = contracts.map(contract => {
-            const { description, price } = this.getDetails(contract, 1);
-            return { contract, periods: 1, description, price }
-        })
-        this.items.update((data) => [...data, ...newData]);
-        this.formConfiguration.formGroup.get('valid_contracts')?.setValue(true);
+        // const newData: ItemFormDocumentContractItem[] = contracts.map(contract => {
+        //     const { description, price } = this.getDetails(contract, 1);
+        //     return { contract, periods: 1, description, price }
+        // })
+        // this.items.update((data) => [...data, ...newData]);
+        // this.formConfiguration.formGroup.get('valid_contracts')?.setValue(true);
     }
 
     private getDetails(contract: Contract, periods: number) {
-        setDefaultOptions({ locale: es })
-        const contractVehiclesActives = contract.contract_vehicles?.filter((contract_vehicle) => contract_vehicle.vehicle?.status == StatusModel.Habilitado);
-        const platesString = contractVehiclesActives?.map(contractVehicle => contractVehicle.vehicle?.plate).join(', ');
-        const nextPeriod = (contract.last_contract_document_item?.end_period ? contract.last_contract_document_item?.end_period : 1) - 1;
-        const dateNextPeriod = addMonths(parseISO(contract.start_date), nextPeriod);
-        const dateEndPeriod = subDays(addMonths(addMonths(parseISO(contract.start_date), nextPeriod), periods), 1);
-        const dateStringInit = dateNextPeriod.getFullYear() == dateEndPeriod.getFullYear() ? format(dateNextPeriod, "dd 'DE' MMMM").toUpperCase() : format(dateNextPeriod, "dd 'DE' MMMM yyyy").toUpperCase();
-        const dateStringEnd = format(dateEndPeriod, "dd 'DE' MMMM yyyy").toUpperCase();
-        const vehiclesQuantity = contractVehiclesActives?.length ?? 0;
-        const price = (contract.sale_price * vehiclesQuantity);
-        const description = `ALQUILER MENSUAL DE GPS POR ${vehiclesQuantity} UNIDADES - PERIODO DEL ${dateStringInit} AL ${dateStringEnd} | ${contract.plan?.name} | CONTRATO ${contract.code} | PLACAS: ${platesString}`;
-        return { description, price }
+        // setDefaultOptions({ locale: es })
+        // const contractVehiclesActives = contract.contract_vehicles?.filter((contract_vehicle) => contract_vehicle.vehicle?.status == StatusModel.Habilitado);
+        // const platesString = contractVehiclesActives?.map(contractVehicle => contractVehicle.vehicle?.plate).join(', ');
+        // const nextPeriod = (contract.last_contract_document_item?.end_period ? contract.last_contract_document_item?.end_period : 1) - 1;
+        // const dateNextPeriod = addMonths(parseISO(contract.start_date), nextPeriod);
+        // const dateEndPeriod = subDays(addMonths(addMonths(parseISO(contract.start_date), nextPeriod), periods), 1);
+        // const dateStringInit = dateNextPeriod.getFullYear() == dateEndPeriod.getFullYear() ? format(dateNextPeriod, "dd 'DE' MMMM").toUpperCase() : format(dateNextPeriod, "dd 'DE' MMMM yyyy").toUpperCase();
+        // const dateStringEnd = format(dateEndPeriod, "dd 'DE' MMMM yyyy").toUpperCase();
+        // const vehiclesQuantity = contractVehiclesActives?.length ?? 0;
+        // const price = (contract.sale_price * vehiclesQuantity);
+        // const description = `ALQUILER MENSUAL DE GPS POR ${vehiclesQuantity} UNIDADES - PERIODO DEL ${dateStringInit} AL ${dateStringEnd} | ${contract.plan?.name} | CONTRATO ${contract.code} | PLACAS: ${platesString}`;
+        // return { description, price }
     }
 
     public newAdd(event: Event) {
@@ -99,8 +99,8 @@ export class ClientDocumentCreateComponent {
     }
 
     public updateDescription(index: number) {
-        const item = this.items()[index];
-        const description = this.getDetails(item.contract, item.periods).description;
-        this.items.update((data) => data.toSpliced(index, 1, { ...item, description }));
+        // const item = this.items()[index];
+        // const description = this.getDetails(item.contract, item.periods).description;
+        // this.items.update((data) => data.toSpliced(index, 1, { ...item, description }));
     }
 }
