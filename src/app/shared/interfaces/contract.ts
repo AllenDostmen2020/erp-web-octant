@@ -43,7 +43,6 @@ export interface Contract extends BaseModel {
     client_business_unit?: ClientBusinessUnit;
     plan?: Plan;
     contract_plans?: ContractPlan[];
-    contract_vehicles?: ContractVehicle[];
     last_contract_document_item?: ContractPlanDocumentItem;
 }
 

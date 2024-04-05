@@ -1,5 +1,6 @@
 import { BaseModel } from "./baseModel";
 import { Contract } from "./contract";
+import { ContractPlanVehicle } from "./contractPlanVehicle";
 import { Plan } from "./plan";
 
 export interface ContractPlan extends BaseModel {
@@ -12,6 +13,7 @@ export interface ContractPlan extends BaseModel {
   total_installation_price: number;
   total: number;
 
+  contract_plan_vehicles?: ContractPlanVehicle[];
   contract?: Contract;
   plan?: Plan;
 }

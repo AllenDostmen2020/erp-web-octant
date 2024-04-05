@@ -26,9 +26,7 @@ export const getContractFormGroup = (): FormGroup => {
 
         sale_user_id: new FormControl(null, [Validators.required]),
         
-        contract_plans: new FormArray([
-            getContractPlanFormGroup(),
-        ]),
+        contract_plans: new FormArray([getContractPlanFormGroup()]),
     })
 }
 
