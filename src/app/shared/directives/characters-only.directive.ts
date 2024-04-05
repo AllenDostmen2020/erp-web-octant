@@ -33,15 +33,7 @@ export class CharactersOnlyDirective {
   }
 
   validateFields(event: KeyboardEvent) {
-    /* 
-        Avoid direct DOM updation. better to use Renderer2 
-        this.el.nativeElement.value = this.el.nativeElement.value.replace(/[^a-zA-Z ]/g, '').replace(/\s/g, '');
-      */
-    this.renderer.setProperty(
-      this.el.nativeElement,
-      'value',
-      this.el.nativeElement.value.replace(/[^a-zA-Z ]/g, '').replace(/\s/g, '')
-    );
+    this.renderer.setProperty(this.el.nativeElement, 'value', this.el.nativeElement.value.replace(/[^a-zA-Z ]/g, '').replace(/\s/g, ''));
     event.preventDefault();
   }
 }

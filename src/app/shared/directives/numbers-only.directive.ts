@@ -8,44 +8,32 @@ export class NumbersOnlyDirective {
   private renderer = inject(Renderer2);
   constructor(private el: ElementRef) {}
 
-  @HostListener('keypress', ['$event']) onKeyPress(event: KeyboardEvent) {
-    return this.validateNumber(event);
-  }
-
   @HostListener('keydown', ['$event']) onKeyDown(event: KeyboardEvent) {
-    return this.validateNumber(event);
+    return this.validateCharacter(event);
   }
 
-  validateNumber(event: KeyboardEvent) {
-    const code = event.keyCode ? event.keyCode: 0;
-    if (code === 8 || code === 0) {
+  private validateCharacter(event: KeyboardEvent): boolean {
+    const allowedChars = /[0-9]/;
+    const key = event.key;    
+
+    if (event.ctrlKey || event.metaKey || key === 'Backspace' || key === 'Tab') {
       return true;
-    } else if (code >= 48 && code <= 57) {
-      return true;
-    } else if (event.getModifierState('NumLock') && (code >= 96 && code <= 105)) {
-      return true;
-    } else if (event.ctrlKey) {
-      // for ctrl + v
-      return true;
-    } else {
+    }
+
+    if (!allowedChars.test(key)) {
+      event.preventDefault();
       return false;
     }
+
+    return true;
   }
 
   @HostListener('paste', ['$event']) blockPaste(event: KeyboardEvent) {
     this.validateFields(event);
   }
 
-  validateFields(event: KeyboardEvent) {
-    /* 
-        Avoid direct DOM updation. better to use Renderer2 
-        this.el.nativeElement.value = this.el.nativeElement.value.replace(/[^0-9 ]/g, '').replace(/\s/g, '');
-      */
-    this.renderer.setProperty(
-      this.el.nativeElement,
-      'value',
-      this.el.nativeElement.value.replace(/[^0-9 ]/g, '').replace(/\s/g, '')
-    );
+  private validateFields(event: KeyboardEvent) {
+    this.renderer.setProperty(this.el.nativeElement, 'value', this.el.nativeElement.value.replace(/[^0-9]/g, '').replace(/\s/g, ''));
     event.preventDefault();
   }
 }
