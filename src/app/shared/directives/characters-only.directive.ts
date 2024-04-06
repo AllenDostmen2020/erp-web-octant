@@ -12,11 +12,11 @@ export class CharactersOnlyDirective {
     return this.validateCharacter(event);
   }
 
-  validateCharacter(event: KeyboardEvent): boolean {
+  public validateCharacter(event: KeyboardEvent): boolean {
     const allowedChars = /[a-zA-Z]/;
     const key = event.key;
 
-    if (event.ctrlKey || event.metaKey || key === 'Backspace') {
+    if (event.ctrlKey || event.metaKey || key === 'Backspace' || key == 'Tab' || key == ' ') {
       return true;
     }
 
@@ -32,7 +32,7 @@ export class CharactersOnlyDirective {
     this.validateFields(event);
   }
 
-  validateFields(event: KeyboardEvent) {
+  public validateFields(event: KeyboardEvent) {
     this.renderer.setProperty(this.el.nativeElement, 'value', this.el.nativeElement.value.replace(/[^a-zA-Z ]/g, '').replace(/\s/g, ''));
     event.preventDefault();
   }
