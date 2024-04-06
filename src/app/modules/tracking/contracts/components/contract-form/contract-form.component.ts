@@ -177,7 +177,7 @@ export class ContractFormComponent {
       this.calculationDates(installationDate);
     });
 
-    this.clientCtrl.valueChanges.subscribe((client: Client) => {
+    this.clientCtrl.valueChanges.pipe(startWith(this.clientCtrl.value)).subscribe((client: Client) => {
       if (client instanceof Object) {
         this.clientBusinessUnitAutocompleteConfiguration.data!.set(client.client_business_units ?? []);
         if (client.client_business_units?.length == 1) {
