@@ -1,5 +1,5 @@
-import { Component, Input, WritableSignal, inject, signal } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { Component, ContentChild, Input, TemplateRef, WritableSignal, inject, signal } from '@angular/core';
+import { CommonModule, Location, NgTemplateOutlet } from '@angular/common';
 import { FetchService, RequestInitFetch, ToastForFetch } from '@service/fetch.service';
 import { EventsService } from '@service/events.service';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -333,12 +333,14 @@ export const fileFormInput = (configuration: FileFormInput): FormInput => ({
     InputSelectTemplateComponent,
     NumbersOnlyDirective,
     CharactersOnlyDirective,
+    NgTemplateOutlet,
   ],
   templateUrl: './item-form-template.component.html',
   styleUrls: ['./item-form-template.component.css']
 })
 export class ItemFormTemplateComponent {
   @Input({ required: true }) configuration!: ItemFormConfiguration;
+  @ContentChild('customFormTemplate') customFormTemplate!: TemplateRef<any>;
 
   private fetch = inject(FetchService);
   private events = inject(EventsService);

@@ -5,8 +5,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DatepickerTemplateComponent } from '@component/datepicker-template/datepicker-template.component';
-import { InputAutocompleteServerConfiguration, InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
-import { InputSelectConfiguration, InputSelectLocalConfiguration, InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
+import { InputAutocompleteLocalConfiguration, InputAutocompleteServerConfiguration, InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
+import { InputSelectConfiguration, InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 import { LoadImagePrivateDirective } from '@directive/load-image-private.directive';
 import { Client } from '@interface/client';
 import { RECURRENT_TYPE_VALUES } from '@interface/contract';
@@ -79,7 +79,7 @@ export class ContractFormComponent {
     data: signal([]),
   }
 
-  public readonly saleUserAutocompleteConfiguration: InputSelectLocalConfiguration = {
+  public readonly saleUserAutocompleteConfiguration: InputAutocompleteLocalConfiguration = {
     textLabel: 'Vendedor',
     local: { nameModuleDatabase: NameModuleDatabase.Users }
   }

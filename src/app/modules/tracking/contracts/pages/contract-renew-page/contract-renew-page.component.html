@@ -1,3 +1,5 @@
 <app-item-form-template [configuration]="configuration">
-  <app-contract-form [form]="configuration.formGroup" />
+  <ng-template #customFormTemplate>
+    <app-contract-form [form]="configuration.formGroup" />
+  </ng-template>
 </app-item-form-template>
