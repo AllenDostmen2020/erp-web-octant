@@ -367,9 +367,7 @@ export class ItemFormTemplateComponent {
 
   private setItemId() {
     if (!this.configuration.itemId) {
-      if (this.activatedRoute.snapshot.paramMap.get('id')) {
-        this.configuration.itemId = this.activatedRoute.snapshot.paramMap.get('id')!;
-      }
+      this.configuration.itemId = this.activatedRoute.snapshot.paramMap.get('id')! ?? this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id');
     }
   }
 
