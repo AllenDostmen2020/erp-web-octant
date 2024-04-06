@@ -36,6 +36,10 @@ export const contractRoutes: Routes = [
                 ]
             },
             {
+                path: 'renew',
+                loadComponent: ()=> import('./pages/contract-renew-page/contract-renew-page.component').then(m=> m.ContractRenewPageComponent),
+            },
+            {
                 path: 'vehicle',
                 children: contractVehiclesRoutes,
             },

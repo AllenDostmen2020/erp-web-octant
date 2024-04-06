@@ -63,10 +63,10 @@
     }
 
     <div class="item-detail__content">
-        <ng-content select="[beforeContent]" />
+        <ng-content select="beforeContent" />
         @if (configuration.dataItem!(); as item) {
         <ng-container [ngTemplateOutlet]="itemDefaultTemplate" [ngTemplateOutletContext]="{ $implicit: item }" />
-        <ng-content select="[afterContent]" />
+        <ng-content select="afterContent" />
         } @else if (configuration.loading) {
         <app-spinner-default />
         } @else if (configuration.httpError && !configuration.ignoreShowError) {

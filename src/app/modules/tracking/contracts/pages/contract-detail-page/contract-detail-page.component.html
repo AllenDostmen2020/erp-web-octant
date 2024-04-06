@@ -1,1 +1,7 @@
-<app-item-detail-template [configuration]="configuration"/>
+<app-item-detail-template [configuration]="configuration">
+  <ng-container ngProjectAs="beforeContent">
+    @if(alertConfiguration(); as alertConf) {
+      <app-alert-template [configuration]="alertConf" />
+      }
+  </ng-container>
+</app-item-detail-template>

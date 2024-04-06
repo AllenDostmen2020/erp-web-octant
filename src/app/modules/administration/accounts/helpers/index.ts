@@ -29,6 +29,7 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_ACCOUNT: FormInput[] = [
         formControlName: 'number',
         textLabel: 'N° de cuenta',
         cssClass: 'col-span-6 @2xl:col-span-2',
+        validationOnly: 'numbers'
     }),
     selectFormInput({
         formControlName: 'coin',

@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { AccountCreatePageComponent } from '../account-create-page/account-create-page.component';
 import { ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 
@@ -11,8 +10,6 @@ import { ItemFormTemplateComponent } from '@component/item-form-template/item-fo
   styleUrl: './account-edit-page.component.scss'
 })
 export class AccountEditPageComponent extends AccountCreatePageComponent{
-    private activatedRoute = inject(ActivatedRoute);
-
     constructor(
     ) {
         super();

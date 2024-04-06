@@ -1,19 +1,27 @@
-import { Component, inject } from '@angular/core';
+import { Component, WritableSignal, inject, signal } from '@angular/core';
 import { ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
 import { Contract } from '@interface/contract';
 import { ItemDetailConfiguration } from '@component/item-detail-template/item-detail-template.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-template/alert-template.component';
+import { StatusModel } from '@interface/baseModel';
 
 @Component({
     selector: 'app-contract-detail-page',
     standalone: true,
-    imports: [ItemDetailTemplateComponent],
+    imports: [ItemDetailTemplateComponent, AlertTemplateComponent],
     templateUrl: './contract-detail-page.component.html',
     styleUrl: './contract-detail-page.component.scss'
 })
 export class ContractDetailPageComponent {
+    private activatedRoute = inject(ActivatedRoute);
+    private router = inject(Router);
+    public alertConfiguration: WritableSignal<null | AlertConfiguration> = signal(null);
     public configuration: ItemDetailConfiguration<Contract> = {
         title: 'Detalles',
         subtitle: false,
+        editButton: false,
+        deleteButton: false,
         server: {
             url: 'contract',
             queryParams: {
@@ -89,6 +97,25 @@ export class ContractDetailPageComponent {
                 ]
             },
             registerDataGroupDetail(),
-        ]
+        ],
+        afterSetItemFn: (item)=>{
+           if (item.status == StatusModel.Expirado) {
+            this.alertConfigurationMessage();
+           } 
+        }
+    }
+
+    private async alertConfigurationMessage() {
+
+        this.alertConfiguration!.set({
+          icon: 'warning',
+          title: 'Este contrato ya expiró',
+          description: `¿Desea renovar el contrato?`,
+          actionButton: {
+            icon: 'event_repeat',
+            text: 'Renovar',
+            fn: () => this.router.navigate([`../renew`], {relativeTo: this.activatedRoute})
+          }
+        });
     }
 }

@@ -34,7 +34,8 @@ export class ContractInstallationDetailPageComponent {
                 },
                 {
                     title: 'Fecha de instalación',
-                    displayValueFn: (item) => item.date
+                    displayValueFn: (item) => item.date,
+                    type: 'date'
                 },
                 {
                     title: 'Vehículos instalados',

@@ -1,11 +1,12 @@
 import { Component, ViewEncapsulation, WritableSignal, inject, signal } from '@angular/core';
-import { ItemListTemplateComponent, ItemListConfiguration, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, viewItemActionButton, routerLinkActionButton } from '@component/item-list-template/item-list-template.component';
 import { Contract } from '@interface/contract';
 import { contractColumnsList } from '../../helpers';
 import { addMonths, parseISO } from 'date-fns';
 import { NgClass } from '@angular/common';
 import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-template/alert-template.component';
 import { FetchService } from '@service/fetch.service';
+import { StatusModel } from '@interface/baseModel';
 
 @Component({
   selector: 'app-contract-list-page',
@@ -28,7 +29,15 @@ export class ContractListPageComponent {
     rows: {
       cssClass: (item) => parseISO(item.end_date) < addMonths(new Date(), 2) ? 'next-expired' : '',
       options: [
-        viewItemActionButton()
+        viewItemActionButton(),
+        routerLinkActionButton({
+          routerLink: {
+            url: (item)=> `../view/${item.id}/renew`
+          },
+          icon: 'event_repeat',
+          text: 'Renovar',
+          hidden: (item)=> item.status != StatusModel.Expirado,
+        })
       ]
     }
   };
