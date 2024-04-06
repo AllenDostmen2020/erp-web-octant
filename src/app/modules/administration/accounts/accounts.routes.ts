@@ -14,7 +14,7 @@ export const accountRoutes: Routes = [
         loadComponent: () => import('./pages/account-edit-page/account-edit-page.component').then(m => m.AccountEditPageComponent),
     },
     {
-        path: 'detail/:id',
+        path: 'view/:id',
         loadComponent: () => import('./pages/account-detail-page/account-detail-page.component').then(m => m.AccountDetailPageComponent),
     },
     {

@@ -21,7 +21,7 @@ export class AccountListPageComponent {
             textColumn({
                 title: 'Nombre',
                 sort: { key: 'name' },
-                routerLinkValue: { url: (item) => `../detail/${item.id}` },
+                routerLinkValue: { url: (item) => `../view/${item.id}` },
                 gridColumn: '1fr',
                 displayValueFn: (item) => item?.name ? item.name : '--',
             }),
