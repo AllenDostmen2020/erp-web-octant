@@ -179,6 +179,7 @@
                                     <app-input-autocomplete-template data-type="form-input" data-form-input-type="autocomplete-local" [attr.data-input-name]="input.formControlName"
                                         class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null"
                                         [idControl]="control"
+                                        [autocompleteControl]="getControl(input.autocompleteFormControlName ?? '')"
                                         [configuration]="input" />
                                 }
                             }
@@ -189,6 +190,7 @@
                                     <app-input-autocomplete-template data-type="form-input" data-form-input-type="autocomplete-server" [attr.data-input-name]="input.formControlName" 
                                         class="form__input" [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null"
                                         [idControl]="control"
+                                        [autocompleteControl]="getControl(input.autocompleteFormControlName ?? '')"
                                         [configuration]="input" />
                                 }
                             }

@@ -219,12 +219,14 @@ interface AutocompleteConfigurationExt<T = any> extends InputAutocompleteConfigu
 
 interface AutocompleteLocalConfigurationExt<T = any> extends InputAutocompleteLocalConfiguration<T> {
   formControlName: string;
+  autocompleteFormControlName?: string;
   defaultValue?: string | number | null;
   cssClass?: string | ((item: T) => string);
 }
 
 interface AutocompleteServerConfigurationExt<T = any> extends InputAutocompleteServerConfiguration<T> {
   formControlName: string;
+  autocompleteFormControlName?: string;
   defaultValue?: string | number | null;
   cssClass?: string | ((item: T) => string);
 }

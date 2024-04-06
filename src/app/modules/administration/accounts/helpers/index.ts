@@ -1,10 +1,12 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { COIN } from "@interface/baseModel";
-import { FormInput, autocompleteServerFormInput, selectFormInput, textFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
+import { FormInput, autocompleteLocalFormInput, autocompleteServerFormInput, selectFormInput, textFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
 import { signal } from "@angular/core";
+import { NameModuleDatabase } from "@service/database-storage.service";
 
 export const accountFormGroup = () => new FormGroup({
     bank_id: new FormControl(null, [Validators.required]),
+    bank: new FormControl(null, [Validators.required]),
     name: new FormControl('', [Validators.required]),
     number: new FormControl('', [Validators.required]),
     coin: new FormControl('soles', [Validators.required]),
@@ -12,12 +14,11 @@ export const accountFormGroup = () => new FormGroup({
 });
 
 export const DEFAULT_DISPLAY_FIELDS_FORM_ACCOUNT: FormInput[] = [
-    autocompleteServerFormInput({
+    autocompleteLocalFormInput({
         formControlName: 'bank_id',
+        autocompleteFormControlName: 'bank',
         textLabel: 'Banco',
-        server: {
-            url: 'bank',
-        },
+        local: { nameModuleDatabase: NameModuleDatabase.Banks },
         cssClass: 'col-span-6 @2xl:col-span-2',
     }),
     textFormInput({
