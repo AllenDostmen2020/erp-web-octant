@@ -63,11 +63,15 @@ export class ContractDetailPageComponent {
                     },
                     {
                         title: 'Periodo',
-                        displayValueFn: (item) => item.period
+                        displayValueFn: (item) => `${item.period} Meses`
                     },
                     {
                         title: 'Cantidad',
                         displayValueFn: (item) => item.quantity,
+                    },
+                    {
+                        title: 'Recurrente',
+                        displayValueFn: (item) => item.recurrent_type.toUpperCase(),
                     },
                     {
                         title: 'Precio de compra',
@@ -87,7 +91,6 @@ export class ContractDetailPageComponent {
                     {
                         title: 'N° de vehículos',
                         displayValueFn: (item) => item.contract_plans?.reduce((previousValue, item) => previousValue + Number(item.quantity), 0),
-                        type: 'currency',
                     },
                     {
                         title: 'Planes',

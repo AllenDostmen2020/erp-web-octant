@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, userColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, userColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Box } from '@interface/box';
 import { BoxOpening } from '@interface/boxOpening';
 import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
@@ -66,6 +66,11 @@ export class BoxOpeningListPageComponent {
             itemUpdatedAtColumn(),
             itemStatusColumn(),
         ]),
+        rows: {
+            options: [
+              viewItemActionButton()
+            ]
+          }
     }
 
     public item?: Box;
