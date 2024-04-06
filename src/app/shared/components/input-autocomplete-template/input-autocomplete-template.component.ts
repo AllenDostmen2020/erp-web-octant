@@ -95,7 +95,6 @@ export class InputAutocompleteTemplateComponent {
 
   ngOnInit(): void {
     if((this.configuration as InputAutocompleteLocalConfiguration).local) {
-      console.log('Valor id inicial: ', this.idControl.value);
       if(this.idControl.value) {
         this.findLocalItem(this.idControl.value);
       };
