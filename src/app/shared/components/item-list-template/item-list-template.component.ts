@@ -274,8 +274,12 @@ export class ItemListTemplateComponent {
   /* ---------------------------------------------------------------- */
   /* ---------------------------------------------------------------- */
   public getQueryParams(): { [key: string]: any } {
+    const formFilters = this.formFilters?.value ?? {};
+    let index = 0;
+    for (const key in formFilters) if(formFilters[key]) index++;
+    this.lengthSelectedFilters.set(index)
     return {
-      ...this.formFilters?.value ?? {},
+      ...formFilters,
       page: this.paginator.pageIndex + 1,
       per_page: this.paginator.pageSize,
       order: this.sort.active ? `${this.sort.active}|${this.sort.direction}` : null,

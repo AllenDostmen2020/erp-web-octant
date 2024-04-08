@@ -37,7 +37,11 @@
 
       @if (configuration.filters != false) {
         <button class="tonal-icon-button" title="Filtros" [matMenuTriggerFor]="filterMenu">
-          <span class="material-icons">tune</span>
+          @if (lengthSelectedFilters(); as lengthFilters) {
+            <span class="material-icons" [matBadge]="lengthFilters">tune</span>
+          } @else {
+            <span class="material-icons">tune</span>
+          }
           <span>Filtros</span>
         </button>
       }
