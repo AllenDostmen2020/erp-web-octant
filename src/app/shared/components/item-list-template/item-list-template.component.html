@@ -29,7 +29,7 @@
       }
 
       @if (configuration.updateButton != false) {
-        <button class="tonal-icon-button" title="Actualizar" (click)="callGetData()">
+        <button class="tonal-icon-button" title="Actualizar" (click)="callGetData(getQueryParams())">
           <span class="material-icons">refresh</span>
           <span>Actualizar</span>
         </button>
@@ -37,7 +37,11 @@
 
       @if (configuration.filters != false) {
         <button class="tonal-icon-button" title="Filtros" [matMenuTriggerFor]="filterMenu">
-          <span class="material-icons">tune</span>
+          @if (lengthSelectedFilters(); as lengthFilters) {
+            <span class="material-icons" [matBadge]="lengthFilters">tune</span>
+          } @else {
+            <span class="material-icons">tune</span>
+          }
           <span>Filtros</span>
         </button>
       }
@@ -355,6 +359,13 @@
 
     @if (formFilters) {
       <div class="filter__form" [formGroup]="formFilters" (click)="$event.stopPropagation()">
+        <mat-form-field>
+          <mat-label>Búsqueda</mat-label>
+          <input type="text" matInput formControlName="search" placeholder="Buscar...">
+          <button matSuffix class="icon-button" aria-label="Clear" (click)="searchCtrl.setValue('')">
+            <span class="material-icons">close</span>
+          </button>
+        </mat-form-field>
         @if (configuration.filters; as fields) {
           @for (field of fields; track field) {
               @switch (field.type) {
@@ -516,7 +527,8 @@
     }
 
     <div class="filter__actions" (click)="$event.stopPropagation()">
-      <button class="text-button" (click)="filterMenu.closed.emit()">Descartar</button>
-      <button class="text-button">Aplicar</button>
+      <button class="text-button" (click)="filterMenu.closed.emit()">Cerrar</button>
+      <button class="text-button" (click)="clearFilters()">Limpiar</button>
+      <button class="text-button" (click)="applyFilters(filterMenu)">Aplicar</button>
     </div>
 </mat-menu>

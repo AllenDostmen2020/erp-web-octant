@@ -153,6 +153,11 @@ body {
   --mdc-outlined-text-field-error-hover-outline-color: var(--color-error);
   --mdc-outlined-text-field-error-outline-color: var(--color-error);
   --mat-form-field-disabled-input-text-placeholder-color: rgba(var(--rgb-on-surface), 0.38);
+
+  --mat-badge-background-color: var(--color-primary);
+  --mat-badge-text-color: var(--color-on-primary);
+  --mat-badge-disabled-state-background-color: #6e6e6e;
+  --mat-badge-disabled-state-text-color: rgba(255, 255, 255, 0.5);
 }
 
 

@@ -20,7 +20,7 @@
   border-style: solid;
 
   box-sizing: border-box;
-  overflow: hidden;
+  // overflow: hidden;
   transition: background, border, color;
   transition-duration: .25s;
   transition-timing-function: ease;
@@ -36,6 +36,7 @@
     z-index: -1;
     background: var(--bg-state-layer-icon-button, transparent);
     transition: background 0.25s ease-in-out 0s;
+    border-radius: 50%;
   }
 
   &:not(:disabled) {

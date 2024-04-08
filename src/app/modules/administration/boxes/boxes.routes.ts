@@ -19,10 +19,19 @@ export const boxRoutes: Routes = [
         path: 'view/:id',
         loadComponent: () => import('./pages/box-view-page/box-view-page.component').then(m => m.BoxViewPageComponent),
         children: [
-            {
+             {
                 path: 'detail',
-                loadComponent: () => import('./pages/box-detail-page/box-detail-page.component').then(m => m.BoxDetailPageComponent),
-            },
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () => import('./pages/box-detail-page/box-detail-page.component').then(m => m.BoxDetailPageComponent),
+                    },
+                    {
+                        path: 'edit',
+                        loadComponent: () => import('./pages/box-edit-page/box-edit-page.component').then(m => m.BoxEditPageComponent),
+                    },
+                ]
+             },
             {
                 path: 'box-opening',
                 children: boxOpeningRoutes

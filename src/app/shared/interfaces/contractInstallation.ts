@@ -11,6 +11,7 @@ export interface ContractInstallation extends BaseModel {
     responsible_maternal_name: string;
     date: string;
     observation: string;
+    contract_plan_vehicles_quantity: number;
 
     contract?: Contract;
     contract_plan_vehicles?: ContractPlanVehicle[];
