@@ -1,0 +1,42 @@
+.list__items__row__cell.item-deleted {
+  text-decoration: line-through;
+}
+
+.list__items__row__cell[data-column-key="monto"]>.list__items__row__cell__value>span::before {
+  content: 'arrow_upward_alt';
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  left: 0;
+}
+
+.list__items__row__cell[data-column-key="monto"]>.list__items__row__cell__value>span {
+  padding-left: 24px;
+  position: relative;
+  font-weight: bold;
+}
+
+.list__items__row__cell[data-column-key="monto"].egreso>.list__items__row__cell__value>span::before {
+  transform: translateY(4px) rotate(180deg);
+}
+
+.list__items__row__cell[data-column-key="monto"].ingreso {
+  color: var(--color-primary);
+}
+
+.list__items__row__cell[data-column-key="monto"].egreso {
+  color: var(--color-error);
+}
