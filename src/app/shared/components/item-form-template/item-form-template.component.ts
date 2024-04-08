@@ -289,7 +289,7 @@ export const checkboxFormInput = (configuration: CheckboxFormInput): FormInput =
 });
 
 export const autocompleteFormInput = (configuration: AutocompleteConfigurationExt): FormInput => ({
-  type: 'autocomplete-local',
+  type: 'autocomplete',
   autocomplete: configuration
 });
 

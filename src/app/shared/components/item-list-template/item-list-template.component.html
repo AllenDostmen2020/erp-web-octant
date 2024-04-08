@@ -367,7 +367,7 @@
           </button>
         </mat-form-field>
         @if (configuration.filters; as fields) {
-          @for (field of fields; track field) {
+          @for (field of fields(); track field) {
               @switch (field.type) {
                   @case ('date-range') {
                       @if (field.dateRange; as input) {

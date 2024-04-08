@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, WritableSignal, inject, signal } from '@angular/core';
-import { ItemListTemplateComponent, ItemListConfiguration, viewItemActionButton, routerLinkActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, viewItemActionButton, routerLinkActionButton, defaultListFilterInputs } from '@component/item-list-template/item-list-template.component';
 import { Contract } from '@interface/contract';
 import { contractColumnsList } from '../../helpers';
 import { addMonths, parseISO } from 'date-fns';
@@ -7,6 +7,8 @@ import { NgClass } from '@angular/common';
 import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-template/alert-template.component';
 import { FetchService } from '@service/fetch.service';
 import { StatusModel } from '@interface/baseModel';
+import { Router } from '@angular/router';
+import { FormInput, autocompleteServerFormInput } from '@component/item-form-template/item-form-template.component';
 
 @Component({
   selector: 'app-contract-list-page',
@@ -18,6 +20,7 @@ import { StatusModel } from '@interface/baseModel';
 })
 export class ContractListPageComponent {
   private fetch = inject(FetchService);
+  private router = inject(Router);
   public type = signal<'todos' | 'por expirar' | 'expirados'>('todos')
   public configurationList: ItemListConfiguration<Contract> = {
     title: 'Contratos',
@@ -39,9 +42,27 @@ export class ContractListPageComponent {
           hidden: (item)=> item.status != StatusModel.Expirado,
         })
       ]
-    }
+    },
+    filters: signal([]),
   };
   public alertConfiguration: WritableSignal<null | AlertConfiguration> = signal(null);
+
+  constructor() {
+    if(!this.router.url.includes('/client/view/')) {
+      this.configurationList.filters = signal([
+        autocompleteServerFormInput({
+          formControlName: 'client_id',
+          textLabel: 'Cliente',
+          server: {
+            url: 'client',
+          }
+        }),
+        ...defaultListFilterInputs(),
+      ]);
+    } else {
+      this.configurationList.filters = signal(defaultListFilterInputs());
+    }
+  }
 
   ngOnInit(): void {
     this.getNextExpiredContracts();

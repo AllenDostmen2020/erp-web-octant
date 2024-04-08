@@ -94,19 +94,22 @@ export class InputAutocompleteTemplateComponent {
   }
 
   ngOnInit(): void {
-    if((this.configuration as InputAutocompleteLocalConfiguration).local) {
-      if(this.idControl.value) {
+    if ((this.configuration as InputAutocompleteLocalConfiguration).local) {
+      if (this.idControl.value) {
         this.findLocalItem(this.idControl.value);
       };
     }
-    if(this.configuration.initializeData) {
+    if (this.configuration.initializeData) {
       this.init.set(true);
       if (this.configuration.data) this.getItemsFromData('');
       else if ((this.configuration as InputAutocompleteLocalConfiguration).local) this.getItemsLocal('');
       else if ((this.configuration as InputAutocompleteServerConfiguration).server) this.getItemsServer('');
     }
+    this.idControl.valueChanges.subscribe((value) => {
+      if (value === null || value === undefined) this.clearInput();
+    });
     this.autocompleteControl.valueChanges.pipe(tap(() => this.loading.set(true)), debounceTime(250))
-      .subscribe((data: (string | { [key: string]: any })) => {        
+      .subscribe((data: (string | { [key: string]: any })) => {
         this.init.set(true);
         if (data instanceof Object) {
           const value = this.configuration.displayValueFn ? this.configuration.displayValueFn(data) : data['id'];

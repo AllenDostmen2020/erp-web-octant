@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe, Location, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewChild, Input, ContentChild, TemplateRef, ElementRef, Renderer2, ViewEncapsulation, signal, WritableSignal, computed, inject, Inject, Optional, InjectionToken, EventEmitter, RendererStyleFlags2 } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, Input, ContentChild, TemplateRef, ElementRef, Renderer2, ViewEncapsulation, signal, WritableSignal, computed, inject, Inject, Optional, InjectionToken, EventEmitter, RendererStyleFlags2, effect, Injector } from '@angular/core';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -131,11 +131,24 @@ export class ItemListTemplateComponent {
   constructor(
     @Optional() @Inject(DATA_TYPE_LIST) _dataTypeList: 'array' | 'paginator',
     @Optional() @Inject(KEY_GET_ITEMS_PAGINATOR_LIST) _keyForGetItems: string,
-    @Optional() @Inject(KEY_GET_TOTAL_ITEMS_PAGINATOR_LIST) _keyForGetTotalItems: string
+    @Optional() @Inject(KEY_GET_TOTAL_ITEMS_PAGINATOR_LIST) _keyForGetTotalItems: string,
+    // private injector: Injector,
   ) {
     this._dataTypeList = _dataTypeList ?? 'paginator';
     this._keyForGetItems = _keyForGetItems || 'data';
     this._keyForGetTotalItems = _keyForGetTotalItems || 'total';
+  }
+
+  private initializeSignalFilters(): void {
+    if(this.configuration.filters !== false) {
+      if(!this.configuration.filters) this.configuration.filters = signal(defaultListFilterInputs());
+      const filters: WritableSignal<FormInput[]> = this.configuration.filters; 
+      this.generateFormControlsFromFilterInputs(filters());
+      // effect(() => {
+      //   const filterValues = filters();
+      //   this.generateFormControlsFromFilterInputs(filterValues);
+      // }, { injector: this.injector});
+    }
   }
 
   get data(): WritableSignal<any[]> {
@@ -163,7 +176,7 @@ export class ItemListTemplateComponent {
   }
 
   ngOnInit(): void {
-    this.generateFormControlsFromFilterInputs();
+    this.initializeSignalFilters();
     this.configuration.data = signal([]);
     this.configuration.updateListEvent = new EventEmitter();
     if (this.configuration.rows?.options != false && !this.configuration.rows?.options?.length) {
@@ -276,7 +289,7 @@ export class ItemListTemplateComponent {
   public getQueryParams(): { [key: string]: any } {
     const formFilters = this.formFilters?.value ?? {};
     let index = 0;
-    for (const key in formFilters) if(formFilters[key]) index++;
+    for (const key in formFilters) if (formFilters[key]) index++;
     this.lengthSelectedFilters.set(index)
     return {
       ...formFilters,
@@ -383,35 +396,43 @@ export class ItemListTemplateComponent {
 
   /* ---------------------------------------------------------------- */
   /* ---------------------------------------------------------------- */
-  private generateFormControlsFromFilterInputs(): void {
-    if (this.configuration.filters == false) return;
-    if (!this.configuration.filters?.length) this.configuration.filters = defaultListFilterInputs();
+  private generateFormControlsFromFilterInputs(filters: FormInput[]): void {
     const formFilters = new FormGroup({});
-    this.configuration.filters?.forEach((filter) => {
+    for (const filter of filters) {
       if (filter.text) {
+        if (formFilters.get(filter.text.formControlName)) continue;
         formFilters.setControl(filter.text.formControlName, new FormControl(filter.text.defaultValue));
       } else if (filter.textarea) {
+        if (formFilters.get(filter.textarea.formControlName)) continue;
         formFilters.setControl(filter.textarea.formControlName, new FormControl(filter.textarea.defaultValue));
       } else if (filter.select) {
+        if (formFilters.get(filter.select.formControlName)) continue;
         formFilters.setControl(filter.select.formControlName, new FormControl(filter.select.defaultValue));
       } else if (filter.number) {
+        if (formFilters.get(filter.number.formControlName)) continue;
         formFilters.setControl(filter.number.formControlName, new FormControl(filter.number.defaultValue));
       } else if (filter.date) {
+        if (formFilters.get(filter.date.formControlName)) continue;
         formFilters.setControl(filter.date.formControlName, new FormControl(filter.date.defaultValue));
       } else if (filter.dateRange) {
+        if (formFilters.get(filter.dateRange.formControlNameFrom)) continue;
         formFilters.setControl(filter.dateRange.formControlNameFrom, new FormControl(filter.dateRange.defaultValueFrom));
         formFilters.setControl(filter.dateRange.formControlNameTo, new FormControl(filter.dateRange.defaultValueTo));
       } else if (filter.autocompleteLocal) {
+        if (formFilters.get(filter.autocompleteLocal.formControlName)) continue;
         formFilters.setControl(filter.autocompleteLocal.formControlName, new FormControl(filter.autocompleteLocal.defaultValue));
       } else if (filter.autocompleteServer) {
+        if (formFilters.get(filter.autocompleteServer.formControlName)) continue;
         formFilters.setControl(filter.autocompleteServer.formControlName, new FormControl(filter.autocompleteServer.defaultValue));
       } else if (filter.checkbox) {
+        if (formFilters.get(filter.checkbox.formControlName)) continue;
         formFilters.setControl(filter.checkbox.formControlName, new FormControl(filter.checkbox.defaultValue));
       } else if (filter.switch) {
+        if (formFilters.get(filter.switch.formControlName)) continue;
         formFilters.setControl(filter.switch.formControlName, new FormControl(filter.switch.defaultValue));
       }
-    });
-    formFilters.setControl('search', new FormControl());
+    }
+    if(!formFilters.get('search')) formFilters.setControl('search', new FormControl());
     this.formFilters = formFilters;
   }
 
@@ -503,7 +524,7 @@ export interface ItemListConfiguration<T = any> {
     routerLink: RouterLinkCreateButton
   } | false;
 
-  filters?: FormInput[] | false;
+  filters?: WritableSignal<FormInput[]> | false;
 
   rows?: {
     selectable?: {
