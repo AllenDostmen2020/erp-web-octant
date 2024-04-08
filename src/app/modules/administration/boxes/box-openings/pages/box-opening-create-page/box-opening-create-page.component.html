@@ -7,11 +7,11 @@
         <mat-form-field>
             <mat-label>Monto inicial</mat-label>
             <input matInput type="number" [min]="0" placeholder="Monto inicial..." formControlName="amount_init">
-            @if (form.disabled) {
+            <!-- @if (form.disabled) {
             <button mat-icon-button matSuffix (click)="edit()">
                 <span class="material-icons">edit</span>
             </button>
-            }
+            } -->
             <mat-error>Campo requerido</mat-error>
         </mat-form-field>
     </form>
