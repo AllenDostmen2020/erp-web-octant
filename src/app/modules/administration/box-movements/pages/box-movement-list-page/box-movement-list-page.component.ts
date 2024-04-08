@@ -19,15 +19,14 @@ export class BoxMovementListPageComponent {
     server: {
       url: 'box-movement',
       queryParams: {
-        relations: 'boxOpening.box',
+        relations: 'boxOpening.box,ClientBoxMovement.client',
         box_id: this.router.url.includes('/administration/box/view') ? this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id') : null,
       },
     },
     columns: signal(this.generateColumns()),
-    createButton: false,
     rows: {
       options: [
-        viewItemActionButton()
+        viewItemActionButton(),
       ]
     }
   }
@@ -49,6 +48,15 @@ export class BoxMovementListPageComponent {
         displayValueFn: (item) => item?.concept ? item.concept : '--',
       }),
       textColumn({
+        title: 'Cliente',
+        routerLinkValue: {
+          url: (item) => `box-movement/detail/${item.id}`,
+          outlet: 'route-lateral'
+        },
+        gridColumn: 'fit-content(300px)',
+        displayValueFn: (item) => item.client_box_movement.client.name ? item.client_box_movement.client.name : 'Empresa',
+      }),
+      textColumn({
         title: 'Caja',
         displayValueFn: (item) => item.box_opening?.box?.name ?? '--',
       }),
@@ -64,7 +72,7 @@ export class BoxMovementListPageComponent {
       itemUpdatedAtColumn(),
       itemStatusColumn(),
     ];
-    if (this.router.url.includes('/administration/box/view')) columns.splice(2, 1);
+    if (this.router.url.includes('/administration/box/view')) columns.splice(3, 1);
     return columns;
   }
 }

@@ -49,14 +49,14 @@ export class BoxOpeningListPageComponent {
                 gridColumn: '1fr',
                 displayValueFn: (item) => item.close_user_id,
             }),
-            numberColumn({
-                title: 'Monto de apertura',
-                displayValueFn: (item) => item.amount_init,
-            }),
             dateColumn({
                 title: 'Fecha de apertura',
                 dateFormat: 'dd/MM/yyyy hh:mm a',
                 displayValueFn: (item) => item.date_open,
+            }),
+            numberColumn({
+                title: 'Monto de apertura',
+                displayValueFn: (item) => item.amount_init,
             }),
             numberColumn({
                 title: 'Monto de cierre',
