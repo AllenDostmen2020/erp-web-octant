@@ -48,20 +48,17 @@ export class ContractListPageComponent {
   public alertConfiguration: WritableSignal<null | AlertConfiguration> = signal(null);
 
   constructor() {
+    let filters = defaultListFilterInputs();
     if(!this.router.url.includes('/client/view/')) {
-      this.configurationList.filters = signal([
-        autocompleteServerFormInput({
-          formControlName: 'client_id',
-          textLabel: 'Cliente',
-          server: {
-            url: 'client',
-          }
-        }),
-        ...defaultListFilterInputs(),
-      ]);
-    } else {
-      this.configurationList.filters = signal(defaultListFilterInputs());
+      filters.splice(0, 0, autocompleteServerFormInput({
+        formControlName: 'client_id',
+        textLabel: 'Cliente',
+        server: {
+          url: 'client',
+        }
+      }))
     }
+    this.configurationList.filters = signal(filters);
   }
 
   ngOnInit(): void {

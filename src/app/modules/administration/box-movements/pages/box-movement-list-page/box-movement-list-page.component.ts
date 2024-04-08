@@ -55,7 +55,7 @@ export class BoxMovementListPageComponent {
           outlet: 'route-lateral'
         },
         gridColumn: 'fit-content(300px)',
-        displayValueFn: (item) => item.client_box_movement.client.name ? item.client_box_movement.client.name : 'Empresa',
+        displayValueFn: (item) => item.client_box_movement?.client?.name ?? 'Empresa',
       }),
       textColumn({
         title: 'Caja',
