@@ -1,7 +1,7 @@
 import { CommonModule, DatePipe, Location, NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ViewChild, Input, ContentChild, TemplateRef, ElementRef, Renderer2, ViewEncapsulation, signal, WritableSignal, computed, inject, Inject, Optional, InjectionToken, EventEmitter, RendererStyleFlags2 } from '@angular/core';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenu, MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -26,11 +26,12 @@ import { LoadImagePrivateDirective } from '@directive/load-image-private.directi
 import { FirstLetterUppercasePipe } from '@pipe/first-letter-uppercase.pipe';
 import { NavigateLateralPanelOutletDirective } from '@directive/navigate-lateral-panel-outlet.directive';
 import { FetchErrorType } from 'src/app/shared/interfaces/fetch';
-import { DateAdapter, MAT_DATE_FORMATS, MatPseudoCheckboxModule } from '@angular/material/core';
+import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatBadgeModule } from '@angular/material/badge';
 import { InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
 import { InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 import { EventGlobalSearch, NAME_EVENT_GLOBAL_SEARCH } from 'src/app/sidenav/sidenav/sidenav.component';
@@ -39,13 +40,433 @@ import { FormInput, dateRangeFormInput, switchFormInput } from '@component/item-
 import { RenameTitleColumnListPipe } from './rename-title-column-list.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DateFnsAdapter } from '@angular/material-date-fns-adapter';
-import { MyDateAdapter } from '@utility/myDateAdapter';
-import { MY_DATE_FORMATS } from '@utility/myDateFormat';
+
+@Component({
+  selector: 'app-item-list-template',
+  standalone: true,
+  templateUrl: './item-list-template.component.html',
+  styleUrl: './item-list-template.component.css',
+  imports: [
+    CommonModule,
+    SpinnerDefaultComponent,
+    ReactiveFormsModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatDatepickerModule,
+    MatSortModule,
+    MatCheckboxModule,
+    MatSlideToggleModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatPseudoCheckboxModule,
+    IndexListPipe,
+    GetKeyItemPipe,
+    RouterLink,
+    DiffDatePipe,
+    HiddenOptionButtonRowPipe,
+    NgOptimizedImage,
+    ScrollingModule,
+    GetUserByIdPipe,
+    PathFilesServerPipe,
+    ListFormatPipe,
+    LoadImagePrivateDirective,
+    FirstLetterUppercasePipe,
+    NavigateLateralPanelOutletDirective,
+    InputAutocompleteTemplateComponent,
+    InputSelectTemplateComponent,
+    ExecuteFunctionListPipe,
+    RenameTitleColumnListPipe,
+    MatBadgeModule
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    FirstLetterUppercasePipe,
+    GetKeyItemPipe,
+    RenameTitleColumnListPipe,
+    BrowserAnimationsModule,
+    DateFnsAdapter,
+  ],
+})
+export class ItemListTemplateComponent {
+  @Input({ required: true }) configuration!: ItemListConfiguration;
+
+  // @ContentChild('headers') headers!: TemplateRef<any>;
+  @ContentChild('rowList') rowList!: TemplateRef<any>;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  @ViewChild('divListItems', { static: true }) private divList!: ElementRef;
+
+  private _dataTypeList: 'array' | 'paginator' = 'array';
+  private _keyForGetItems: string;
+  private _keyForGetTotalItems: string;
+
+  private fetch = inject(FetchService);
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
+  private renderer = inject(Renderer2);
+  private eventsService = inject(EventsService);
+  public location = inject(Location);
+
+  // private datePipe = inject(DatePipe);
+  public firstLetterUppercasePipe = inject(FirstLetterUppercasePipe);
+  public getKeyItemPipe = inject(GetKeyItemPipe);
+  public renameTitleColumnListPipe = inject(RenameTitleColumnListPipe);
+
+  public lengthData = computed(() => this.data().length)
+
+  public formFilters: FormGroup<any> | null = null;
+  public lengthSelectedFilters = signal(0);
+
+  public loading = signal(true);
+  public font: WritableSignal<'small' | 'medium' | 'large'> = signal('medium');
+  public headerListStyle: WritableSignal<'simple' | 'color'> = signal('simple');
+
+  private abortController = new AbortController();
+
+  private unsubscribe$: Subject<void> = new Subject<void>();
+
+  constructor(
+    @Optional() @Inject(DATA_TYPE_LIST) _dataTypeList: 'array' | 'paginator',
+    @Optional() @Inject(KEY_GET_ITEMS_PAGINATOR_LIST) _keyForGetItems: string,
+    @Optional() @Inject(KEY_GET_TOTAL_ITEMS_PAGINATOR_LIST) _keyForGetTotalItems: string
+  ) {
+    this._dataTypeList = _dataTypeList ?? 'paginator';
+    this._keyForGetItems = _keyForGetItems || 'data';
+    this._keyForGetTotalItems = _keyForGetTotalItems || 'total';
+  }
+
+  get data(): WritableSignal<any[]> {
+    return this.configuration.data!;
+  }
+
+  get defaultOrder(): string {
+    return this.configuration.defaultOrder ? `${this.configuration.defaultOrder?.key}|${this.configuration.defaultOrder?.order}` : 'id|DESC';
+  }
+
+  get dataTypeList(): 'array' | 'paginator' {
+    return this.configuration.dataType ?? this._dataTypeList;
+  }
+
+  get keyForGetItems(): string {
+    return this.configuration.keyGetItemsPaginator ?? this._keyForGetItems;
+  }
+
+  get keyForGetTotalItems(): string {
+    return this.configuration.keyGetTotalItemsPaginator ?? this._keyForGetTotalItems;
+  }
+
+  get searchCtrl(): FormControl {
+    return this.formFilters?.get('search') as FormControl;
+  }
+
+  ngOnInit(): void {
+    this.generateFormControlsFromFilterInputs();
+    this.configuration.data = signal([]);
+    this.configuration.updateListEvent = new EventEmitter();
+    if (this.configuration.rows?.options != false && !this.configuration.rows?.options?.length) {
+      this.configuration.rows = {
+        ...(this.configuration.rows ?? {}),
+        options: [
+          viewItemActionButton(),
+          editItemActionButton(),
+          deleteItemActionButton(),
+          restoreItemActionButton(),
+        ]
+      };
+    }
+    this.generateColumnsCss();
+  }
+
+  ngAfterViewInit(): void {
+    this.paginator.pageIndex = 0;
+    this.paginator.pageSize = 20;
+
+    this.verifyQueryParams();
+
+    this.sort.sortChange.subscribe(({ active, direction }) => {
+      const queryParams = this.getQueryParams();
+      if (this.defaultOrder == `${active}|${direction}` || !active || !direction) queryParams['order'] = null;
+      else queryParams['order'] = `${active}|${direction}`;
+      this.callGetData(queryParams)
+    });
+
+    this.searchCtrl.valueChanges.pipe(debounceTime(250)).subscribe((value: string) => {
+      const queryParams = this.getQueryParams();
+      if (value) queryParams['search'] = value;
+      else queryParams['search'] = null;
+      this.callGetData(queryParams)
+    });
+
+    this.paginator.page.subscribe(({ pageIndex, pageSize }) => {
+      const queryParams = this.getQueryParams();
+      if (pageIndex == 0 || (queryParams['page'] ?? null) == pageIndex + 1) queryParams['page'] = null;
+      else queryParams['page'] = pageIndex + 1;
+      if (pageSize == 20 || (queryParams['per_page'] ?? null) == pageSize) queryParams['per_page'] = null;
+      else queryParams['per_page'] = pageSize;
+      this.callGetData(queryParams)
+    });
+
+    this.eventsService
+      .eventsFiltered<EventGlobalSearch>([NAME_EVENT_GLOBAL_SEARCH])
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(({ data }: any) => {
+        const type = data.type;
+        if (type == 'enter') {
+          this.searchCtrl.setValue(data.value, { emitEvent: false });
+          this.callGetData(this.getQueryParams());
+        }
+      });
+
+    // this.eventsService
+    //   .eventsFiltered([
+    //     `${this.configuration.server.url}_created`,
+    //     `${this.configuration.server.url}_updated`
+    //   ])
+    //   .pipe(takeUntil(this.unsubscribe$))
+    //   .subscribe(() => this.callGetData(this.getQueryParams()));
+
+    this.configuration.updateListEvent?.subscribe(() => this.callGetData(this.getQueryParams()));
+
+    this.callGetData(this.getQueryParams());
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+    if (this.abortController) this.abortController.abort();
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* ---------------------------------------------------------------- */
+  private async generateColumnsCss(): Promise<void> {
+    const grid_cols: string[] = [];
+    const grid_areas: string[] = []
+    if (this.configuration.rows?.selectable) {
+      grid_cols.push('auto');
+      grid_areas.push('selected');
+    }
+    if (this.configuration.rows?.index != false) {
+      grid_cols.push('auto');
+      grid_areas.push('index');
+    }
+    for await (const column of this.configuration.columns()) {
+      if (!column.hidden) {
+        grid_cols.push(column.gridColumn ?? 'auto');
+        grid_areas.push(this.renameTitleColumnListPipe.transform(column.title));
+      }
+    }
+    if (this.configuration.rows?.actions) {
+      grid_cols.push('auto');
+      grid_areas.push('actions');
+    }
+    if (this.configuration.rows?.options != false) {
+      grid_cols.push('auto');
+      grid_areas.push('options');
+    }
+    this.renderer.setStyle(this.divList.nativeElement, 'grid-template-columns', grid_cols.join(' '));
+    this.renderer.setStyle(this.divList.nativeElement, '--items-list-grid-template-areas', `"${grid_areas.join(' ')}"`, RendererStyleFlags2.DashCase);
+    grid_areas.forEach((area, index) => this.renderer.setStyle(this.divList.nativeElement, `--items-list-grid-area-${index + 1}`, area, RendererStyleFlags2.DashCase));
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* ---------------------------------------------------------------- */
+  public getQueryParams(): { [key: string]: any } {
+    return {
+      ...this.formFilters?.value ?? {},
+      page: this.paginator.pageIndex + 1,
+      per_page: this.paginator.pageSize,
+      order: this.sort.active ? `${this.sort.active}|${this.sort.direction}` : null,
+      search: this.searchCtrl.value ? this.searchCtrl.value : null,
+    }
+  }
+
+  private verifyQueryParams(): void {
+    const queryParams = {} as any;
+    const { page, per_page, order, search, ...filters } = queryParams;
+    this.paginator.pageIndex = Number(page ?? 1) - 1;
+    this.paginator.pageSize = Number(per_page) ?? 20;
+    this.sort.active = order?.split('|')[0] ?? '';
+    this.sort.direction = order?.split('|')[1] == 'asc' ? 'asc' : 'desc';
+    this.sort.sortChange.emit();
+    this.searchCtrl.setValue(search ?? null, { emitEvent: false });
+  }
+
+  public callGetData(queryParams: any): void {
+    const params = objectToURLSearchParams(queryParams);
+    if (!params.has('page')) params.set('page', String(this.paginator.pageIndex + 1));
+    if (!params.has('per_page')) params.set('per_page', String(this.paginator.pageSize));
+    if (!params.has('order')) params.set('order', this.defaultOrder);
+    this.getData(params);
+  }
+
+  private async getData(searchParams: URLSearchParams = new URLSearchParams()): Promise<void> {
+    if (this.loading()) {
+      this.abortController.abort();
+      this.abortController = new AbortController();
+    }
+    this.loading.set(true);
+    const serverUrl = this.configuration.server.url;
+    let queryParams: any = this.configuration.server.queryParams ?? {};
+    queryParams = objectToURLSearchParams(queryParams);
+    queryParams = queryParams.toString();
+
+    const url = `${serverUrl}?${searchParams.toString()}&${queryParams ?? ''}`;
+    const config = { signal: this.abortController.signal };
+    try {
+      let items = [];
+      let totalItems = 0;
+      if (this.dataTypeList == 'array') {
+        items = await this.fetch.get<any[]>(url, config);
+        totalItems = items.length;
+      } else {
+        const paginatorData = await this.fetch.get<PaginatorData<any>>(url, config);
+        items = this.getKeyItemPipe.transform(paginatorData, this.keyForGetItems);
+        totalItems = this.getKeyItemPipe.transform(paginatorData, this.keyForGetTotalItems);
+      }
+      const { parseDataFn } = this.configuration;
+      const parseData = await parseDataFn?.(items) ?? items;
+      this.paginator.length = totalItems;
+      this.data.set(parseData);
+      this.loading.set(false);
+      this.checkSelectedItems();
+    } catch (err: any) {
+      if (err.name != FetchErrorType.ABORT) this.loading.set(false);
+    }
+  }
+
+  public hiddenToggleColumn($event: MatCheckboxChange, index: number): void {
+    this.configuration.columns.update((columns) => {
+      columns[index]['hidden'] = !$event.checked
+      return columns;
+    })
+    this.generateColumnsCss();
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* ---------------------------------------------------------------- */
+  public navigateCreateView(): void {
+    this.router.navigate(['../create'], { relativeTo: this.activatedRoute });
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* ---------------------------------------------------------------- */
+  public allSelectedItems = signal(false);
+  public someSelectedItems = signal(false);
+  public selectedItems = computed(() => this.data().filter((e: ListItemExtended) => e.__selected__));
+  public lengthSelectedItems = computed(() => this.data().filter((e: ListItemExtended) => e.__selected__).length);
+
+  public selectedItem(index: number, status: boolean): void {
+    this.data.update((data) => data.toSpliced(index, 1, { ...data[index], __selected__: status }));
+    this.checkSelectedItems();
+  }
+
+  public selectedAllItems(status: boolean): void {
+    this.data.update((data) => data.map((e) => ({ ...e, __selected__: status })));
+    this.checkSelectedItems();
+  }
+
+  public someSelected(): boolean {
+    return this.data().length > 0 && this.data().some((e: ListItemExtended) => e.__selected__) && !this.allSelectedItems();
+  }
+
+  private checkSelectedItems(): void {
+    this.allSelectedItems.set(this.data().length > 0 && this.data().every((e: ListItemExtended) => e.__selected__));
+    this.someSelectedItems.set(this.someSelected());
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* ---------------------------------------------------------------- */
+  private generateFormControlsFromFilterInputs(): void {
+    if (this.configuration.filters == false) return;
+    if (!this.configuration.filters?.length) this.configuration.filters = defaultListFilterInputs();
+    const formFilters = new FormGroup({});
+    this.configuration.filters?.forEach((filter) => {
+      if (filter.text) {
+        formFilters.setControl(filter.text.formControlName, new FormControl(filter.text.defaultValue));
+      } else if (filter.textarea) {
+        formFilters.setControl(filter.textarea.formControlName, new FormControl(filter.textarea.defaultValue));
+      } else if (filter.select) {
+        formFilters.setControl(filter.select.formControlName, new FormControl(filter.select.defaultValue));
+      } else if (filter.number) {
+        formFilters.setControl(filter.number.formControlName, new FormControl(filter.number.defaultValue));
+      } else if (filter.date) {
+        formFilters.setControl(filter.date.formControlName, new FormControl(filter.date.defaultValue));
+      } else if (filter.dateRange) {
+        formFilters.setControl(filter.dateRange.formControlNameFrom, new FormControl(filter.dateRange.defaultValueFrom));
+        formFilters.setControl(filter.dateRange.formControlNameTo, new FormControl(filter.dateRange.defaultValueTo));
+      } else if (filter.autocompleteLocal) {
+        formFilters.setControl(filter.autocompleteLocal.formControlName, new FormControl(filter.autocompleteLocal.defaultValue));
+      } else if (filter.autocompleteServer) {
+        formFilters.setControl(filter.autocompleteServer.formControlName, new FormControl(filter.autocompleteServer.defaultValue));
+      } else if (filter.checkbox) {
+        formFilters.setControl(filter.checkbox.formControlName, new FormControl(filter.checkbox.defaultValue));
+      } else if (filter.switch) {
+        formFilters.setControl(filter.switch.formControlName, new FormControl(filter.switch.defaultValue));
+      }
+    });
+    formFilters.setControl('search', new FormControl());
+    this.formFilters = formFilters;
+  }
+
+  public getControlFormFilter(name: string): FormControl {
+    return this.formFilters!.get(name) as FormControl;
+  }
+
+  public applyFilters(filterMenu: MatMenu) {
+    this.callGetData(this.getQueryParams());
+    filterMenu.closed.emit();
+  }
+
+  public clearFilters() {
+    this.formFilters?.reset({ emitEvent: false });
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* ---------------------------------------------------------------- */
+  private updateLoadingStatusItem(index: number, status: boolean): void {
+    this.data.update((data) => data.map((item: ListItemExtended, i) => {
+      if (i == index) item.__loading_status__ = status;
+      return item;
+    }));
+  }
+
+  public deleteItem = async (id: number | string) => {
+    const index = this.data().findIndex((e) => e.id == id);
+    if (index == -1) return;
+    this.updateLoadingStatusItem(index, true);
+    const url = `${this.configuration.server.url}/${id}`;
+    try {
+      await this.fetch.delete(url);
+      this.callGetData(this.getQueryParams())
+    } catch (error) { }
+    this.updateLoadingStatusItem(index, false);
+  }
+
+  public restoreItem = async (id: string | number) => {
+    const index = this.data().findIndex((e) => e.id == id);
+    if (index == -1) return;
+    this.updateLoadingStatusItem(index, true);
+    const url = `${this.configuration.server.url}/${id}/restore`;
+    const config = { afterAlert: { description: 'Restaurando ítem de la lista' } }
+    try {
+      await this.fetch.put(url, config);
+      this.callGetData(this.getQueryParams());
+    } catch (error) { }
+    this.updateLoadingStatusItem(index, false);
+  }
+
+  public updateChangesItem = (index: number, item: any) => {
+    this.configuration.data!.update(items => items.toSpliced(index, 1, item));
+  }
+
+}
 
 export const DATA_TYPE_LIST = new InjectionToken<'array' | 'paginator'>('KEY_GET_ITEMS_PAGINATOR_LIST');
 export const KEY_GET_ITEMS_PAGINATOR_LIST = new InjectionToken('KEY_GET_ITEMS_PAGINATOR_LIST');
 export const KEY_GET_TOTAL_ITEMS_PAGINATOR_LIST = new InjectionToken('KEY_GET_TOTAL_ITEMS_PAGINATOR_LIST');
-
 export interface ItemListConfiguration<T = any> {
   readonly dataType?: 'array' | 'paginator';
   readonly keyGetItemsPaginator?: string;
@@ -108,7 +529,6 @@ export interface RouterLinkItem<T> {
 
 export type StyleButton = 'filled-button' | 'tonal-button' | 'text-button' | 'outlined-button' | 'elevated-button' | 'icon-button' | 'tonal-icon-button' | 'filled-icon-button' | 'outlined-icon-button';
 
-declare type ActionButtonActionsType = 'clickEvent' | 'routerLink';
 interface ActionButton<T> {
   type: 'clickEvent' | 'routerLink';
   icon?: string;
@@ -492,7 +912,7 @@ export const itemStatusColumn = <T = any>(config?: Partial<Omit<StringListColumn
   sort: { key: 'status' },
   align: 'center',
   displayValueFn: (item: any) => item.status,
-  cssClassDisplayValue: (item: any) => `status-chip ${((item.status??'')as string).replaceAll(' ', '-').toLowerCase()}`,
+  cssClassDisplayValue: (item: any) => `status-chip ${((item.status ?? '') as string).replaceAll(' ', '-').toLowerCase()}`,
   ...config,
 });
 export const itemCreatedAtColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'title' | 'displayValueFn' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({
@@ -560,414 +980,3 @@ export const editItemActionButton = () => routerLinkActionButton({
   text: 'Editar',
   routerLink: { url: (item) => `../edit/${item.id}` },
 })
-
-@Component({
-  selector: 'app-item-list-template',
-  standalone: true,
-  templateUrl: './item-list-template.component.html',
-  styleUrl: './item-list-template.component.css',
-  imports: [
-    CommonModule,
-    SpinnerDefaultComponent,
-    ReactiveFormsModule,
-    MatMenuModule,
-    MatPaginatorModule,
-    MatDatepickerModule,
-    MatSortModule,
-    MatCheckboxModule,
-    MatSlideToggleModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTooltipModule,
-    MatPseudoCheckboxModule,
-    IndexListPipe,
-    GetKeyItemPipe,
-    RouterLink,
-    DiffDatePipe,
-    HiddenOptionButtonRowPipe,
-    NgOptimizedImage,
-    ScrollingModule,
-    GetUserByIdPipe,
-    PathFilesServerPipe,
-    ListFormatPipe,
-    LoadImagePrivateDirective,
-    FirstLetterUppercasePipe,
-    NavigateLateralPanelOutletDirective,
-    InputAutocompleteTemplateComponent,
-    InputSelectTemplateComponent,
-    ExecuteFunctionListPipe,
-    RenameTitleColumnListPipe,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    FirstLetterUppercasePipe,
-    GetKeyItemPipe,
-    RenameTitleColumnListPipe,
-    BrowserAnimationsModule,
-    DateFnsAdapter,
-  ],
-})
-export class ItemListTemplateComponent {
-  @Input({ required: true }) configuration!: ItemListConfiguration;
-
-  // @ContentChild('headers') headers!: TemplateRef<any>;
-  @ContentChild('rowList') rowList!: TemplateRef<any>;
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
-  @ViewChild('divListItems', { static: true }) private divList!: ElementRef;
-
-  private _dataTypeList: 'array' | 'paginator' = 'array';
-  private _keyForGetItems: string;
-  private _keyForGetTotalItems: string;
-
-  private fetch = inject(FetchService);
-  private activatedRoute = inject(ActivatedRoute);
-  private router = inject(Router);
-  private renderer = inject(Renderer2);
-  private eventsService = inject(EventsService);
-  public location = inject(Location);
-
-  // private datePipe = inject(DatePipe);
-  public firstLetterUppercasePipe = inject(FirstLetterUppercasePipe);
-  public getKeyItemPipe = inject(GetKeyItemPipe);
-  public renameTitleColumnListPipe = inject(RenameTitleColumnListPipe);
-
-  public lengthData = computed(() => this.data().length)
-
-  public searchCtrl: FormControl = new FormControl('');
-  public formFilters: FormGroup<any> | null = null;
-
-  public loading = signal(true);
-  public font: WritableSignal<'small' | 'medium' | 'large'> = signal('medium');
-  public headerListStyle: WritableSignal<'simple' | 'color'> = signal('simple');
-
-  private abortController = new AbortController();
-
-  private unsubscribe$: Subject<void> = new Subject<void>();
-
-  constructor(
-    @Optional() @Inject(DATA_TYPE_LIST) _dataTypeList: 'array' | 'paginator',
-    @Optional() @Inject(KEY_GET_ITEMS_PAGINATOR_LIST) _keyForGetItems: string,
-    @Optional() @Inject(KEY_GET_TOTAL_ITEMS_PAGINATOR_LIST) _keyForGetTotalItems: string
-  ) {
-    this._dataTypeList = _dataTypeList ?? 'paginator';
-    this._keyForGetItems = _keyForGetItems || 'data';
-    this._keyForGetTotalItems = _keyForGetTotalItems || 'total';
-  }
-
-  get data(): WritableSignal<any[]> {
-    return this.configuration.data!;
-  }
-
-  get defaultOrder(): string {
-    return this.configuration.defaultOrder ? `${this.configuration.defaultOrder?.key}|${this.configuration.defaultOrder?.order}` : 'id|DESC';
-  }
-
-  get dataTypeList(): 'array' | 'paginator' {
-    return this.configuration.dataType ?? this._dataTypeList;
-  }
-
-  get keyForGetItems(): string {
-    return this.configuration.keyGetItemsPaginator ?? this._keyForGetItems;
-  }
-
-  get keyForGetTotalItems(): string {
-    return this.configuration.keyGetTotalItemsPaginator ?? this._keyForGetTotalItems;
-  }
-
-  ngOnInit(): void {
-    this.configuration.data = signal([]);
-    this.configuration.updateListEvent = new EventEmitter();
-    if (this.configuration.rows?.options != false && !this.configuration.rows?.options?.length) {
-      this.configuration.rows = {
-        ...(this.configuration.rows ?? {}),
-        options: [
-          viewItemActionButton(),
-          editItemActionButton(),
-          deleteItemActionButton(),
-          restoreItemActionButton(),
-        ]
-      };
-    }
-    this.generateFormControlsFromFilterInputs();
-    this.generateColumnsCss();
-
-    this.eventsService
-      .eventsFiltered<EventGlobalSearch>([NAME_EVENT_GLOBAL_SEARCH])
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(({ data }: any) => {
-        const type = data.type;
-        if (type == 'enter') this.searchCtrl.setValue(data.value);
-      })
-
-  }
-
-  ngAfterViewInit(): void {
-    this.paginator.pageIndex = 0;
-    this.paginator.pageSize = 20;
-
-    this.verifyQueryParams();
-
-    this.activatedRoute.queryParams.subscribe(() => this.callGetData());
-
-    this.sort.sortChange.subscribe(({ active, direction }) => {
-      const queryParams = this.getQueryParams();
-      if (this.defaultOrder == `${active}|${direction}` || !active || !direction) queryParams['order'] = null;
-      else queryParams['order'] = `${active}|${direction}`;
-      this.navigateOrCallGetData(queryParams);
-    });
-
-    this.searchCtrl.valueChanges.pipe(debounceTime(250)).subscribe((value: string) => {
-      const queryParams = this.getQueryParams();
-      if (value) queryParams['search'] = value;
-      else queryParams['search'] = null;
-      this.navigateOrCallGetData(queryParams);
-    });
-
-    this.paginator.page.subscribe(({ pageIndex, pageSize }) => {
-      const queryParams = this.getQueryParams();
-      if (pageIndex == 0 || (queryParams['page'] ?? null) == pageIndex + 1) queryParams['page'] = null;
-      else queryParams['page'] = pageIndex + 1;
-      if (pageSize == 20 || (queryParams['per_page'] ?? null) == pageSize) queryParams['per_page'] = null;
-      else queryParams['per_page'] = pageSize;
-      this.navigateOrCallGetData(queryParams);
-    });
-
-    this.eventsService
-      .eventsFiltered([
-        `${this.configuration.server.url}_created`,
-        `${this.configuration.server.url}_updated`
-      ])
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(() => this.callGetData());
-
-    this.configuration.updateListEvent?.subscribe(() => this.callGetData({}));
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-    if (this.abortController) this.abortController.abort();
-  }
-
-  /* ---------------------------------------------------------------- */
-  /* ---------------------------------------------------------------- */
-  private async generateColumnsCss(): Promise<void> {
-    const grid_cols: string[] = [];
-    const grid_areas: string[] = []
-    if (this.configuration.rows?.selectable) {
-      grid_cols.push('auto');
-      grid_areas.push('selected');
-    }
-    if (this.configuration.rows?.index != false) {
-      grid_cols.push('auto');
-      grid_areas.push('index');
-    }
-    for await (const column of this.configuration.columns()) {
-      if (!column.hidden) {
-        grid_cols.push(column.gridColumn ?? 'auto');
-        grid_areas.push(this.renameTitleColumnListPipe.transform(column.title));
-      }
-    }
-    if (this.configuration.rows?.actions) {
-      grid_cols.push('auto');
-      grid_areas.push('actions');
-    }
-    if (this.configuration.rows?.options != false) {
-      grid_cols.push('auto');
-      grid_areas.push('options');
-    }
-    this.renderer.setStyle(this.divList.nativeElement, 'grid-template-columns', grid_cols.join(' '));
-    this.renderer.setStyle(this.divList.nativeElement, '--items-list-grid-template-areas', `"${grid_areas.join(' ')}"`, RendererStyleFlags2.DashCase);
-    grid_areas.forEach((area, index) => this.renderer.setStyle(this.divList.nativeElement, `--items-list-grid-area-${index + 1}`, area, RendererStyleFlags2.DashCase));
-  }
-
-  /* ---------------------------------------------------------------- */
-  /* ---------------------------------------------------------------- */
-  private getQueryParams(): { [key: string]: any } {
-    return !this.configuration.disableFiltersInQueryParams ? JSON.parse(JSON.stringify(this.activatedRoute.snapshot.queryParams)) : {
-      ...this.formFilters?.value ?? {},
-      page: this.paginator.pageIndex + 1,
-      per_page: this.paginator.pageSize,
-      order: this.sort.active ? `${this.sort.active}|${this.sort.direction}` : null,
-      search: this.searchCtrl.value ? this.searchCtrl.value : null,
-    }
-  }
-
-  private navigateOrCallGetData(params: any): void {
-    if (this.configuration.disableFiltersInQueryParams) this.callGetData(params);
-    else this.router.navigate([], { queryParams: params });
-  }
-
-  private verifyQueryParams(): void {
-    const queryParams = {} as any;
-    const { page, per_page, order, search, ...filters } = queryParams;
-    this.paginator.pageIndex = Number(page ?? 1) - 1;
-    this.paginator.pageSize = Number(per_page) ?? 20;
-    this.sort.active = order?.split('|')[0] ?? '';
-    this.sort.direction = order?.split('|')[1] == 'asc' ? 'asc' : 'desc';
-    this.sort.sortChange.emit();
-    this.searchCtrl.setValue(search ?? null, { emitEvent: false });
-  }
-
-  public callGetData(queryParams: any = this.activatedRoute.snapshot.queryParams ?? {}): void {
-    const params = objectToURLSearchParams(queryParams);
-    if (!params.has('page')) params.set('page', String(this.paginator.pageIndex + 1));
-    if (!params.has('per_page')) params.set('per_page', String(this.paginator.pageSize));
-    if (!params.has('order')) params.set('order', this.defaultOrder);
-    this.getData(params);
-  }
-
-  private async getData(searchParams: URLSearchParams = new URLSearchParams()): Promise<void> {
-    if (this.loading()) {
-      this.abortController.abort();
-      this.abortController = new AbortController();
-    }
-    this.loading.set(true);
-    const serverUrl = this.configuration.server.url;
-    let queryParams: any = this.configuration.server.queryParams ?? {};
-    queryParams = objectToURLSearchParams(queryParams);
-    queryParams = queryParams.toString();
-    
-    const url = `${serverUrl}?${searchParams.toString()}&${queryParams ?? ''}`;
-    const config = { signal: this.abortController.signal };
-    try {
-      let items = [];
-      let totalItems = 0;
-      if (this.dataTypeList == 'array') {
-        items = await this.fetch.get<any[]>(url, config);
-        totalItems = items.length;
-      } else {
-        const paginatorData = await this.fetch.get<PaginatorData<any>>(url, config);
-        items = this.getKeyItemPipe.transform(paginatorData, this.keyForGetItems);
-        totalItems = this.getKeyItemPipe.transform(paginatorData, this.keyForGetTotalItems);
-      }
-      const { parseDataFn } = this.configuration;
-      const parseData = await parseDataFn?.(items) ?? items;
-      this.paginator.length = totalItems;
-      this.data.set(parseData);
-      this.loading.set(false);
-      this.checkSelectedItems();
-    } catch (err: any) {
-      if (err.name != FetchErrorType.ABORT) this.loading.set(false);
-    }
-  }
-
-  public hiddenToggleColumn($event: MatCheckboxChange, index: number): void {
-    this.configuration.columns.update((columns) => {
-      columns[index]['hidden'] = !$event.checked
-      return columns;
-    })
-    this.generateColumnsCss();
-  }
-
-  /* ---------------------------------------------------------------- */
-  /* ---------------------------------------------------------------- */
-  public navigateCreateView(): void {
-    this.router.navigate(['../create'], { relativeTo: this.activatedRoute });
-  }
-
-  /* ---------------------------------------------------------------- */
-  /* ---------------------------------------------------------------- */
-  public allSelectedItems = signal(false);
-  public someSelectedItems = signal(false);
-  public selectedItems = computed(() => this.data().filter((e: ListItemExtended) => e.__selected__));
-  public lengthSelectedItems = computed(() => this.data().filter((e: ListItemExtended) => e.__selected__).length);
-
-  public selectedItem(index: number, status: boolean): void {
-    this.data.update((data) => data.toSpliced(index, 1, { ...data[index], __selected__: status }));
-    this.checkSelectedItems();
-  }
-
-  public selectedAllItems(status: boolean): void {
-    this.data.update((data) => data.map((e) => ({ ...e, __selected__: status })));
-    this.checkSelectedItems();
-  }
-
-  public someSelected(): boolean {
-    return this.data().length > 0 && this.data().some((e: ListItemExtended) => e.__selected__) && !this.allSelectedItems();
-  }
-
-  private checkSelectedItems(): void {
-    this.allSelectedItems.set(this.data().length > 0 && this.data().every((e: ListItemExtended) => e.__selected__));
-    this.someSelectedItems.set(this.someSelected());
-  }
-
-  /* ---------------------------------------------------------------- */
-  /* ---------------------------------------------------------------- */
-  private generateFormControlsFromFilterInputs(): void {
-    if (this.configuration.filters == false) return;
-    if (!this.configuration.filters?.length) this.configuration.filters = defaultListFilterInputs();
-    const formFilters = new FormGroup({});
-    this.configuration.filters?.forEach((filter) => {
-      if (filter.text) {
-        formFilters.setControl(filter.text.formControlName, new FormControl(filter.text.defaultValue));
-      } else if (filter.textarea) {
-        formFilters.setControl(filter.textarea.formControlName, new FormControl(filter.textarea.defaultValue));
-      } else if (filter.select) {
-        formFilters.setControl(filter.select.formControlName, new FormControl(filter.select.defaultValue));
-      } else if (filter.number) {
-        formFilters.setControl(filter.number.formControlName, new FormControl(filter.number.defaultValue));
-      } else if (filter.date) {
-        formFilters.setControl(filter.date.formControlName, new FormControl(filter.date.defaultValue));
-      } else if (filter.dateRange) {
-        formFilters.setControl(filter.dateRange.formControlNameFrom, new FormControl(filter.dateRange.defaultValueFrom));
-        formFilters.setControl(filter.dateRange.formControlNameTo, new FormControl(filter.dateRange.defaultValueTo));
-      } else if (filter.autocompleteLocal) {
-        formFilters.setControl(filter.autocompleteLocal.formControlName, new FormControl(filter.autocompleteLocal.defaultValue));
-      } else if (filter.autocompleteServer) {
-        formFilters.setControl(filter.autocompleteServer.formControlName, new FormControl(filter.autocompleteServer.defaultValue));
-      } else if (filter.checkbox) {
-        formFilters.setControl(filter.checkbox.formControlName, new FormControl(filter.checkbox.defaultValue));
-      } else if (filter.switch) {
-        formFilters.setControl(filter.switch.formControlName, new FormControl(filter.switch.defaultValue));
-      }
-    });
-    this.formFilters = formFilters;
-  }
-
-  public getControlFormFilter(name: string): FormControl {
-    return this.formFilters!.get(name) as FormControl;
-  }
-
-  /* ---------------------------------------------------------------- */
-  /* ---------------------------------------------------------------- */
-  private updateLoadingStatusItem(index: number, status: boolean): void {
-    this.data.update((data) => data.map((item: ListItemExtended, i) => {
-      if (i == index) item.__loading_status__ = status;
-      return item;
-    }));
-  }
-
-  public deleteItem = async (id: number | string) => {
-    const index = this.data().findIndex((e) => e.id == id);
-    if (index == -1) return;
-    this.updateLoadingStatusItem(index, true);
-    const url = `${this.configuration.server.url}/${id}`;
-    try {
-      await this.fetch.delete(url);
-      this.callGetData();
-    } catch (error) { }
-    this.updateLoadingStatusItem(index, false);
-  }
-
-  public restoreItem = async (id: string | number) => {
-    const index = this.data().findIndex((e) => e.id == id);
-    if (index == -1) return;
-    this.updateLoadingStatusItem(index, true);
-    const url = `${this.configuration.server.url}/${id}/restore`;
-    const config = { afterAlert: { description: 'Restaurando ítem de la lista' } }
-    try {
-      await this.fetch.put(url, config);
-      this.callGetData();
-    } catch (error) { }
-    this.updateLoadingStatusItem(index, false);
-  }
-
-  public updateChangesItem = (index: number, item: any) => {
-    this.configuration.data!.update(items => items.toSpliced(index, 1, item));
-  }
-
-}
