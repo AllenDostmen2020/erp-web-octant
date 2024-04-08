@@ -1,14 +1,15 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, ViewEncapsulation, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItemListConfiguration, ItemListTemplateComponent, ListColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
-import { BoxMovement } from '@interface/boxMovement';
+import { BoxMovement, BoxMovementTypeEnum } from '@interface/boxMovement';
 
 @Component({
   selector: 'app-box-movement-list-page',
   standalone: true,
   imports: [ItemListTemplateComponent],
   templateUrl: './box-movement-list-page.component.html',
-  styleUrl: './box-movement-list-page.component.scss'
+  styleUrl: './box-movement-list-page.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class BoxMovementListPageComponent {
   private router = inject(Router);
@@ -51,14 +52,12 @@ export class BoxMovementListPageComponent {
       textColumn({
         title: 'Caja',
         displayValueFn: (item) => item.box_opening?.box?.name ?? '--',
-      }),
-      textColumn({
-        title: 'Tipo',
-        displayValueFn: (item) => item.type ?? '--',
+        cssClass: (item) => item.box_opening?.box?.deleted_at ? 'item-deleted' : '',
       }),
       numberColumn({
         title: 'Monto',
         displayValueFn: (item) => item.amount,
+        cssClass: (item) => item.type == BoxMovementTypeEnum.INGRESO ? 'ingreso' : 'egreso',
       }),
       itemCreatedAtColumn(),
       itemUpdatedAtColumn(),
