@@ -16,6 +16,7 @@ export class BoxCreatePageComponent {
         titleModule: 'caja',
         formGroup: new FormGroup({
             account_id: new FormControl(''),
+            account: new FormControl(''),
             type: new FormControl('', [Validators.required]),
             name: new FormControl('', [Validators.required]),
             description: new FormControl(''),

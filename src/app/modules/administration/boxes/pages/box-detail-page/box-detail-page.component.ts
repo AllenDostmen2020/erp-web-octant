@@ -130,7 +130,7 @@ export class BoxDetailPageComponent {
     public async closeBoxOpening() {
         const lastBoxOpeningId = this.dataItem()?.last_box_opening?.id;
         const response = await this.fetch.put<BoxOpening>(
-            `box-opening/${lastBoxOpeningId}/update-status`,
+            `box-opening/${lastBoxOpeningId}/close-box`,
             { status: StatusModel.Cerrado },
             {
                 confirmDialog: {
@@ -147,6 +147,7 @@ export class BoxDetailPageComponent {
             }
         }))
         this.showOpenButton(this.dataItem()!);
+        this.configuration.updateItemEvent?.emit(true);
     }
 
     public async delete() {
@@ -158,7 +159,7 @@ export class BoxDetailPageComponent {
         const lastBoxOpening = this.dataItem()?.last_box_opening!;
         if(lastBoxOpening.status == StatusModel.Abierto){
             this.alertConfiguration!.set({
-                icon: 'warning',
+                icon: 'info',
                 title: 'Cierre caja',
                 description: `La caja se cerrará con el monto de ${this.dataItem()?.amount} ${this.dataItem()?.coin}`,
                 actionButton: {
@@ -169,13 +170,13 @@ export class BoxDetailPageComponent {
               });
         } else {
             this.alertConfiguration!.set({
-                icon: 'warning',
+                icon: 'info',
                 title: 'Apertura caja',
                 description: `Para empezar a realizar movimientos deberá aperturar la caja`,
                 actionButton: {
                   icon: 'lock_open',
-                  text: 'Cerrar',
-                  fn: () => this.closeBoxOpening()
+                  text: 'Aperturar',
+                  fn: () => this.openBoxOpening()
                 }
               });
         }
