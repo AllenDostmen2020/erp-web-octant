@@ -193,12 +193,12 @@ export class ItemListTemplateComponent {
       this.callGetData(queryParams)
     });
 
-    this.searchCtrl.valueChanges.pipe(debounceTime(250)).subscribe((value: string) => {
-      const queryParams = this.getQueryParams();
-      if (value) queryParams['search'] = value;
-      else queryParams['search'] = null;
-      this.callGetData(queryParams)
-    });
+    // this.searchCtrl.valueChanges.pipe(debounceTime(250)).subscribe((value: string) => {
+    //   const queryParams = this.getQueryParams();
+    //   if (value) queryParams['search'] = value;
+    //   else queryParams['search'] = null;
+    //   this.callGetData(queryParams)
+    // });
 
     this.paginator.page.subscribe(({ pageIndex, pageSize }) => {
       const queryParams = this.getQueryParams();

@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { ContractInstallation } from '@interface/contractInstallation';
 
 @Component({
@@ -31,6 +31,12 @@ export class ContractInstallationListPageComponent {
             title: 'Observación',
             gridColumn: 'fit-content(200px)',            
             displayValueFn: (item) => item.observation,
+        }),
+        numberColumn({
+            title: 'N° Vehículos',
+            gridColumn: 'auto',
+            numberFormat: '2.0-0',        
+            displayValueFn: (item) => item.contract_plan_vehicles_quantity,
         }),
         dateColumn({
             title: 'F. Instalación',
