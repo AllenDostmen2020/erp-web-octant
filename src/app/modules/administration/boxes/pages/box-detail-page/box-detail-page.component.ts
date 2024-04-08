@@ -1,16 +1,16 @@
 import { DatePipe, DecimalPipe, TitleCasePipe } from '@angular/common';
-import { Component, EventEmitter, ViewEncapsulation, inject } from '@angular/core';
+import { Component, EventEmitter, ViewEncapsulation, WritableSignal, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterLink } from '@angular/router';
-import { ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
 import { SpinnerDefaultComponent } from '@component/spinner-default/spinner-default.component';
 import { StatusModel } from '@interface/baseModel';
 import { Box } from '@interface/box';
 import { BoxOpening } from '@interface/boxOpening';
-import { ItemDetailConfiguration } from '@component/item-detail-template/item-detail-template.component';
+import { ItemDetailConfiguration, ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
 import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
 import { FetchService } from '@service/fetch.service';
 import { BoxOpeningCreatePageComponent } from '../../box-openings/pages/box-opening-create-page/box-opening-create-page.component';
+import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-template/alert-template.component';
 
 @Component({
     selector: 'app-box-detail-page',
@@ -21,7 +21,8 @@ import { BoxOpeningCreatePageComponent } from '../../box-openings/pages/box-open
         DecimalPipe,
         TitleCasePipe,
         DatePipe,
-        ItemDetailTemplateComponent
+        ItemDetailTemplateComponent,
+        AlertTemplateComponent
     ],
     encapsulation: ViewEncapsulation.None,
     templateUrl: './box-detail-page.component.html',
@@ -32,6 +33,7 @@ export class BoxDetailPageComponent {
     private dialog = inject(MatDialog);
     private router = inject(Router);
     private databaseStorage = inject(DatabaseStorageService);
+    public alertConfiguration: WritableSignal<null | AlertConfiguration> = signal(null);
     public configuration: ItemDetailConfiguration<Box> = {
         title: 'Detalle de la caja',
         server: {
@@ -43,7 +45,10 @@ export class BoxDetailPageComponent {
         subtitle: false,
         updateItemEvent: new EventEmitter(),
         backButton: false,
-        afterSetItemFn: (item) => this.showOpenButton(item),
+        afterSetItemFn: (item) => {
+            this.showOpenButton(item);
+            this.alertConfigurationMessage();
+        },
         groups: [
             {
                 details: [
@@ -83,7 +88,7 @@ export class BoxDetailPageComponent {
             },
             registerDataGroupDetail(),
 
-        ]
+        ],
     }
     get dataItem() {
         return this.configuration.dataItem!;
@@ -122,9 +127,10 @@ export class BoxDetailPageComponent {
         });
     }
 
-    public async closeBoxOpening(box_opening_id: number) {
+    public async closeBoxOpening() {
+        const lastBoxOpeningId = this.dataItem()?.last_box_opening?.id;
         const response = await this.fetch.put<BoxOpening>(
-            `box-opening/${box_opening_id}/update-status`,
+            `box-opening/${lastBoxOpeningId}/update-status`,
             { status: StatusModel.Cerrado },
             {
                 confirmDialog: {
@@ -146,5 +152,33 @@ export class BoxDetailPageComponent {
     public async delete() {
         await this.fetch.delete<Box>(`box/${this.dataItem()?.id}`);
         this.router.navigate(['/box']);
+    }
+
+    private alertConfigurationMessage() {
+        const lastBoxOpening = this.dataItem()?.last_box_opening!;
+        if(lastBoxOpening.status == StatusModel.Abierto){
+            this.alertConfiguration!.set({
+                icon: 'warning',
+                title: 'Cierre caja',
+                description: `La caja se cerrará con el monto de ${this.dataItem()?.amount} ${this.dataItem()?.coin}`,
+                actionButton: {
+                  icon: 'lock',
+                  text: 'Cerrar',
+                  fn: () => this.closeBoxOpening()
+                }
+              });
+        } else {
+            this.alertConfiguration!.set({
+                icon: 'warning',
+                title: 'Apertura caja',
+                description: `Para empezar a realizar movimientos deberá aperturar la caja`,
+                actionButton: {
+                  icon: 'lock_open',
+                  text: 'Cerrar',
+                  fn: () => this.closeBoxOpening()
+                }
+              });
+        }
+        
     }
 }

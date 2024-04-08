@@ -1,6 +1,6 @@
 <app-item-detail-template [configuration]="configuration">
 
-    <ng-container afterContent>
+    <!-- <ng-container ngProjectAs="afterContent">
         <div class="box-opened">
             @if (dataItem(); as item) {
                 @if (item?.last_box_opening; as last_box_opening) {
@@ -32,7 +32,7 @@
 
                             @if (last_box_opening.status == 'abierto') {
                             <div class="col-span-full mt-2">
-                                <button class="filled-button" (click)="closeBoxOpening(last_box_opening.id)">
+                                <button class="filled-button" (click)="closeBoxOpening()">
                                     <span class="material-icons">lock</span>
                                     <span>Cerrar caja</span>
                                 </button>
@@ -49,5 +49,10 @@
                 }
             }
         </div>
-    </ng-container>
+    </ng-container> -->
+    <ng-container ngProjectAs="beforeContent">
+        @if(alertConfiguration(); as alertConf) {
+          <app-alert-template [configuration]="alertConf" />
+          }
+      </ng-container>
 </app-item-detail-template>

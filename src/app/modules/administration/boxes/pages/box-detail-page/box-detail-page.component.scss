@@ -1,14 +1,14 @@
-app-box-detail-page {
-    .item-detail__content {
-        display: grid;
-        column-gap: 1rem;
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas:
-            's1 s2'
-            's3 s2';
-    }
+// app-box-detail-page {
+//     .item-detail__content {
+//         display: grid;
+//         column-gap: 1rem;
+//         grid-template-columns: 1fr 1fr;
+//         grid-template-areas:
+//             's1 s2'
+//             's3 s2';
+//     }
 
-    .box-opened {
-        grid-area: s2;
-    }
-}
+//     .box-opened {
+//         grid-area: s2;
+//     }
+// }
