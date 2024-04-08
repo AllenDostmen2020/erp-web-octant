@@ -36,7 +36,7 @@ export class BoxOpeningCreatePageComponent {
     }
 
     public save() {
-        if (this.form.valid) this.dialogRef.close({ ...this.form.getRawValue() });
+        this.dialogRef.close({ ...this.form.getRawValue() });
     }
 
     public edit() {

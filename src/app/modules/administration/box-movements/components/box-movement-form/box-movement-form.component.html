@@ -1,0 +1,67 @@
+<div class="grid grid-cols-12 gap-2 items-start" [formGroup]="form">
+
+  <app-input-select-template class="col-span-6 @2xl:col-span-2" [control]="typeCtrl"
+    [configuration]="typeSelectConfiguration" />
+
+  <app-input-select-template class="col-span-6 @2xl:col-span-2" [control]="businessCtrl"
+    [configuration]="businessSelectConfiguration" />
+
+  <app-input-autocomplete-template class="col-span-6 @2xl:col-span-2" [idControl]="boxOpeningIdCtrl"
+    [configuration]="boxOpeningLocalConfiguration" />
+
+  <mat-form-field class="col-span-3 @2xl:col-span-2">
+    <mat-label>Monto</mat-label>
+    <input matInput type="number" formControlName="amount" [min]="minAmount" [max]="maxAmount" placeholder="Monto">
+    @if (amountCtrl.hasError('required')) {
+    <mat-error>Campo requerido</mat-error>
+    }
+    @if (amountCtrl.hasError('min')) {
+    <mat-error>Mínimo {{minAmount}}</mat-error>
+    }
+    @if (amountCtrl.hasError('max')) {
+    <mat-error>Máximo {{maxAmount}}</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field class="col-span-6 @2xl:col-span-2">
+    <mat-label>F. de la operación</mat-label>
+    <input matInput placeholder="Fecha de la operación" formControlName="payment_date" required
+      [matDatepicker]="picker">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error>Campo requerido</mat-error>
+  </mat-form-field>
+
+  <app-input-select-template class="col-span-6 @2xl:col-span-2" [control]="paymentTypeCtrl"
+    [configuration]="paymentTypeSelectConfiguration" />
+
+  @if (paymentTypeCtrl.value =='transferencia' || paymentTypeCtrl.value =='depósito') {
+  <app-input-autocomplete-template class="col-span-6 @2xl:col-span-3" [idControl]="bankIdCtrl"
+    [configuration]="bankAutocompleteLocalConfiguration" />
+  }
+
+  @if (paymentTypeCtrl.value !='efectivo' && paymentTypeCtrl.value) {
+  <mat-form-field class="col-span-3 @2xl:col-span-3">
+    <mat-label>Código de la operación</mat-label>
+    <input matInput type="text" formControlName="opcode" placeholder="Código de la operación">
+    <mat-error>Campo requerido</mat-error>
+  </mat-form-field>
+  }
+
+  <app-input-select-template class="col-span-6 @2xl:col-span-3" [control]="voucherTypeCtrl"
+    [configuration]="voucherTypeSelectConfiguration" />
+
+  <mat-form-field class="col-span-3">
+    <mat-label>N° comprobante</mat-label>
+    <input matInput type="text" formControlName="invoice_number" placeholder="N° factura">
+    <mat-error>Campo requerido</mat-error>
+  </mat-form-field>
+
+  @if (form.get('concept')) {
+    <mat-form-field class="col-span-full">
+      <mat-label>Concepto del movimiento</mat-label>
+      <textarea matInput formControlName="concept" id="" rows="2" placeholder="Concepto"></textarea>
+      <mat-error>Campo requerido</mat-error>
+    </mat-form-field>
+    }
+</div>

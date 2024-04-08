@@ -2,6 +2,7 @@ import { Bank } from "./bank";
 import { BaseModel, CoinEnum } from "./baseModel";
 import { BoxOpening } from "./boxOpening";
 import { ComprobantTypeEnum } from "./clientBillingOption";
+import { ClientBoxMovement } from "./clientBoxMovement";
 import { User } from "./user";
 
 export interface BoxMovement extends BaseModel {
@@ -19,14 +20,18 @@ export interface BoxMovement extends BaseModel {
     voucher_type: ComprobantTypeEnum;
     voucher_file: string;
     invoice_number: string;
+    business: BoxBusinessEnum;
 
     bank_id: number;
     box_opening_id: number;
+    to_box_opening_id: number;
+    from_box_opening_id: number;
     user_id: number;
 
     bank?: Bank;
     box_opening?: BoxOpening;
     user?: User;
+    client_box_movement?: ClientBoxMovement;
 }
 
 export enum BoxMovementTypeEnum {
@@ -40,4 +45,8 @@ export enum PaymentTypeEnum {
     DEPOSITO = 'depósito',
     EFECTIVO = 'efectivo',
     CHEQUE = 'cheque',
+}
+export enum BoxBusinessEnum {
+    OCTANT = 'octant',
+    OTROS_PROYECTOS = 'otros proyectos',
 }
