@@ -34,6 +34,7 @@
   transition-timing-function: ease;
 
   background: var(--color-surface);
+  backdrop-filter: blur(8px);
 
   animation: detailHeaderAnimation linear both;
   animation-timeline: scroll(block nearest);
@@ -203,7 +204,6 @@
 @keyframes detailHeaderAnimation {
   to {
     background: rgba(var(--rgb-surface), .8);
-    backdrop-filter: blur(8px);
     border-bottom-color: var(--color-outline-variant);
     font-weight: var(--title-small-font-weight);
     font-size: var(--title-small-font-size);

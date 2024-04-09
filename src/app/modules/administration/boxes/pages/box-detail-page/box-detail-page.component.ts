@@ -41,7 +41,7 @@ export class BoxDetailPageComponent {
         server: {
             url: 'box',
             queryParams: {
-                relations: 'account.bank,lastBoxOpening.openUser'
+                relations: 'account.bank,lastBoxOpening.(openUser|closeUser)'
             },
         },
         subtitle: false,
@@ -156,34 +156,63 @@ export class BoxDetailPageComponent {
     }
 
     private alertConfigurationMessage() {
-        const lastBoxOpening = this.dataItem()?.last_box_opening!;
-        const simbolCoin = this.dataItem()?.coin == CoinEnum.SOLES ? 'S/. ' : '$ ';
-        if (lastBoxOpening.status == StatusModel.Abierto) {
-            this.alertConfiguration!.set({
+        const item = this.dataItem()!;
+        const lastBoxOpening = item.last_box_opening;
+        const simbolCoin = item.coin == CoinEnum.SOLES ? 'S/. ' : '$ ';
+        if (lastBoxOpening?.status == StatusModel.Abierto) {
+            this.alertConfiguration.set({
                 style: 'error',
                 icon: 'info',
                 title: 'Caja abierta',
-                description: `<div class="text-skin-base grid grid-cols-[auto,auto,1fr] gap-x-1">
-                                    <div class="contents">
-                                        <span class="font-medium">Usuario de apertura</span>
+                description: `<div class="item-detail__group">
+                                    <div class="item-detail__group__row body-small">
+                                        <span>Usuario de apertura</span>
                                         <span>:</span>
                                         <span>${lastBoxOpening.open_user?.name}</span>
                                     </div>
-                                    <div class="contents">
-                                        <span class="font-medium">Fecha de apertura</span>
+                                    <div class="item-detail__group__row body-small">
+                                        <span>Fecha de apertura</span>
                                         <span>:</span>
                                         <span>${this.datePipe.transform(lastBoxOpening.date_open, 'longDate')}</span>
                                     </div>
-                                    <div class="contents">
-                                        <span class="font-medium">Monto inicial</span>
+                                    <div class="item-detail__group__row body-small">
+                                        <span>Monto de apertura</span>
                                         <span>:</span>
                                         <span>${simbolCoin}${lastBoxOpening.amount_init}</span>
                                     </div>
                                 </div>`,
                 actionButton: {
                     icon: 'lock',
-                    text: 'Cerrar',
+                    text: 'Cerrar Caja',
                     fn: () => this.closeBoxOpening()
+                }
+            });
+        } else if (lastBoxOpening?.status == StatusModel.Cerrado) {
+            this.alertConfiguration.set({
+                style: 'primary',
+                icon: 'info',
+                title: 'Caja cerrada',
+                description: `<div class="item-detail__group">
+                                    <div class="item-detail__group__row body-small">
+                                        <span>Usuario de cierre</span>
+                                        <span>:</span>
+                                        <span>${lastBoxOpening.close_user?.name}</span>
+                                    </div>
+                                    <div class="item-detail__group__row body-small">
+                                        <span>Fecha de cierre</span>
+                                        <span>:</span>
+                                        <span>${this.datePipe.transform(lastBoxOpening.date_close, 'longDate')}</span>
+                                    </div>
+                                    <div class="item-detail__group__row body-small">
+                                        <span>Monto de cierre</span>
+                                        <span>:</span>
+                                        <span>${simbolCoin}${lastBoxOpening.amount_exit}</span>
+                                    </div>
+                                </div>`,
+                actionButton: {
+                    icon: 'lock_open',
+                    text: 'Aperturar Caja',
+                    fn: () => this.openBoxOpening()
                 }
             });
         } else {
@@ -194,7 +223,7 @@ export class BoxDetailPageComponent {
                 description: `Para empezar a realizar movimientos deberá aperturar la caja`,
                 actionButton: {
                     icon: 'lock_open',
-                    text: 'Aperturar',
+                    text: 'Aperturar Caja',
                     fn: () => this.openBoxOpening()
                 }
             });
