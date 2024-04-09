@@ -6,7 +6,7 @@ import { SpinnerDefaultComponent } from '@component/spinner-default/spinner-defa
 import { CoinEnum, StatusModel } from '@interface/baseModel';
 import { Box } from '@interface/box';
 import { BoxOpening } from '@interface/boxOpening';
-import { ItemDetailConfiguration, ItemDetailTemplateComponent, actionButton, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
+import { ItemDetailConfiguration, ItemDetailTemplateComponent, actionButton, numberDetail, registerDataGroupDetail, textDetail, titlecaseDetail } from '@component/item-detail-template/item-detail-template.component';
 import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
 import { FetchService } from '@service/fetch.service';
 import { BoxOpeningCreatePageComponent } from '../../box-openings/pages/box-opening-create-page/box-opening-create-page.component';
@@ -54,38 +54,34 @@ export class BoxDetailPageComponent {
         groups: [
             {
                 details: [
-                    {
+                    titlecaseDetail({
                         title: 'Tipo',
                         displayValueFn: (item) => item.type,
-                        type: 'titlecase',
-                    },
-                    {
+                    }),
+                    textDetail({
                         title: 'Nombre',
                         displayValueFn: (item) => item.name,
-                        type: 'titlecase'
-                    },
-                    {
-                        title: 'Monto disponible',
-                        displayValueFn: (item) => item.amount,
-                        type: 'currency',
-                    },
-                    {
+                    }),
+                    numberDetail({
+                        title: 'Monto inicial',
+                        displayValueFn: (item) => item.amount_init,
+                    }),
+                    textDetail({
                         title: 'N° de cuenta',
-                        displayValueFn: (item) => item.account?.number
-                    },
-                    {
+                        displayValueFn: (item) => item.account?.number,
+                    }),
+                    textDetail({
                         title: 'Banco',
-                        displayValueFn: (item) => item.account?.bank?.name
-                    },
-                    {
+                        displayValueFn: (item) => item.account?.bank?.name,
+                    }),
+                    titlecaseDetail({
                         title: 'Moneda',
                         displayValueFn: (item) => item.coin,
-                        type: 'titlecase',
-                    },
-                    {
+                    }),
+                    textDetail({
                         title: 'Descripción',
-                        displayValueFn: (item) => item.description
-                    },
+                        displayValueFn: (item) => item.description,
+                    }),
                 ]
             },
             registerDataGroupDetail(),
