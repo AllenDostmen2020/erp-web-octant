@@ -109,7 +109,6 @@ export class ContractDetailPageComponent {
     }
 
     private async alertConfigurationMessage() {
-
         this.alertConfiguration!.set({
             icon: 'warning',
             title: 'Este contrato ya expiró',
