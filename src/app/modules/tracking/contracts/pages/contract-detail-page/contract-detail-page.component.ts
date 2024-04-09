@@ -1,5 +1,5 @@
 import { Component, WritableSignal, inject, signal } from '@angular/core';
-import { ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
+import { ItemDetailTemplateComponent, actionButton, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
 import { Contract } from '@interface/contract';
 import { ItemDetailConfiguration } from '@component/item-detail-template/item-detail-template.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -101,24 +101,34 @@ export class ContractDetailPageComponent {
             },
             registerDataGroupDetail(),
         ],
-        afterSetItemFn: (item)=>{
-           if (item.status == StatusModel.Expirado) {
-            this.alertConfigurationMessage();
-           } 
+        actionButtons: [
+            actionButton({
+                style: 'tonal-button',
+                icon: 'event_note',
+                text: 'Renovar',
+                clickEvent: (item) => {
+                    console.log(item);
+                }
+            })
+        ],
+        afterSetItemFn: (item) => {
+            if (item.status == StatusModel.Expirado) {
+                this.alertConfigurationMessage();
+            }
         }
     }
 
     private async alertConfigurationMessage() {
 
         this.alertConfiguration!.set({
-          icon: 'warning',
-          title: 'Este contrato ya expiró',
-          description: `¿Desea renovar el contrato?`,
-          actionButton: {
-            icon: 'event_repeat',
-            text: 'Renovar',
-            fn: () => this.router.navigate([`../renew`], {relativeTo: this.activatedRoute})
-          }
+            icon: 'warning',
+            title: 'Este contrato ya expiró',
+            description: `¿Desea renovar el contrato?`,
+            actionButton: {
+                icon: 'event_repeat',
+                text: 'Renovar',
+                fn: () => this.router.navigate([`../renew`], { relativeTo: this.activatedRoute })
+            }
         });
     }
 }

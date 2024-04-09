@@ -70,7 +70,6 @@ export interface ItemDetail<T> {
 }
 
 export interface ActionButton<T, Type = 'clickEvent'> {
-    id: number | string;
     type?: Type;
     style: StyleButton;
     icon?: string;

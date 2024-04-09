@@ -6,7 +6,7 @@ import { SpinnerDefaultComponent } from '@component/spinner-default/spinner-defa
 import { StatusModel } from '@interface/baseModel';
 import { Box } from '@interface/box';
 import { BoxOpening } from '@interface/boxOpening';
-import { ItemDetailConfiguration, ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
+import { ItemDetailConfiguration, ItemDetailTemplateComponent, actionButton, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
 import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
 import { FetchService } from '@service/fetch.service';
 import { BoxOpeningCreatePageComponent } from '../../box-openings/pages/box-opening-create-page/box-opening-create-page.component';
@@ -38,7 +38,7 @@ export class BoxDetailPageComponent {
         title: 'Detalle de la caja',
         server: {
             url: 'box',
-            queryParams: { 
+            queryParams: {
                 relations: 'account.bank,lastBoxOpening.openUser'
             },
         },
@@ -97,14 +97,12 @@ export class BoxDetailPageComponent {
     private showOpenButton(box: Box) {
         if (box.last_box_opening?.status != StatusModel.Abierto) {
             this.configuration.actionButtons = [
-                {
-                    id: 'open-surrender-box',
+                actionButton({
                     icon: 'lock_open',
                     text: 'Apertura caja',
-                    type: 'clickEvent',
                     clickEvent: () => this.openBoxOpening(),
-                    style: 'filled-button'
-                }
+                    style: 'filled-button',
+                }),
             ]
         } else {
             this.configuration.actionButtons = [];
@@ -157,29 +155,29 @@ export class BoxDetailPageComponent {
 
     private alertConfigurationMessage() {
         const lastBoxOpening = this.dataItem()?.last_box_opening!;
-        if(lastBoxOpening.status == StatusModel.Abierto){
+        if (lastBoxOpening.status == StatusModel.Abierto) {
             this.alertConfiguration!.set({
                 icon: 'info',
                 title: 'Cierre caja',
                 description: `La caja se cerrará con el monto de ${this.dataItem()?.amount} ${this.dataItem()?.coin}`,
                 actionButton: {
-                  icon: 'lock',
-                  text: 'Cerrar',
-                  fn: () => this.closeBoxOpening()
+                    icon: 'lock',
+                    text: 'Cerrar',
+                    fn: () => this.closeBoxOpening()
                 }
-              });
+            });
         } else {
             this.alertConfiguration!.set({
                 icon: 'info',
                 title: 'Apertura caja',
                 description: `Para empezar a realizar movimientos deberá aperturar la caja`,
                 actionButton: {
-                  icon: 'lock_open',
-                  text: 'Aperturar',
-                  fn: () => this.openBoxOpening()
+                    icon: 'lock_open',
+                    text: 'Aperturar',
+                    fn: () => this.openBoxOpening()
                 }
-              });
+            });
         }
-        
+
     }
 }

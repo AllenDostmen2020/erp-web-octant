@@ -88,14 +88,16 @@ export interface ItemDetail<T> {
 }
 
 export interface ActionButton<T, Type = 'clickEvent'> {
-    id: number | string;
     type?: Type;
     style: StyleButton;
     icon?: string;
     text?: string;
     title?: string;
     clickEvent: (item: T) => void;
+    hidden?: (item: T) => boolean;
 }
+
+export const actionButton = <T>(config: Omit<ActionButton<T, 'clickEvent'>, 'type'>): ActionButton<T, 'clickEvent'>  => ({ ...config, type: 'clickEvent' }) ;
 
 export type StyleButton = 'filled-button' | 'tonal-button' | 'text-button' | 'outlined-button' | 'elevated-button' | 'icon-button' | 'tonal-icon-button' | 'filled-icon-button' | 'outlined-icon-button';
 

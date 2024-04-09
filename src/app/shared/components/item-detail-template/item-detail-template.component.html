@@ -30,32 +30,24 @@
             <ng-content select="[headerActions]" />
 
             @if (!(configuration.editButton == false)) {
-            <ng-container [ngTemplateOutlet]="editButtonTmpl"
-                [ngTemplateOutletContext]="{ $implicit: item, editButton: configuration.editButton }" />
+                <ng-container [ngTemplateOutlet]="editButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item, editButton: configuration.editButton }" />
             }
 
             @if (!(configuration.deleteButton == false) && !item.deleted_at) {
-            <ng-container [ngTemplateOutlet]="deleteButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
+                <ng-container [ngTemplateOutlet]="deleteButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
             }
 
             @if (!(configuration.restoreButton == false) && item.deleted_at) {
-            <ng-container [ngTemplateOutlet]="restoreButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
+                <ng-container [ngTemplateOutlet]="restoreButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
             }
 
             @if (configuration.actionButtons; as actionButtons) {
-            @if (actionButtons.length > 4) {
-            @for (i of [0,1,2,3]; track i) {
-            <ng-container [ngTemplateOutlet]="switchActionButton"
-                [ngTemplateOutletContext]="{ $implicit: item, actionButton: actionButtons[i] }" />
+                @for (actionButton of actionButtons; track actionButton) {
+                    <!-- @if (!((actionButton.hidden ?? false) | getMixedValue:item)) { -->
+                        <ng-container [ngTemplateOutlet]="switchActionButton" [ngTemplateOutletContext]="{ $implicit: item, actionButton }" />
+                    <!-- } -->
+                }
             }
-            } @else {
-            @for (actionButton of actionButtons; track actionButton.id) {
-            <ng-container [ngTemplateOutlet]="switchActionButton"
-                [ngTemplateOutletContext]="{ $implicit: item, actionButton }" />
-            }
-            }
-            }
-
             }
         </div>
 
@@ -233,22 +225,21 @@
 
 <ng-template #switchActionButton let-item let-actionButton="actionButton">
     @switch (actionButton.type) {
-    @case ('edit') {
-    <ng-container [ngTemplateOutlet]="editButtonTmpl"
-        [ngTemplateOutletContext]="{ $implicit: item, editButton: configuration.editButton }" />
-    }
-    @case ('delete') {
-    <ng-container [ngTemplateOutlet]="deleteButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
-    }
-    @case ('restore') {
-    <ng-container [ngTemplateOutlet]="restoreButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
-    }
-    @case ('clickEvent') {
-    <button class="tonal-button" (click)="actionButton.clickEvent(item)">
-        <span class="material-icons">{{actionButton.icon}}</span>
-        <span>{{actionButton.text}}</span>
-    </button>
-    }
+        @case ('edit') {
+            <ng-container [ngTemplateOutlet]="editButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item, editButton: configuration.editButton }" />
+        }
+        @case ('delete') {
+            <ng-container [ngTemplateOutlet]="deleteButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
+        }
+        @case ('restore') {
+            <ng-container [ngTemplateOutlet]="restoreButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
+        }
+        @case ('clickEvent') {
+            <button class="tonal-button" (click)="actionButton.clickEvent(item)">
+                <span class="material-icons">{{actionButton.icon}}</span>
+                <span>{{actionButton.text}}</span>
+            </button>
+        }
     }
 </ng-template>
 
