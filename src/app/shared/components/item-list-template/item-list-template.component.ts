@@ -538,7 +538,6 @@ export interface ItemListConfiguration<T = any> {
 
   columns: WritableSignal<ListColumn<T>[]>;
 }
-
 export interface RouterLinkCreateButton {
   url: string;
   outlet?: 'route-lateral' | 'principal';

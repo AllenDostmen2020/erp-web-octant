@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
+import { ItemDetailConfiguration, ItemDetailTemplateComponent, registerDataGroupDetail, textDetail } from '@component/item-detail-template/item-detail-template.component';
 import { CodeCountry } from '@interface/codeCountry';
-import { ItemDetailConfiguration } from '@interface/itemDetail';
 
 @Component({
     selector: 'app-code-country-detail-page',
@@ -19,14 +18,14 @@ export class CodeCountryDetailPageComponent {
                 title: 'Datos generales',
                 icon: 'account_circle',
                 details: [
-                    {
+                    textDetail({
                         title: 'Código',
                         displayValueFn: (item) => item.code
-                    },
-                    {
+                    }),
+                    textDetail({
                         title: 'país',
                         displayValueFn: (item) => item.country
-                    },
+                    }),
                 ]
             },
             registerDataGroupDetail(),

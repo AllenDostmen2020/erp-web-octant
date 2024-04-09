@@ -10,6 +10,7 @@ export interface Box extends BaseModel{
     coin: CoinEnum;
     amount: number;
     code: string;
+    amount_init: string;
 
     box_openings?: BoxOpening[];
     last_box_opening?: BoxOpening;
