@@ -8,7 +8,7 @@ import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-tem
 import { FetchService } from '@service/fetch.service';
 import { StatusModel } from '@interface/baseModel';
 import { Router } from '@angular/router';
-import { FormInput, autocompleteServerFormInput } from '@component/item-form-template/item-form-template.component';
+import { FormInput, autocompleteServerFormInput, selectFormInput } from '@component/item-form-template/item-form-template.component';
 
 @Component({
   selector: 'app-contract-list-page',
@@ -58,6 +58,15 @@ export class ContractListPageComponent {
         }
       }))
     }
+    filters.splice(filters.length - 2, 0, selectFormInput({
+      formControlName: 'status',
+      textLabel: 'Estado',
+      data: signal([
+        { id: StatusModel.Vigente, name: StatusModel.Vigente.toUpperCase() },
+        { id: StatusModel.Expirado, name: StatusModel.Expirado.toUpperCase() },
+        { id: StatusModel.PendienteInstalacion, name: StatusModel.PendienteInstalacion.toUpperCase() },
+      ])
+    }))
     this.configurationList.filters = signal(filters);
   }
 

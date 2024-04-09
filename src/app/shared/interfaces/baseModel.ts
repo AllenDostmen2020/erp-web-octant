@@ -69,6 +69,8 @@ export enum StatusModel {
   PendienteAnulación = 'pendiente de anulación',
   PendienteRechazo = 'pendiente de rechazo',
 
+  PendienteInstalacion = 'pendiente de instalación',
+
   Generada= 'generada',
   PendienteAceptar= 'pendiente aceptar',
   Aceptada= 'aceptada',

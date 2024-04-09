@@ -30,7 +30,7 @@
 }
 
 .list__items__row__cell[data-column-key="monto"].egreso>.list__items__row__cell__value>span::before {
-  transform: translateY(4px) rotate(180deg);
+  transform: translateY(-50%) rotate(180deg);
 }
 
 .list__items__row__cell[data-column-key="monto"].ingreso {
