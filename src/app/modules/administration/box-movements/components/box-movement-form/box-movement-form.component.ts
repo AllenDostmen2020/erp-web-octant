@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AutocompleteBoxOpeningComponent } from '@component/autocomplete-box-opening/autocomplete-box-opening.component';
 import { DatepickerTemplateComponent } from '@component/datepicker-template/datepicker-template.component';
-import { InputAutocompleteConfiguration, InputAutocompleteLocalConfiguration, InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
+import { InputAutocompleteLocalConfiguration, InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
 import { InputSelectConfiguration, InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 import { CharactersOnlyDirective } from '@directive/characters-only.directive';
 import { LoadImagePrivateDirective } from '@directive/load-image-private.directive';
@@ -114,8 +114,8 @@ export class BoxMovementFormComponent {
         return this.form.get('to_box_opening_id') as FormControl;
     }
 
-    ngOnInit(): void {
-        if (this.router.url.includes('/box/view/')) {
+    ngOnInit(): void {        
+        if (this.router.url.includes('/box/view/')) {            
             this.boxOpeningIdCtrl.setValue(this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id'));
             this.boxOpeningIdCtrl.disable();
         }

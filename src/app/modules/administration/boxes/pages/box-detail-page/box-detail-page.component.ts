@@ -3,7 +3,7 @@ import { Component, EventEmitter, ViewEncapsulation, WritableSignal, inject, sig
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterLink } from '@angular/router';
 import { SpinnerDefaultComponent } from '@component/spinner-default/spinner-default.component';
-import { StatusModel } from '@interface/baseModel';
+import { CoinEnum, StatusModel } from '@interface/baseModel';
 import { Box } from '@interface/box';
 import { BoxOpening } from '@interface/boxOpening';
 import { ItemDetailConfiguration, ItemDetailTemplateComponent, actionButton, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
@@ -26,12 +26,14 @@ import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-tem
     ],
     encapsulation: ViewEncapsulation.None,
     templateUrl: './box-detail-page.component.html',
-    styleUrl: './box-detail-page.component.scss'
+    styleUrl: './box-detail-page.component.scss',
+    providers: [DatePipe]
 })
 export class BoxDetailPageComponent {
     private fetch = inject(FetchService);
     private dialog = inject(MatDialog);
     private router = inject(Router);
+    private datePipe = inject(DatePipe);
     private databaseStorage = inject(DatabaseStorageService);
     public alertConfiguration: WritableSignal<null | AlertConfiguration> = signal(null);
     public configuration: ItemDetailConfiguration<Box> = {
@@ -155,11 +157,29 @@ export class BoxDetailPageComponent {
 
     private alertConfigurationMessage() {
         const lastBoxOpening = this.dataItem()?.last_box_opening!;
+        const simbolCoin = this.dataItem()?.coin == CoinEnum.SOLES ? 'S/. ' : '$ ';
         if (lastBoxOpening.status == StatusModel.Abierto) {
             this.alertConfiguration!.set({
+                style: 'error',
                 icon: 'info',
-                title: 'Cierre caja',
-                description: `La caja se cerrará con el monto de ${this.dataItem()?.amount} ${this.dataItem()?.coin}`,
+                title: 'Caja abierta',
+                description: `<div class="text-skin-base grid grid-cols-[auto,auto,1fr] gap-x-1">
+                                    <div class="contents">
+                                        <span class="font-medium">Usuario de apertura</span>
+                                        <span>:</span>
+                                        <span>${lastBoxOpening.open_user?.name}</span>
+                                    </div>
+                                    <div class="contents">
+                                        <span class="font-medium">Fecha de apertura</span>
+                                        <span>:</span>
+                                        <span>${this.datePipe.transform(lastBoxOpening.date_open, 'longDate')}</span>
+                                    </div>
+                                    <div class="contents">
+                                        <span class="font-medium">Monto inicial</span>
+                                        <span>:</span>
+                                        <span>${simbolCoin}${lastBoxOpening.amount_init}</span>
+                                    </div>
+                                </div>`,
                 actionButton: {
                     icon: 'lock',
                     text: 'Cerrar',
@@ -169,7 +189,8 @@ export class BoxDetailPageComponent {
         } else {
             this.alertConfiguration!.set({
                 icon: 'info',
-                title: 'Apertura caja',
+                style: 'primary',
+                title: 'Caja cerrada',
                 description: `Para empezar a realizar movimientos deberá aperturar la caja`,
                 actionButton: {
                     icon: 'lock_open',

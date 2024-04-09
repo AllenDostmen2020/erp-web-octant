@@ -101,16 +101,6 @@ export class ContractDetailPageComponent {
             },
             registerDataGroupDetail(),
         ],
-        actionButtons: [
-            actionButton({
-                style: 'tonal-button',
-                icon: 'event_note',
-                text: 'Renovar',
-                clickEvent: (item) => {
-                    console.log(item);
-                }
-            })
-        ],
         afterSetItemFn: (item) => {
             if (item.status == StatusModel.Expirado) {
                 this.alertConfigurationMessage();
