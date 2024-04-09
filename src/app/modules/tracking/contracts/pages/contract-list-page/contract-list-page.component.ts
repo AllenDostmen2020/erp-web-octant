@@ -62,9 +62,9 @@ export class ContractListPageComponent {
       formControlName: 'status',
       textLabel: 'Estado',
       data: signal([
-        { id: StatusModel.Vigente, name: 'Vigente' },
-        { id: StatusModel.Expirado, name: 'Expirado' },
-        { id: StatusModel.PendienteInstalacion, name: 'Pendiente de instalación' },
+        { id: StatusModel.Vigente, name: StatusModel.Vigente.toUpperCase() },
+        { id: StatusModel.Expirado, name: StatusModel.Expirado.toUpperCase() },
+        { id: StatusModel.PendienteInstalacion, name: StatusModel.PendienteInstalacion.toUpperCase() },
       ])
     }))
     this.configurationList.filters = signal(filters);
