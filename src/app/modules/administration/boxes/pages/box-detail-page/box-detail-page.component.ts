@@ -1,16 +1,20 @@
 import { DatePipe, DecimalPipe, TitleCasePipe } from '@angular/common';
-import { Component, EventEmitter, ViewEncapsulation, WritableSignal, inject, signal } from '@angular/core';
+import { Component, EventEmitter, TemplateRef, ViewChild, ViewEncapsulation, WritableSignal, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SpinnerDefaultComponent } from '@component/spinner-default/spinner-default.component';
 import { CoinEnum, StatusModel } from '@interface/baseModel';
 import { Box } from '@interface/box';
 import { BoxOpening } from '@interface/boxOpening';
 import { ItemDetailConfiguration, ItemDetailTemplateComponent, actionButton, numberDetail, registerDataGroupDetail, textDetail, titlecaseDetail } from '@component/item-detail-template/item-detail-template.component';
 import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
-import { FetchService } from '@service/fetch.service';
+import { FetchService, RequestInitFetch } from '@service/fetch.service';
 import { BoxOpeningCreatePageComponent } from '../../box-openings/pages/box-opening-create-page/box-opening-create-page.component';
 import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-template/alert-template.component';
+import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
     selector: 'app-box-detail-page',
@@ -22,7 +26,10 @@ import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-tem
         TitleCasePipe,
         DatePipe,
         ItemDetailTemplateComponent,
-        AlertTemplateComponent
+        AlertTemplateComponent,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
     ],
     encapsulation: ViewEncapsulation.None,
     templateUrl: './box-detail-page.component.html',
@@ -30,10 +37,13 @@ import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-tem
     providers: [DatePipe]
 })
 export class BoxDetailPageComponent {
+    @ViewChild('deleteFormTemplate', { static: true }) deleteFormTemplate!: TemplateRef<any>;
     private fetch = inject(FetchService);
+    private matDialog = inject(MatDialog);
     private dialog = inject(MatDialog);
     private router = inject(Router);
     private datePipe = inject(DatePipe);
+    private activatedRoute = inject(ActivatedRoute);
     private databaseStorage = inject(DatabaseStorageService);
     public alertConfiguration: WritableSignal<null | AlertConfiguration> = signal(null);
     public configuration: ItemDetailConfiguration<Box> = {
@@ -48,7 +58,7 @@ export class BoxDetailPageComponent {
         updateItemEvent: new EventEmitter(),
         backButton: false,
         afterSetItemFn: (item) => {
-            this.showOpenButton(item);
+            // this.showOpenButton(item);
             this.alertConfigurationMessage();
         },
         groups: [
@@ -87,6 +97,16 @@ export class BoxDetailPageComponent {
             registerDataGroupDetail(),
 
         ],
+        deleteButton: false,
+        actionButtons: [
+            {
+                icon: 'delete',
+                text: 'Eliminar',
+                type: 'clickEvent',
+                clickEvent: (item) => this.deleteBox(item),
+                style: 'filled-button'
+            }
+        ]
     }
     get dataItem() {
         return this.configuration.dataItem!;
@@ -95,12 +115,13 @@ export class BoxDetailPageComponent {
     private showOpenButton(box: Box) {
         if (box.last_box_opening?.status != StatusModel.Abierto) {
             this.configuration.actionButtons = [
-                actionButton({
+                {
                     icon: 'lock_open',
                     text: 'Apertura caja',
+                    type: 'clickEvent',
                     clickEvent: () => this.openBoxOpening(),
-                    style: 'filled-button',
-                }),
+                    style: 'filled-button'
+                }
             ]
         } else {
             this.configuration.actionButtons = [];
@@ -142,7 +163,7 @@ export class BoxDetailPageComponent {
                 ...response,
             }
         }))
-        this.showOpenButton(this.dataItem()!);
+        // this.showOpenButton(this.dataItem()!);
         this.configuration.updateItemEvent?.emit(true);
     }
 
@@ -225,5 +246,49 @@ export class BoxDetailPageComponent {
             });
         }
 
+    }
+
+    public deleteForm = new FormGroup({
+        comment: new FormControl('', [Validators.required]),
+    });
+
+    get commentCtrl(): FormControl { return this.deleteForm.get('comment')! as FormControl; }
+    private confirmDialog(data: ConfirmDialogData): Promise<boolean> {
+        return new Promise((resolve) => {
+            const dialogRef = this.matDialog.open(ConfirmDialogTemplateComponent, { data });
+            dialogRef.afterClosed().subscribe((result) => resolve(result));
+        });
+    }
+
+    private async deleteBox(item: Box): Promise<Box | null> {
+        this.commentCtrl.reset('');
+        const dialogData: ConfirmDialogData = {
+            icon: 'error',
+            title: '¿Está seguro de eliminar la caja?',
+            description: '',
+            templateRef: this.deleteFormTemplate,
+            confirmButton: { disabled: true },
+        };
+        const subscribe = this.commentCtrl.valueChanges.subscribe(() => dialogData.confirmButton!.disabled = this.commentCtrl.invalid);
+        const confirm = await this.confirmDialog(dialogData);
+        subscribe.unsubscribe();
+        if (!confirm) return null;
+        const url = `delete-box/${item.id}`;
+        const body = {
+            delete_comment: this.commentCtrl.value
+        };
+        const request: RequestInitFetch = {
+            confirmDialog: false,
+            toast: {
+                loading: 'Eliminando...',
+                success: 'Caja eliminada',
+                error: (error) => 'Error al eliminar la caja',
+            }
+        };
+        const response = await this.fetch.put<Box>(url, body, request);
+        console.log(response);
+        if (response) this.router.navigate(['/administration/box/list']);
+
+        return response;
     }
 }
