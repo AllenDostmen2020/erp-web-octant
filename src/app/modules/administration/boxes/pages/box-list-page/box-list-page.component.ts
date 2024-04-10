@@ -72,12 +72,12 @@ export class BoxListPageComponent {
                 clickEventActionButton({
                     text: 'Eliminar',
                     icon: 'delete',
-                    fn: async (item, index, { deleteItemFn }) => {
-                      const response = await this.deleteBox(item);
-                      if (response) deleteItemFn(item.id);
-                      this.configList.updateListEvent?.emit();
+                    fn: async (item, index, { updateChangesItemFn }) => {
+                        const response = await this.deleteBox(item);
+                        if (response) updateChangesItemFn(index, { ...item, ...response });
+                        this.configList.updateListEvent?.emit();
                     },
-                  }),
+                }),
             ]
         }
     }
@@ -121,7 +121,7 @@ export class BoxListPageComponent {
         };
         const response = await this.fetch.put<Box>(url, body, request);
         console.log(response);
-        
+
         return response;
     }
 }
