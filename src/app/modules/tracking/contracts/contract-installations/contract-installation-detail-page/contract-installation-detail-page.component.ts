@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
+import { ItemDetailConfiguration, ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
 import { ContractInstallation } from '@interface/contractInstallation';
-import { ItemDetailConfiguration } from '@interface/itemDetail';
 
 @Component({
   selector: 'app-contract-installation-detail-page',

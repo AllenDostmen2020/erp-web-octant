@@ -6,7 +6,7 @@ import { SpinnerDefaultComponent } from '@component/spinner-default/spinner-defa
 import { CoinEnum, StatusModel } from '@interface/baseModel';
 import { Box } from '@interface/box';
 import { BoxOpening } from '@interface/boxOpening';
-import { ItemDetailConfiguration, ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
+import { ItemDetailConfiguration, ItemDetailTemplateComponent, actionButton, numberDetail, registerDataGroupDetail, textDetail, titlecaseDetail } from '@component/item-detail-template/item-detail-template.component';
 import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
 import { BoxOpeningCreatePageComponent } from '../../box-openings/pages/box-opening-create-page/box-opening-create-page.component';
@@ -50,7 +50,7 @@ export class BoxDetailPageComponent {
         server: {
             url: 'box',
             queryParams: {
-                relations: 'account.bank,lastBoxOpening.openUser'
+                relations: 'account.bank,lastBoxOpening.(openUser|closeUser)'
             },
         },
         subtitle: false,
@@ -63,38 +63,34 @@ export class BoxDetailPageComponent {
         groups: [
             {
                 details: [
-                    {
+                    titlecaseDetail({
                         title: 'Tipo',
                         displayValueFn: (item) => item.type,
-                        type: 'titlecase',
-                    },
-                    {
+                    }),
+                    textDetail({
                         title: 'Nombre',
                         displayValueFn: (item) => item.name,
-                        type: 'titlecase'
-                    },
-                    {
-                        title: 'Monto disponible',
-                        displayValueFn: (item) => item.amount,
-                        type: 'currency',
-                    },
-                    {
+                    }),
+                    numberDetail({
+                        title: 'Monto inicial',
+                        displayValueFn: (item) => item.amount_init,
+                    }),
+                    textDetail({
                         title: 'N° de cuenta',
-                        displayValueFn: (item) => item.account?.number
-                    },
-                    {
+                        displayValueFn: (item) => item.account?.number,
+                    }),
+                    textDetail({
                         title: 'Banco',
-                        displayValueFn: (item) => item.account?.bank?.name
-                    },
-                    {
+                        displayValueFn: (item) => item.account?.bank?.name,
+                    }),
+                    titlecaseDetail({
                         title: 'Moneda',
                         displayValueFn: (item) => item.coin,
-                        type: 'titlecase',
-                    },
-                    {
+                    }),
+                    textDetail({
                         title: 'Descripción',
-                        displayValueFn: (item) => item.description
-                    },
+                        displayValueFn: (item) => item.description,
+                    }),
                 ]
             },
             registerDataGroupDetail(),
@@ -116,22 +112,22 @@ export class BoxDetailPageComponent {
         return this.configuration.dataItem!;
     }
 
-    // private showOpenButton(box: Box) {
-    //     if (box.last_box_opening?.status != StatusModel.Abierto) {
-    //         this.configuration.actionButtons = [
-    //             {
-    //                 id: 'open-surrender-box',
-    //                 icon: 'lock_open',
-    //                 text: 'Apertura caja',
-    //                 type: 'clickEvent',
-    //                 clickEvent: () => this.openBoxOpening(),
-    //                 style: 'filled-button'
-    //             }
-    //         ]
-    //     } else {
-    //         this.configuration.actionButtons = [];
-    //     }
-    // }
+    private showOpenButton(box: Box) {
+        if (box.last_box_opening?.status != StatusModel.Abierto) {
+            this.configuration.actionButtons = [
+                {
+                    id: 'open-surrender-box',
+                    icon: 'lock_open',
+                    text: 'Apertura caja',
+                    type: 'clickEvent',
+                    clickEvent: () => this.openBoxOpening(),
+                    style: 'filled-button'
+                }
+            ]
+        } else {
+            this.configuration.actionButtons = [];
+        }
+    }
 
     public openBoxOpening() {
         const dialogRef = this.dialog.open(BoxOpeningCreatePageComponent, {
@@ -178,34 +174,63 @@ export class BoxDetailPageComponent {
     }
 
     private alertConfigurationMessage() {
-        const lastBoxOpening = this.dataItem()?.last_box_opening!;
-        const simbolCoin = this.dataItem()?.coin == CoinEnum.SOLES ? 'S/. ' : '$ ';
-        if (lastBoxOpening.status == StatusModel.Abierto) {
-            this.alertConfiguration!.set({
+        const item = this.dataItem()!;
+        const lastBoxOpening = item.last_box_opening;
+        const simbolCoin = item.coin == CoinEnum.SOLES ? 'S/. ' : '$ ';
+        if (lastBoxOpening?.status == StatusModel.Abierto) {
+            this.alertConfiguration.set({
                 style: 'error',
                 icon: 'info',
                 title: 'Caja abierta',
-                description: `<div class="text-skin-base grid grid-cols-[auto,auto,1fr] gap-x-1">
-                                    <div class="contents">
-                                        <span class="font-medium">Usuario de apertura</span>
+                description: `<div class="item-detail__group">
+                                    <div class="item-detail__group__row body-small">
+                                        <span>Usuario de apertura</span>
                                         <span>:</span>
                                         <span>${lastBoxOpening.open_user?.name}</span>
                                     </div>
-                                    <div class="contents">
-                                        <span class="font-medium">Fecha de apertura</span>
+                                    <div class="item-detail__group__row body-small">
+                                        <span>Fecha de apertura</span>
                                         <span>:</span>
                                         <span>${this.datePipe.transform(lastBoxOpening.date_open, 'longDate')}</span>
                                     </div>
-                                    <div class="contents">
-                                        <span class="font-medium">Monto inicial</span>
+                                    <div class="item-detail__group__row body-small">
+                                        <span>Monto de apertura</span>
                                         <span>:</span>
                                         <span>${simbolCoin}${lastBoxOpening.amount_init}</span>
                                     </div>
                                 </div>`,
                 actionButton: {
                     icon: 'lock',
-                    text: 'Cerrar',
+                    text: 'Cerrar Caja',
                     fn: () => this.closeBoxOpening()
+                }
+            });
+        } else if (lastBoxOpening?.status == StatusModel.Cerrado) {
+            this.alertConfiguration.set({
+                style: 'primary',
+                icon: 'info',
+                title: 'Caja cerrada',
+                description: `<div class="item-detail__group">
+                                    <div class="item-detail__group__row body-small">
+                                        <span>Usuario de cierre</span>
+                                        <span>:</span>
+                                        <span>${lastBoxOpening.close_user?.name}</span>
+                                    </div>
+                                    <div class="item-detail__group__row body-small">
+                                        <span>Fecha de cierre</span>
+                                        <span>:</span>
+                                        <span>${this.datePipe.transform(lastBoxOpening.date_close, 'longDate')}</span>
+                                    </div>
+                                    <div class="item-detail__group__row body-small">
+                                        <span>Monto de cierre</span>
+                                        <span>:</span>
+                                        <span>${simbolCoin}${lastBoxOpening.amount_exit}</span>
+                                    </div>
+                                </div>`,
+                actionButton: {
+                    icon: 'lock_open',
+                    text: 'Aperturar Caja',
+                    fn: () => this.openBoxOpening()
                 }
             });
         } else {
@@ -216,7 +241,7 @@ export class BoxDetailPageComponent {
                 description: `Para empezar a realizar movimientos deberá aperturar la caja`,
                 actionButton: {
                     icon: 'lock_open',
-                    text: 'Aperturar',
+                    text: 'Aperturar Caja',
                     fn: () => this.openBoxOpening()
                 }
             });

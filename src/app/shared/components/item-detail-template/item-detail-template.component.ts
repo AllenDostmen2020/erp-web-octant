@@ -30,159 +30,6 @@ import { objectToURLSearchParams } from '@utility/queryParams';
 import { ConfirmDialogData } from '@component/confirm-dialog-template/confirm-dialog-template.component';
 import { TypeValueKeyItem } from '@component/item-list-template/item-list-template.component';
 
-export interface ItemDetailConfiguration<T = any> {
-    title: string;
-    subtitle?: ((item: T) => string | number | null | undefined) | false;
-    itemId?: string;
-    server: {
-        url: string;
-        queryParams?: { [key: string]: any };
-    }
-    loading?: boolean;
-    groups: ItemDetailGroup<T>[];
-    dataItem?: WritableSignal<T | null>;
-    parseItemFn?: (item: T) => (T | Promise<T>);
-    afterSetItemFn?: (item: T) => void;
-    afterDeleteItemFn?: (item: T) => void;
-    afterRestoreItemFn?: (item: T) => void;
-
-    editButton?: {
-        text?: string;
-        routerLink?: RouterLinkItem<T>
-    } | false;
-
-    deleteButton?: boolean;
-    restoreButton?: boolean;
-    backButton?: boolean;
-    actionButtons?: ActionButton<T, ActionButtonType>[];
-    ignoreShowError?: boolean;
-    interceptHttpErrorItemFn?: (error: FetchErrorResponse) => void;
-    httpError?: FetchErrorResponse;
-    hiddeHeader?: boolean;
-    updateItemEvent?: EventEmitter<boolean>;
-}
-
-export interface ItemDetailGroup<T> {
-    icon?: string,
-    title?: string,
-    details: ItemDetail<T>[]
-    template?: {
-        ref: TemplateRef<any>,
-        position?: 'before' | 'after',
-    },
-    actions?: ActionButton<T>[] 
-}
-
-export interface ItemDetail<T> {
-    clickEvent?: (item: T) => void;
-    cssClass?: ((item: T) => string) | string;
-    hidden?: (item: T) => boolean;
-    dateFormat?: string;
-    displayValueFn: (item: T) => string | number | null | undefined | string[];
-    key?: string;
-    title: string;
-    numberFormat?: string;
-    routerLink?: RouterLinkItem<T>
-    tooltip?: ((item: T) => string) | string;
-    type?: TypeValueKeyItem | 'image' | 'image-server' | 'private-image-server' | 'html';
-}
-
-export interface ActionButton<T, Type = 'clickEvent'> {
-    id: number | string;
-    type?: Type;
-    style: StyleButton;
-    icon?: string;
-    text?: string;
-    title?: string;
-    clickEvent: (item: T) => void;
-}
-
-export type StyleButton = 'filled-button' | 'tonal-button' | 'text-button' | 'outlined-button' | 'elevated-button' | 'icon-button' | 'tonal-icon-button' | 'filled-icon-button' | 'outlined-icon-button';
-
-export type ActionButtonType = 'clickEvent' | 'update' | 'delete' | 'restore';
-
-export interface RouterLinkItem<T> {
-    url: ((item: T) => string) | string;
-    outlet?: 'route-lateral' | 'principal';
-    queryParams?: { [key: string]: any },
-    state?: ((item: T) => (string | {[key: string]: any} | any[] | number | null)) | string | {[key: string]: any} | any[] | number | null;
-}
-
-
-export const registerDataGroupDetail = (): ItemDetailGroup<any> => {
-    return {
-        title: 'Datos del registro',
-        icon: 'app_registration',
-        details: [
-            {
-                title: 'Estado',
-                key: 'status',
-                type: 'titlecase',
-                cssClass: (item) => item.status ?? '',
-                displayValueFn: (item) => item.status,
-            },
-            {
-                title: 'Creado',
-                key: 'created_at',
-                type: 'diff-date',
-                displayValueFn: (item) => item.created_at,
-            },
-            {
-                title: 'Creado por',
-                key: 'create_user_id',
-                type: 'user',
-                displayValueFn: (item) => item.create_user_id,
-            },
-            {
-                title: 'Actualizado',
-                key: 'updated_at',
-                type: 'diff-date',
-                displayValueFn: (item) => item.updated_at,
-            },
-            {
-                title: 'Actualizado por',
-                key: 'update_user_id',
-                type: 'user',
-                displayValueFn: (item) => item.update_user_id,
-            },
-            {
-                title: 'Eliminado',
-                key: 'deleted_at',
-                type: 'diff-date',
-                displayValueFn: (item) => item.deleted_at,
-            },
-            {
-                title: 'Eliminado por',
-                key: 'delete_user_id',
-                type: 'user',
-                displayValueFn: (item) => item.delete_user_id,
-            },
-            {
-                title: 'Restaurado por',
-                key: 'restore_user_id',
-                type: 'user',
-                displayValueFn: (item) => item.restore_user_id,
-            },
-        ],
-    };
-};
-
-interface SimpleDetail<T = any> extends Omit<ItemDetail<T>, 'numberFormat' | 'dateFormat' | 'type'> { }
-interface NumberDetail<T = any> extends SimpleDetail<T> { numberFormat?: string; }
-interface DateDetail<T = any> extends SimpleDetail<T> { dateFormat?: string; }
-export const textDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'text' });
-export const numberDetail = <T=any>(options: NumberDetail): ItemDetail<T> => ({ ...options, type: 'number' });
-export const dateDetail = <T=any>(options: DateDetail): ItemDetail<T> => ({ ...options, type: 'date' });
-export const titlecaseDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'titlecase' });
-export const uppercaseDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'uppercase' });
-export const lowercaseDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'lowercase' });
-export const htmlDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'html' });
-export const firstLetterUppercaseDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'first-letter-uppercase' });
-export const emailDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'email' });
-export const phoneDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'phone' });
-export const userDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'user' });
-export const imageColumnDetail = <T=any>(options: SimpleDetail): ItemDetail<T> => ({ ...options, type: 'image' });
-
 @Component({
     selector: 'app-item-detail-template',
     standalone: true,
@@ -220,14 +67,14 @@ export class ItemDetailTemplateComponent {
 
     ngOnInit(): void {
         this.setItemId();
-        
+
         if (this.configuration.dataItem && this.configuration.dataItem()) {
             this.configuration.loading = false;
         } else {
             this.configuration.dataItem = signal(null);
             this.getItem();
         }
-        
+
         if (this.configuration.updateItemEvent) this.configuration.updateItemEvent.subscribe(() => this.getItem());
     }
 
@@ -269,12 +116,12 @@ export class ItemDetailTemplateComponent {
             const requestInit: RequestInitFetch = { signal: this.abortController.signal };
             if (ignoreShowError) requestInit.ignoreInterceptErrors = true;
             let response: T = await this.fetch.get<T>(url, requestInit);
-            
+
             const { parseItemFn } = this.configuration;
             this.configuration.dataItem!.set((await parseItemFn?.(response)) ?? response);
 
             const { afterSetItemFn } = this.configuration;
-            if (afterSetItemFn) afterSetItemFn(this.configuration.dataItem!()!); 
+            if (afterSetItemFn) afterSetItemFn(this.configuration.dataItem!()!);
         } catch (error) {
             this.configuration.httpError = error as FetchErrorResponse;
             const { interceptHttpErrorItemFn } = this.configuration;
@@ -301,6 +148,148 @@ export class ItemDetailTemplateComponent {
         const response = await this.fetch.put<any>(url, {}, { confirmDialog });
         const { afterRestoreItemFn } = this.configuration;
         if (afterRestoreItemFn) afterRestoreItemFn(response);
-        this.configuration.dataItem?.update(item => ({...item!, ...response}));
+        this.configuration.dataItem?.update(item => ({ ...item!, ...response }));
     }
 }
+
+export interface ItemDetailConfiguration<T = any> {
+    title: string;
+    subtitle?: ((item: T) => string | number | null | undefined) | false;
+    itemId?: string;
+    server: {
+        url: string;
+        queryParams?: { [key: string]: any };
+    }
+    loading?: boolean;
+    groups: ItemDetailGroup<T>[];
+    dataItem?: WritableSignal<T | null>;
+    parseItemFn?: (item: T) => (T | Promise<T>);
+    afterSetItemFn?: (item: T) => void;
+    afterDeleteItemFn?: (item: T) => void;
+    afterRestoreItemFn?: (item: T) => void;
+
+    editButton?: {
+        text?: string;
+        routerLink?: RouterLinkItem<T>
+    } | false;
+
+    deleteButton?: boolean;
+    restoreButton?: boolean;
+    backButton?: boolean;
+    actionButtons?: ActionButton<T, ActionButtonType>[];
+    ignoreShowError?: boolean;
+    interceptHttpErrorItemFn?: (error: FetchErrorResponse) => void;
+    httpError?: FetchErrorResponse;
+    hiddeHeader?: boolean;
+    updateItemEvent?: EventEmitter<boolean>;
+}
+
+export interface ItemDetailGroup<T = any> {
+    icon?: string,
+    title?: string,
+    details: ItemDetail<T>[]
+    template?: {
+        ref: TemplateRef<any>,
+        position?: 'before' | 'after',
+    },
+    actions?: ActionButton<T>[]
+}
+
+export interface ItemDetail<T> {
+    clickEvent?: (item: T) => void;
+    cssClass?: ((item: T) => string) | string;
+    hidden?: (item: T) => boolean;
+    dateFormat?: string;
+    displayValueFn: (item: T) => string | number | null | undefined | string[];
+    key?: string;
+    title: string;
+    numberFormat?: string;
+    routerLink?: RouterLinkItem<T>
+    tooltip?: ((item: T) => string) | string;
+    type?: TypeValueKeyItem | 'image' | 'image-server' | 'private-image-server' | 'html';
+}
+
+export interface ActionButton<T, Type = 'clickEvent'> {
+    type?: Type;
+    style: StyleButton;
+    icon?: string;
+    text?: string;
+    title?: string;
+    clickEvent: (item: T) => void;
+    hidden?: (item: T) => boolean;
+}
+
+export const actionButton = <T>(config: Omit<ActionButton<T, 'clickEvent'>, 'type'>): ActionButton<T, 'clickEvent'> => ({ ...config, type: 'clickEvent' });
+
+export type StyleButton = 'filled-button' | 'tonal-button' | 'text-button' | 'outlined-button' | 'elevated-button' | 'icon-button' | 'tonal-icon-button' | 'filled-icon-button' | 'outlined-icon-button';
+
+export type ActionButtonType = 'clickEvent' | 'update' | 'delete' | 'restore';
+
+export interface RouterLinkItem<T> {
+    url: ((item: T) => string) | string;
+    outlet?: 'route-lateral' | 'principal';
+    queryParams?: { [key: string]: any },
+    state?: ((item: T) => (string | { [key: string]: any } | any[] | number | null)) | string | { [key: string]: any } | any[] | number | null;
+}
+
+
+export const registerDataGroupDetail = (): ItemDetailGroup<any> => {
+    return {
+        title: 'Datos del registro',
+        icon: 'app_registration',
+        details: [
+            htmlDetail({
+                title: 'Estado',
+                displayValueFn: (item: any) => `
+                    <span class="status-chip ${((item.status ?? '') as string).replaceAll(' ', '-').toLowerCase()}">
+                        ${(item.status as string).replace(/\w\S*/g, (txt) =>  txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase())}
+                    </span>`,
+            }),
+            diffDateDetail({
+                title: 'Creado',
+                displayValueFn: (item) => item.created_at,
+            }),
+            userDetail({
+                title: 'Creado por',
+                displayValueFn: (item) => item.create_user_id,
+            }),
+            diffDateDetail({
+                title: 'Actualizado',
+                displayValueFn: (item) => item.updated_at,
+            }),
+            userDetail({
+                title: 'Actualizado por',
+                displayValueFn: (item) => item.update_user_id,
+            }),
+            diffDateDetail({
+                title: 'Eliminado',
+                displayValueFn: (item) => item.deleted_at,
+            }),
+            userDetail({
+                title: 'Eliminado por',
+                displayValueFn: (item) => item.delete_user_id,
+            }),
+            userDetail({
+                title: 'Restaurado por',
+                displayValueFn: (item) => item.restore_user_id,
+            }),
+        ],
+    };
+};
+
+interface SimpleDetail<T> extends Omit<ItemDetail<T>, 'numberFormat' | 'dateFormat' | 'type'> { }
+interface NumberDetail<T> extends SimpleDetail<T> { numberFormat?: string; }
+interface DateDetail<T> extends SimpleDetail<T> { dateFormat?: string; }
+export const textDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'text' });
+export const numberDetail = <T>(options: NumberDetail<T>): ItemDetail<T> => ({ ...options, type: 'number' });
+export const diffDateDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'diff-date' });
+export const dateDetail = <T>(options: DateDetail<T>): ItemDetail<T> => ({ ...options, type: 'date' });
+export const titlecaseDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'titlecase' });
+export const uppercaseDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'uppercase' });
+export const lowercaseDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'lowercase' });
+export const htmlDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'html' });
+export const firstLetterUppercaseDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'first-letter-uppercase' });
+export const emailDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'email' });
+export const phoneDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'phone' });
+export const userDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'user' });
+export const imageColumnDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'image' });
