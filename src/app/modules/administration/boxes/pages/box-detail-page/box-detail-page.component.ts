@@ -99,7 +99,6 @@ export class BoxDetailPageComponent {
         deleteButton: false,
         actionButtons: [
             {
-                id: 'delete-box',
                 icon: 'delete',
                 text: 'Eliminar',
                 type: 'clickEvent',
@@ -116,7 +115,6 @@ export class BoxDetailPageComponent {
         if (box.last_box_opening?.status != StatusModel.Abierto) {
             this.configuration.actionButtons = [
                 {
-                    id: 'open-surrender-box',
                     icon: 'lock_open',
                     text: 'Apertura caja',
                     type: 'clickEvent',
