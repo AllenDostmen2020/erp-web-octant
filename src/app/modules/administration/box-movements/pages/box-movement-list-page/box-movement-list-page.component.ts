@@ -1,7 +1,10 @@
 import { Component, ViewEncapsulation, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ItemListConfiguration, ItemListTemplateComponent, ListColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { FormInput, autocompleteLocalFormInput } from '@component/item-form-template/item-form-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, ListColumn, defaultListFilterInputs, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { Box } from '@interface/box';
 import { BoxMovement, BoxMovementTypeEnum } from '@interface/boxMovement';
+import { NameModuleDatabase } from '@service/database-storage.service';
 
 @Component({
   selector: 'app-box-movement-list-page',
@@ -25,11 +28,36 @@ export class BoxMovementListPageComponent {
       },
     },
     columns: signal(this.generateColumns()),
+    filters: signal(this.getFilters()),
     rows: {
       options: [
         viewItemActionButton(),
       ]
     }
+  }
+
+  private getFilters(): FormInput[] {
+    const filters: FormInput[] = [];
+    if (!this.router.url.includes('/administration/box/view')) {
+      filters.push(autocompleteLocalFormInput<Box>({
+        formControlName: 'box_id',
+        textLabel: 'Caja',
+        local: { nameModuleDatabase: NameModuleDatabase.Boxes },
+        displayValueFn: (item) => item instanceof Object ? item.name : '',
+        displayTextFn: (item) => `<div class="autocomplete-option__box">
+          <div class="autocomplete-option__box__name">
+            ${item.name.toUpperCase()} [${item.coin.toUpperCase()}]
+          </div>
+          <div class="autocomplete-option__box__details">
+            <span class="autocomplete-option__box__details__type">${item.type.toUpperCase()}</span>
+            ${
+              item.account ? ('<span class="autocomplete-option__box__details__separator"></span> <span>' + item.account.bank?.name  + '</span> <span class="autocomplete-option__box__details__separator"></span> <span>' + item.account.bank?.name  + '</span>') : ''
+            }
+          </div>
+        </div>`,
+      }))
+    }
+    return [...filters, ...defaultListFilterInputs()];
   }
 
   private generateColumns(): ListColumn<BoxMovement>[] {

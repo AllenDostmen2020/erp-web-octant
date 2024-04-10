@@ -14,9 +14,7 @@ const passwordBasedKeyDerivation = async (password: string, sal: any, iterations
     const encoder = new TextEncoder();
     let key = await window.crypto.subtle.importKey('raw', encoder.encode(password), { name: 'PBKDF2' }, false, ['deriveKey']);
     return await window.crypto.subtle.deriveKey(
-        {
-            name: 'PBKDF2',
-            salt: encoder.encode(sal),
+        { name: 'PBKDF2',    salt: encoder.encode(sal),
             iterations,
             hash
         },
@@ -49,6 +47,7 @@ const decrypt = async (password: string, encriptadoEnBase64: any) => {
 
 export enum NameModuleDatabase {
     BoxOpenings = 'boxOpenings',
+    Boxes = 'boxes',
     Banks = 'banks',
     Users = 'users',
     Taxes = 'taxes',
@@ -96,6 +95,15 @@ export class DatabaseStorageService {
             config: {
                 url: 'box-opening',
                 queryParams: 'relations=box.account.bank&box_status=abierto&limit=100'
+            },
+        },
+        {
+            name: 'Cajas',
+            key: NameModuleDatabase.Boxes,
+            recurrent: Recurrent.Daily,
+            config: {
+                url: 'database-storage/boxes',
+                queryParams: 'relations=account.bank&status=abierto&limit=100'
             },
         },
         {

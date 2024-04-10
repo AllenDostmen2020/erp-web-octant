@@ -293,7 +293,7 @@ export const autocompleteFormInput = (configuration: AutocompleteConfigurationEx
   autocomplete: configuration
 });
 
-export const autocompleteLocalFormInput = (configuration: AutocompleteLocalConfigurationExt): FormInput => ({
+export const autocompleteLocalFormInput = <T=any>(configuration: AutocompleteLocalConfigurationExt<T>): FormInput => ({
   type: 'autocomplete-local',
   autocompleteLocal: configuration
 });

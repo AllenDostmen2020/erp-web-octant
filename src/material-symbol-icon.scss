@@ -1,12 +1,12 @@
 @font-face {
-  font-family: 'Material Symbols Rounded';
+  font-family: 'Material Symbols';
   font-style: normal;
   font-weight: 100 700;
   src: url('/assets/fonts/Material-Icons/material-icons.woff2') format('woff2');
 }
 
 .material-symbols-rounded {
-  font-family: 'Material Symbols Rounded';
+  font-family: 'Material Symbols';
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
@@ -22,7 +22,7 @@
 }
 
 .material-icons {
-  font-family: "Material Symbols Rounded";
+  font-family: "Material Symbols";
   line-height: 1;
   letter-spacing: normal;
   text-transform: none;
@@ -34,7 +34,7 @@
   -webkit-font-smoothing: antialiased;
   overflow: hidden;
   color: currentColor;
-  font-variation-settings: "FILL" var(--fill-material-symbol-icon, 0), "wght" var(--wght-material-symbol-icon, 400), "GRAD" var(--grad-material-symbol-icon, 0), "opsz" var(--opsz-material-symbol-icon, 24);
+  font-variation-settings: "FILL" var(--fill-material-symbol-icon, 0), "wght" var(--wght-material-symbol-icon, 300), "GRAD" var(--grad-material-symbol-icon, 50), "opsz" var(--opsz-material-symbol-icon, 24);
   -webkit-font-smoothing: antialiased;
   font-size: var(--size-material-symbol-icon, 24px);
   width: var(--size-material-symbol-icon, 24px);

@@ -74,3 +74,8 @@ pre {
   font-family: var(--font-family-app) !important;
   white-space: pre-line;
 }
+
+.autocomplete-option__box {
+  display: grid;
+  align-items: center;
+}
