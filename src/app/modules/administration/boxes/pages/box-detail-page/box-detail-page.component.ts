@@ -1,7 +1,7 @@
 import { DatePipe, DecimalPipe, TitleCasePipe } from '@angular/common';
 import { Component, EventEmitter, TemplateRef, ViewChild, ViewEncapsulation, WritableSignal, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SpinnerDefaultComponent } from '@component/spinner-default/spinner-default.component';
 import { CoinEnum, StatusModel } from '@interface/baseModel';
 import { Box } from '@interface/box';
@@ -43,6 +43,7 @@ export class BoxDetailPageComponent {
     private dialog = inject(MatDialog);
     private router = inject(Router);
     private datePipe = inject(DatePipe);
+    private activatedRoute = inject(ActivatedRoute);
     private databaseStorage = inject(DatabaseStorageService);
     public alertConfiguration: WritableSignal<null | AlertConfiguration> = signal(null);
     public configuration: ItemDetailConfiguration<Box> = {
@@ -272,9 +273,9 @@ export class BoxDetailPageComponent {
         const confirm = await this.confirmDialog(dialogData);
         subscribe.unsubscribe();
         if (!confirm) return null;
-        const url = `box/${item.id}`;
+        const url = `delete-box/${item.id}`;
         const body = {
-            anulation_reason: this.commentCtrl.value
+            delete_comment: this.commentCtrl.value
         };
         const request: RequestInitFetch = {
             confirmDialog: false,
@@ -284,8 +285,9 @@ export class BoxDetailPageComponent {
                 error: (error) => 'Error al eliminar la caja',
             }
         };
-        const response = await this.fetch.delete<Box>(url)
-        if (response) this.router.navigate(['/box']);
+        const response = await this.fetch.put<Box>(url, body, request);
+        console.log(response);
+        if (response) this.router.navigate(['/administration/box/list']);
 
         return response;
     }

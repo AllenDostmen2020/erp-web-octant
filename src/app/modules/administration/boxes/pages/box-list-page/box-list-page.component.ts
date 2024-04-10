@@ -107,9 +107,9 @@ export class BoxListPageComponent {
         const confirm = await this.confirmDialog(dialogData);
         subscribe.unsubscribe();
         if (!confirm) return null;
-        const url = `box/${item.id}`;
+        const url = `delete-box/${item.id}`;
         const body = {
-            anulation_reason: this.commentCtrl.value
+            delete_comment: this.commentCtrl.value
         };
         const request: RequestInitFetch = {
             confirmDialog: false,
@@ -119,6 +119,9 @@ export class BoxListPageComponent {
                 error: (error) => 'Error al eliminar la caja',
             }
         };
-        return await this.fetch.delete<Box>(url);
+        const response = await this.fetch.put<Box>(url, body, request);
+        console.log(response);
+        
+        return response;
     }
 }
