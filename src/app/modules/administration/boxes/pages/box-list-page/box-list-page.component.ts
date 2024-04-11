@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
-import { ItemListConfiguration, ItemListTemplateComponent, clickEventActionButton, firstLetterUppercaseColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, restoreItemActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, clickEventActionButton, editItemActionButton, firstLetterUppercaseColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, restoreItemActionButton, textColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { StatusModel } from '@interface/baseModel';
 import { Box } from '@interface/box';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
@@ -70,6 +70,8 @@ export class BoxListPageComponent {
         ]),
         rows: {
             options: [
+                viewItemActionButton(),
+                editItemActionButton(),
                 clickEventActionButton({
                     text: 'Eliminar',
                     icon: 'delete',
@@ -80,7 +82,7 @@ export class BoxListPageComponent {
                     },
                     // hidden: (item)=> item.amount > 0 || item.last_box_opening?.status == StatusModel.Abierto || item.status == StatusModel.Eliminado
                 }),
-                restoreItemActionButton()
+                restoreItemActionButton(),
             ]
         }
     }

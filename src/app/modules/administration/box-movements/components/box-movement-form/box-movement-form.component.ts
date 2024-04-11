@@ -1,6 +1,6 @@
 import { DecimalPipe, NgClass } from '@angular/common';
 import { Component, Input, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -128,9 +128,19 @@ export class BoxMovementFormComponent {
             this.boxOpeningIdCtrl.disable();
         }
         this.typeCtrl.valueChanges.subscribe(value => {
-            if (value == BoxMovementTypeEnum.MOVIMIENTO_ENTRE_CAJAS) this.boxOpeningLocalConfiguration.textLabel = 'Caja de origen';
-            if (value == BoxMovementTypeEnum.INGRESO) this.bankAutocompleteLocalConfiguration.textLabel = 'Banco destino';
-            else if (value == BoxMovementTypeEnum.EGRESO) this.bankAutocompleteLocalConfiguration.textLabel = 'Banco origen';
+            if (value == BoxMovementTypeEnum.MOVIMIENTO_ENTRE_CAJAS) {
+                this.boxOpeningLocalConfiguration.textLabel = 'Caja de origen';
+                this.paymentTypeCtrl.clearValidators();
+                this.paymentTypeCtrl.updateValueAndValidity();
+            }
+            else if (value == BoxMovementTypeEnum.INGRESO) {
+                this.bankAutocompleteLocalConfiguration.textLabel = 'Banco destino';
+                this.paymentTypeCtrl.setValidators([Validators.required])
+            }
+            else if (value == BoxMovementTypeEnum.EGRESO) {
+                this.bankAutocompleteLocalConfiguration.textLabel = 'Banco origen';
+                this.paymentTypeCtrl.setValidators([Validators.required])
+            }
         })
     }
 }
