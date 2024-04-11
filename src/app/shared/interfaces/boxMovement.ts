@@ -50,3 +50,9 @@ export enum BoxBusinessEnum {
     OCTANT = 'octant',
     OTROS_PROYECTOS = 'otros proyectos',
 }
+export enum ComprobanteTypeEnum {
+    BOLETA = 'boleta',
+    FACTURA = 'factura',
+    RECIBO = 'recibo',
+    NINGUNA = 'ninguna',
+}

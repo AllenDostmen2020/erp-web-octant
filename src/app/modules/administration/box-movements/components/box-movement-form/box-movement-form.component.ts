@@ -14,6 +14,7 @@ import { LoadImagePrivateDirective } from '@directive/load-image-private.directi
 import { NumbersOnlyDirective } from '@directive/numbers-only.directive';
 import { BoxBusinessEnum, BoxMovementTypeEnum } from '@interface/boxMovement';
 import { BoxOpening } from '@interface/boxOpening';
+import { ComprobantTypeEnum } from '@interface/clientBillingOption';
 import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
 import { NameModuleDatabase } from '@service/database-storage.service';
 import { ContractPlanFormComponent } from 'src/app/modules/tracking/contracts/components/contract-plan-form/contract-plan-form.component';
@@ -61,11 +62,11 @@ export class BoxMovementFormComponent {
         data: signal(Object.values(BoxMovementTypeEnum).map((item) => ({ name: item.toUpperCase(), id: item })))
     }
     public readonly businessSelectConfiguration: InputSelectConfiguration = {
-        textLabel: 'Empresa',
+        textLabel: 'Negocio',
         data: signal(Object.values(BoxBusinessEnum).map((item) => ({ name: item.toUpperCase(), id: item })))
     }
     public readonly paymentTypeSelectConfiguration: InputSelectConfiguration = {
-        textLabel: 'Tipo de pago',
+        textLabel: 'Medio de pago',
         data: signal([
           { id: 'transferencia', name: 'Transferencia' },
           { id: 'depósito', name: 'Depósito' },
@@ -74,11 +75,8 @@ export class BoxMovementFormComponent {
       ]),
     }
     public readonly voucherTypeSelectConfiguration: InputSelectConfiguration = {
-        textLabel: 'Tipo de pago',
-        data: signal([
-          { id: 'boleta', name: 'Boleta' },
-          { id: 'factura', name: 'Factura' },
-      ]),
+        textLabel: 'Tipo de comprobante',
+        data: signal(Object.values(ComprobantTypeEnum).map((item) => ({ name: item.toUpperCase(), id: item })))
     }
     public readonly boxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
         textLabel: 'Caja',
@@ -119,5 +117,9 @@ export class BoxMovementFormComponent {
             this.boxOpeningIdCtrl.setValue(this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id'));
             this.boxOpeningIdCtrl.disable();
         }
+        this.typeCtrl.valueChanges.subscribe(value => {
+            if(value == BoxMovementTypeEnum.INGRESO) this.bankAutocompleteLocalConfiguration.textLabel = 'Banco destino'
+            else if(value == BoxMovementTypeEnum.EGRESO) this.bankAutocompleteLocalConfiguration.textLabel = 'Banco origen'
+        })
     }
 }

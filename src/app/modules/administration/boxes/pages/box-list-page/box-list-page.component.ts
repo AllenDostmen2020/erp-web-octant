@@ -4,7 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
-import { ItemListConfiguration, ItemListTemplateComponent, clickEventActionButton, firstLetterUppercaseColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, clickEventActionButton, firstLetterUppercaseColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, restoreItemActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
+import { StatusModel } from '@interface/baseModel';
 import { Box } from '@interface/box';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
 
@@ -77,7 +78,9 @@ export class BoxListPageComponent {
                         if (response) updateChangesItemFn(index, { ...item, ...response });
                         this.configList.updateListEvent?.emit();
                     },
+                    // hidden: (item)=> item.amount > 0 || item.last_box_opening?.status == StatusModel.Abierto || item.status == StatusModel.Eliminado
                 }),
+                restoreItemActionButton()
             ]
         }
     }
@@ -116,7 +119,7 @@ export class BoxListPageComponent {
             toast: {
                 loading: 'Eliminando...',
                 success: 'Caja eliminada',
-                error: (error) => 'Error al eliminar la caja',
+                error: (error) => error.error?.message ?? 'Error al eliminar caja',
             }
         };
         const response = await this.fetch.put<Box>(url, body, request);

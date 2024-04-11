@@ -32,6 +32,7 @@
     <mat-error>Campo requerido</mat-error>
   </mat-form-field>
 
+  @if (typeCtrl.value !='movimiento entre cajas' && typeCtrl.value){
   <app-input-select-template class="col-span-6 @2xl:col-span-2" [control]="paymentTypeCtrl"
     [configuration]="paymentTypeSelectConfiguration" />
 
@@ -56,12 +57,13 @@
     <input matInput type="text" formControlName="invoice_number" placeholder="N° factura">
     <mat-error>Campo requerido</mat-error>
   </mat-form-field>
+  }
 
   @if (form.get('concept')) {
-    <mat-form-field class="col-span-full">
-      <mat-label>Concepto del movimiento</mat-label>
-      <textarea matInput formControlName="concept" id="" rows="2" placeholder="Concepto"></textarea>
-      <mat-error>Campo requerido</mat-error>
-    </mat-form-field>
-    }
+  <mat-form-field class="col-span-full">
+    <mat-label>Concepto del movimiento</mat-label>
+    <textarea matInput formControlName="concept" id="" rows="2" placeholder="Concepto"></textarea>
+    <mat-error>Campo requerido</mat-error>
+  </mat-form-field>
+  }
 </div>
