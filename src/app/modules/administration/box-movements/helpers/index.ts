@@ -4,6 +4,7 @@ import { BoxMovement } from "@interface/boxMovement";
 export const getFormBoxMovementGroup = (data?: Partial<BoxMovement>): FormGroup => {
   return new FormGroup({
       box_opening_id: new FormControl(data?.box_opening_id ?? null, [Validators.required]),
+      to_box_opening_id: new FormControl(data?.to_box_opening_id ?? null),
       type: new FormControl(data?.type ?? null, [Validators.required]),
       amount: new FormControl(data?.amount ?? null, [Validators.required]),
       concept: new FormControl(data?.concept ?? null, [Validators.required]),

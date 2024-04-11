@@ -8,6 +8,11 @@
 
   <app-input-autocomplete-template class="col-span-6 @2xl:col-span-2" [idControl]="boxOpeningIdCtrl"
     [configuration]="boxOpeningLocalConfiguration" />
+    
+  @if(typeCtrl.value == 'movimiento entre cajas' && typeCtrl.value){
+  <app-input-autocomplete-template class="col-span-6 @2xl:col-span-2" [idControl]="toBoxOpeningIdCtrl"
+    [configuration]="toBoxOpeningLocalConfiguration" />
+  }
 
   <mat-form-field class="col-span-3 @2xl:col-span-2">
     <mat-label>Monto</mat-label>
@@ -49,14 +54,14 @@
   </mat-form-field>
   }
 
-  @if (typeCtrl.value !='egreso' && typeCtrl.value) {
-    <mat-form-field class="col-span-3 @2xl:col-span-3">
-      <mat-label>Destinatario</mat-label>
-      <input matInput type="text" formControlName="addressee" placeholder="Destinatario">
-      <mat-error>Campo requerido</mat-error>
-    </mat-form-field>
-    }
-  
+  @if (typeCtrl.value =='egreso' && typeCtrl.value) {
+  <mat-form-field class="col-span-6 @2xl:col-span-6">
+    <mat-label>Destinatario</mat-label>
+    <input matInput type="text" formControlName="addressee" placeholder="Destinatario">
+    <mat-error>Campo requerido</mat-error>
+  </mat-form-field>
+  }
+
 
   <app-input-select-template class="col-span-6 @2xl:col-span-3" [control]="voucherTypeCtrl"
     [configuration]="voucherTypeSelectConfiguration" />

@@ -80,9 +80,19 @@ export class BoxMovementFormComponent {
     public readonly boxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
         textLabel: 'Caja',
         local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
-        displayTextFn: (item: BoxOpening) => item.box?.name ?? '--',
+        displayTextFn: (item: BoxOpening) => item instanceof Object ? (item.box?.name ?? '') : '',
     }
 
+    public readonly toBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
+        textLabel: 'Caja destino',
+        local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
+        parseDataFn: (data) => data.filter(item => {
+            const toBoxOpeningId = this.boxOpeningIdCtrl.value;
+            if (toBoxOpeningId) return item.id != toBoxOpeningId
+            return true;
+        }),
+        displayTextFn: (item: BoxOpening) => item instanceof Object ? (item.box?.name ?? '') : '',
+    }
     get typeCtrl(): FormControl {
         return this.form.get('type') as FormControl;
     }
@@ -107,9 +117,10 @@ export class BoxMovementFormComponent {
     get businessCtrl(): FormControl {
         return this.form.get('business') as FormControl;
     }
-    get toBoxOpeningIdCtrl(): FormControl | null {
+    get toBoxOpeningIdCtrl(): FormControl {
         return this.form.get('to_box_opening_id') as FormControl;
     }
+
 
     ngOnInit(): void {
         if (this.router.url.includes('/box/view/')) {
@@ -117,8 +128,9 @@ export class BoxMovementFormComponent {
             this.boxOpeningIdCtrl.disable();
         }
         this.typeCtrl.valueChanges.subscribe(value => {
-            if (value == BoxMovementTypeEnum.INGRESO) this.bankAutocompleteLocalConfiguration.textLabel = 'Banco destino'
-            else if (value == BoxMovementTypeEnum.EGRESO) this.bankAutocompleteLocalConfiguration.textLabel = 'Banco origen'
+            if (value == BoxMovementTypeEnum.MOVIMIENTO_ENTRE_CAJAS) this.boxOpeningLocalConfiguration.textLabel = 'Caja de origen';
+            if (value == BoxMovementTypeEnum.INGRESO) this.bankAutocompleteLocalConfiguration.textLabel = 'Banco destino';
+            else if (value == BoxMovementTypeEnum.EGRESO) this.bankAutocompleteLocalConfiguration.textLabel = 'Banco origen';
         })
     }
 }
