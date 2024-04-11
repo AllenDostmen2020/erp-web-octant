@@ -13,7 +13,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { addDays, format, parseISO } from 'date-fns';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatusModel } from '@interface/baseModel';
-import { ComprobantTypeEnum } from '@interface/clientBillingOption';
 
 interface ExtDocument extends Document, ListItemExtended { }
 

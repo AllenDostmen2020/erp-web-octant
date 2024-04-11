@@ -1,7 +1,6 @@
 import { Bank } from "./bank";
 import { BaseModel, CoinEnum } from "./baseModel";
 import { BoxOpening } from "./boxOpening";
-import { ComprobantTypeEnum } from "./clientBillingOption";
 import { ClientBoxMovement } from "./clientBoxMovement";
 import { User } from "./user";
 
@@ -50,7 +49,7 @@ export enum BoxBusinessEnum {
     OCTANT = 'octant',
     OTROS_PROYECTOS = 'otros proyectos',
 }
-export enum ComprobanteTypeEnum {
+export enum ComprobantTypeEnum {
     BOLETA = 'boleta',
     FACTURA = 'factura',
     RECIBO = 'recibo',

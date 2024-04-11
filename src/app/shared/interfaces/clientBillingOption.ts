@@ -1,4 +1,5 @@
 import { BaseModel } from "./baseModel";
+import { ComprobantTypeEnum } from "./boxMovement";
 
 export interface ClientBillingOption extends BaseModel {
     client_id: number;
@@ -11,9 +12,5 @@ export interface ClientBillingOption extends BaseModel {
     retention_percent: number;
 }
 
-export enum ComprobantTypeEnum {
-    Factura = 'factura',
-    Boleta = 'boleta',
-}
 
 export const COMPROBANT_TYPES = Object.values(ComprobantTypeEnum);

@@ -12,9 +12,8 @@ import { InputSelectConfiguration, InputSelectTemplateComponent } from '@compone
 import { CharactersOnlyDirective } from '@directive/characters-only.directive';
 import { LoadImagePrivateDirective } from '@directive/load-image-private.directive';
 import { NumbersOnlyDirective } from '@directive/numbers-only.directive';
-import { BoxBusinessEnum, BoxMovementTypeEnum } from '@interface/boxMovement';
+import { BoxBusinessEnum, BoxMovementTypeEnum, ComprobantTypeEnum } from '@interface/boxMovement';
 import { BoxOpening } from '@interface/boxOpening';
-import { ComprobantTypeEnum } from '@interface/clientBillingOption';
 import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
 import { NameModuleDatabase } from '@service/database-storage.service';
 import { ContractPlanFormComponent } from 'src/app/modules/tracking/contracts/components/contract-plan-form/contract-plan-form.component';

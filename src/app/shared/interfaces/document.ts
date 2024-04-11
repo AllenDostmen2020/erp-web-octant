@@ -1,6 +1,6 @@
 import { BaseModel, CoinEnum } from "./baseModel";
+import { ComprobantTypeEnum } from "./boxMovement";
 import { Client } from "./client";
-import { ComprobantTypeEnum } from "./clientBillingOption";
 import { ClientBusinessUnit } from "./clientBusinessUnit";
 import { ClientPaymentDocument } from "./clientPaymentDocument";
 import { Contract } from "./contract";
