@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormInput, autocompleteLocalFormInput } from '@component/item-form-template/item-form-template.component';
-import { ItemListConfiguration, ItemListTemplateComponent, ListColumn, defaultListFilterInputs, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, ListColumn, defaultListFilterInputs, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, titlecaseColumn, uppercaseColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Box } from '@interface/box';
 import { BoxMovement, BoxMovementTypeEnum } from '@interface/boxMovement';
 import { NameModuleDatabase } from '@service/database-storage.service';
@@ -61,11 +61,16 @@ export class BoxMovementListPageComponent {
   }
 
   private generateColumns(): ListColumn<BoxMovement>[] {
-    let columns = [
+    let columns: ListColumn<BoxMovement>[] = [
       textColumn({
         title: 'Código',
         sort: { key: 'code' },
         displayValueFn: (item) => item.code,
+      }),
+      textColumn({
+        title: 'Caja',
+        displayValueFn: (item) => item.box_opening?.box?.name ?? '--',
+        cssClass: (item) => item.box_opening?.box?.deleted_at ? 'item-deleted' : '',
       }),
       textColumn({
         title: 'Concepto',
@@ -76,19 +81,14 @@ export class BoxMovementListPageComponent {
         gridColumn: '1fr',
         displayValueFn: (item) => item?.concept ? item.concept : '--',
       }),
-      textColumn({
-        title: 'Cliente',
-        routerLinkValue: {
-          url: (item) => `box-movement/detail/${item.id}`,
-          outlet: 'route-lateral'
-        },
-        gridColumn: 'fit-content(300px)',
-        displayValueFn: (item) => item.client_box_movement?.client?.name ?? 'Empresa',
+      uppercaseColumn({
+        title: 'Negocio',
+        displayValueFn: (item) => item.business,
       }),
-      textColumn({
-        title: 'Caja',
-        displayValueFn: (item) => item.box_opening?.box?.name ?? '--',
-        cssClass: (item) => item.box_opening?.box?.deleted_at ? 'item-deleted' : '',
+      uppercaseColumn({
+        title: 'Cliente',
+        gridColumn: 'fit-content(280px)',
+        displayValueFn: (item) => item.client_box_movement?.client ? item.client_box_movement?.client?.name : (item.type == BoxMovementTypeEnum.EGRESO ? item.addressee : item.business),
       }),
       numberColumn({
         title: 'Monto',
