@@ -20,6 +20,7 @@ export interface BoxMovement extends BaseModel {
     voucher_file: string;
     invoice_number: string;
     business: BoxBusinessEnum;
+    addressee: string;
 
     bank_id: number;
     box_opening_id: number;

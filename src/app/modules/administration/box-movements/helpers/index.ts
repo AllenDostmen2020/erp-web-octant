@@ -17,5 +17,6 @@ export const getFormBoxMovementGroup = (data?: Partial<BoxMovement>): FormGroup 
       payment_date: new FormControl(new Date()),
       observation: new FormControl(''),
       business: new FormControl(''),
+      addressee: new FormControl(''),
   })
 }

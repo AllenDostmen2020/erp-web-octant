@@ -49,6 +49,15 @@
   </mat-form-field>
   }
 
+  @if (typeCtrl.value !='egreso' && typeCtrl.value) {
+    <mat-form-field class="col-span-3 @2xl:col-span-3">
+      <mat-label>Destinatario</mat-label>
+      <input matInput type="text" formControlName="addressee" placeholder="Destinatario">
+      <mat-error>Campo requerido</mat-error>
+    </mat-form-field>
+    }
+  
+
   <app-input-select-template class="col-span-6 @2xl:col-span-3" [control]="voucherTypeCtrl"
     [configuration]="voucherTypeSelectConfiguration" />
 

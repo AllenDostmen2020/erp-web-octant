@@ -19,30 +19,30 @@ import { NameModuleDatabase } from '@service/database-storage.service';
 import { ContractPlanFormComponent } from 'src/app/modules/tracking/contracts/components/contract-plan-form/contract-plan-form.component';
 
 @Component({
-  selector: 'app-box-movement-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    InputAutocompleteTemplateComponent,
-    InputSelectTemplateComponent,
-    DecimalPipe,
-    NgClass,
-    LoadImagePrivateDirective,
-    DatepickerTemplateComponent,
-    PathFilesServerPipe,
-    ContractPlanFormComponent,
-    CharactersOnlyDirective,
-    NumbersOnlyDirective,
-    AutocompleteBoxOpeningComponent
-  ],
-  templateUrl: './box-movement-form.component.html',
-  styleUrl: './box-movement-form.component.scss'
+    selector: 'app-box-movement-form',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        InputAutocompleteTemplateComponent,
+        InputSelectTemplateComponent,
+        DecimalPipe,
+        NgClass,
+        LoadImagePrivateDirective,
+        DatepickerTemplateComponent,
+        PathFilesServerPipe,
+        ContractPlanFormComponent,
+        CharactersOnlyDirective,
+        NumbersOnlyDirective,
+        AutocompleteBoxOpeningComponent
+    ],
+    templateUrl: './box-movement-form.component.html',
+    styleUrl: './box-movement-form.component.scss'
 })
 export class BoxMovementFormComponent {
-  private activatedRoute = inject(ActivatedRoute);
+    private activatedRoute = inject(ActivatedRoute);
     private router = inject(Router);
     @Input({ required: true }) form!: FormGroup;
     @Input() minAmount: number = 0;
@@ -67,11 +67,11 @@ export class BoxMovementFormComponent {
     public readonly paymentTypeSelectConfiguration: InputSelectConfiguration = {
         textLabel: 'Medio de pago',
         data: signal([
-          { id: 'transferencia', name: 'Transferencia' },
-          { id: 'depósito', name: 'Depósito' },
-          { id: 'efectivo', name: 'Efectivo' },
-          { id: 'cheque', name: 'Cheque' },
-      ]),
+            { id: 'transferencia', name: 'Transferencia' },
+            { id: 'depósito', name: 'Depósito' },
+            { id: 'efectivo', name: 'Efectivo' },
+            { id: 'cheque', name: 'Cheque' },
+        ]),
     }
     public readonly voucherTypeSelectConfiguration: InputSelectConfiguration = {
         textLabel: 'Tipo de comprobante',
@@ -79,7 +79,7 @@ export class BoxMovementFormComponent {
     }
     public readonly boxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
         textLabel: 'Caja',
-        local: {nameModuleDatabase: NameModuleDatabase.BoxOpenings},
+        local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
         displayTextFn: (item: BoxOpening) => item.box?.name ?? '--',
     }
 
@@ -111,14 +111,14 @@ export class BoxMovementFormComponent {
         return this.form.get('to_box_opening_id') as FormControl;
     }
 
-    ngOnInit(): void {        
-        if (this.router.url.includes('/box/view/')) {            
+    ngOnInit(): void {
+        if (this.router.url.includes('/box/view/')) {
             this.boxOpeningIdCtrl.setValue(this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id'));
             this.boxOpeningIdCtrl.disable();
         }
         this.typeCtrl.valueChanges.subscribe(value => {
-            if(value == BoxMovementTypeEnum.INGRESO) this.bankAutocompleteLocalConfiguration.textLabel = 'Banco destino'
-            else if(value == BoxMovementTypeEnum.EGRESO) this.bankAutocompleteLocalConfiguration.textLabel = 'Banco origen'
+            if (value == BoxMovementTypeEnum.INGRESO) this.bankAutocompleteLocalConfiguration.textLabel = 'Banco destino'
+            else if (value == BoxMovementTypeEnum.EGRESO) this.bankAutocompleteLocalConfiguration.textLabel = 'Banco origen'
         })
     }
 }
