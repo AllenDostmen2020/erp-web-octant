@@ -1,6 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, ViewEncapsulation, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ItemListConfiguration, ItemListTemplateComponent, dateColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, titlecaseColumn, userColumn } from '@component/item-list-template/item-list-template.component';
+import { BoxMovementTypeEnum } from '@interface/boxMovement';
 import { ClientBoxMovement } from '@interface/clientBoxMovement';
 
 @Component({
@@ -8,7 +9,8 @@ import { ClientBoxMovement } from '@interface/clientBoxMovement';
   standalone: true,
   imports: [ItemListTemplateComponent, RouterLink],
   templateUrl: './client-payment-list-page.component.html',
-  styleUrl: './client-payment-list-page.component.scss'
+  styleUrl: './client-payment-list-page.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class ClientPaymentListPageComponent {
   private activatedRoute = inject(ActivatedRoute);
@@ -48,6 +50,7 @@ export class ClientPaymentListPageComponent {
       numberColumn({
         title: 'Monto',
         displayValueFn: (item) => item.amount,
+        cssClass: (item) => item.type == BoxMovementTypeEnum.INGRESO ? 'ingreso' : 'egreso',
       }),
       itemCreatedAtColumn(),
       itemUpdatedAtColumn(),
