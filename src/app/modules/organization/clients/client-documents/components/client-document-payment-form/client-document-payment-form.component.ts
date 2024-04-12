@@ -64,7 +64,7 @@ export class ClientDocumentPaymentFormComponent {
             total_recaudation: totalRecaudation,
             subtotal: subtotal,
             igv: igv,
-            total: subtotal + igv
+            total: subtotal + igv,
         };
     });
 
@@ -87,7 +87,7 @@ export class ClientDocumentPaymentFormComponent {
     private async getDocuments() {
         const clientId = this.activatedRoute.snapshot.parent?.paramMap.get('id');
         const data = (await this.fetch.get<PaginatorData<Document>>(`document?status=emitida&order=correlative|ASC&relations=documentItems&client_id=${clientId}`)).data;
-        const parseData = data.map((document) => ({ ...document, total_recaudation: Number(document.total) - (Number(document.total_detraction ?? 0) + Number(document.total_retention ?? 0)) }));
+        const parseData = data.map((document) => ({ ...document, total_recaudation: (document.total) - ((document.total_detraction ?? 0) + (document.total_retention ?? 0)) }));
         this.documents.set(parseData);
     }
 
@@ -130,9 +130,19 @@ export class ClientDocumentPaymentFormComponent {
                 const detractionClientBox = this.clientAmounts().find(item=> item.type.toLowerCase() == 'detracción');
                 const retentionClientBox = this.clientAmounts().find(item=> item.type.toLowerCase() == 'retención');
                 const curentRecaudation = this.totalsToPay().total_recaudation;
+                const currentDetraction = this.totalsToPay().total_detraction;
+                const currentRetention = this.totalsToPay().total_retention;
                 const currentItem = this.documents()[event.previousIndex];
-                if (((curentRecaudation + currentItem.total_recaudation) > recaudationClientBox?.amount_available!)) {
+                if (((curentRecaudation + currentItem.total_recaudation) > recaudationClientBox!.amount_available)) {
                     this.toast.open('No se puede agregar el documento, el monto de recaudación supera el monto disponible')
+                    return;
+                }
+                if (((currentDetraction + currentItem.total_detraction) > detractionClientBox!.amount_available)) {
+                    this.toast.open('No se puede agregar el documento, el monto de detracción supera el monto disponible')
+                    return;
+                }
+                if (((currentRetention + currentItem.total_retention) > retentionClientBox!.amount_available)) {
+                    this.toast.open('No se puede agregar el documento, el monto de retención supera el monto disponible')
                     return;
                 }
                 this.documentsToPay.update((documents) => documents.toSpliced(event.currentIndex, 0, currentItem))

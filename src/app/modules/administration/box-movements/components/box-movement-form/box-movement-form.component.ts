@@ -134,11 +134,11 @@ export class BoxMovementFormComponent {
                 this.paymentTypeCtrl.updateValueAndValidity();
             }
             else if (value == BoxMovementTypeEnum.INGRESO) {
-                this.bankAutocompleteLocalConfiguration.textLabel = 'Banco destino';
+                this.bankAutocompleteLocalConfiguration.textLabel = 'Banco origen';
                 this.paymentTypeCtrl.setValidators([Validators.required])
             }
             else if (value == BoxMovementTypeEnum.EGRESO) {
-                this.bankAutocompleteLocalConfiguration.textLabel = 'Banco origen';
+                this.bankAutocompleteLocalConfiguration.textLabel = 'Banco destino';
                 this.paymentTypeCtrl.setValidators([Validators.required])
             }
         })
