@@ -10,9 +10,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Sort, MatSortModule } from '@angular/material/sort';
 import { ClientBox } from '@interface/clientBox';
 
-export interface ExtDocument extends Document {
-    total_recaudation: number;
-}
+
 @Component({
     selector: 'app-client-document-payment-form',
     standalone: true,
@@ -31,16 +29,16 @@ export class ClientDocumentPaymentFormComponent {
     private fetch = inject(FetchService);
     private toast = inject(ToastService);
     private activatedRoute = inject(ActivatedRoute);
-    public documents: WritableSignal<ExtDocument[]> = signal([]);
-    public documentsToPay: WritableSignal<ExtDocument[]> = signal([]);
+    public documents: WritableSignal<Document[]> = signal([]);
+    public documentsToPay: WritableSignal<Document[]> = signal([]);
 
     public totalsToPay = computed(() => {
         const documents = this.documentsToPay();
-        const subtotal = documents.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
-        const igv = documents.reduce((previousValue, item) => previousValue + Number(item.total_igv), 0);
-        const totalDetraction = documents.reduce((previousValue, item) => previousValue + Number(item.total_detraction), 0);
-        const totalRetention = documents.reduce((previousValue, item) => previousValue + Number(item.total_retention), 0);
-        const totalRecaudation = documents.reduce((previousValue, item) => previousValue + Number(item.total_recaudation), 0);
+        const subtotal = documents.reduce((previousValue, item) => previousValue + item.total_value, 0);
+        const igv = documents.reduce((previousValue, item) => previousValue + item.total_igv, 0);
+        const totalDetraction = documents.reduce((previousValue, item) => previousValue + item.total_detraction, 0);
+        const totalRetention = documents.reduce((previousValue, item) => previousValue + item.total_retention, 0);
+        const totalRecaudation = documents.reduce((previousValue, item) => previousValue + item.total_recaudation, 0);
         return {
             total_detraction: totalDetraction,
             total_retention: totalRetention,
@@ -53,11 +51,11 @@ export class ClientDocumentPaymentFormComponent {
 
     public totals = computed(() => {
         const documents = this.documents();
-        const subtotal = documents.reduce((previousValue, item) => previousValue + Number(item.total_value), 0);
-        const igv = documents.reduce((previousValue, item) => previousValue + Number(item.total_igv), 0);
-        const totalDetraction = documents.reduce((previousValue, item) => previousValue + Number(item.total_detraction), 0);
-        const totalRetention = documents.reduce((previousValue, item) => previousValue + Number(item.total_retention), 0);
-        const totalRecaudation = documents.reduce((previousValue, item) => previousValue + Number(item.total_recaudation), 0);
+        const subtotal = documents.reduce((previousValue, item) => previousValue + item.total_value, 0);
+        const igv = documents.reduce((previousValue, item) => previousValue + item.total_igv, 0);
+        const totalDetraction = documents.reduce((previousValue, item) => previousValue + item.total_detraction, 0);
+        const totalRetention = documents.reduce((previousValue, item) => previousValue + item.total_retention, 0);
+        const totalRecaudation = documents.reduce((previousValue, item) => previousValue + item.total_recaudation, 0);
         return {
             total_detraction: totalDetraction,
             total_retention: totalRetention,
@@ -86,9 +84,7 @@ export class ClientDocumentPaymentFormComponent {
 
     private async getDocuments() {
         const clientId = this.activatedRoute.snapshot.parent?.paramMap.get('id');
-        const data = (await this.fetch.get<PaginatorData<Document>>(`document?status=emitida&order=correlative|ASC&relations=documentItems&client_id=${clientId}`)).data;
-        const parseData = data.map((document) => ({ ...document, total_recaudation: (document.total) - ((document.total_detraction ?? 0) + (document.total_retention ?? 0)) }));
-        this.documents.set(parseData);
+        this.documents.set((await this.fetch.get<PaginatorData<Document>>(`document?status=emitida&order=correlative|ASC&relations=documentItems&client_id=${clientId}`)).data);
     }
 
     sortData(sort: Sort | any) {
@@ -136,12 +132,10 @@ export class ClientDocumentPaymentFormComponent {
                 if (((curentRecaudation + currentItem.total_recaudation) > recaudationClientBox!.amount_available)) {
                     this.toast.open('No se puede agregar el documento, el monto de recaudación supera el monto disponible')
                     return;
-                }
-                if (((currentDetraction + currentItem.total_detraction) > detractionClientBox!.amount_available)) {
+                } else if (((currentDetraction + currentItem.total_detraction) > detractionClientBox!.amount_available)) {
                     this.toast.open('No se puede agregar el documento, el monto de detracción supera el monto disponible')
                     return;
-                }
-                if (((currentRetention + currentItem.total_retention) > retentionClientBox!.amount_available)) {
+                } else if (((currentRetention + currentItem.total_retention) > retentionClientBox!.amount_available)) {
                     this.toast.open('No se puede agregar el documento, el monto de retención supera el monto disponible')
                     return;
                 }
