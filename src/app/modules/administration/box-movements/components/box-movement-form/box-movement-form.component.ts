@@ -16,6 +16,7 @@ import { BoxBusinessEnum, BoxMovementTypeEnum, ComprobantTypeEnum } from '@inter
 import { BoxOpening } from '@interface/boxOpening';
 import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
 import { NameModuleDatabase } from '@service/database-storage.service';
+import { debounceTime } from 'rxjs';
 import { ContractPlanFormComponent } from 'src/app/modules/tracking/contracts/components/contract-plan-form/contract-plan-form.component';
 
 @Component({
@@ -53,7 +54,6 @@ export class BoxMovementFormComponent {
         local: {
             nameModuleDatabase: NameModuleDatabase.Banks
         }
-
     }
 
     public readonly typeSelectConfiguration: InputSelectConfiguration = {
@@ -103,6 +103,9 @@ export class BoxMovementFormComponent {
     get boxOpeningIdCtrl(): FormControl {
         return this.form.get('box_opening_id') as FormControl;
     }
+    get boxOpeningCtrl(): FormControl {
+        return this.form.get('box_opening') as FormControl;
+    }
 
     get amountCtrl(): FormControl {
         return this.form.get('amount') as FormControl;
@@ -123,24 +126,39 @@ export class BoxMovementFormComponent {
 
 
     ngOnInit(): void {
+
         if (this.router.url.includes('/box/view/')) {
             this.boxOpeningIdCtrl.setValue(this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id'));
             this.boxOpeningIdCtrl.disable();
         }
         this.typeCtrl.valueChanges.subscribe(value => {
-            if (value == BoxMovementTypeEnum.MOVIMIENTO_ENTRE_CAJAS) {
-                this.boxOpeningLocalConfiguration.textLabel = 'Caja de origen';
-                this.paymentTypeCtrl.clearValidators();
-                this.paymentTypeCtrl.updateValueAndValidity();
-            }
-            else if (value == BoxMovementTypeEnum.INGRESO) {
-                this.bankAutocompleteLocalConfiguration.textLabel = 'Banco origen';
-                this.paymentTypeCtrl.setValidators([Validators.required])
-            }
-            else if (value == BoxMovementTypeEnum.EGRESO) {
-                this.bankAutocompleteLocalConfiguration.textLabel = 'Banco destino';
-                this.paymentTypeCtrl.setValidators([Validators.required])
-            }
+            if (value) {
+                if (value == BoxMovementTypeEnum.MOVIMIENTO_ENTRE_CAJAS) {
+                    this.boxOpeningLocalConfiguration.textLabel = 'Caja de origen';
+                    this.paymentTypeCtrl.clearValidators();
+                    this.paymentTypeCtrl.updateValueAndValidity();
+                    this.maxAmount = 100000;
+                }
+                else if (value == BoxMovementTypeEnum.INGRESO) {
+                    this.bankAutocompleteLocalConfiguration.textLabel = 'Banco origen';
+                    this.paymentTypeCtrl.setValidators([Validators.required]);
+                    this.maxAmount = 100000;
+                }
+                else if (value == BoxMovementTypeEnum.EGRESO) {
+                    this.bankAutocompleteLocalConfiguration.textLabel = 'Banco destino';
+                    this.paymentTypeCtrl.setValidators([Validators.required]);
+                    if (this.boxOpeningCtrl.value) {
+                        console.log(this.boxOpeningCtrl.value.box?.amount);
+                        this.maxAmount = Number(this.boxOpeningCtrl.value.box?.amount) ?? 0;
+                    }
+                }
+            };
+            this.boxOpeningCtrl.valueChanges.subscribe((item: BoxOpening) => {
+                if (this.typeCtrl.value && this.typeCtrl.value == BoxMovementTypeEnum.EGRESO) {
+                    this.maxAmount = Number(item.box?.amount) ?? 0;
+                }
+            });
+
         })
     }
 }

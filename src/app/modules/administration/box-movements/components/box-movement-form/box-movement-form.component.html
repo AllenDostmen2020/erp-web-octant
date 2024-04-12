@@ -6,7 +6,7 @@
   <app-input-select-template class="col-span-6 @2xl:col-span-2" [control]="businessCtrl"
     [configuration]="businessSelectConfiguration" />
 
-  <app-input-autocomplete-template class="col-span-6 @2xl:col-span-2" [idControl]="boxOpeningIdCtrl"
+  <app-input-autocomplete-template class="col-span-6 @2xl:col-span-2" [idControl]="boxOpeningIdCtrl" [autocompleteControl]="boxOpeningCtrl"
     [configuration]="boxOpeningLocalConfiguration" />
     
   @if(typeCtrl.value == 'movimiento entre cajas' && typeCtrl.value){
@@ -81,3 +81,5 @@
   </mat-form-field>
   }
 </div>
+
+<span class="title-medium">Monto: {{maxAmount}}</span>
