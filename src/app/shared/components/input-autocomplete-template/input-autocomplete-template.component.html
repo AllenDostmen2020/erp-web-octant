@@ -13,7 +13,7 @@
                 [ngStyle]="configuration.cssStyleOption | getMixedValue: item"
                 [value]="configuration.displayValueFn ? (configuration.displayValueFn|getMixedValue:item) : item"
                 [disabled]="configuration.disableOptionFn ? (configuration.disableOptionFn|getMixedValue:item) : false">
-                <div [innerHtml]="configuration.displayTextFn ? (configuration.displayTextFn|getMixedValue:item) : item.name"></div>
+                <div [innerHtml]="configuration.optionDisplayTextFn ? (configuration.optionDisplayTextFn|getMixedValue:item) : (configuration.displayTextFn ? (configuration.displayTextFn|getMixedValue:item) : item.name)"></div>
             </mat-option>
         } @empty {
             @if (!init()) {

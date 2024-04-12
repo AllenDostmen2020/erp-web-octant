@@ -76,7 +76,7 @@ export class VehicleListPageComponent {
                 server: {
                     url: 'contract',
                 },
-                // displayValueFn: (item: Contract) => item.code
+                displayTextFn: (item: Contract) => item instanceof  Object ? item.code : '',
             }),
             autocompleteServerFormInput({
                 formControlName: 'client_id',

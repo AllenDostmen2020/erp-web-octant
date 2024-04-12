@@ -23,6 +23,7 @@ export interface InputAutocompleteConfiguration<T = any> {
   conditionFilterFn?: (item: T, value: string) => boolean;
   displayValueFn?: (item: T) => string | number | { [key: string]: any };
   displayTextFn?: (item: T) => string | number;
+  optionDisplayTextFn?: (item: T) => string | number;
   parseDataFn?: (data: T[]) => (T[] | Promise<T[]>);
   data?: WritableSignal<T[]>;
   initializeData?: boolean;
