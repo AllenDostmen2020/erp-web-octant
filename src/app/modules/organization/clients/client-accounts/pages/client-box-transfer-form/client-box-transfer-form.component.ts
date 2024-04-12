@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
-import { InputAutocompleteLocalConfiguration, InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
+import { InputAutocompleteLocalConfiguration, InputAutocompleteServerConfiguration, InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
 import { InputSelectConfiguration, InputSelectServerConfiguration, InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { SelectFileComponent } from '@component/select-file/select-file.component';
@@ -34,19 +34,22 @@ import { NameModuleDatabase } from '@service/database-storage.service';
 })
 export class ClientBoxTransferFormComponent {
   private activatedRoute = inject(ActivatedRoute);
+  public maxAmount: number = 100000;
   public configuration: ItemFormConfiguration = {
     type: 'create',
     titleModule: 'transferencia',
     formGroup: new FormGroup({
       from_client_box_id: new FormControl('', [Validators.required]),
+      from_client_box: new FormControl(''),
       to_client_box_id: new FormControl('', [Validators.required]),
+      to_client_box: new FormControl(''),
       box_movement: new FormGroup({
         to_box_opening_id: new FormControl('', [Validators.required]),
         from_box_opening_id: new FormControl('', [Validators.required]),
         payment_date: new FormControl(new Date(), [Validators.required]),
         payment_type: new FormControl('', [Validators.required]),
         bank_id: new FormControl(''),
-        amount: new FormControl(''),
+        amount: new FormControl('', [Validators.required]),
         concept: new FormControl(''),
         operation_code: new FormControl(''),
         // observation: new FormControl(''),
@@ -62,8 +65,14 @@ export class ClientBoxTransferFormComponent {
   get toClientBoxIdCtrl(): FormControl {
     return this.configuration.formGroup.get('to_client_box_id') as FormControl;
   }
+  get toClientBoxCtrl(): FormControl {
+    return this.configuration.formGroup.get('to_client_box') as FormControl;
+  }
   get fromClientBoxIdCtrl(): FormControl {
     return this.configuration.formGroup.get('from_client_box_id') as FormControl;
+  }
+  get fromClientBoxCtrl(): FormControl {
+    return this.configuration.formGroup.get('from_client_box') as FormControl;
   }
   get bankIdCtrl(): FormControl {
     return this.boxMovementFormGroup.get('bank_id') as FormControl;
@@ -89,26 +98,30 @@ export class ClientBoxTransferFormComponent {
     return this.boxMovementFormGroup.get('voucher_file') as FormControl;
   }
 
-  public readonly toClientBoxSelectServerConfiguration: InputSelectServerConfiguration<ClientBox> = {
+  public readonly bankAutocompleteLocalConfiguration: InputAutocompleteLocalConfiguration = {
+    textLabel: 'Banco',
+    local: { nameModuleDatabase: NameModuleDatabase.Banks }
+  }
+  public readonly toClientBoxSelectServerConfiguration: InputAutocompleteServerConfiguration = {
     textLabel: 'Cuenta destino',
     server: {
       url: 'client-box',
       queryParams: `client_id=${this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')}`
     },
-    displayTextFn: (item) => (item.type).toUpperCase()
+    parseDataFn: (data) => data.filter(item => {
+      const toClientBoxId = this.fromClientBoxIdCtrl.value;
+      if (toClientBoxId) return item.id != toClientBoxId
+      return true;
+    }),
+    displayTextFn: (item) => item instanceof Object ? ((item.type).toUpperCase() ?? '') : ''
   }
-  public fromClientBoxSelectServerConfiguration: InputSelectServerConfiguration<ClientBox> = {
+  public readonly fromClientBoxSelectServerConfiguration: InputAutocompleteServerConfiguration = {
     textLabel: 'Cuenta origen',
     server: {
       url: 'client-box',
       queryParams: `client_id=${this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')}`
     },
-    displayTextFn: (item) => (item.type).toUpperCase()
-  }
-
-  public readonly bankAutocompleteLocalConfiguration: InputAutocompleteLocalConfiguration = {
-    textLabel: 'Banco',
-    local: { nameModuleDatabase: NameModuleDatabase.Banks }
+    displayTextFn: (item) => item instanceof Object ? ((item.type).toUpperCase() ?? '') : ''
   }
   public readonly toBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
     textLabel: 'Caja destino',
@@ -140,6 +153,9 @@ export class ClientBoxTransferFormComponent {
     this.paymentTypeCtrl.disable();
     this.fromBoxOpeningIdCtrl.valueChanges.subscribe((fromIdSelected) => {
       this.fromClientBoxSelectServerConfiguration.data!.set((this.fromClientBoxSelectServerConfiguration.data!() ?? []).filter((item) => item.id !== fromIdSelected));
+    });
+    this.fromClientBoxCtrl.valueChanges.subscribe(item => {
+      this.maxAmount = item.amount_available
     })
   }
 }
