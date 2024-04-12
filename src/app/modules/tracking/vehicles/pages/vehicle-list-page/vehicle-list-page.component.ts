@@ -1,5 +1,7 @@
 import { Component, signal } from '@angular/core';
-import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { autocompleteServerFormInput } from '@component/item-form-template/item-form-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn, viewItemActionButton, defaultListFilterInputs } from '@component/item-list-template/item-list-template.component';
+import { Contract } from '@interface/contract';
 import { Vehicle } from '@interface/vehicle';
 
 @Component({
@@ -66,6 +68,24 @@ export class VehicleListPageComponent {
             options: [
                 viewItemActionButton()
             ]
-        }
+        },
+        filters: signal([
+            autocompleteServerFormInput({
+                formControlName: 'contract_id',
+                textLabel: 'Contrato',
+                server: {
+                    url: 'contract',
+                },
+                // displayValueFn: (item: Contract) => item.code
+            }),
+            autocompleteServerFormInput({
+                formControlName: 'client_id',
+                textLabel: 'Cliente',
+                server: {
+                    url: 'client',
+                }
+            }),
+            ...defaultListFilterInputs(),
+        ])
     }
 }
