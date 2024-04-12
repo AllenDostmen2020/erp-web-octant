@@ -1,5 +1,5 @@
 import { BaseModel } from "./baseModel";
-import { BoxMovement } from "./boxMovement";
+import { BoxMovement, BoxMovementTypeEnum } from "./boxMovement";
 import { Client } from "./client";
 import { ClientBox } from "./clientBox";
 import { ClientPaymentDocument } from "./clientPaymentDocument";
@@ -11,6 +11,8 @@ export interface ClientBoxMovement extends BaseModel {
     to_client_box_id: number;
     from_client_box_id: number;
     amount: number;
+    type: BoxMovementTypeEnum;
+    concept: string;
 
     client?: Client;
     client_box?: ClientBox;
