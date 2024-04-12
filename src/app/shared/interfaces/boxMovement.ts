@@ -54,5 +54,5 @@ export enum ComprobantTypeEnum {
     BOLETA = 'boleta',
     FACTURA = 'factura',
     RECIBO = 'recibo',
-    NINGUNA = 'ninguna',
+    NINGUNO = 'ninguno',
 }

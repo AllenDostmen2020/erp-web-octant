@@ -77,7 +77,7 @@
       @for (item of documentsToPay(); track item; let i = $index) {
       <div class="item__row" cdkDrag>
         <div class="item__row__cell">
-          <p>{{item.serie}} - {{item.correlative|number:'4.0-0'}}</p>
+          <p>{{item.serie}} - {{item.correlative}}</p>
           <p class="body-small" style="opacity: 0.75;">
             @for (document_item of item.document_items; track document_item; let i = $index){
               {{ document_item.description }} |

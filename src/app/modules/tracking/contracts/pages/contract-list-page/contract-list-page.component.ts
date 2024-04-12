@@ -43,14 +43,18 @@ export class ContractListPageComponent {
         })
       ]
     },
-    filters: signal([]),
+    filters: signal(this.getFilters()),
   };
   public alertConfiguration: WritableSignal<null | AlertConfiguration> = signal(null);
 
-  constructor() {
-    let filters = defaultListFilterInputs();
+  ngOnInit(): void {
+    this.getNextExpiredContracts();
+  }
+
+  private getFilters(): FormInput[] {
+    const filters = [];
     if(!this.router.url.includes('/client/view/')) {
-      filters.splice(0, 0, autocompleteServerFormInput({
+      filters.push(autocompleteServerFormInput({
         formControlName: 'client_id',
         textLabel: 'Cliente',
         server: {
@@ -58,20 +62,7 @@ export class ContractListPageComponent {
         }
       }))
     }
-    filters.splice(filters.length - 2, 0, selectFormInput({
-      formControlName: 'status',
-      textLabel: 'Estado',
-      data: signal([
-        { id: StatusModel.Vigente, name: StatusModel.Vigente.toUpperCase() },
-        { id: StatusModel.Expirado, name: StatusModel.Expirado.toUpperCase() },
-        { id: StatusModel.PendienteInstalacion, name: StatusModel.PendienteInstalacion.toUpperCase() },
-      ])
-    }))
-    this.configurationList.filters = signal(filters);
-  }
-
-  ngOnInit(): void {
-    this.getNextExpiredContracts();
+    return [...filters, ...defaultListFilterInputs()]
   }
 
   private async getNextExpiredContracts() {
