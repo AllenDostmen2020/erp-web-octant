@@ -24,38 +24,33 @@ export class ClientPaymentListPageComponent {
     },
     columns: signal([
       textColumn({
-        title: 'Código',
-        displayValueFn: (item) => item.box_movement?.code,
-      }),
-      textColumn({
         title: 'Cuenta',
         displayValueFn: (item) => item.client_box?.name,
+      }),
+      textColumn({
+        title: 'Concepto',
+        displayValueFn: (item) => item.concept,
         routerLinkValue: { url: (item) => `../detail/${item.id}` },
         gridColumn: '1fr',
       }),
-      titlecaseColumn({
-        title: 'Tipo mov.',
-        displayValueFn: (item) => item.box_movement?.type,
-      }),
       dateColumn({
-        title: 'Fecha pago',
-        displayValueFn: (item) => item.box_movement?.payment_date,
+        title: 'F. Operación',
+        displayValueFn: (item) => item.created_at,
       }),
       userColumn({
         title: 'Usuario',
-        displayValueFn: (item) => item.box_movement?.user_id,
+        displayValueFn: (item) => item.create_user_id,
       }),
       titlecaseColumn({
         title: 'Moneda',
         displayValueFn: (item) => item.box_movement?.coin ?? item.client_box?.coin,
       }),
       numberColumn({
-        title: 'Monto Disponible',
+        title: 'Monto',
         displayValueFn: (item) => item.amount,
       }),
       itemCreatedAtColumn(),
       itemUpdatedAtColumn(),
-      itemStatusColumn(),
     ])
   }
 }
