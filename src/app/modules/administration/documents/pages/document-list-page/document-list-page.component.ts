@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild, inject, signal } from '@angular/core';
-import { ItemListTemplateComponent, ListColumn, ListItemExtended, dateColumn, itemCreatedAtColumn, itemStatusColumn, numberColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ListColumn, ListItemExtended, dateColumn, defaultListFilterInputs, itemCreatedAtColumn, itemStatusColumn, numberColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
@@ -13,6 +13,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { addDays, format, parseISO } from 'date-fns';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatusModel } from '@interface/baseModel';
+import { autocompleteServerFormInput } from '@component/item-form-template/item-form-template.component';
 
 interface ExtDocument extends Document, ListItemExtended { }
 
@@ -124,6 +125,16 @@ export class DocumentListPageComponent {
       ]
     },
     columns: signal(this.generateColumns()),
+    filters: signal([
+      autocompleteServerFormInput({
+          formControlName: 'client_id',
+          textLabel: 'Cliente',
+          server: {
+              url: 'client',
+          }
+      }),
+      ...defaultListFilterInputs(),
+  ])
   }
 
   private generateColumns(): ListColumn<Document>[] {
