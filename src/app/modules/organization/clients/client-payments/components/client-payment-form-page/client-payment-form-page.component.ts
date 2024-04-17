@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { InputAutocompleteLocalConfiguration, InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
 import { InputSelectConfiguration, InputSelectServerConfiguration, InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 import { SelectFileComponent } from '@component/select-file/select-file.component';
+import { NumbersOnlyDirective } from '@directive/numbers-only.directive';
 import { BoxMovementTypeEnum } from '@interface/boxMovement';
 import { BoxOpening } from '@interface/boxOpening';
 import { ClientBox } from '@interface/clientBox';
@@ -26,7 +27,8 @@ import { NameModuleDatabase } from '@service/database-storage.service';
         MatSelectModule,
         InputSelectTemplateComponent,
         InputAutocompleteTemplateComponent,
-        SelectFileComponent
+        SelectFileComponent,
+        NumbersOnlyDirective
     ],
     templateUrl: './client-payment-form-page.component.html',
     styleUrl: './client-payment-form-page.component.scss'
