@@ -297,6 +297,7 @@ export class ContractFormComponent {
       });
     });
   }
+  
   private patternAddPlates(platesArray: string[], indexExcept: number = -1): string {
     return `^(?!${platesArray.filter((_, index) => index != indexExcept).filter(plate => plate).join('$|') ?? '----'}$).*`;
   }
