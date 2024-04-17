@@ -70,9 +70,7 @@ export class ContractVehicleListPageComponent {
                 routerLinkActionButton({
                     icon: 'visibility',
                     text: 'Ver',
-                    routerLink: {
-                        url: (item) => `../view/${item.vehicle?.id}`
-                    },
+                    routerLink: { url: (item) => `../view/${item.vehicle?.id}` },
                 })
             ]
         }
