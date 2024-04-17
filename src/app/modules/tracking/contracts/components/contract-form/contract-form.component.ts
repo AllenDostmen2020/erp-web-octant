@@ -55,6 +55,7 @@ export class ContractFormComponent {
   public planIdsSelected: { index: number, value: number }[] = [];
   public plans = signal<Plan[]>([]);
   public lengthPlans = computed(() => this.plans().length);
+  public maxLengthDocumentNumber: WritableSignal<number> = signal(12);
 
   public readonly nameModuleDatabase = NameModuleDatabase;
 
@@ -163,20 +164,33 @@ export class ContractFormComponent {
 
   ngOnInit() {
     this.getPlans();
+    this.listenerChangesDocumentTypeCtrl();
+    this.listenerChangesPeriodCtrl();
+    this.listenerChangesInstallationDateCtrl();
+    this.listenerChangesClientCtrl();
+  }
+
+  private listenerChangesDocumentTypeCtrl(): void {
     this.documentTypeCtrl.valueChanges.subscribe((documentType) => {
       if (documentType == DocumentTypeEnum.DNI) this.updateValidatorsForDocumentNumberCtrl(8);
       else this.updateValidatorsForDocumentNumberCtrl(12);
     })
+  }
 
+  private listenerChangesPeriodCtrl(): void {
     this.periodCtrl.valueChanges.subscribe((period: number) => {
       this.calculationDates(this.installationDateCtrl.value);
     });
+  }
 
+  private listenerChangesInstallationDateCtrl(): void {
     this.installationDateCtrl.valueChanges.pipe(startWith(new Date())).subscribe((installationDate: Date | null) => {
       if (!installationDate) return;
       this.calculationDates(installationDate);
     });
+  }
 
+  private listenerChangesClientCtrl(): void {
     this.clientCtrl.valueChanges.pipe(startWith(this.clientCtrl.value)).subscribe((client: Client) => {
       if (client instanceof Object) {
         this.clientBusinessUnitAutocompleteConfiguration.data!.set(client.client_business_units ?? []);
@@ -193,7 +207,6 @@ export class ContractFormComponent {
     this.plans.set(await this.databaseStorage.getData<Plan>(NameModuleDatabase.Plans));
   }
 
-  public maxLengthDocumentNumber: number = 12;
   public updateValidatorsForDocumentNumberCtrl(length: number): void {
     this.documentNumberCtrl.setValidators([
       Validators.required,
@@ -201,7 +214,7 @@ export class ContractFormComponent {
       Validators.maxLength(length),
     ]);
     this.documentNumberCtrl.updateValueAndValidity();
-    this.maxLengthDocumentNumber = length;
+    this.maxLengthDocumentNumber.set(length);
   }
 
   public addContractPlan() {
@@ -252,7 +265,7 @@ export class ContractFormComponent {
   public planIdSelected($event: { index: number, value: number }) {
     if (!this.planIdsSelected.some((item) => item.index == $event.index)) this.planIdsSelected.push($event);
     else this.planIdsSelected = this.planIdsSelected.map((item) => item.index == $event.index ? $event : item);
-    this.planIdsSelected = this.planIdsSelected.sort((a, b) => a.index - b.index);[0, 1, 2, 3, 4]
+    this.planIdsSelected = this.planIdsSelected.sort((a, b) => a.index - b.index);
     if ($event.index < (this.planIdsSelected.length - 1)) this.planIdsSelected = this.planIdsSelected.toSpliced($event.index + 1, (this.planIdsSelected.length - 1) - $event.index)
     this.planIdSelectedEvent.emit({ index: $event.index, values: this.planIdsSelected.map((item) => item.value) });
   }
@@ -285,6 +298,6 @@ export class ContractFormComponent {
     });
   }
   private patternAddPlates(platesArray: string[], indexExcept: number = -1): string {
-    return `^(?!${platesArray.filter((_, index) => index != indexExcept).filter(plate=>plate).join('$|') ?? '----'}$).*`;
+    return `^(?!${platesArray.filter((_, index) => index != indexExcept).filter(plate => plate).join('$|') ?? '----'}$).*`;
   }
 }

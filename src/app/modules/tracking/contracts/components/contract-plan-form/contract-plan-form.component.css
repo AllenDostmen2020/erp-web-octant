@@ -1,8 +1,16 @@
-mat-expansion-panel {
+.contract-plan-form__container {
   grid-column: 1 / -1;
+  border-radius: var(--corner-mdc-card);
+  background: var(--color-surface-variant);
+  padding: var(--padding-x-card) var(--padding-y-card);
 }
-mat-panel-description button {
-  margin-left: auto;
+
+.contract-plan-form__header {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
 .contract-plan-form {
@@ -31,7 +39,7 @@ mat-panel-description button {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   gap: 12px 24px;
-  border-radius: 8px;
+  border-radius: 4px;
   background: var(--color-surface);
   padding: 16px;
 }

@@ -24,7 +24,6 @@ import { filter } from 'rxjs';
     MatInputModule,
     DecimalPipe,
     PathFilesServerPipe,
-    MatExpansionModule,
   ],
   templateUrl: './contract-plan-form.component.html',
   styleUrl: './contract-plan-form.component.css'

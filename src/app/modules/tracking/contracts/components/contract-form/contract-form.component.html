@@ -27,7 +27,7 @@
 
     <mat-form-field data-input-name="client_responsible_document_number">
         <mat-label>N° Doc. del contacto</mat-label>
-        <input matInput appNumbersOnly type="text" [maxlength]="maxLengthDocumentNumber" formControlName="client_responsible_document_number" />
+        <input matInput appNumbersOnly type="text" [maxlength]="maxLengthDocumentNumber()" formControlName="client_responsible_document_number" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
