@@ -3,6 +3,8 @@ import { contractResolutionRoutes } from "./contract-resolutions/contractResolut
 import { contractVehiclesRoutes } from "../contract-vehicles/contract-vehicles.routes";
 import { clientDocumentRoutes } from "../../organization/clients/client-documents/client-document.routes";
 import { contractInstallationsRoutes } from "./contract-installations/contract-installations.routes";
+import { contractAddendumsRoutes } from "./contract-addendums/contract-addendums.routes";
+import { contractPenaltyRoutes } from "./contract-penalties/contract-penalties.routes";
 
 export const contractRoutes: Routes = [
     {
@@ -54,6 +56,14 @@ export const contractRoutes: Routes = [
             {
                 path: 'installation',
                 children: contractInstallationsRoutes,
+            },
+            {
+                path: 'addendum',
+                children: contractAddendumsRoutes,
+            },
+            {
+                path: 'penalty',
+                children: contractPenaltyRoutes,
             },
             {
                 path: '**',
