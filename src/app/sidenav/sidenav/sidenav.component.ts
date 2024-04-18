@@ -92,8 +92,6 @@ export class SidenavComponent {
 
     @HostListener('window:keydown.esc', ['$event'])
     keyEvent(event: KeyboardEvent) {
-        console.log();
-
         if ((event.target as HTMLElement).nodeName.toUpperCase() !== 'INPUT' && this.showLateralPanel()) {
             this.location.back();
         }
