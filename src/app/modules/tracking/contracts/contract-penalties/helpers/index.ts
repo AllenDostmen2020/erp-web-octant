@@ -1,8 +1,11 @@
+import { inject } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { FormInput, textFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
+import { ContractPenalty } from "@interface/contractPenalty";
 
-export const contractPenaltyFormGroup = () => new FormGroup({
-    reason: new FormControl('', [Validators.required]),
+export const contractPenaltyFormGroup  = (item?: Partial<ContractPenalty>) => new FormGroup({
+    contract_id: new FormControl(''), 
+    reason: new FormControl('', [Validators.required]), 
     observations: new FormControl('', [Validators.required]),
 });
 
