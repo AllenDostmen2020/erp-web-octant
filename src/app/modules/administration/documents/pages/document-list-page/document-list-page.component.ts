@@ -68,6 +68,15 @@ export class DocumentListPageComponent {
           },
         }),
         clickEventActionButton({
+          icon: 'task_alt',
+          text: 'Verificar estado SUNAT',
+          hidden: (item) => item.status !== StatusModel.PendienteAnular && item.status !== StatusModel.PendienteAceptar,
+          fn: async (item, index, { updateChangesItemFn }) => {
+            const response = await this.consultStatusSunat(item);
+            if (response) updateChangesItemFn(index, { ...item, ...response });
+          },
+        }),
+        clickEventActionButton({
           icon: 'send',
           text: 'Emitir',
           hidden: (item) => item.status !== StatusModel.Generada,
@@ -303,6 +312,19 @@ export class DocumentListPageComponent {
     a.click();
     window.URL.revokeObjectURL(URL);
 
+  }
+
+  private async consultStatusSunat(item: Document): Promise<Document | null> {
+    const url = `document/consult-status-sunat/${item.id}`;
+    const request: RequestInitFetch = {
+      confirmDialog: false,
+      toast: {
+        loading: 'Verificando estado en SUNAT...',
+        success: 'Estado verificado',
+        error: (error) => error.error.message?? 'Error al verificar estado en SUNAT',
+      }
+    };
+    return await this.fetch.get<Document>(url, request);
   }
 
 }
