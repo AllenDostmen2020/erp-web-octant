@@ -13,7 +13,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { InputFileConfiguration, SelectFileComponent } from '../select-file/select-file.component';
 import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
 import { ActivatedRoute } from '@angular/router';
-import { FetchErrorResponse } from 'src/app/shared/interfaces/fetch';
+import { FetchErrorResponse } from '@interface/fetch';
 import { ErrorTemplateComponent } from '../error-template/error-template.component';
 import { GetKeyItemPipe } from '@pipe/get-key-item.pipe';
 import { ExecuteFunctionPipe } from '@pipe/execute-function.pipe';

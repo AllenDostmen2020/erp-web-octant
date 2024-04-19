@@ -3,7 +3,7 @@ import { Location, NgClass, NgFor, NgIf } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, IsActiveMatchOptions, Params, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FetchService } from '@service/fetch.service';
-import { FetchErrorResponse } from 'src/app/shared/interfaces/fetch';
+import { FetchErrorResponse } from '@interface/fetch';
 import { objectToURLSearchParams } from '@utility/queryParams';
 import { GetMixedValuePipe } from '@pipe/get-mixed-value.pipe';
 

@@ -7,6 +7,12 @@
     <div class="apps__menu__container" (click)="$event.stopPropagation()">
         <div class="apps__menu__content">
             <div class="apps__menu__content__item">
+                <button class="apps__menu__content__item__button icon-button" (click)="runBoot()">
+                    <span class="apps__menu__content__item__button__icon material-icons">run_circle</span>
+                    <p class="apps__menu__content__item__button__text body-small">Run BOOT</p>
+                </button>
+            </div>
+            <div class="apps__menu__content__item">
                 <button class="apps__menu__content__item__button icon-button">
                     <span class="apps__menu__content__item__button__icon material-icons">account_circle</span>
                     <p class="apps__menu__content__item__button__text body-small">Usuarios</p>
@@ -16,12 +22,6 @@
                 <button class="apps__menu__content__item__button icon-button">
                     <span class="apps__menu__content__item__button__icon material-icons">date_range</span>
                     <p class="apps__menu__content__item__button__text body-small">Calendario</p>
-                </button>
-            </div>
-            <div class="apps__menu__content__item">
-                <button class="apps__menu__content__item__button icon-button">
-                    <span class="apps__menu__content__item__button__icon material-icons">apps</span>
-                    <p class="apps__menu__content__item__button__text body-small">Inicio</p>
                 </button>
             </div>
             <div class="apps__menu__content__item">
