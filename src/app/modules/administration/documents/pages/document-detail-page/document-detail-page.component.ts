@@ -1,20 +1,25 @@
-import { Component } from '@angular/core';
+import { DecimalPipe, TitleCasePipe } from '@angular/common';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ItemDetailTemplateComponent, registerDataGroupDetail, ItemDetailConfiguration, textDetail, dateDetail, numberDetail } from '@component/item-detail-template/item-detail-template.component';
 import { Document } from '@interface/document';
 
 @Component({
     selector: 'app-document-detail-page',
     standalone: true,
-    imports: [ItemDetailTemplateComponent],
+    imports: [ItemDetailTemplateComponent, TitleCasePipe, DecimalPipe],
     templateUrl: './document-detail-page.component.html',
     styleUrl: './document-detail-page.component.scss'
 })
 export class DocumentDetailPageComponent {
+    @ViewChild('previewRef') previewRef!: TemplateRef<any>;
+
     public configuration: ItemDetailConfiguration<Document> = {
         title: 'Detalles',
         server: {
             url: 'document',
-            queryParams: { relations: 'client' }
+            queryParams: { 
+                relations: 'client,documentItems'
+            },
         },
         groups: [
             {
@@ -111,5 +116,19 @@ export class DocumentDetailPageComponent {
             },
             registerDataGroupDetail(),
         ]
+    }
+
+    ngAfterViewInit() {
+        console.log(this.previewRef);
+        this.configuration.groups.push(
+            {
+                icon: 'preview',
+                title: 'Vista previa',
+                template: {
+                    ref: this.previewRef,
+                },
+                details: [],
+            }
+        )
     }
 }

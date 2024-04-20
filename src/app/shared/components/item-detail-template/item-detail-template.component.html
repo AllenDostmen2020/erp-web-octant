@@ -219,7 +219,7 @@
     <div [matTooltip]="tooltip | getMixedValue:item" class="item-detail__group__row__value__hovered"
         (click)="clickEvent(item)" [innerHTML]="value"></div>
     } @else {
-    <div [title]="value" [matTooltip]="tooltip | getMixedValue:item" [innerHTML]="value"></div>
+    <div [matTooltip]="tooltip | getMixedValue:item" [innerHTML]="value"></div>
     }
 </ng-template>
 
@@ -235,8 +235,8 @@
             <ng-container [ngTemplateOutlet]="restoreButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
         }
         @case ('clickEvent') {
-            <button class="tonal-button" (click)="actionButton.clickEvent(item)">
-                <span class="material-icons">{{actionButton.icon}}</span>
+            <button class="text-button" (click)="actionButton.clickEvent(item)">
+                <!-- <span class="material-icons">{{actionButton.icon}}</span> -->
                 <span>{{actionButton.text}}</span>
             </button>
         }
@@ -247,26 +247,26 @@
     @if (editButton) {
     @if (editButton.routerLink; as rLink) {
     @if (rLink.outlet == 'route-lateral') {
-    <button class="tonal-button add__button" appNavigateLateralPanelOutlet
+    <button class="text-button" appNavigateLateralPanelOutlet
         [navigateUrl]="rLink.url | getMixedValue:item">
-        <span class="material-icons">edit</span>
+        <!-- <span class="material-icons">edit</span> -->
         <span>{{ editButton?.text ?? 'Editar' }}</span>
     </button>
     }@else {
-    <button class="tonal-button add__button" [routerLink]="rLink.url | getMixedValue:item">
-        <span class="material-icons">edit</span>
+    <button class="text-button" [routerLink]="rLink.url | getMixedValue:item">
+        <!-- <span class="material-icons">edit</span> -->
         <span>{{ editButton?.text ?? 'Editar' }}</span>
     </button>
     }
     } @else {
-    <button class="tonal-button add__button" (click)="navigateEdit()">
-        <span class="material-icons">edit</span>
+    <button class="text-button" (click)="navigateEdit()">
+        <!-- <span class="material-icons">edit</span> -->
         <span>{{ editButton?.text ?? 'Editar' }}</span>
     </button>
     }
     } @else {
-    <button class="tonal-button add__button" (click)="navigateEdit()">
-        <span class="material-icons">edit</span>
+    <button class="text-button" (click)="navigateEdit()">
+        <!-- <span class="material-icons">edit</span> -->
         <span>Editar</span>
     </button>
     }
@@ -274,8 +274,8 @@
 
 <ng-template #deleteButtonTmpl let-item>
     @if (!item.deleted_at) {
-    <button class="tonal-button" (click)="deleteItem()">
-        <span class="material-icons">delete</span>
+    <button class="text-button" (click)="deleteItem()">
+        <!-- <span class="material-icons">delete</span> -->
         <span>Eliminar</span>
     </button>
     }
@@ -283,8 +283,8 @@
 
 <ng-template #restoreButtonTmpl let-item>
     @if (item.deleted_at) {
-    <button class="tonal-button" (click)="restoreItem()">
-        <span class="material-icons">autorenew</span>
+    <button class="text-button" (click)="restoreItem()">
+        <!-- <span class="material-icons">autorenew</span> -->
         <span>Restaurar</span>
     </button>
     }

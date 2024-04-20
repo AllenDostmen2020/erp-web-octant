@@ -240,8 +240,9 @@ export const registerDataGroupDetail = (): ItemDetailGroup<any> => {
         details: [
             htmlDetail({
                 title: 'Estado',
+                tooltip: 'Estado',
                 displayValueFn: (item: any) => `
-                    <span class="status-chip ${((item.status ?? '') as string).replaceAll(' ', '-').toLowerCase()}">
+                    <span class="status-chip" title="${item.status}">
                         ${(item.status as string).replace(/\w\S*/g, (txt) =>  txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase())}
                     </span>`,
             }),

@@ -1,6 +1,6 @@
 .status-chip {
-  background: rgb(var(--rgb-secondary-container));
-  color: rgb(var(--rgb-on-secondary-container));
+  background: var(--bg-chip, var(--color-secondary-container));
+  color: var(--text-color-chip, var(--color-on-secondary-container));
   padding: 3px 8px;
   border-radius: 6px;
   font-weight: 500;
@@ -10,8 +10,20 @@
   text-align: center;
 }
 
-.status-chip.eliminado,
-.status-chip.anulado {
-  background: rgb(var(--rgb-error-container));
-  color: rgb(var(--rgb-on-error-container));
+.status-chip[title="emitida"] {
+  --bg-chip: var(--color-tertiary-container);
+  --text-color-chip: var(--color-on-tertiary-container);
+}
+
+.status-chip[title="pagada"] {
+  --bg-chip: var(--color-primary-container);
+  --text-color-chip: var(--color-on-primary-container);
+}
+
+.status-chip[title="eliminado"],
+.status-chip[title="anulado"],
+.status-chip[title="anulada"],
+.status-chip[title="por emitir"] {
+  --bg-chip: var(--color-error-container);
+  --text-color-chip: var(--color-on-error-container);
 }

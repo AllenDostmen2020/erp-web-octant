@@ -1,1 +1,89 @@
-<app-item-detail-template [configuration]="configuration"/>
+<app-item-detail-template [configuration]="configuration" />
+<ng-template #previewRef let-document>
+  <section class="card-preview">
+    <div class="card-preview__header">
+      <div class="card-preview__header__title">
+        <h3 class="title-medium">{{document.type ?? 'Comprobante'}}</h3>
+        @if (document.serie) {
+          <h4 class="body-small">{{ document.serie }}-{{ document.correlative }}</h4>
+        }
+      </div>
+      <div class="card-preview__header__status">
+        <div class="status-chip" [title]="document.status">{{document.status | titlecase}}</div>
+      </div>
+    </div>
+    <div class="card-preview__details body-small">
+      <div class="card-preview__details__row">
+        <div class="card-preview__details__row__title">CLIENTE : </div>
+        <div class="card-preview__details__row__value">{{document.client?.name}}</div>
+      </div>
+      <div class="card-preview__details__row">
+        <div class="card-preview__details__row__title">{{document.client?.document_type?.toUpperCase()}} : </div>
+        <div class="card-preview__details__row__value">{{document.client?.document_number}}</div>
+      </div>
+      <div class="card-preview__details__row">
+        <div class="card-preview__details__row__title">MONEDA : </div>
+        <div class="card-preview__details__row__value">{{document.coin?.toUpperCase()}}</div>
+      </div>
+    </div>
+    <div class="card-preview__content">
+      <div class="card-preview__content__table">
+        <div class="card-preview__content__table__row card-preview__content__table__row-header label-small">
+          <div class="card-preview__content__table__row__cell">
+            Ítem
+          </div>
+          <div class="card-preview__content__table__row__cell">
+            Subtotal
+          </div>
+        </div>
+        @for (documentItem of document.document_items; track $index) {
+          <div class="card-preview__content__table__row body-small">
+            <div class="card-preview__content__table__row__cell">
+              {{ documentItem.description }}
+            </div>
+            <div class="card-preview__content__table__row__cell label-large">
+              {{ documentItem.total_value | number: '2.2-2' }}
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+    <div class="card-preview__footer">
+      <div class="card-preview__footer__resumen label-large">
+        <div class="card-preview__footer__resumen__row">
+          <div>Retención</div>
+          <div>:</div>
+          <div>{{ document.total_retention | number: '2.2-2' }}</div>
+        </div>
+        <div class="card-preview__footer__resumen__row">
+          <div>Detracción</div>
+          <div>:</div>
+          <div>{{ document.total_detraction | number: '2.2-2' }}</div>
+        </div>
+        <div class="card-preview__footer__resumen__row">
+          <div>Recaudación</div>
+          <div>:</div>
+          <div>{{ document.total_recaudation | number: '2.2-2' }}</div>
+        </div>
+      </div>
+      <div style="border-top: 1px solid var(--color-outline-variant); margin: 4px 0;"></div>
+      <div class="card-preview__footer__resumen label-large">
+        <div class="card-preview__footer__resumen__row">
+          <div>Subtotal</div>
+          <div>:</div>
+          <div>{{ document.total_value | number: '2.2-2' }}</div>
+        </div>
+        <div class="card-preview__footer__resumen__row">
+          <div>IGV</div>
+          <div>:</div>
+          <div>{{ document.total_igv | number: '2.2-2' }}</div>
+        </div>
+        <div class="card-preview__footer__resumen__row">
+          <div>Total</div>
+          <div>:</div>
+          <div>{{ document.total | number: '2.2-2' }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</ng-template>
