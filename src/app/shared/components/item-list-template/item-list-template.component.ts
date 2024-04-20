@@ -1,5 +1,5 @@
-import { CommonModule, DatePipe, Location, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewChild, Input, ContentChild, TemplateRef, ElementRef, Renderer2, ViewEncapsulation, signal, WritableSignal, computed, inject, Inject, Optional, InjectionToken, EventEmitter, RendererStyleFlags2, effect, Injector } from '@angular/core';
+import { CommonModule, Location, NgOptimizedImage } from '@angular/common';
+import { ChangeDetectionStrategy, Component, ViewChild, Input, ContentChild, TemplateRef, ElementRef, Renderer2, signal, WritableSignal, computed, inject, Inject, Optional, InjectionToken, EventEmitter, RendererStyleFlags2, effect, Injector } from '@angular/core';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -12,7 +12,6 @@ import { IndexListPipe } from '@pipe/index-list.pipe';
 import { SpinnerDefaultComponent } from '@component/spinner-default/spinner-default.component';
 import { GetKeyItemPipe } from '@pipe/get-key-item.pipe';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime } from 'rxjs';
 import { DiffDatePipe } from '@pipe/diff-date.pipe';
 import { PaginatorData } from '@interface/paginator';
 import { EventsService } from '@service/events.service';
@@ -76,8 +75,8 @@ import { DateFnsAdapter } from '@angular/material-date-fns-adapter';
     InputAutocompleteTemplateComponent,
     InputSelectTemplateComponent,
     ExecuteFunctionListPipe,
-    RenameTitleColumnListPipe,
-    MatBadgeModule
+    MatBadgeModule,
+    RenameTitleColumnListPipe
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -936,7 +935,7 @@ export const itemStatusColumn = <T = any>(config?: Partial<Omit<StringListColumn
   sort: { key: 'status' },
   align: 'center',
   displayValueFn: (item: any) => item.status,
-  cssClassDisplayValue: (item: any) => `status-chip ${((item.status ?? '') as string).replaceAll(' ', '-').toLowerCase()}`,
+  cssClassDisplayValue: 'status-chip',
   ...config,
 });
 export const itemCreatedAtColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'title' | 'displayValueFn' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({
