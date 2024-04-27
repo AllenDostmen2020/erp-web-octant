@@ -56,7 +56,7 @@ export class BoxFormPageComponent {
         textLabel: 'Cuenta',
         placeholder: 'Seleccione una cuenta',
         displayTextFn: (item) => {
-            return `${item.number} | ${item.bank?.name} | ${item.coin.toUpperCase()}`
+            return `${item.name} | ${item.bank?.name} | ${item.coin.toUpperCase()}`
         },
         server: {
             url: 'account',
