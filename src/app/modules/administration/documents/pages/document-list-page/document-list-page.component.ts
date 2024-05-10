@@ -41,8 +41,8 @@ export class DocumentListPageComponent {
   public commentCtrl = new FormControl('', [Validators.required]);
   public emitForm = new FormGroup({
     expiration_date: new FormControl('', [Validators.required]),
-    emit_comment: new FormControl('', [Validators.required]),
-    credit: new FormControl(false, [Validators.required]),
+    emit_comment: new FormControl(''),
+    credit: new FormControl(false),
   });
   public minDate = addDays(new Date(), 1);
 
@@ -218,7 +218,7 @@ export class DocumentListPageComponent {
       title: '¿Está seguro de emitir documento?',
       description: '',
       templateRef: this.emitFormTemplate,
-      confirmButton: { disabled: true },
+      confirmButton: { disabled: false },
     };
     const subscribe = this.emitForm.valueChanges.subscribe(() => dialogData.confirmButton!.disabled = this.emitForm.invalid);
     const confirm = await this.confirmDialog(dialogData);
