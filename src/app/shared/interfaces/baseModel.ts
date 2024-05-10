@@ -81,5 +81,6 @@ export enum StatusModel {
   PendienteAnular= 'pendiente de anular',
   Aplicada= 'aplicada',
   Emitida= 'emitida',
+  PorEmitir= 'por emitir',
 }
 

@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild, inject, signal } from '@angular/core';
-import { ItemListTemplateComponent, ListColumn, ListItemExtended, dateColumn, defaultListFilterInputs, itemCreatedAtColumn, itemStatusColumn, numberColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ListColumn, ListItemExtended, dateColumn, defaultListFilterInputs, itemCreatedAtColumn, itemStatusColumn, numberColumn, restoreItemActionButton, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
@@ -79,7 +79,7 @@ export class DocumentListPageComponent {
         clickEventActionButton({
           icon: 'send',
           text: 'Emitir',
-          hidden: (item) => item.status !== StatusModel.Generada,
+          hidden: (item) => item.status !== StatusModel.PorEmitir,
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.emitDocument(item);
             if (response) updateChangesItemFn(index, { ...item, ...response });
@@ -131,6 +131,15 @@ export class DocumentListPageComponent {
           },
           fn: (item) => this.downloadFile(item, 'cdr'),
         }),
+        clickEventActionButton({
+          text: 'Eliminar',
+          icon: 'delete',
+          hidden: (item) => {
+            return item.status !== StatusModel.PorEmitir;
+          },
+          fn: (item, _, {deleteItemFn}) => deleteItemFn(item.id),
+        }),
+        restoreItemActionButton(),
       ]
     },
     columns: signal(this.generateColumns()),
