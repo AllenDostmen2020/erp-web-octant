@@ -63,9 +63,7 @@ export class DocumentListPageComponent {
         clickEventActionButton({
           icon: 'post_add',
           text: 'Detalles',
-          fn: (item) => {
-            this.router.navigate([{ outlets: { 'route-lateral': `administration/document/detail/${item.id}` } }]);
-          },
+          fn: (item) => this.router.navigate([{ outlets: { 'route-lateral': `administration/document/detail/${item.id}` } }]),
         }),
         clickEventActionButton({
           icon: 'task_alt',
@@ -108,36 +106,61 @@ export class DocumentListPageComponent {
           },
         }),
         clickEventActionButton({
-          text: 'Descargar PDF',
-          icon: 'cloud_download',
-          hidden: (item) => {
-            return item.status !== StatusModel.Aceptada;
-          },
-          fn: (item) => console.log('Descargar PDF'),
+          text: 'Ver PDF',
+          icon: 'picture_as_pdf',
+          hidden: (item) => !item.link_file,
+          fn: (item) => window.open(`${item.link_file}.pdf`, '_blank'),
         }),
+        // clickEventActionButton({
+        //   text: 'Descargar PDF',
+        //   icon: 'cloud_download',
+        //   hidden: (item) => !item.link_file,
+        //   fn: (item) => {
+        //     this.fetch.blob(
+        //       `${item.link_file}.pdf`,
+        //       {
+        //         confirmDialog: {
+        //           title: '¿Está seguro de descargar PDF?',
+        //           description: 'Se descargará el PDF del documento',
+        //         },
+        //         toast: {
+        //           loading: 'Descargando PDF...',
+        //           success: 'PDF descargado',
+        //           error: () => 'Error al descargar PDF',
+        //         }
+        //       },
+        //       ''
+        //     ).then((blob) => {
+        //       const URL = window.URL.createObjectURL(blob);
+        //       const a = document.createElement('a');
+        //       a.href = URL;
+        //       a.download = `PDF-${item.serie}-${item.correlative}.pdf`;
+        //       a.click();
+        //       window.URL.revokeObjectURL(URL);
+        //     });
+        //   }
+        // }),
         clickEventActionButton({
           text: 'Descargar XML',
           icon: 'cloud_download',
-          hidden: (item) => {
-            return item.status !== StatusModel.Aceptada;
-          },
-          fn: (item) => this.downloadFile(item, 'xml'),
+          hidden: (item) => !item.link_file,
+          fn: (item) => window.open(`${item.link_file}.xml`, '_blank'),
         }),
-        clickEventActionButton({
-          text: 'Descargar CDR',
-          icon: 'cloud_download',
-          hidden: (item) => {
-            return item.status !== StatusModel.Aceptada;
-          },
-          fn: (item) => this.downloadFile(item, 'cdr'),
-        }),
+        // clickEventActionButton({
+        //   text: 'Descargar CDR',
+        //   icon: 'cloud_download',
+        //   hidden: (item) => {
+        //     return item.status !== StatusModel.Aceptada;
+        //   },
+        //   fn: (item) => this.downloadFile(item, 'cdr'),
+        // }),
         clickEventActionButton({
           text: 'Eliminar',
           icon: 'delete',
           hidden: (item) => {
             return item.status !== StatusModel.PorEmitir;
           },
-          fn: (item, _, {deleteItemFn}) => deleteItemFn(item.id),
+          fn: (item, _, { deleteItemFn }) => deleteItemFn(item.id),
         }),
         restoreItemActionButton(),
       ]
@@ -145,14 +168,14 @@ export class DocumentListPageComponent {
     columns: signal(this.generateColumns()),
     filters: signal([
       autocompleteServerFormInput({
-          formControlName: 'client_id',
-          textLabel: 'Cliente',
-          server: {
-              url: 'client',
-          }
+        formControlName: 'client_id',
+        textLabel: 'Cliente',
+        server: {
+          url: 'client',
+        }
       }),
       ...defaultListFilterInputs(),
-  ])
+    ])
   }
 
   private generateColumns(): ListColumn<Document>[] {
@@ -231,7 +254,7 @@ export class DocumentListPageComponent {
       toast: {
         loading: 'Enviando a SUNAT...',
         success: 'Documento enviado a SUNAT',
-        error: (error) => error.error.message?? 'Error al enviar a SUNAT',
+        error: (error) => error.error.message ?? 'Error al enviar a SUNAT',
       }
     };
     return await this.fetch.put<Document>(url, body, request);
@@ -330,7 +353,7 @@ export class DocumentListPageComponent {
       toast: {
         loading: 'Verificando estado en SUNAT...',
         success: 'Estado verificado',
-        error: (error) => error.error.message?? 'Error al verificar estado en SUNAT',
+        error: (error) => error.error.message ?? 'Error al verificar estado en SUNAT',
       }
     };
     return await this.fetch.get<Document>(url, request);

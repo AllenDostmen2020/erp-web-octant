@@ -63,6 +63,7 @@ export interface Document extends BaseModel {
     sunat_information: string;
     sunat_qr_code_string: string;
     sunat_response_code: string;
+    link_file: string | null;
 
 
     contract?: Contract;
