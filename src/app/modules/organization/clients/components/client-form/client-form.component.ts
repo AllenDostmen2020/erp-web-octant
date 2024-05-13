@@ -1,18 +1,17 @@
 import { NgClass, UpperCasePipe } from '@angular/common';
-import { Component, Input, inject, signal } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { InputSelectConfiguration, InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
+import { InputSelectLocalConfiguration, InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 import { TelCodeFormFieldTemplateComponent } from '@component/tel-code-form-field-template/tel-code-form-field-template.component';
 import { CharactersOnlyDirective } from '@directive/characters-only.directive';
 import { NumbersOnlyDirective } from '@directive/numbers-only.directive';
 import { getDataPersonFormDocumentNumber } from '@helper/index';
 import { DOCUMENT_TYPES, DocumentTypeEnum } from '@interface/baseModel';
-import { Client } from '@interface/client';
-import { PaginatorData } from '@interface/paginator';
+import { NameModuleDatabase } from '@service/database-storage.service';
 import { FetchService } from '@service/fetch.service';
 import { filter } from 'rxjs';
 
@@ -70,10 +69,10 @@ export class ClientFormComponent {
     return this.form.get('address') as FormControl;
   }
 
-  public readonly documentTypeSelectConfiguration: InputSelectConfiguration = {
+  public readonly documentTypeSelectConfiguration: InputSelectLocalConfiguration = {
     textLabel: 'Tipo de documento',
     placeholder: 'Seleccione un tipo de documento',
-    data: signal(DOCUMENT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item })).sort((a, b) => a.name.localeCompare(b.name)))
+    local: { nameModuleDatabase: NameModuleDatabase.DocumentTypes },
   }
 
   ngOnInit(): void {

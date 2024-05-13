@@ -23,6 +23,7 @@ export class UserListPageComponent {
                 gridColumn: '1fr',
                 displayValueFn: (item) => item?.name ? item.name : '--',
                 displayAdditionalValueFn: (item) => item?.document_number.length >= 11 ? 'RUC: ' + item?.document_number : item?.document_number.length == 8 ? 'DNI: ' + item?.document_number : 'OTRO: ' + item?.document_number,
+                principal: true,
             }),
             emailColumn({
                 title: 'Email',

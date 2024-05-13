@@ -22,7 +22,8 @@ export class ClientListPageComponent {
                 routerLinkValue: { url: (item) => `../view/${item.id}` },
                 gridColumn: '1fr',
                 displayValueFn: (item) => item?.name ? item.name : '--',
-                displayAdditionalValueFn: (item) => `${item.document_type.toUpperCase()}: ${item.document_number}`
+                displayAdditionalValueFn: (item) => `${item.document_type.toUpperCase()}: ${item.document_number}`,
+                principal: true,
             }),
             emailColumn({
                 title: 'Email',
