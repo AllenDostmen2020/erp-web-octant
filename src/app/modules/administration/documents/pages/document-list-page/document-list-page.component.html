@@ -36,3 +36,38 @@
         <p>Una vez emitido a Sunat no se puede revertir el proceso, pero puede anular la factura con otro proceso</p>
     </div>
 </ng-template>
+
+<ng-template #previewEmitTemplate let-document>
+    <div style="display: grid; grid-template-columns: auto 1fr; column-gap: 24px;">
+        <p class="label-large" style="color: rgba(var(--rgb-on-surface), .5);">Serie</p>
+        <p>{{document.serie}}</p>
+
+        <p class="label-large" style="color: rgba(var(--rgb-on-surface), .5);">Correlativo</p>
+        <p>{{document.correlative}}</p>
+
+        <p class="label-large" style="color: rgba(var(--rgb-on-surface), .5);">Fecha de emisión</p>
+        <p>{{document.emit_date | date: 'dd/MM/yyyy'}}</p>
+
+        <p class="label-large" style="color: rgba(var(--rgb-on-surface), .5);">Fecha expiración</p>
+        <p>{{document.expiration_date | date: 'dd/MM/yyyy'}}</p>
+
+        <p class="label-large" style="color: rgba(var(--rgb-on-surface), .5);">Estado</p>
+        <p><span class="status-chip" [title]="document.status">{{document.status}}</span></p>
+
+        @if (document.emit_comment) {
+            <p class="label-large" style="color: rgba(var(--rgb-on-surface), .5);">Comentario</p>
+            <p>{{document.emit_comment}}</p>
+        }
+
+        <p class="label-large" style="color: rgba(var(--rgb-on-surface), .5);">Sunat inf.</p>
+        <p>{{document.sunat_information}}</p>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; margin-top: 12px; column-gap: 8px;">
+        <a class="elevated-button" href="{{document.link_file}}.pdf" download="{{document.serie}}-{{document.correlative}}.pdf" target="_blank">
+            Ver PDF
+        </a>
+        <a class="elevated-button" href="{{document.link_file}}.xml" download="{{document.serie}}-{{document.correlative}}.xml" target="_blank">
+            Descargar XML
+        </a>
+    </div>
+</ng-template>

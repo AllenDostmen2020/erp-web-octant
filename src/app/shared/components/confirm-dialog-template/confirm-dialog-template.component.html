@@ -11,12 +11,14 @@
     <div class="dialog__content">
         <p class="text-on-surface-variant body-medium">{{ data.description }}</p>
         @if (data.templateRef) {
-            <ng-container *ngTemplateOutlet="data.templateRef" />
+            <ng-container [ngTemplateOutlet]="data.templateRef" [ngTemplateOutletContext]="{$implicit: data.data}" />
         }
     </div>
 
     <div class="dialog__actions">
-        <button class="text-button" mat-dialog-close>Cancelar</button>
+        @if (data.cancelButton !== false) {
+            <button class="text-button" mat-dialog-close>{{data.cancelButton?.text ?? 'Cancelar'}}</button>
+        }
         <button class="text-button" [disabled]="data.confirmButton?.disabled" [mat-dialog-close]="true">
             {{data.confirmButton?.text ?? 'Aceptar'}}
         </button>

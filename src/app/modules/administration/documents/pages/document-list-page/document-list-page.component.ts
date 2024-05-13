@@ -14,6 +14,7 @@ import { addDays, format, parseISO } from 'date-fns';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatusModel } from '@interface/baseModel';
 import { autocompleteServerFormInput } from '@component/item-form-template/item-form-template.component';
+import { DatePipe } from '@angular/common';
 
 interface ExtDocument extends Document, ListItemExtended { }
 
@@ -27,6 +28,7 @@ interface ExtDocument extends Document, ListItemExtended { }
     MatInputModule,
     MatDatepickerModule,
     MatSlideToggleModule,
+    DatePipe,
   ],
   templateUrl: './document-list-page.component.html',
   styleUrl: './document-list-page.component.scss',
@@ -34,6 +36,7 @@ interface ExtDocument extends Document, ListItemExtended { }
 export class DocumentListPageComponent {
   @ViewChild('anulateFormTemplate', { static: true }) anulateFormTemplate!: TemplateRef<any>;
   @ViewChild('emitFormTemplate', { static: true }) emitFormTemplate!: TemplateRef<any>;
+  @ViewChild('previewEmitTemplate', { static: true }) previewEmitTemplate!: TemplateRef<any>;
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private fetch = inject(FetchService);
@@ -80,7 +83,22 @@ export class DocumentListPageComponent {
           hidden: (item) => item.status !== StatusModel.PorEmitir,
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.emitDocument(item);
-            if (response) updateChangesItemFn(index, { ...item, ...response });
+            if (response) {
+              updateChangesItemFn(index, { ...item, ...response });
+              this.matDialog.open(ConfirmDialogTemplateComponent, {
+                data: <ConfirmDialogData>{
+                  icon: 'check_circle',
+                  title: 'Documento emitido',
+                  description: '',
+                  data: response,
+                  templateRef: this.previewEmitTemplate,
+                  cancelButton: false,
+                  confirmButton: {
+                    text: 'Cerrar',
+                  }
+                }
+              });
+            }
           },
         }),
         clickEventActionButton({
@@ -116,27 +134,23 @@ export class DocumentListPageComponent {
         //   icon: 'cloud_download',
         //   hidden: (item) => !item.link_file,
         //   fn: (item) => {
-        //     this.fetch.blob(
-        //       `${item.link_file}.pdf`,
-        //       {
-        //         confirmDialog: {
-        //           title: '¿Está seguro de descargar PDF?',
-        //           description: 'Se descargará el PDF del documento',
-        //         },
-        //         toast: {
-        //           loading: 'Descargando PDF...',
-        //           success: 'PDF descargado',
-        //           error: () => 'Error al descargar PDF',
+        //     // const a = document.createElement('a');
+        //     // a.href = `${item.link_file}.pdf`;
+        //     // a.download = `PDF-${item.serie}-${item.correlative}.pdf`;
+        //     // a.target = '_blank';
+        //     // a.click();
+        //     this.matDialog.open(ConfirmDialogTemplateComponent, {
+        //       data: <ConfirmDialogData>{
+        //         icon: 'check_circle',
+        //         title: 'Documento emitido',
+        //         description: '',
+        //         data: item,
+        //         templateRef: this.previewEmitTemplate,
+        //         cancelButton: false,
+        //         confirmButton: {
+        //           text: 'Cerrar',
         //         }
-        //       },
-        //       ''
-        //     ).then((blob) => {
-        //       const URL = window.URL.createObjectURL(blob);
-        //       const a = document.createElement('a');
-        //       a.href = URL;
-        //       a.download = `PDF-${item.serie}-${item.correlative}.pdf`;
-        //       a.click();
-        //       window.URL.revokeObjectURL(URL);
+        //       }
         //     });
         //   }
         // }),

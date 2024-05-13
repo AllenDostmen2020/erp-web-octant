@@ -7,6 +7,12 @@ export interface ConfirmDialogData {
   description: string;
   icon?: string;
   templateRef?: TemplateRef<any>;
+  data?: any;
+  cancelButton?: false | {
+    text?: string;
+    cssClass?: string;
+    disabled?: boolean;
+  },
   confirmButton?: {
     text?: string;
     cssClass?: string;
