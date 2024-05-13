@@ -231,4 +231,12 @@ export class DatabaseStorageService {
         return data;
     }
 
+    public async clearData(key: NameModuleDatabase): Promise<boolean> {
+        return new Promise((resolve) => {
+            const config = this.modules.find((e) => e.key == key);
+            if (!config) resolve(false);
+            this.storageMap.delete(config!.key).subscribe(() => resolve(true))
+        })
+    }
+
 }

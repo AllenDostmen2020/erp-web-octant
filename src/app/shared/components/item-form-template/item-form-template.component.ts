@@ -24,6 +24,7 @@ import { objectToURLSearchParams } from '@utility/queryParams';
 import { ConfirmDialogData } from '@component/confirm-dialog-template/confirm-dialog-template.component';
 import { NumbersOnlyDirective } from '@directive/numbers-only.directive';
 import { CharactersOnlyDirective } from '@directive/characters-only.directive';
+import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
 
 export interface ItemFormConfiguration<Item = any, Data = any> {
   title?: string;
@@ -78,9 +79,11 @@ export interface ItemFormConfiguration<Item = any, Data = any> {
       text: string;
       icon?: string;
   } | false;
+
+  cleanLocalModuleAfterSave?: NameModuleDatabase
 }
 
-export declare type InputType = 'select' | 'select-local' | 'select-server' | 'date' | 'date-range' | 'text' | 'number' | 'textarea' | 'checkbox' | 'switch' | 'autocomplete' | 'autocomplete-local' | 'autocomplete-server';
+export declare type InputType = 'select' | 'select-local' | 'select-server' | 'date' | 'date-time' | 'date-range' | 'text' | 'number' | 'textarea' | 'checkbox' | 'switch' | 'autocomplete' | 'autocomplete-local' | 'autocomplete-server';
 
 export interface FormInput {
 
@@ -115,7 +118,15 @@ export interface FormInput {
   file?: FileFormInput;
 }
 
-export interface TextFormInput<T = any> {
+interface FormColumns {
+  columns?: {
+    default?: 1 | 2 | 3 | 4 | 5 | 6 | 7 |8 | 9 | 10 | 11 | 12,
+    md?: 1 | 2 | 3 | 4 | 5 | 6 | 7 |8 | 9 | 10 | 11 | 12,
+    sm?: 1 | 2 | 3 | 4 | 5 | 6 | 7 |8 | 9 | 10 | 11 | 12,
+  }
+}
+
+export interface TextFormInput<T = any> extends FormColumns {
   formControlName: string;
   textLabel: string;
   placeholder?: string;
@@ -126,7 +137,7 @@ export interface TextFormInput<T = any> {
   validationOnly?: 'numbers' | 'letters' | 'numbersAndLetters';
 }
 
-export interface NumberFormInput<T = any> {
+export interface NumberFormInput<T = any> extends FormColumns {
   formControlName: string;
   textLabel: string;
   placeholder?: string;
@@ -137,7 +148,7 @@ export interface NumberFormInput<T = any> {
   cssClass?: string | ((item: T) => string);
 }
 
-export interface TextareaFormInput<T = any> {
+export interface TextareaFormInput<T = any> extends FormColumns {
   formControlName: string;
   textLabel: string;
   placeholder?: string;
@@ -148,7 +159,7 @@ export interface TextareaFormInput<T = any> {
   cssClass?: string | ((item: T) => string);
 }
 
-export interface SelectFormInput<T = any> {
+export interface SelectFormInput<T = any> extends FormColumns {
   formControlName: string;
   textLabel: string;
   placeholder?: string;
@@ -157,7 +168,7 @@ export interface SelectFormInput<T = any> {
   cssClass?: string | ((item: T) => string);
 }
 
-export interface DateFormInput<T = any> {
+export interface DateFormInput<T = any> extends FormColumns {
   formControlName: string;
   textLabel: string;
   placeholder?: string;
@@ -167,7 +178,7 @@ export interface DateFormInput<T = any> {
   cssClass?: string | ((item: T) => string);
 }
 
-export interface DateRangeFormInput<T = any> {
+export interface DateRangeFormInput<T = any> extends FormColumns {
   formControlNameFrom: string;
   formControlNameTo: string;
   textLabel: string;
@@ -179,59 +190,59 @@ export interface DateRangeFormInput<T = any> {
   cssClass?: string | ((item: T) => string);
 }
 
-export interface SwitchFormInput<T = any> {
+export interface SwitchFormInput<T = any> extends FormColumns {
   formControlName: string;
   textLabel: string;
   defaultValue?: boolean | null;
   cssClass?: string | ((item: T) => string);
 }
 
-export interface CheckboxFormInput<T = any> {
+export interface CheckboxFormInput<T = any> extends FormColumns {
   formControlName: string;
   textLabel: string;
   defaultValue?: boolean | null;
   cssClass?: string | ((item: T) => string);
 }
 
-interface SelectConfigurationExt<T = any> extends InputSelectConfiguration<T> {
+interface SelectConfigurationExt<T = any> extends InputSelectConfiguration<T>, FormColumns {
   formControlName: string;
   defaultValue?: string | number | null;
   cssClass?: string | ((item: T) => string);
 }
 
-interface SelectLocalConfigurationExt<T = any> extends InputSelectLocalConfiguration<T> {
+interface SelectLocalConfigurationExt<T = any> extends InputSelectLocalConfiguration<T>, FormColumns {
   formControlName: string;
   defaultValue?: string | number | null;
   cssClass?: string | ((item: T) => string);
 }
 
-interface SelectServerConfigurationExt<T = any> extends InputSelectServerConfiguration<T> {
+interface SelectServerConfigurationExt<T = any> extends InputSelectServerConfiguration<T>, FormColumns {
   formControlName: string;
   defaultValue?: string | number | null;
   cssClass?: string | ((item: T) => string);
 }
 
-interface AutocompleteConfigurationExt<T = any> extends InputAutocompleteConfiguration<T> {
+interface AutocompleteConfigurationExt<T = any> extends InputAutocompleteConfiguration<T>, FormColumns {
   formControlName: string;
   defaultValue?: string | number | null;
   cssClass?: string | ((item: T) => string);
 }
 
-interface AutocompleteLocalConfigurationExt<T = any> extends InputAutocompleteLocalConfiguration<T> {
-  formControlName: string;
-  autocompleteFormControlName?: string;
-  defaultValue?: string | number | null;
-  cssClass?: string | ((item: T) => string);
-}
-
-interface AutocompleteServerConfigurationExt<T = any> extends InputAutocompleteServerConfiguration<T> {
+interface AutocompleteLocalConfigurationExt<T = any> extends InputAutocompleteLocalConfiguration<T>, FormColumns {
   formControlName: string;
   autocompleteFormControlName?: string;
   defaultValue?: string | number | null;
   cssClass?: string | ((item: T) => string);
 }
 
-export interface FileFormInput<T = any> extends InputFileConfiguration {
+interface AutocompleteServerConfigurationExt<T = any> extends InputAutocompleteServerConfiguration<T>, FormColumns {
+  formControlName: string;
+  autocompleteFormControlName?: string;
+  defaultValue?: string | number | null;
+  cssClass?: string | ((item: T) => string);
+}
+
+export interface FileFormInput<T = any> extends InputFileConfiguration, FormColumns {
   formControlName: string;
   textLabel: string;
   defaultValue?: any;
@@ -266,6 +277,11 @@ export const selectLocalFormInput = (configuration: SelectLocalConfigurationExt)
 export const selectServerFormInput = (configuration: SelectServerConfigurationExt): FormInput => ({
   type: 'select',
   select: configuration
+});
+
+export const dateTimeFormInput = (configuration: DateFormInput): FormInput => ({
+  type: 'date-time',
+  date: configuration
 });
 
 export const dateFormInput = (configuration: DateFormInput): FormInput => ({
@@ -346,6 +362,7 @@ export class ItemFormTemplateComponent {
   private events = inject(EventsService);
   private activatedRoute = inject(ActivatedRoute);
   public location = inject(Location);
+  public databaseStorage = inject(DatabaseStorageService);
 
   private abortController = new AbortController();
 
@@ -406,7 +423,7 @@ export class ItemFormTemplateComponent {
 
       const { afterSaveFormFn } = this.configuration;
       if (afterSaveFormFn) afterSaveFormFn(response);
-
+      if(this.configuration.cleanLocalModuleAfterSave) this.databaseStorage.clearData(this.configuration.cleanLocalModuleAfterSave)
       if (!this.configuration.disableAutoBackLocation) this.location.back();
     } catch { }
     this.configuration.loading = false;

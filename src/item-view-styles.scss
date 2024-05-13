@@ -7,7 +7,7 @@
 
 .item-view__header {
   background: rgb(var(--rgb-surface));
-  padding: var(--padding-y-card) var(--padding-x-card) 0px var(--padding-x-card);
+  padding: 16px var(--padding-x-card) 0px var(--padding-x-card);
   border-radius: var(--corner-mdc-card) var(--corner-mdc-card) 0 0;
   overflow: hidden;
   transition-property: background;
@@ -98,7 +98,7 @@
 
 .item-view__header__nav {
   border-bottom: 1px solid rgba(var(--rgb-on-surface-variant), .175);
-  margin: 4px calc(var(--padding-x-card) * -1) 0px;
+  margin: 0px calc(var(--padding-x-card) * -1) 0px;
 }
 
 .mat-mdc-tab-header {

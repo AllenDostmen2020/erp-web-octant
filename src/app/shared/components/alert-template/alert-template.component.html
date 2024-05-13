@@ -23,7 +23,7 @@
     }
 
     @if (configuration.showCloseButton) {
-        <button class="alert__close icon-button">
+        <button type="button" class="alert__close icon-button">
             <span class="material-icons alert__close__icon" (click)="close.emit(true)">close</span>
         </button>
     }

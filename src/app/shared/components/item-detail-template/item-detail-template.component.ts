@@ -29,6 +29,8 @@ import { GetMixedValuePipe } from '@pipe/get-mixed-value.pipe';
 import { objectToURLSearchParams } from '@utility/queryParams';
 import { ConfirmDialogData } from '@component/confirm-dialog-template/confirm-dialog-template.component';
 import { TypeValueKeyItem } from '@component/item-list-template/item-list-template.component';
+import { NameModuleDatabase } from '@service/database-storage.service';
+import { LocalItemPipe } from '@pipe/local-item.pipe';
 
 @Component({
     selector: 'app-item-detail-template',
@@ -50,6 +52,7 @@ import { TypeValueKeyItem } from '@component/item-list-template/item-list-templa
         MatTooltipModule,
         ExecuteFunctionPipe,
         GetMixedValuePipe,
+        LocalItemPipe,
     ],
     templateUrl: './item-detail-template.component.html',
     styleUrls: ['./item-detail-template.component.css'],
@@ -153,7 +156,7 @@ export class ItemDetailTemplateComponent {
 }
 
 export interface ItemDetailConfiguration<T = any> {
-    title: string;
+    title: string | false;
     subtitle?: ((item: T) => string | number | null | undefined) | false;
     itemId?: string;
     server: {
@@ -207,6 +210,10 @@ export interface ItemDetail<T> {
     routerLink?: RouterLinkItem<T>
     tooltip?: ((item: T) => string) | string;
     type?: TypeValueKeyItem | 'image' | 'image-server' | 'private-image-server' | 'html';
+    localItem?: {
+        displayTextValue: (item: any) => string | null;
+        nameModuleDatabase: NameModuleDatabase,
+    }
 }
 
 export interface ActionButton<T, Type = 'clickEvent'> {
@@ -240,10 +247,9 @@ export const registerDataGroupDetail = (): ItemDetailGroup<any> => {
         details: [
             htmlDetail({
                 title: 'Estado',
-                tooltip: 'Estado',
                 displayValueFn: (item: any) => `
                     <span class="status-chip" title="${item.status}">
-                        ${(item.status as string).replace(/\w\S*/g, (txt) =>  txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase())}
+                        ${(item.status as string).replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase())}
                     </span>`,
             }),
             diffDateDetail({
@@ -268,7 +274,7 @@ export const registerDataGroupDetail = (): ItemDetailGroup<any> => {
             }),
             userDetail({
                 title: 'Eliminado por',
-                displayValueFn: (item) => item.delete_user_id,
+                displayValueFn: (item) => item.deleted_at ? item.delete_user_id : null,
             }),
             userDetail({
                 title: 'Restaurado por',
@@ -278,9 +284,15 @@ export const registerDataGroupDetail = (): ItemDetailGroup<any> => {
     };
 };
 
-interface SimpleDetail<T> extends Omit<ItemDetail<T>, 'numberFormat' | 'dateFormat' | 'type'> { }
+interface SimpleDetail<T> extends Omit<ItemDetail<T>, 'numberFormat' | 'dateFormat' | 'type' | 'localItem'> { }
 interface NumberDetail<T> extends SimpleDetail<T> { numberFormat?: string; }
 interface DateDetail<T> extends SimpleDetail<T> { dateFormat?: string; }
+interface LocalItemDetail<T> extends SimpleDetail<T> {
+    localItem: {
+        displayTextValue: (item: any) => string | null;
+        nameModuleDatabase: NameModuleDatabase,
+    }
+}
 export const textDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'text' });
 export const numberDetail = <T>(options: NumberDetail<T>): ItemDetail<T> => ({ ...options, type: 'number' });
 export const diffDateDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'diff-date' });
@@ -293,4 +305,5 @@ export const firstLetterUppercaseDetail = <T>(options: SimpleDetail<T>): ItemDet
 export const emailDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'email' });
 export const phoneDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'phone' });
 export const userDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'user' });
+export const localItemDetail = <T>(options: LocalItemDetail<T>): ItemDetail<T> => ({ ...options, type: 'local-item' });
 export const imageColumnDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'image' });

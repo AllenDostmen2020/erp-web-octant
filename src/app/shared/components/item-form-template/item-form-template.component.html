@@ -56,7 +56,11 @@
             @if (field.dateRange; as input) {
             @if (getControl(input.formControlNameFrom) && getControl(input.formControlNameTo)) {
             <mat-form-field data-type="form-input" data-form-input-type="date-range"
-                [attr.data-input-name]="input.formControlNameFrom" class="form__input"
+                [attr.data-input-name]="input.formControlNameFrom"
+                [attr.data-column]="input.columns?.default ?? ''"
+                [attr.data-md-column]="input.columns?.md ?? input.columns?.default ?? ''"
+                [attr.data-sm-column]="input.columns?.sm ?? input.columns?.md ?? input.columns?.default ?? ''"
+                class="form__input"
                 [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                 <mat-label>{{ input.textLabel }}</mat-label>
                 <mat-date-range-input [rangePicker]="pickerRange1">
@@ -76,7 +80,11 @@
             @if (field.date; as input) {
             @if (getControl(input.formControlName); as control) {
             <mat-form-field data-type="form-input" data-form-input-type="date"
-                [attr.data-input-name]="input.formControlName" class="form__input"
+                [attr.data-input-name]="input.formControlName"
+                [attr.data-column]="input.columns?.default ?? ''"
+                [attr.data-md-column]="input.columns?.md ?? input.columns?.default ?? ''"
+                [attr.data-sm-column]="input.columns?.sm ?? input.columns?.md ?? input.columns?.default ?? ''"
+                class="form__input"
                 [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                 <mat-label>{{ input.textLabel }}</mat-label>
                 <input matInput [matDatepicker]="pickerDate" [formControlName]="input.formControlName">
@@ -92,13 +100,36 @@
             </mat-form-field>
             }
             }
-
+            }
+            @case ('date-time') {
+            @if (field.date; as input) {
+            @if (getControl(input.formControlName); as control) {
+            <mat-form-field data-type="form-input" data-form-input-type="date"
+                [attr.data-input-name]="input.formControlName"
+                [attr.data-column]="input.columns?.default ?? ''"
+                [attr.data-md-column]="input.columns?.md ?? input.columns?.default ?? ''"
+                [attr.data-sm-column]="input.columns?.sm ?? input.columns?.md ?? input.columns?.default ?? ''"
+                class="form__input"
+                [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
+                <mat-label>{{ input.textLabel }}</mat-label>
+                <input type="datetime-local" matInput [formControlName]="input.formControlName">
+                @if (control.hasError('required')) { <mat-error>Campo requerido</mat-error> }
+                @else if (control.hasError('min')) { <mat-error>Error fecha mínima</mat-error> }
+                @else if (control.hasError('max')) { <mat-error>Error fecha máxima</mat-error> }
+                @else { <mat-error>Inválido</mat-error> }
+            </mat-form-field>
+            }
+            }
             }
             @case ('number') {
             @if (field.number; as input) {
             @if (getControl(input.formControlName); as control) {
             <mat-form-field data-type="form-input" data-form-input-type="number"
-                [attr.data-input-name]="input.formControlName" class="form__input"
+                [attr.data-input-name]="input.formControlName"
+                [attr.data-column]="input.columns?.default ?? ''"
+                [attr.data-md-column]="input.columns?.md ?? input.columns?.default ?? ''"
+                [attr.data-sm-column]="input.columns?.sm ?? input.columns?.md ?? input.columns?.default ?? ''"
+                class="form__input"
                 [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                 <mat-label>{{ input.textLabel}}</mat-label>
                 <input type="number" matInput [formControlName]="input.formControlName"
@@ -116,7 +147,11 @@
             @if (field.text; as input) {
             @if (getControl(input.formControlName); as control) {
             <mat-form-field data-type="form-input" data-form-input-type="text"
-                [attr.data-input-name]="input.formControlName" class="form__input"
+                [attr.data-input-name]="input.formControlName"
+                [attr.data-column]="input.columns?.default ?? ''"
+                [attr.data-md-column]="input.columns?.md ?? input.columns?.default ?? ''"
+                [attr.data-sm-column]="input.columns?.sm ?? input.columns?.md ?? input.columns?.default ?? ''"
+                class="form__input"
                 [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                 <mat-label>{{ input.textLabel}}</mat-label>
                 @if(input.validationOnly == 'numbers') {
@@ -141,7 +176,11 @@
             @if (field.textarea; as input) {
             @if (getControl(input.formControlName); as control) {
             <mat-form-field data-type="form-input" data-form-input-type="text-area"
-                [attr.data-input-name]="input.formControlName" class="form__input"
+                [attr.data-input-name]="input.formControlName"
+                [attr.data-column]="input.columns?.default ?? ''"
+                [attr.data-md-column]="input.columns?.md ?? input.columns?.default ?? ''"
+                [attr.data-sm-column]="input.columns?.sm ?? input.columns?.md ?? input.columns?.default ?? ''"
+                class="form__input"
                 [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                 <mat-label>{{ input.textLabel}}</mat-label>
                 <textarea matInput [formControlName]="input.formControlName"
@@ -158,8 +197,12 @@
             @case ('select') {
             @if (field.select; as input) {
             @if (getControl(input.formControlName); as control) {
-            <app-input-select-template data-type="form-input" data-form-input-type="select"
-                [attr.data-input-name]="input.formControlName" class="form__input"
+            <app-input-select-template class="form__input"
+                data-type="form-input" data-form-input-type="select"
+                [attr.data-input-name]="input.formControlName"
+                [attr.data-column]="input.columns?.default ?? ''"
+                [attr.data-md-column]="input.columns?.md ?? input.columns?.default ?? ''"
+                [attr.data-sm-column]="input.columns?.sm ?? input.columns?.md ?? input.columns?.default ?? ''"
                 [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null"
                 [control]="control" [configuration]="input" />
             }
@@ -169,7 +212,11 @@
             @if (field.selectLocal; as input) {
             @if (getControl(input.formControlName); as control) {
             <app-input-select-template data-type="form-input" data-form-input-type="select-local"
-                [attr.data-input-name]="input.formControlName" class="form__input"
+                [attr.data-input-name]="input.formControlName"
+                [attr.data-column]="input.columns?.default ?? ''"
+                [attr.data-md-column]="input.columns?.md ?? input.columns?.default ?? ''"
+                [attr.data-sm-column]="input.columns?.sm ?? input.columns?.md ?? input.columns?.default ?? ''"
+                class="form__input"
                 [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null"
                 [control]="control" [configuration]="input" />
             }
@@ -179,7 +226,11 @@
             @if (field.selectServer; as input) {
             @if (getControl(input.formControlName); as control) {
             <app-input-select-template data-type="form-input" data-form-input-type="select-server"
-                [attr.data-input-name]="input.formControlName" class="form__input"
+                [attr.data-input-name]="input.formControlName"
+                [attr.data-column]="input.columns?.default ?? ''"
+                [attr.data-md-column]="input.columns?.md ?? input.columns?.default ?? ''"
+                [attr.data-sm-column]="input.columns?.sm ?? input.columns?.md ?? input.columns?.default ?? ''"
+                class="form__input"
                 [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null"
                 [control]="control" [configuration]="input" />
             }
@@ -189,7 +240,11 @@
             @if (field.autocomplete; as input) {
             @if (getControl(input.formControlName); as control) {
             <app-input-autocomplete-template data-type="form-input" data-form-input-type="autocomplete"
-                [attr.data-input-name]="input.formControlName" class="form__input"
+                [attr.data-input-name]="input.formControlName"
+                [attr.data-column]="input.columns?.default ?? ''"
+                [attr.data-md-column]="input.columns?.md ?? input.columns?.default ?? ''"
+                [attr.data-sm-column]="input.columns?.sm ?? input.columns?.md ?? input.columns?.default ?? ''"
+                class="form__input"
                 [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null"
                 [idControl]="control" [configuration]="input" />
             }
@@ -199,7 +254,11 @@
             @if (field.autocompleteLocal; as input) {
             @if (getControl(input.formControlName); as control) {
             <app-input-autocomplete-template data-type="form-input" data-form-input-type="autocomplete-local"
-                [attr.data-input-name]="input.formControlName" class="form__input"
+                [attr.data-input-name]="input.formControlName"
+                [attr.data-column]="input.columns?.default ?? ''"
+                [attr.data-md-column]="input.columns?.md ?? input.columns?.default ?? ''"
+                [attr.data-sm-column]="input.columns?.sm ?? input.columns?.md ?? input.columns?.default ?? ''"
+                class="form__input"
                 [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null"
                 [idControl]="control" [autocompleteControl]="getControl(input.autocompleteFormControlName ?? '')"
                 [configuration]="input" />
@@ -210,7 +269,11 @@
             @if (field.autocompleteServer; as input) {
             @if (getControl(input.formControlName); as control) {
             <app-input-autocomplete-template data-type="form-input" data-form-input-type="autocomplete-server"
-                [attr.data-input-name]="input.formControlName" class="form__input"
+                [attr.data-input-name]="input.formControlName"
+                [attr.data-column]="input.columns?.default ?? ''"
+                [attr.data-md-column]="input.columns?.md ?? input.columns?.default ?? ''"
+                [attr.data-sm-column]="input.columns?.sm ?? input.columns?.md ?? input.columns?.default ?? ''"
+                class="form__input"
                 [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null"
                 [idControl]="control" [autocompleteControl]="getControl(input.autocompleteFormControlName ?? '')"
                 [configuration]="input" />
@@ -220,7 +283,11 @@
             @case ('checkbox') {
             @if (field.checkbox; as input) {
             @if (getControl(input.formControlName); as control) {
-            <div data-type="form-input" data-form-input-type="checkbox" [attr.data-input-name]="input.formControlName"
+            <div data-type="form-input" data-form-input-type="checkbox"
+                [attr.data-input-name]="input.formControlName"
+                [attr.data-column]="input.columns?.default ?? ''"
+                [attr.data-md-column]="input.columns?.md ?? input.columns?.default ?? ''"
+                [attr.data-sm-column]="input.columns?.sm ?? input.columns?.md ?? input.columns?.default ?? ''"
                 class="form__input"
                 [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                 <mat-checkbox [formControlName]="input.formControlName">{{ input.textLabel }}</mat-checkbox>
@@ -232,6 +299,9 @@
             @if (field.switch; as input) {
             @if (getControl(input.formControlName); as control) {
             <div data-type="form-input" data-form-input-type="switch" [attr.data-input-name]="input.formControlName"
+                [attr.data-column]="input.columns?.default ?? ''"
+                [attr.data-md-column]="input.columns?.md ?? input.columns?.default ?? ''"
+                [attr.data-sm-column]="input.columns?.sm ?? input.columns?.md ?? input.columns?.default ?? ''"
                 class="form__input"
                 [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                 <mat-slide-toggle [formControlName]="input.formControlName">{{ input.textLabel }}</mat-slide-toggle>
@@ -243,6 +313,9 @@
             @if (field.file; as input) {
             @if (getControl(input.formControlName); as control) {
             <div data-type="form-input" data-form-input-type="file" [attr.data-input-name]="input.formControlName"
+                [attr.data-column]="input.columns?.default ?? ''"
+                [attr.data-md-column]="input.columns?.md ?? input.columns?.default ?? ''"
+                [attr.data-sm-column]="input.columns?.sm ?? input.columns?.md ?? input.columns?.default ?? ''"
                 class="form__input"
                 [ngClass]="input.cssClass | getMixedValue: configuration.dataItem ? configuration.dataItem() : null">
                 <app-select-file [configuration]="input" [fileCtrl]="control" />

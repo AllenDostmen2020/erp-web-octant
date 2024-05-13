@@ -1,4 +1,4 @@
-import { CommonModule, Location, NgOptimizedImage } from '@angular/common';
+import { CommonModule, DecimalPipe, Location, NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ViewChild, Input, ContentChild, TemplateRef, ElementRef, Renderer2, signal, WritableSignal, computed, inject, Inject, Optional, InjectionToken, EventEmitter, RendererStyleFlags2, effect, Injector } from '@angular/core';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
@@ -39,6 +39,8 @@ import { FormInput, dateRangeFormInput, switchFormInput } from '@component/item-
 import { RenameTitleColumnListPipe } from './rename-title-column-list.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DateFnsAdapter } from '@angular/material-date-fns-adapter';
+import { NameModuleDatabase } from '@service/database-storage.service';
+import { LocalItemPipe } from '@pipe/local-item.pipe';
 
 @Component({
   selector: 'app-item-list-template',
@@ -76,7 +78,9 @@ import { DateFnsAdapter } from '@angular/material-date-fns-adapter';
     InputSelectTemplateComponent,
     ExecuteFunctionListPipe,
     MatBadgeModule,
-    RenameTitleColumnListPipe
+    RenameTitleColumnListPipe,
+    DecimalPipe,
+    LocalItemPipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -279,7 +283,6 @@ export class ItemListTemplateComponent {
       grid_areas.push('options');
     }
     this.renderer.setStyle(this.divList.nativeElement, 'grid-template-columns', grid_cols.join(' '));
-    this.renderer.setStyle(this.divList.nativeElement, '--items-list-grid-template-areas', `"${grid_areas.join(' ')}"`, RendererStyleFlags2.DashCase);
     grid_areas.forEach((area, index) => this.renderer.setStyle(this.divList.nativeElement, `--items-list-grid-area-${index + 1}`, area, RendererStyleFlags2.DashCase));
   }
 
@@ -591,7 +594,7 @@ export interface ListItemExtended {
   __loading_status__?: boolean;
 }
 
-export type TypeValueKeyItem = 'text' | 'diff-date' | 'date' | 'number' | 'email' | 'phone' | 'user' | 'uppercase' | 'lowercase' | 'titlecase' | 'first-letter-uppercase' | 'list-format' | 'currency';
+export type TypeValueKeyItem = 'text' | 'diff-date' | 'date' | 'number' | 'email' | 'phone' | 'user' | 'uppercase' | 'lowercase' | 'titlecase' | 'first-letter-uppercase' | 'list-format' | 'currency' | 'local-item';
 
 export interface ListColumn<T> {
   /**
@@ -851,9 +854,35 @@ export interface ListColumn<T> {
     height?: number;
     alt?: string;
   }
+
+  localItem?: {
+    displayTextValue: <D=any>(item: D) => string | null;
+    nameModuleDatabase: NameModuleDatabase,
+  }
+
+  /**
+   * @description for set principal value for example if is name of client list, it is important for responsive
+   * @example principal: true
+   * @default false
+   */
+  principal?: boolean;
+
+  /**
+   * @description it is important for responsive
+   * @example icon: 'person'
+   * @default null
+   */
+  icon?: string;
+
+  /**
+   * @description for set hidden in mobile
+   * @example hiddenInMobile: true
+   * @default false
+   */
+  hiddenInMobile?: boolean;
 }
 
-interface SimpleListColumn<T> extends Omit<ListColumn<T>, 'type' | 'displayAdditionalValueFn' | 'displayValueFn' | 'dateFormat' | 'numberFormat' | 'image'> { }
+interface SimpleListColumn<T> extends Omit<ListColumn<T>, 'type' | 'displayAdditionalValueFn' | 'displayValueFn' | 'dateFormat' | 'numberFormat' | 'image' | 'localItem'> { }
 interface SimpleListColumn2<T> extends Omit<SimpleListColumn<T>, 'cssStyleDisplayAdditionalValue' | 'routerLinkAdditionalValue' | 'cssClassDisplayAdditionalValue' | 'clickEventAdditionalValue'> { }
 interface ListFormatListColumn<T = any> extends SimpleListColumn<T> {
   displayAdditionalValueFn?: (item: T, index: number) => string[];
@@ -884,6 +913,14 @@ interface ImageListColumn<T = any> extends SimpleListColumn2<T> {
     width?: number;
     height?: number;
     alt?: string;
+  }
+}
+
+interface LocalItemColumn<T = any> extends SimpleListColumn2<T> {
+  displayValueFn: (item: T, index: number) => number | string | null | undefined;
+  localItem: {
+    displayTextValue: <X = any>(item: X) => string | null;
+    nameModuleDatabase: NameModuleDatabase;
   }
 }
 
@@ -919,6 +956,7 @@ export const userColumn = <T = any>(config: NumberListColumn<T>): ListColumn<T> 
 
 export const imageColumn = <T = any>(config: ImageListColumn<T>): ListColumn<T> => ({ type: 'image', ...config });
 
+export const localItemColumn = <T = any>(config: LocalItemColumn<T>): ListColumn<T> => ({ type: 'local-item', ...config });
 
 export const itemNameAndDescriptionColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'displayValueFn' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({
   title: 'Nombre',
@@ -927,6 +965,7 @@ export const itemNameAndDescriptionColumn = <T = any>(config?: Partial<Omit<Stri
   routerLinkValue: { url: (item: any) => `../detail/${item.id}` },
   displayValueFn: (item: any) => item.name,
   displayAdditionalValueFn: (item: any) => item.description,
+  principal: true,
   ...config,
 });
 export const itemStatusColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'title' | 'displayValueFn' | 'cssClassDisplayValue' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({

@@ -5,71 +5,74 @@
     <div class="list__header__title">
 
       @if (configuration.backButton) {
-        <button class="list__header__title__back-button icon-button" (click)="location.back()">
-          <span class="material-icons">arrow_back</span>
-        </button>
+      <button class="list__header__title__back-button icon-button" (click)="location.back()">
+        <span class="material-icons">arrow_back</span>
+      </button>
       }
 
       @if (configuration.title) {
-        <span>{{ configuration.title }}</span>
+      <span>{{ configuration.title }}</span>
       }
 
-      <ng-content select="listHeaderTitle"/>
+      <ng-content select="listHeaderTitle" />
 
     </div>
 
-    <ng-content select="listHeaderMiddle"/>
+    <ng-content select="listHeaderMiddle" />
 
     <div class="list__header__actions">
       @if (configuration.disableFiltersInQueryParams) {
-        <div class="list__header__actions__search">
-          <input class="list__header__actions__search__input" type="search" placeholder="Buscar..." [formControl]="searchCtrl" />
-          <span class="list__header__actions__search__icon material-icons icon-small">search</span>
-        </div>
+      <div class="list__header__actions__search">
+        <input class="list__header__actions__search__input" type="search" placeholder="Buscar..."
+          [formControl]="searchCtrl" />
+        <span class="list__header__actions__search__icon material-icons icon-small">search</span>
+      </div>
       }
 
       @if (configuration.updateButton != false) {
-        <button class="tonal-icon-button" title="Actualizar" (click)="callGetData(getQueryParams())">
-          <span class="material-icons">refresh</span>
-          <span>Actualizar</span>
-        </button>
+      <button class="outlined-icon-button" title="Actualizar" (click)="callGetData(getQueryParams())">
+        <span class="material-icons">refresh</span>
+        <span>Actualizar</span>
+      </button>
       }
 
       @if (configuration.filters != false) {
-        <button class="tonal-icon-button" title="Filtros" [matMenuTriggerFor]="filterMenu">
-          @if (lengthSelectedFilters(); as lengthFilters) {
-            <span class="material-icons" [matBadge]="lengthFilters">tune</span>
-          } @else {
-            <span class="material-icons">tune</span>
-          }
-          <span>Filtros</span>
-        </button>
+      <button class="outlined-icon-button" title="Filtros" [matMenuTriggerFor]="filterMenu">
+        @if (lengthSelectedFilters(); as lengthFilters) {
+        <span class="material-icons" [matBadge]="lengthFilters">tune</span>
+        } @else {
+        <span class="material-icons">tune</span>
+        }
+        <span>Filtros</span>
+      </button>
       }
 
       <ng-content select="headerButtons" />
 
       @if (configuration.createButton != false) {
 
-        @if (configuration.createButton; as createButton) {
+      @if (configuration.createButton; as createButton) {
 
-          @if (createButton.routerLink.outlet == 'route-lateral') {
-            <button class="list__header__actions__create-button filled-button" appNavigateLateralPanelOutlet [navigateUrl]="createButton.routerLink.url" [routeState]="createButton.routerLink.state">
-              <span class="material-icons">add</span>
-              <span>{{ createButton?.text ?? 'Agregar' }}</span>
-            </button>
-          } @else {
-            <button class="list__header__actions__create-button filled-button" [routerLink]="createButton.routerLink.url" [state]="createButton.routerLink.state">
-              <span class="material-icons">add</span>
-              <span>{{ createButton?.text ?? 'Agregar' }}</span>
-            </button>
-          }
+      @if (createButton.routerLink.outlet == 'route-lateral') {
+      <button class="list__header__actions__create-button filled-button" appNavigateLateralPanelOutlet
+        [navigateUrl]="createButton.routerLink.url" [routeState]="createButton.routerLink.state">
+        <span class="material-icons">add</span>
+        <span>{{ createButton?.text ?? 'Agregar' }}</span>
+      </button>
+      } @else {
+      <button class="list__header__actions__create-button filled-button" [routerLink]="createButton.routerLink.url"
+        [state]="createButton.routerLink.state">
+        <span class="material-icons">add</span>
+        <span>{{ createButton?.text ?? 'Agregar' }}</span>
+      </button>
+      }
 
-        } @else {
-          <button class="list__header__actions__create-button filled-button" (click)="navigateCreateView()">
-            <span class="material-icons">add</span>
-            <span>Agregar</span>
-          </button>
-        }
+      } @else {
+      <button class="list__header__actions__create-button filled-button" (click)="navigateCreateView()">
+        <span class="material-icons">add</span>
+        <span>Agregar</span>
+      </button>
+      }
 
       }
     </div>
@@ -77,7 +80,7 @@
   <!-- ----------------------------------------- -->
   <!-- ----------------------------------------- -->
   <div class="list__information">
-    <ng-content select="listInformation"/>
+    <ng-content select="listInformation" />
   </div>
   <!-- ----------------------------------------- -->
   <!-- ----------------------------------------- -->
@@ -85,61 +88,64 @@
     <!-- ---------------------------- -->
     @if (configuration.columns(); as columns) {
 
-      <div class="list__items__row list__items__row-header" matSort>
+    <div class="list__items__row list__items__row-header" matSort>
 
-        @if (configuration.rows?.selectable) {
-          <div data-column-name="selected" data-column-key="selected" class="list__items__row__cell">
-            <mat-checkbox (change)="selectedAllItems($event.checked)" [checked]="allSelectedItems()" [indeterminate]="someSelectedItems()" />
-          </div>
-        }
-
-        @if (configuration.rows?.index != false) {
-          <div data-column-name="index" data-column-key="index" class="list__items__row__cell">
-            <span>
-              @if (configuration.rows?.index; as index) { {{ index.title }} }
-              @else { N° }
-            </span>
-          </div>
-        }
-
-        @for (column of columns; track column) {
-          @if (!column.hidden) {
-            <div [attr.data-column-name]="column.title" [attr.data-column-key]="column.title|renameTitleColumnList" [attr.data-align]="column.align" [attr.data-type]="column.type" class="list__items__row__cell">
-              @if (column.sort; as sort) { <span [mat-sort-header]="sort.key">{{ column.title }}</span> }
-              @else { <span>{{ column.title }}</span> }
-            </div>
-          }
-        }
-
-        @if (configuration.rows?.actions) {
-          <div data-column-name="actions" data-column-key="actions" class="list__items__row__cell">
-            <span>Acciones</span>
-          </div>
-        }
-
-        @if (configuration.rows?.options != false) {
-          <div data-column-name="options" data-column-key="options" class="list__items__row__cell">
-            <button class="icon-button list__items__row__cell__option" [matMenuTriggerFor]="optionsColumnMenu">
-              <span class="material-icons">settings</span>
-            </button>
-          </div>
-        }
+      @if (configuration.rows?.selectable) {
+      <div data-column-name="selected" data-column-key="selected" class="list__items__row__cell">
+        <mat-checkbox (change)="selectedAllItems($event.checked)" [checked]="allSelectedItems()"
+          [indeterminate]="someSelectedItems()" />
       </div>
-
-      @for (row of data(); track row.id; let index = $index;) {
-        <ng-container *ngTemplateOutlet="rowList || rowDefault; context: { $implicit: row, index, columns, optionsRowMenu, pageIndex: paginator.pageIndex, pageSize: paginator.pageSize }" />
       }
+
+      @if (configuration.rows?.index != false) {
+      <div data-column-name="index" data-column-key="index" class="list__items__row__cell">
+        <span>
+          @if (configuration.rows?.index; as index) { {{ index.title }} }
+          @else { N° }
+        </span>
+      </div>
+      }
+
+      @for (column of columns; track column) {
+      @if (!column.hidden) {
+      <div [attr.data-column-name]="column.title" [attr.data-column-key]="column.title|renameTitleColumnList"
+        [attr.data-align]="column.align" [attr.data-type]="column.type" class="list__items__row__cell">
+        @if (column.sort; as sort) { <span [mat-sort-header]="sort.key">{{ column.title }}</span> }
+        @else { <span>{{ column.title }}</span> }
+      </div>
+      }
+      }
+
+      @if (configuration.rows?.actions) {
+      <div data-column-name="actions" data-column-key="actions" class="list__items__row__cell">
+        <span>Acciones</span>
+      </div>
+      }
+
+      @if (configuration.rows?.options != false) {
+      <div data-column-name="options" data-column-key="options" class="list__items__row__cell">
+        <button class="icon-button list__items__row__cell__option" [matMenuTriggerFor]="optionsColumnMenu">
+          <span class="material-icons">settings</span>
+        </button>
+      </div>
+      }
+    </div>
+
+    @for (row of data(); track row.id; let index = $index;) {
+    <ng-container
+      *ngTemplateOutlet="rowList || rowDefault; context: { $implicit: row, index, columns, optionsRowMenu, pageIndex: paginator.pageIndex, pageSize: paginator.pageSize }" />
+    }
 
     }
     <!-- ---------------------------- -->
     @if (!loading() && !lengthData()) {
-      <div class="list__not-results">
-        Sin resultados...
-      </div>
+    <div class="list__not-results">
+      Sin resultados...
+    </div>
     }
     <!-- ---------------------------- -->
     @if (loading() && !lengthData()) {
-      <app-spinner-default class="list__spinner-loading" />
+    <app-spinner-default class="list__spinner-loading" />
     }
     <!-- ---------------------------- -->
   </div>
@@ -149,20 +155,23 @@
     <div class="list__footer__selectable">
       @if (lengthSelectedItems(); as lengthSelected) {
 
-        <div class="list__footer__selectable__info">
-          {{lengthSelected | number:'2.0-0'}} Ítems seleccionados :
-        </div>
+      <div class="list__footer__selectable__info">
+        {{lengthSelected | number:'2.0-0'}} Ítems seleccionados :
+      </div>
 
-        <div class="list__footer__selectable__actions">
-          @if (configuration.rows?.selectable; as selectable) {
-            @for (action of selectable.actions; track $index) {
-              <button class="{{action.style ?? 'filled-icon-button'}} {{(action.cssClass | executeFunctionList:[selectedItems(), 0]) ?? ''}}" (click)="action.fn(selectedItems())" [disabled]="action.disabled | executeFunctionList:[selectedItems(), 0]"  [title]="action.title??action.text??''">
-                @if (action.icon; as icon) { <span class="material-icons">{{icon}}</span> }
-                @if (action.text; as text) { <span>{{text}}</span> }
-              </button>
-            }
-          }
-        </div>
+      <div class="list__footer__selectable__actions">
+        @if (configuration.rows?.selectable; as selectable) {
+        @for (action of selectable.actions; track $index) {
+        <button
+          class="{{action.style ?? 'filled-icon-button'}} {{(action.cssClass | executeFunctionList:[selectedItems(), 0]) ?? ''}}"
+          (click)="action.fn(selectedItems())" [disabled]="action.disabled | executeFunctionList:[selectedItems(), 0]"
+          [title]="action.title??action.text??''">
+          @if (action.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+          @if (action.text; as text) { <span>{{text}}</span> }
+        </button>
+        }
+        }
+      </div>
 
       }
     </div>
@@ -177,129 +186,189 @@
 <ng-template #rowDefault let-item let-columns="columns" let-index="index" let-rowMenu="optionsRowMenu" let-pageSize="pageSize" let-pageIndex="pageIndex">
   <div class="list__items__row {{(configuration.rows?.cssClass??'') | executeFunctionList:[item, index]}}" [ngClass]="{ 'container-loading': item?.__loading_status__, 'list__items__row-selected': item.__selected__}">
     @if (configuration.rows?.selectable) {
-      <div data-column-name="selected" data-column-key="selected" class="list__items__row__cell list__items__row__cell-select">
-        <mat-checkbox (change)="selectedItem(index, $event.checked)" [checked]="item.__selected__" />
-      </div>
+    <div data-column-name="selected" data-column-key="selected"
+      class="list__items__row__cell list__items__row__cell-select">
+      <mat-checkbox (change)="selectedItem(index, $event.checked)" [checked]="item.__selected__" />
+    </div>
     }
 
     @if (configuration.rows?.index != false) {
-      <div data-column-name="index" data-column-key="index" class="list__items__row__cell list__items__row__cell-index">
-        <div class="list__items__row__cell__value">{{ index | indexList : [pageIndex, pageSize] }}</div>
-      </div>
+    <div data-column-name="index" data-column-key="index" class="list__items__row__cell list__items__row__cell-index">
+      <div class="list__items__row__cell__value">{{ index | indexList : [pageIndex, pageSize] }}</div>
+    </div>
     }
 
     @for (column of columns; track column;) {
-      @if (!column.hidden) {
-        <div [attr.data-column-name]="column.title" [attr.data-column-key]="column.title|renameTitleColumnList" [attr.data-type]="column.type" [attr.data-align]="column.align" class="list__items__row__cell {{(column.cssClass | executeFunctionList:[item, index]) ?? ''}}">
-              @if(column.displayValueFn; as displayValueFn){
-                <div data-type="value-row" class="list__items__row__cell__value {{(column.cssClassDisplayValue | executeFunctionList:[item, index]) ?? ''}}" [ngStyle]="column.cssStyleDisplayValue | executeFunctionList:[item, index]">
-                  <ng-container [ngTemplateOutlet]="renderColumn" [ngTemplateOutletContext]="{ $implicit: column, value:displayValueFn | executeFunctionList:[item, index], item, index, routerLink: column.routerLinkValue, clickEvent: column.clickEventValue }" />
-                </div>
-              }
-
-              @if(column.displayAdditionalValueFn; as displayAdditionalValueFn){
-                <div data-type="additional-value-row" class="list__items__row__cell__value {{(column.cssClassDisplayAdditionalValue | executeFunctionList:[item, index] )}}" [ngStyle]="column.cssStyleDisplayAdditionalValue | executeFunctionList:[item, index]">
-                  <ng-container [ngTemplateOutlet]="renderColumn" [ngTemplateOutletContext]="{ $implicit: column, value: displayAdditionalValueFn | executeFunctionList:[item, index], item, index, routerLink: column.routerLinkAdditionalValue, clickEvent: column.clickEventAdditionalValue }" />
-                </div>
-              }
-        </div>
+    @if (!column.hidden) {
+    <div [attr.data-column-icon]="column.icon ?? '_none_'" [attr.data-column-hidden-in-mobile]="column.hiddenInMobile ?? false" [attr.data-column-principal]="column.principal ?? false" [attr.data-column-name]="column.title" [attr.data-column-key]="column.title|renameTitleColumnList" [attr.data-type]="column.type" [attr.data-align]="column.align" class="list__items__row__cell {{(column.cssClass | executeFunctionList:[item, index]) ?? ''}}">
+      @if(column.displayValueFn; as displayValueFn){
+      @if(displayValueFn | executeFunctionList:[item, index]; as value) {
+      <div class="list__items__row__cell__value {{(column.cssClassDisplayValue | executeFunctionList:[item, index]) ?? ''}}"
+        [ngStyle]="column.cssStyleDisplayValue | executeFunctionList:[item, index]" [title]="value"
+        data-type="value-row"
+        [matTooltip]="column.tooltip | executeFunctionList:[item, index]">
+        <ng-container [ngTemplateOutlet]="renderColumn"
+          [ngTemplateOutletContext]="{ $implicit: column, value, item, index, routerLink: column.routerLinkValue, clickEvent: column.clickEventValue }" />
+      </div>
       }
+      }
+
+      @if(column.displayAdditionalValueFn; as displayAdditionalValueFn){
+      <div data-type="additional-value-row"
+        class="list__items__row__cell__value {{(column.cssClassDisplayAdditionalValue | executeFunctionList:[item, index] )}}"
+        [ngStyle]="column.cssStyleDisplayAdditionalValue | executeFunctionList:[item, index]">
+        <ng-container [ngTemplateOutlet]="renderColumn"
+          [ngTemplateOutletContext]="{ $implicit: column, value: displayAdditionalValueFn | executeFunctionList:[item, index], item, index, routerLink: column.routerLinkAdditionalValue, clickEvent: column.clickEventAdditionalValue }" />
+      </div>
+      }
+    </div>
+    }
     }
 
     @if (configuration.rows?.actions; as actions) {
-      <div data-column-name="actions" data-column-key="actions" class="list__items__row__cell">
-        @for (bAction of actions; track bAction) {
-          @if (!((bAction.hidden ?? false) | executeFunctionList:[item, index])) {
-            @if (bAction.routerLink; as rLink) {
-              @if (rLink.outlet == 'route-lateral') {
-                <a class="{{bAction.style ?? 'text-button'}} {{(bAction.cssClass | executeFunctionList:[item, index]) ?? ''}}" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | executeFunctionList:[item, index]" [routeState]="rLink.state | executeFunctionList:[item, index]">
-                  @if (bAction.icon; as icon) { <span class="material-icons">{{icon}}</span> }
-                  @if (bAction.text; as text) { <span>{{text}}</span> }
-                </a> 
-              } @else { 
-                <a class="{{bAction.style ?? 'text-button'}} {{(bAction.cssClass | executeFunctionList:[item, index]) ?? ''}}" [routerLink]="rLink.url | executeFunctionList:[item, index]" [state]="rLink.state | executeFunctionList:[item, index]">
-                  @if (bAction.icon; as icon) { <span class="material-icons">{{icon}}</span> }
-                  @if (bAction.text; as text) { <span>{{text}}</span> }
-                </a>
-              }
-            } @else if (bAction.fn) {
-              <button class="{{bAction.style ?? 'text-button'}} {{(bAction.cssClass | executeFunctionList:[item, index]) ?? ''}}" (click)="bAction.fn(item, index, {deleteItemFn: deleteItem, restoreItemFn: restoreItem, updateChangesItemFn: updateChangesItem})" [disabled]="bAction.disabled | executeFunctionList:[item, index]"  [title]="bAction.title??''">
-                @if (bAction.icon; as icon) { <span class="material-icons">{{icon}}</span> }
-                @if (bAction.text; as text) { <span>{{text}}</span> }
-              </button>
-            }
-          }
-        }
-      </div>
+    <div data-column-name="actions" data-column-key="actions" class="list__items__row__cell">
+      @for (bAction of actions; track bAction) {
+      @if (!((bAction.hidden ?? false) | executeFunctionList:[item, index])) {
+      @if (bAction.routerLink; as rLink) {
+      @if (rLink.outlet == 'route-lateral') {
+      <a class="{{bAction.style ?? 'text-button'}} {{(bAction.cssClass | executeFunctionList:[item, index]) ?? ''}}"
+        appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | executeFunctionList:[item, index]"
+        [routeState]="rLink.state | executeFunctionList:[item, index]">
+        @if (bAction.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+        @if (bAction.text; as text) { <span>{{text}}</span> }
+      </a>
+      } @else {
+      <a class="{{bAction.style ?? 'text-button'}} {{(bAction.cssClass | executeFunctionList:[item, index]) ?? ''}}"
+        [routerLink]="rLink.url | executeFunctionList:[item, index]"
+        [state]="rLink.state | executeFunctionList:[item, index]">
+        @if (bAction.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+        @if (bAction.text; as text) { <span>{{text}}</span> }
+      </a>
+      }
+      } @else if (bAction.fn) {
+      <button
+        class="{{bAction.style ?? 'text-button'}} {{(bAction.cssClass | executeFunctionList:[item, index]) ?? ''}}"
+        (click)="bAction.fn(item, index, {deleteItemFn: deleteItem, restoreItemFn: restoreItem, updateChangesItemFn: updateChangesItem})"
+        [disabled]="bAction.disabled | executeFunctionList:[item, index]" [title]="bAction.title??''">
+        @if (bAction.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+        @if (bAction.text; as text) { <span>{{text}}</span> }
+      </button>
+      }
+      }
+      }
+    </div>
     }
-    
+
     @if (configuration.rows?.options != false) {
-      <div data-column-name="options" data-column-key="options" class="list__items__row__cell">
-        <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="rowMenu" [matMenuTriggerData]="{item, index}">
-          <span class="material-icons">more_horiz</span>
-        </button>
-      </div>
+    <div data-column-name="options" data-column-key="options" class="list__items__row__cell">
+      <button class="icon-button list__items__header__cell__option" [matMenuTriggerFor]="rowMenu"
+        [matMenuTriggerData]="{item, index}">
+        <span class="material-icons">more_horiz</span>
+      </button>
+    </div>
     }
   </div>
 </ng-template>
 
 <!-- --------------------------------------------- -->
 <!-- --------------------------------------------- -->
-<ng-template #renderColumn let-column let-value="value" let-item="item" let-routerLink="routerLink" let-index="index" let-clickEvent="clickEvent">
+<ng-template #renderColumn let-column let-value="value" let-item="item" let-routerLink="routerLink" let-index="index"
+  let-clickEvent="clickEvent">
   @switch (column.type ?? '') {
-    <!-- --------------------------------- -->
-    @case ('image') { <img [src]="column.image?.prefixUrl ? (column.image?.prefixUrl + value) : (value | pathFilesServer)"/> }
-    <!-- --------------------------------- -->
-    @case ('email') { <a href="mailto:{{value}}">{{value}}</a> }
-    <!-- --------------------------------- -->
-    @case ('phone') { <a href="tel:{{value}}">{{value}}</a> }
-    <!-- --------------------------------- -->
-    @case ('html') { <ng-container [ngTemplateOutlet]="renderValueHtml" [ngTemplateOutletContext]="{ $implicit: value, item, routerLink, index, clickEvent, tooltip: column.tooltip}" /> }
-    <!-- --------------------------------- -->
-    @case ('number') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | number: column.numberFormat ?? '.2-2'), item, routerLink, index, clickEvent, tooltip: column.tooltip}" /> }
-    <!-- --------------------------------- -->
-    @case ('titlecase') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | titlecase), item, routerLink, index, clickEvent, tooltip: column.tooltip}" /> }
-    <!-- --------------------------------- -->
-    @case ('uppercase') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | uppercase), item, routerLink, index, clickEvent, tooltip: column.tooltip}" /> }
-    <!-- --------------------------------- -->
-    @case ('first-letter-uppercase') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | firstLetterUppercase), item, routerLink, index, clickEvent, tooltip: column.tooltip}" /> }
-    <!-- --------------------------------- -->
-    @case ('lowercase') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | lowercase), item, routerLink, index, clickEvent, tooltip: column.tooltip}" /> }
-    <!-- --------------------------------- -->
-    @case ('date') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | date: column.dateFormat ??'dd/MM/yyyy'), item, routerLink, index, clickEvent, tooltip: column.tooltip}" /> }
-    <!-- --------------------------------- -->
-    @case ('diff-date') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | diffDate | firstLetterUppercase), item, routerLink, index, clickEvent, tooltip: column.tooltip}" /> }
-    <!-- --------------------------------- -->
-    @case ('currency') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | currency), item, routerLink, index, clickEvent, tooltip: column.tooltip}" /> }
-    <!-- --------------------------------- -->
-    @case ('list-format') { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: (value | listFormat), item, routerLink, index, clickEvent, tooltip: column.tooltip}" /> }
-    <!-- --------------------------------- -->
-    @case ('user') { @if ((value | getUserById | async); as user) { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: user.name, item, routerLink, index, clickEvent, tooltip: column.tooltip}" /> } }
-    <!-- --------------------------------- -->
-    @default { <ng-container [ngTemplateOutlet]="renderValue" [ngTemplateOutletContext]="{ $implicit: value, item, routerLink, index, clickEvent, tooltip: column.tooltip}" /> }
-    <!-- --------------------------------- -->
-}
-</ng-template>
-
-<ng-template #renderValue let-value let-tooltip="tooltip" let-item="item" let-index="index" let-routerLink="routerLink" let-clickEvent="clickEvent">
-  @if (routerLink; as rLink) {
-    @if (rLink.outlet == 'route-lateral') { <a [matTooltip]="tooltip | executeFunctionList:[item, index]" class="list__items__row__cell__value__hovered" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | executeFunctionList:[item, index]" [routeState]="rLink.state | executeFunctionList:[item, index]">{{value}}</a> } 
-    @else { <a [matTooltip]="tooltip | executeFunctionList:[item, index]" class="list__items__row__cell__value__hovered" [routerLink]="rLink.url | executeFunctionList:[item, index]" [state]="rLink.state | executeFunctionList:[item, index]">{{value}}</a> }
-  } @else if(clickEvent) {
-      <a [matTooltip]="tooltip | executeFunctionList:[item, index]" class="list__items__row__cell__value__hovered" (click)="clickEvent(item)">{{value}}</a>
-  } @else {
-      <span [title]="value" [matTooltip]="tooltip | executeFunctionList:[item, index]">{{ value }}</span>
+  <!-- --------------------------------- -->
+  @case ('image') { <img
+    [src]="column.image?.prefixUrl ? (column.image?.prefixUrl + value) : (value | pathFilesServer)" /> }
+  <!-- --------------------------------- -->
+  @case ('email') { <a href="mailto:{{value}}">{{value}}</a> }
+  <!-- --------------------------------- -->
+  @case ('phone') { <a href="tel:{{value}}">{{value}}</a> }
+  <!-- --------------------------------- -->
+  @case ('html') { <ng-container [ngTemplateOutlet]="renderValueHtml"
+    [ngTemplateOutletContext]="{ $implicit: value, item, routerLink, index, clickEvent, tooltip: column.tooltip}" /> }
+  <!-- --------------------------------- -->
+  @case ('number') { <ng-container [ngTemplateOutlet]="renderValue"
+    [ngTemplateOutletContext]="{ $implicit: (value | number: column.numberFormat ?? '.2-2'), item, routerLink, index, clickEvent, tooltip: column.tooltip}" />
+  }
+  <!-- --------------------------------- -->
+  @case ('titlecase') { <ng-container [ngTemplateOutlet]="renderValue"
+    [ngTemplateOutletContext]="{ $implicit: (value | titlecase), item, routerLink, index, clickEvent, tooltip: column.tooltip}" />
+  }
+  <!-- --------------------------------- -->
+  @case ('uppercase') { <ng-container [ngTemplateOutlet]="renderValue"
+    [ngTemplateOutletContext]="{ $implicit: (value | uppercase), item, routerLink, index, clickEvent, tooltip: column.tooltip}" />
+  }
+  <!-- --------------------------------- -->
+  @case ('first-letter-uppercase') { <ng-container [ngTemplateOutlet]="renderValue"
+    [ngTemplateOutletContext]="{ $implicit: (value | firstLetterUppercase), item, routerLink, index, clickEvent, tooltip: column.tooltip}" />
+  }
+  <!-- --------------------------------- -->
+  @case ('lowercase') { <ng-container [ngTemplateOutlet]="renderValue"
+    [ngTemplateOutletContext]="{ $implicit: (value | lowercase), item, routerLink, index, clickEvent, tooltip: column.tooltip}" />
+  }
+  <!-- --------------------------------- -->
+  @case ('date') { <ng-container [ngTemplateOutlet]="renderValue"
+    [ngTemplateOutletContext]="{ $implicit: (value | date: column.dateFormat ??'dd/MM/yyyy'), item, routerLink, index, clickEvent, tooltip: column.tooltip}" />
+  }
+  <!-- --------------------------------- -->
+  @case ('diff-date') { <ng-container [ngTemplateOutlet]="renderValue"
+    [ngTemplateOutletContext]="{ $implicit: (value | diffDate | firstLetterUppercase), item, routerLink, index, clickEvent, tooltip: column.tooltip}" />
+  }
+  <!-- --------------------------------- -->
+  @case ('currency') { <ng-container [ngTemplateOutlet]="renderValue"
+    [ngTemplateOutletContext]="{ $implicit: (value | currency), item, routerLink, index, clickEvent, tooltip: column.tooltip}" />
+  }
+  <!-- --------------------------------- -->
+  @case ('list-format') { <ng-container [ngTemplateOutlet]="renderValue"
+    [ngTemplateOutletContext]="{ $implicit: (value | listFormat), item, routerLink, index, clickEvent, tooltip: column.tooltip}" />
+  }
+  <!-- --------------------------------- -->
+  @case ('user') { @if ((value | getUserById | async); as user) { <ng-container [ngTemplateOutlet]="renderValue"
+    [ngTemplateOutletContext]="{ $implicit: user.name, item, routerLink, index, clickEvent, tooltip: column.tooltip}" />
+  } }
+  <!-- --------------------------------- -->
+  @case ('local-item') {
+  @if ((value | localItem:column.localItem.nameModuleDatabase | async); as localItemObject) {
+  <ng-container [ngTemplateOutlet]="renderValue"
+    [ngTemplateOutletContext]="{ $implicit: (column.localItem.displayTextValue | executeFunctionList:[localItemObject, index]), item, routerLink, index, clickEvent, tooltip: column.tooltip }" />
+  }
+  }
+  <!-- --------------------------------- -->
+  @default { <ng-container [ngTemplateOutlet]="renderValue"
+    [ngTemplateOutletContext]="{ $implicit: value, item, routerLink, index, clickEvent, tooltip: column.tooltip}" /> }
+  <!-- --------------------------------- -->
   }
 </ng-template>
 
-<ng-template #renderValueHtml let-value let-tooltip="tooltip" let-item="item" let-index="index" let-routerLink="routerLink" let-clickEvent="clickEvent">
+<ng-template #renderValue let-value let-tooltip="tooltip" let-item="item" let-index="index" let-routerLink="routerLink"
+  let-clickEvent="clickEvent">
   @if (routerLink; as rLink) {
-    @if (rLink.outlet == 'route-lateral') { <div [matTooltip]="tooltip | executeFunctionList:[item, index]" class="list__items__row__cell__value__hovered" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | executeFunctionList:[item, index]" [routeState]="rLink.state | executeFunctionList:[item, index]" [innerHTML]="value"></div> } 
-    @else { <div [matTooltip]="tooltip | executeFunctionList:[item, index]" class="list__items__row__cell__value__hovered" [routerLink]="rLink.url | executeFunctionList:[item, index]" [innerHTML]="value" [state]="rLink.state | executeFunctionList:[item, index]"></div> }
+  @if (rLink.outlet == 'route-lateral') { <a class="list__items__row__cell__value__hovered"
+    appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | executeFunctionList:[item, index]"
+    [routeState]="rLink.state | executeFunctionList:[item, index]">{{value}}</a> }
+  @else { <a class="list__items__row__cell__value__hovered" [routerLink]="rLink.url | executeFunctionList:[item, index]"
+    [state]="rLink.state | executeFunctionList:[item, index]">{{value}}</a> }
   } @else if(clickEvent) {
-      <div [matTooltip]="tooltip | executeFunctionList:[item, index]" class="list__items__row__cell__value__hovered" (click)="clickEvent(item)" [innerHTML]="value"></div>
+  <a class="list__items__row__cell__value__hovered" (click)="clickEvent(item)">{{value}}</a>
   } @else {
-      <div [title]="value" [matTooltip]="tooltip | executeFunctionList:[item, index]" [innerHTML]="value"></div>
+  {{ value }}
+  }
+</ng-template>
+
+<ng-template #renderValueHtml let-value let-tooltip="tooltip" let-item="item" let-index="index"
+  let-routerLink="routerLink" let-clickEvent="clickEvent">
+  @if (routerLink; as rLink) {
+  @if (rLink.outlet == 'route-lateral') { <div [matTooltip]="tooltip | executeFunctionList:[item, index]"
+    class="list__items__row__cell__value__hovered" appNavigateLateralPanelOutlet
+    [navigateUrl]="rLink.url | executeFunctionList:[item, index]"
+    [routeState]="rLink.state | executeFunctionList:[item, index]" [innerHTML]="value"></div> }
+  @else { <div [matTooltip]="tooltip | executeFunctionList:[item, index]" class="list__items__row__cell__value__hovered"
+    [routerLink]="rLink.url | executeFunctionList:[item, index]" [innerHTML]="value"
+    [state]="rLink.state | executeFunctionList:[item, index]"></div> }
+  } @else if(clickEvent) {
+  <div [matTooltip]="tooltip | executeFunctionList:[item, index]" class="list__items__row__cell__value__hovered"
+    (click)="clickEvent(item)" [innerHTML]="value"></div>
+  } @else {
+  <div [title]="value" [matTooltip]="tooltip | executeFunctionList:[item, index]" [innerHTML]="value"></div>
   }
 </ng-template>
 
@@ -308,28 +377,34 @@
 <mat-menu #optionsRowMenu="matMenu" xPosition="before">
   <ng-template matMenuContent let-item="item" let-index="index">
     @if (configuration.rows?.options; as options) {
-        @for (bOption of options; track bOption) {
-          @if (!((bOption.hidden ?? false) | executeFunctionList:[item, index])) {
-            @if (bOption.routerLink; as rLink) {
-              @if (rLink.outlet == 'route-lateral') {
-                <a mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | executeFunctionList:[item, index]" [routeState]="rLink.state | executeFunctionList:[item, index]">
-                  @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
-                  @if (bOption.text; as text) { <span>{{text}}</span> }
-                </a> 
-              } @else { 
-                <a mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]" [routerLink]="rLink.url | executeFunctionList:[item, index]" [state]="rLink.state | executeFunctionList:[item, index]">
-                  @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
-                  @if (bOption.text; as text) { <span>{{text}}</span> }
-                </a>
-              }
-            } @else if (bOption.fn) {
-              <button mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]" (click)="bOption.fn(item, index, {deleteItemFn: deleteItem, restoreItemFn: restoreItem, updateChangesItemFn: updateChangesItem})" [disabled]="bOption.disabled | executeFunctionList:[item, index]"  [title]="bOption.title??''">
-                @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
-                @if (bOption.text; as text) { <span>{{text}}</span> }
-              </button>
-            }
-          }
-        }
+    @for (bOption of options; track bOption) {
+    @if (!((bOption.hidden ?? false) | executeFunctionList:[item, index])) {
+    @if (bOption.routerLink; as rLink) {
+    @if (rLink.outlet == 'route-lateral') {
+    <a mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]" appNavigateLateralPanelOutlet
+      [navigateUrl]="rLink.url | executeFunctionList:[item, index]"
+      [routeState]="rLink.state | executeFunctionList:[item, index]">
+      @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+      @if (bOption.text; as text) { <span>{{text}}</span> }
+    </a>
+    } @else {
+    <a mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]"
+      [routerLink]="rLink.url | executeFunctionList:[item, index]"
+      [state]="rLink.state | executeFunctionList:[item, index]">
+      @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+      @if (bOption.text; as text) { <span>{{text}}</span> }
+    </a>
+    }
+    } @else if (bOption.fn) {
+    <button mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]"
+      (click)="bOption.fn(item, index, {deleteItemFn: deleteItem, restoreItemFn: restoreItem, updateChangesItemFn: updateChangesItem})"
+      [disabled]="bOption.disabled | executeFunctionList:[item, index]" [title]="bOption.title??''">
+      @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+      @if (bOption.text; as text) { <span>{{text}}</span> }
+    </button>
+    }
+    }
+    }
     }
   </ng-template>
 </mat-menu>
@@ -344,191 +419,183 @@
 
 <mat-menu #columnsMenu="matMenu" xPosition="before">
   @for (column of configuration.columns(); track column; let i = $index;) {
-    <div class="flex gap-2 items-center py-1 pl-2 pr-4" (click)="$event.stopPropagation()">
-      <mat-checkbox [checked]="!column.hidden" (change)="hiddenToggleColumn($event, i)" color="primary">
-        {{ column.title }}
-      </mat-checkbox>
-    </div>
+  <div class="flex gap-2 items-center py-1 pl-2 pr-4" (click)="$event.stopPropagation()">
+    <mat-checkbox [checked]="!column.hidden" (change)="hiddenToggleColumn($event, i)" color="primary">
+      {{ column.title }}
+    </mat-checkbox>
+  </div>
   }
 </mat-menu>
 
 <!-- --------------------------------------------- -->
 <!-- --------------------------------------------- -->
 <mat-menu class="filter-list-menu" #filterMenu="matMenu" xPosition="before" [hasBackdrop]="false">
-    <div class="filter__title" (click)="$event.stopPropagation()">Filtros</div>
+  <div class="filter__title" (click)="$event.stopPropagation()">Filtros</div>
 
-    @if (formFilters) {
-      <div class="filter__form" [formGroup]="formFilters" (click)="$event.stopPropagation()">
-        <mat-form-field>
-          <mat-label>Búsqueda</mat-label>
-          <input type="text" matInput formControlName="search" placeholder="Buscar...">
-          <button matSuffix class="icon-button" aria-label="Clear" (click)="searchCtrl.setValue('')">
-            <span class="material-icons">close</span>
-          </button>
-        </mat-form-field>
-        @if (configuration.filters; as fields) {
-          @for (field of fields(); track field) {
-              @switch (field.type) {
-                  @case ('date-range') {
-                      @if (field.dateRange; as input) {
-                          <mat-form-field [attr.data-form-input-name]="input.formControlNameFrom">
-                              <mat-label>{{ input.textLabel }}</mat-label>
-                              <mat-date-range-input [rangePicker]="pickerRange1">
-                                  <input matStartDate [formControlName]="input.formControlNameFrom">
-                                  <input matEndDate [formControlName]="input.formControlNameTo">
-                              </mat-date-range-input>
-                              <button class="icon-button" matSuffix type="button" (click)="pickerRange1.open()" [disabled]="getControlFormFilter(input.formControlNameFrom).disabled">
-                                  <span class="material-icons">calendar_month</span>
-                              </button>
-                              <mat-date-range-picker #pickerRange1></mat-date-range-picker>
-                          </mat-form-field>
-                      }
-                  }
-                  @case ('date') {
-                      @if (field.date; as input) {
-                          <mat-form-field [attr.data-form-input-name]="input.formControlName">
-                              <mat-label>{{ input.textLabel }}</mat-label>
-                              <input matInput [matDatepicker]="pickerDate" [formControlName]="input.formControlName">
-                              <button class="icon-button" type="button" matSuffix (click)="pickerDate.open()" [disabled]="getControlFormFilter(input.formControlName).disabled">
-                                  <span class="material-icons">calendar_month</span>
-                              </button>
-                              <mat-datepicker #pickerDate></mat-datepicker>
-                              @if (getControlFormFilter(input.formControlName).hasError('required')) {
-                                  <mat-error>Campo requerido</mat-error>
-                              } @else if (getControlFormFilter(input.formControlName).hasError('min')) {
-                                  <mat-error>Error fecha mínima</mat-error>
-                              } @else if (getControlFormFilter(input.formControlName).hasError('max')) {
-                                  <mat-error>Error fecha máxima</mat-error>
-                              } @else {
-                                  <mat-error>Inválido</mat-error>
-                              }
-                          </mat-form-field>
-                      }
-                      
-                  }
-                  @case ('number') {
-                      @if (field.number; as input) {
-                          <mat-form-field [attr.data-form-input-name]="input.formControlName">
-                              <mat-label>{{ input.textLabel}}</mat-label>
-                              <input type="number" matInput [formControlName]="input.formControlName"
-                                  [min]="input.min ? +input.min : 0" [max]="input.max ? +input.max : null">
-                              @if (getControlFormFilter(input.formControlName).hasError('required')) {
-                                  <mat-error>Campo requerido</mat-error>
-                              } @else if (getControlFormFilter(input.formControlName).hasError('min')) {
-                                  <mat-error>Mínimo {{input.min ? +input.min : 0}}</mat-error>
-                              } @else if (getControlFormFilter(input.formControlName).hasError('max')) {
-                                  <mat-error>Máximo {{input.max ? +input.max : 'superado'}}</mat-error>
-                              } @else {
-                                  <mat-error>Inválido</mat-error>
-                              }
-                          </mat-form-field>
-                      }
-                  }
-                  @case ('text') {
-                      @if (field.text; as input) {
-                          <mat-form-field [attr.data-form-input-name]="input.formControlName">
-                              <mat-label>{{ input.textLabel}}</mat-label>
-                              <input type="text" matInput [formControlName]="input.formControlName"
-                                  [placeholder]="input.placeholder ?? input.textLabel" [maxlength]="input.maxLength ?? 255">
-                              @if (getControlFormFilter(input.formControlName).hasError('required')) {
-                                  <mat-error>Campo requerido</mat-error>
-                              } @else if (getControlFormFilter(input.formControlName).hasError('email')) {
-                                  <mat-error>Email no válido</mat-error>
-                              } @else if (getControlFormFilter(input.formControlName).hasError('pattern')) {
-                                  <mat-error>Contenido no válido</mat-error>
-                              } @else {
-                                  <mat-error>Inválido</mat-error>
-                              }
-                          </mat-form-field>
-                      }
-                  }
-                  @case ('textarea') {
-                      @if (field.textarea; as input) {
-                          <mat-form-field [attr.data-form-input-name]="input.formControlName">
-                              <mat-label>{{ input.textLabel}}</mat-label>
-                              <textarea matInput [formControlName]="input.formControlName"
-                                  [placeholder]="input.placeholder ?? input.textLabel"
-                                  [maxlength]="input.maxLength ?? 2500"></textarea>
-                              @if (getControlFormFilter(input.formControlName).hasError('required')) {
-                                  <mat-error>Campo requerido</mat-error>
-                              } @else if (getControlFormFilter(input.formControlName).hasError('email')) {
-                                  <mat-error>Email no válido</mat-error>
-                              } @else if (getControlFormFilter(input.formControlName).hasError('pattern')) {
-                                  <mat-error>Contenido no válido</mat-error>
-                              } @else {
-                                  <mat-error>Inválido</mat-error>
-                              }
-                          </mat-form-field>
-                      }
-                  }
-                  @case ('select') {
-                      @if (field.select; as input) {
-                          <app-input-select-template [attr.data-form-input-name]="input.formControlName"
-                              [control]="getControlFormFilter(input.formControlName)"
-                              [configuration]="input"
-                              />
-                      }
-                  }
-                  @case ('select-local') {
-                      @if (field.selectLocal; as input) {
-                          <app-input-select-template [attr.data-form-input-name]="input.formControlName"
-                              [control]="getControlFormFilter(input.formControlName)"
-                              [configuration]="input"
-                              />
-                      }
-                  }
-                  @case ('select-server') {
-                      @if (field.selectServer; as input) {
-                          <app-input-select-template [attr.data-form-input-name]="input.formControlName"
-                              [control]="getControlFormFilter(input.formControlName)"
-                              [configuration]="input"
-                              />
-                      }
-                  }
-                  @case ('autocomplete') {
-                      @if (field.autocomplete; as input) {
-                          <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
-                              [idControl]="getControlFormFilter(input.formControlName)"
-                              [configuration]="input" />
-                      }
-                  }
-                  @case ('autocomplete-local') {
-                      @if (field.autocompleteLocal; as input) {
-                          <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
-                              [idControl]="getControlFormFilter(input.formControlName)"
-                              [configuration]="input" />
-                      }
-                  }
-                  @case ('autocomplete-server') {
-                      @if (field.autocompleteServer; as input) {
-                          <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
-                              [idControl]="getControlFormFilter(input.formControlName)"
-                              [configuration]="input" />
-                      }
-                  }
-                  @case ('checkbox') {
-                      @if (field.checkbox; as input) {
-                          <div [attr.data-form-input-name]="input.formControlName">
-                              <mat-checkbox [formControlName]="input.formControlName">{{ input.textLabel }}</mat-checkbox>
-                          </div>
-                      }
-                  }
-                  @case ('switch') {
-                      @if (field.switch; as input) {
-                          <div [attr.data-form-input-name]="input.formControlName">
-                              <mat-slide-toggle [formControlName]="input.formControlName">{{ input.textLabel }}</mat-slide-toggle>
-                          </div>
-                      }
-                  }
-              }
-          }
-        }
-      </div>
+  @if (formFilters) {
+  <div class="filter__form" [formGroup]="formFilters" (click)="$event.stopPropagation()">
+    <mat-form-field>
+      <mat-label>Búsqueda</mat-label>
+      <input type="text" matInput formControlName="search" placeholder="Buscar...">
+      <button matSuffix class="icon-button" aria-label="Clear" (click)="searchCtrl.setValue('')">
+        <span class="material-icons">close</span>
+      </button>
+    </mat-form-field>
+    @if (configuration.filters; as fields) {
+    @for (field of fields(); track field) {
+    @switch (field.type) {
+    @case ('date-range') {
+    @if (field.dateRange; as input) {
+    <mat-form-field [attr.data-form-input-name]="input.formControlNameFrom">
+      <mat-label>{{ input.textLabel }}</mat-label>
+      <mat-date-range-input [rangePicker]="pickerRange1">
+        <input matStartDate [formControlName]="input.formControlNameFrom">
+        <input matEndDate [formControlName]="input.formControlNameTo">
+      </mat-date-range-input>
+      <button class="icon-button" matSuffix type="button" (click)="pickerRange1.open()"
+        [disabled]="getControlFormFilter(input.formControlNameFrom).disabled">
+        <span class="material-icons">calendar_month</span>
+      </button>
+      <mat-date-range-picker #pickerRange1></mat-date-range-picker>
+    </mat-form-field>
+    }
+    }
+    @case ('date') {
+    @if (field.date; as input) {
+    <mat-form-field [attr.data-form-input-name]="input.formControlName">
+      <mat-label>{{ input.textLabel }}</mat-label>
+      <input matInput [matDatepicker]="pickerDate" [formControlName]="input.formControlName">
+      <button class="icon-button" type="button" matSuffix (click)="pickerDate.open()"
+        [disabled]="getControlFormFilter(input.formControlName).disabled">
+        <span class="material-icons">calendar_month</span>
+      </button>
+      <mat-datepicker #pickerDate></mat-datepicker>
+      @if (getControlFormFilter(input.formControlName).hasError('required')) {
+      <mat-error>Campo requerido</mat-error>
+      } @else if (getControlFormFilter(input.formControlName).hasError('min')) {
+      <mat-error>Error fecha mínima</mat-error>
+      } @else if (getControlFormFilter(input.formControlName).hasError('max')) {
+      <mat-error>Error fecha máxima</mat-error>
+      } @else {
+      <mat-error>Inválido</mat-error>
+      }
+    </mat-form-field>
     }
 
-    <div class="filter__actions" (click)="$event.stopPropagation()">
-      <button class="text-button" (click)="filterMenu.closed.emit()">Cerrar</button>
-      <button class="text-button" (click)="clearFilters()">Limpiar</button>
-      <button class="text-button" (click)="applyFilters(filterMenu)">Aplicar</button>
+    }
+    @case ('number') {
+    @if (field.number; as input) {
+    <mat-form-field [attr.data-form-input-name]="input.formControlName">
+      <mat-label>{{ input.textLabel}}</mat-label>
+      <input type="number" matInput [formControlName]="input.formControlName" [min]="input.min ? +input.min : 0"
+        [max]="input.max ? +input.max : null">
+      @if (getControlFormFilter(input.formControlName).hasError('required')) {
+      <mat-error>Campo requerido</mat-error>
+      } @else if (getControlFormFilter(input.formControlName).hasError('min')) {
+      <mat-error>Mínimo {{input.min ? +input.min : 0}}</mat-error>
+      } @else if (getControlFormFilter(input.formControlName).hasError('max')) {
+      <mat-error>Máximo {{input.max ? +input.max : 'superado'}}</mat-error>
+      } @else {
+      <mat-error>Inválido</mat-error>
+      }
+    </mat-form-field>
+    }
+    }
+    @case ('text') {
+    @if (field.text; as input) {
+    <mat-form-field [attr.data-form-input-name]="input.formControlName">
+      <mat-label>{{ input.textLabel}}</mat-label>
+      <input type="text" matInput [formControlName]="input.formControlName"
+        [placeholder]="input.placeholder ?? input.textLabel" [maxlength]="input.maxLength ?? 255">
+      @if (getControlFormFilter(input.formControlName).hasError('required')) {
+      <mat-error>Campo requerido</mat-error>
+      } @else if (getControlFormFilter(input.formControlName).hasError('email')) {
+      <mat-error>Email no válido</mat-error>
+      } @else if (getControlFormFilter(input.formControlName).hasError('pattern')) {
+      <mat-error>Contenido no válido</mat-error>
+      } @else {
+      <mat-error>Inválido</mat-error>
+      }
+    </mat-form-field>
+    }
+    }
+    @case ('textarea') {
+    @if (field.textarea; as input) {
+    <mat-form-field [attr.data-form-input-name]="input.formControlName">
+      <mat-label>{{ input.textLabel}}</mat-label>
+      <textarea matInput [formControlName]="input.formControlName" [placeholder]="input.placeholder ?? input.textLabel"
+        [maxlength]="input.maxLength ?? 2500"></textarea>
+      @if (getControlFormFilter(input.formControlName).hasError('required')) {
+      <mat-error>Campo requerido</mat-error>
+      } @else if (getControlFormFilter(input.formControlName).hasError('email')) {
+      <mat-error>Email no válido</mat-error>
+      } @else if (getControlFormFilter(input.formControlName).hasError('pattern')) {
+      <mat-error>Contenido no válido</mat-error>
+      } @else {
+      <mat-error>Inválido</mat-error>
+      }
+    </mat-form-field>
+    }
+    }
+    @case ('select') {
+    @if (field.select; as input) {
+    <app-input-select-template [attr.data-form-input-name]="input.formControlName"
+      [control]="getControlFormFilter(input.formControlName)" [configuration]="input" />
+    }
+    }
+    @case ('select-local') {
+    @if (field.selectLocal; as input) {
+    <app-input-select-template [attr.data-form-input-name]="input.formControlName"
+      [control]="getControlFormFilter(input.formControlName)" [configuration]="input" />
+    }
+    }
+    @case ('select-server') {
+    @if (field.selectServer; as input) {
+    <app-input-select-template [attr.data-form-input-name]="input.formControlName"
+      [control]="getControlFormFilter(input.formControlName)" [configuration]="input" />
+    }
+    }
+    @case ('autocomplete') {
+    @if (field.autocomplete; as input) {
+    <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
+      [idControl]="getControlFormFilter(input.formControlName)" [configuration]="input" />
+    }
+    }
+    @case ('autocomplete-local') {
+    @if (field.autocompleteLocal; as input) {
+    <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
+      [idControl]="getControlFormFilter(input.formControlName)" [configuration]="input" />
+    }
+    }
+    @case ('autocomplete-server') {
+    @if (field.autocompleteServer; as input) {
+    <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
+      [idControl]="getControlFormFilter(input.formControlName)" [configuration]="input" />
+    }
+    }
+    @case ('checkbox') {
+    @if (field.checkbox; as input) {
+    <div [attr.data-form-input-name]="input.formControlName">
+      <mat-checkbox [formControlName]="input.formControlName">{{ input.textLabel }}</mat-checkbox>
     </div>
+    }
+    }
+    @case ('switch') {
+    @if (field.switch; as input) {
+    <div [attr.data-form-input-name]="input.formControlName">
+      <mat-slide-toggle [formControlName]="input.formControlName">{{ input.textLabel }}</mat-slide-toggle>
+    </div>
+    }
+    }
+    }
+    }
+    }
+  </div>
+  }
+
+  <div class="filter__actions" (click)="$event.stopPropagation()">
+    <button class="text-button" (click)="filterMenu.closed.emit()">Cerrar</button>
+    <button class="text-button" (click)="clearFilters()">Limpiar</button>
+    <button class="text-button" (click)="applyFilters(filterMenu)">Aplicar</button>
+  </div>
 </mat-menu>

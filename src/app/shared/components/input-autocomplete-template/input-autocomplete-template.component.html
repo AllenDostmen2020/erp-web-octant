@@ -1,10 +1,14 @@
 <mat-form-field>
     <mat-label>{{ configuration.textLabel }}</mat-label>
-    <input #inputHtml type="text" matInput [placeholder]="configuration.placeholder ? configuration.placeholder : 'Buscar...'" [formControl]="autocompleteControl" [matAutocomplete]="auto" />
+    <input #inputHtml type="text" (blur)="blurInput()" matInput [placeholder]="configuration.placeholder ? configuration.placeholder : 'Buscar...'" [formControl]="autocompleteControl" [matAutocomplete]="auto" />
     @if (autocompleteControl.value) {
         <button matSuffix class="icon-button" (click)="clearInput()" [disabled]="autocompleteControl.disabled" type="button">
             <span class="material-icons">{{ autocompleteControl.value?.id ? 'edit' : 'close' }}</span>
         </button>
+    } @else {
+        <div matSuffix class="icon-button">
+            <span matIconSuffix class="material-icons">search</span>
+        </div>
     }
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="configuration.displayTextFn ?? displayFn">
         @for (item of filterData(); track item) {
@@ -45,4 +49,5 @@
             }
         }
     </mat-autocomplete>
+    <mat-error>Campo requerido</mat-error>
 </mat-form-field>

@@ -89,6 +89,7 @@ export class InputAutocompleteTemplateComponent {
   public loading: WritableSignal<boolean> = signal(false);
   public init: WritableSignal<boolean> = signal(false);
   private abortController = new AbortController();
+  private timeoutId?: any;
 
   get conditionFilterFn(): (item: any, value: string) => boolean {
     return this.configuration.conditionFilterFn ?? ((item, value) => (item.name ?? '').trim().toLowerCase().includes(value.trim().toLowerCase()));
@@ -116,11 +117,15 @@ export class InputAutocompleteTemplateComponent {
           const value = this.configuration.displayValueFn ? this.configuration.displayValueFn(data) : data['id'];
           this.idControl.setValue(value, { emitEvent: false });
           this.renderer.setAttribute(this.inputHtml.nativeElement, 'readonly', 'readonly');
-        } else if (data !== null && data !== undefined) {
+        } else if (data?.trim()) {
           if (this.idControl.value) this.idControl.setValue(null, { emitEvent: false });
           if (this.configuration.data) this.getItemsFromData(data);
           else if ((this.configuration as InputAutocompleteLocalConfiguration).local) this.getItemsLocal(data);
           else if ((this.configuration as InputAutocompleteServerConfiguration).server) this.getItemsServer(data);
+        } else {
+          this.filterData.set([]);
+          this.loading.set(false);
+          this.init.set(false);
         }
       });
   }
@@ -186,5 +191,15 @@ export class InputAutocompleteTemplateComponent {
     this.idControl.setValue(null, { emitEvent: false });
     this.renderer.removeAttribute(this.inputHtml.nativeElement, 'readonly');
   }
+
+  public blurInput(): void {
+    if (this.timeoutId) clearTimeout(this.timeoutId);
+    this.timeoutId = setTimeout(() => {
+      if (!(this.autocompleteControl.value instanceof Object) && this.autocompleteControl.value) {
+        this.autocompleteControl.setValue(null)
+      }
+    }, 250)
+  }
+
 }
 

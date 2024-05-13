@@ -8,6 +8,7 @@
         </button>
         }
 
+        @if (configuration.title != false) {
         <div class="item-detail__header__title">
             <div>{{configuration.title}}</div>
             @if (configuration.dataItem!(); as item) {
@@ -24,29 +25,33 @@
             }
             }
         </div>
+        }
+
 
         <div class="item-detail__header__actions">
             @if (configuration.dataItem!(); as item) {
-            <ng-content select="[headerActions]" />
+            <ng-content select="headerActions" />
 
             @if (!(configuration.editButton == false)) {
-                <ng-container [ngTemplateOutlet]="editButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item, editButton: configuration.editButton }" />
+            <ng-container [ngTemplateOutlet]="editButtonTmpl"
+                [ngTemplateOutletContext]="{ $implicit: item, editButton: configuration.editButton }" />
             }
 
             @if (!(configuration.deleteButton == false) && !item.deleted_at) {
-                <ng-container [ngTemplateOutlet]="deleteButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
+            <ng-container [ngTemplateOutlet]="deleteButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
             }
 
             @if (!(configuration.restoreButton == false) && item.deleted_at) {
-                <ng-container [ngTemplateOutlet]="restoreButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
+            <ng-container [ngTemplateOutlet]="restoreButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
             }
 
             @if (configuration.actionButtons; as actionButtons) {
-                @for (actionButton of actionButtons; track actionButton) {
-                    <!-- @if (!((actionButton.hidden ?? false) | getMixedValue:item)) { -->
-                        <ng-container [ngTemplateOutlet]="switchActionButton" [ngTemplateOutletContext]="{ $implicit: item, actionButton }" />
-                    <!-- } -->
-                }
+            @for (actionButton of actionButtons; track actionButton) {
+            <!-- @if (!((actionButton.hidden ?? false) | getMixedValue:item)) { -->
+            <ng-container [ngTemplateOutlet]="switchActionButton"
+                [ngTemplateOutletContext]="{ $implicit: item, actionButton }" />
+            <!-- } -->
+            }
             }
             }
         </div>
@@ -129,7 +134,6 @@
 <ng-template #renderNormalFields let-itemDetail let-item="item" let-value="value" let-routerLink="routerLink"
     let-clickEvent="clickEvent">
     <div class="item-detail__group__row__label">{{itemDetail.title}}</div>
-    <div>:</div>
     <div class="item-detail__group__row__value">
         @switch (itemDetail.type ?? '') {
         <!-- --------------------------------- -->
@@ -181,6 +185,14 @@
             [ngTemplateOutletContext]="{ $implicit: user.name, item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" />
         } }
         <!-- --------------------------------- -->
+
+        @case ('local-item') {
+        @if ((value | localItem:itemDetail.localItem.nameModuleDatabase | async); as localItemObject) {
+        <ng-container [ngTemplateOutlet]="renderValue"
+            [ngTemplateOutletContext]="{ $implicit: (itemDetail.localItem.displayTextValue | executeFunction:localItemObject), item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" />
+        }
+        }
+        <!-- --------------------------------- -->
         @default { <ng-container [ngTemplateOutlet]="renderValue"
             [ngTemplateOutletContext]="{ $implicit: value, item, routerLink, clickEvent, tooltip: itemDetail.tooltip}" />
         }
@@ -225,21 +237,22 @@
 
 <ng-template #switchActionButton let-item let-actionButton="actionButton">
     @switch (actionButton.type) {
-        @case ('edit') {
-            <ng-container [ngTemplateOutlet]="editButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item, editButton: configuration.editButton }" />
-        }
-        @case ('delete') {
-            <ng-container [ngTemplateOutlet]="deleteButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
-        }
-        @case ('restore') {
-            <ng-container [ngTemplateOutlet]="restoreButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
-        }
-        @case ('clickEvent') {
-            <button class="text-button" (click)="actionButton.clickEvent(item)">
-                <!-- <span class="material-icons">{{actionButton.icon}}</span> -->
-                <span>{{actionButton.text}}</span>
-            </button>
-        }
+    @case ('edit') {
+    <ng-container [ngTemplateOutlet]="editButtonTmpl"
+        [ngTemplateOutletContext]="{ $implicit: item, editButton: configuration.editButton }" />
+    }
+    @case ('delete') {
+    <ng-container [ngTemplateOutlet]="deleteButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
+    }
+    @case ('restore') {
+    <ng-container [ngTemplateOutlet]="restoreButtonTmpl" [ngTemplateOutletContext]="{ $implicit: item }" />
+    }
+    @case ('clickEvent') {
+    <button class="text-button" (click)="actionButton.clickEvent(item)">
+        <!-- <span class="material-icons">{{actionButton.icon}}</span> -->
+        <span>{{actionButton.text}}</span>
+    </button>
+    }
     }
 </ng-template>
 
@@ -247,8 +260,7 @@
     @if (editButton) {
     @if (editButton.routerLink; as rLink) {
     @if (rLink.outlet == 'route-lateral') {
-    <button class="text-button" appNavigateLateralPanelOutlet
-        [navigateUrl]="rLink.url | getMixedValue:item">
+    <button class="text-button" appNavigateLateralPanelOutlet [navigateUrl]="rLink.url | getMixedValue:item">
         <!-- <span class="material-icons">edit</span> -->
         <span>{{ editButton?.text ?? 'Editar' }}</span>
     </button>
