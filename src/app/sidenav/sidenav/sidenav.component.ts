@@ -20,7 +20,7 @@ import { DatabaseStorageService, NameModuleDatabase } from '@service/database-st
 interface GroupDrawerLink {
     label?: string;
     links: DrawerLink[];
-    roles?: UserRoleEnum[];
+    authRoles?: UserRoleEnum[];
 }
 
 interface DrawerLink {
@@ -29,7 +29,7 @@ interface DrawerLink {
     route: string;
     exact?: boolean;
     queryParams?: { [key: string]: string | number | boolean };
-    roles?: UserRoleEnum[];
+    authRoles?: UserRoleEnum[];
     group_open?: boolean;
 }
 
@@ -106,7 +106,7 @@ export class SidenavComponent {
     private async getValidatedLinks(links: GroupDrawerLink[], role: UserRoleEnum): Promise<void> {
         const linksFiltered: GroupDrawerLink[] = [];
         for await (const link of links) {
-            if (link.roles && !link.roles.includes(role)) continue;
+            if (link.authRoles && !link.authRoles.includes(role)) continue;
             if (link.links.length) link.links = await this.filteredLinks(link.links, role);
             linksFiltered.push(link);
         }
@@ -116,7 +116,7 @@ export class SidenavComponent {
     public async filteredLinks(links: DrawerLink[], role: UserRoleEnum): Promise<DrawerLink[]> {
         const parseLinks = [];
         for await (const link of links) {
-            if (link.roles && !link.roles.includes(role)) continue;
+            if (link.authRoles && !link.authRoles.includes(role)) continue;
             parseLinks.push(link);
         }
         return parseLinks;
