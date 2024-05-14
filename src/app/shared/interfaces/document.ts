@@ -65,7 +65,7 @@ export interface Document extends BaseModel {
     sunat_response_code: string;
     link_file: string | null;
     send_email: boolean;
-    cc_email: string;
+    cc_email: string[];
 
     contract?: Contract;
     client?: Client;

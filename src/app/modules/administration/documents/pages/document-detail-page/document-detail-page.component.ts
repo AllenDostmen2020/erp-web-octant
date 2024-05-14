@@ -112,6 +112,15 @@ export class DocumentDetailPageComponent {
                         title: 'SUNAT Inf.',
                         displayValueFn: (item) => item.sunat_information
                     }),
+                    textDetail({
+                        title: '¿Enviado por Email?',
+                        displayValueFn: (item) => item.send_email ? 'Si' : 'No',
+                    }),
+                    // textDetail({
+                    //     title: 'Copias Email',
+                    //     displayValueFn: (item) => item.cc_email,
+                    // }),
+                    
                 ]
             },
             registerDataGroupDetail(),
