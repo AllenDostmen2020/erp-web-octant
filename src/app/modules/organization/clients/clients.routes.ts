@@ -30,6 +30,10 @@ export const clientRoutes: Routes = [
                 loadComponent: () => import('./pages/client-detail-page/client-detail-page.component').then(m => m.ClientDetailPageComponent),
             },
             {
+                path: 'send-email',
+                loadComponent: () => import('./pages/client-send-email-page/client-send-email-page.component').then(m => m.ClientSendEmailPageComponent),
+            },
+            {
                 path: 'account',
                 children: clientAccountRoutes,
             },

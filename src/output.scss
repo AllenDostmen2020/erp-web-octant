@@ -576,10 +576,6 @@ video {
   position: relative;
 }
 
-.inset-0 {
-  inset: 0px;
-}
-
 .bottom-0 {
   bottom: 0px;
 }
@@ -640,10 +636,6 @@ video {
   margin-top: 0.5rem;
 }
 
-.mt-4 {
-  margin-top: 1rem;
-}
-
 .flex {
   display: flex;
 }
@@ -652,16 +644,16 @@ video {
   display: grid;
 }
 
+.\!grid {
+  display: grid !important;
+}
+
 .contents {
   display: contents;
 }
 
 .hidden {
   display: none;
-}
-
-.h-10 {
-  height: 2.5rem;
 }
 
 .h-11 {
@@ -680,16 +672,8 @@ video {
   max-height: 80vh;
 }
 
-.w-10 {
-  width: 2.5rem;
-}
-
 .w-8 {
   width: 2rem;
-}
-
-.flex-1 {
-  flex: 1 1 0%;
 }
 
 .transform {
@@ -706,14 +690,6 @@ video {
 
 .grid-cols-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.grid-cols-\[40px\2c 2fr\2c 1fr\2c 1fr\2c 1fr\] {
-  grid-template-columns: 40px 2fr 1fr 1fr 1fr;
-}
-
-.grid-cols-\[auto\2c auto\2c 1fr\] {
-  grid-template-columns: auto auto 1fr;
 }
 
 .grid-rows-\[auto\2c 1fr\2c auto\] {
@@ -744,21 +720,12 @@ video {
   justify-content: space-between;
 }
 
-.gap-1 {
-  gap: 0.25rem;
-}
-
 .gap-2 {
   gap: 0.5rem;
 }
 
 .gap-4 {
   gap: 1rem;
-}
-
-.gap-x-1 {
-  -moz-column-gap: 0.25rem;
-       column-gap: 0.25rem;
 }
 
 .gap-x-2 {
@@ -768,10 +735,6 @@ video {
 
 .gap-y-0 {
   row-gap: 0px;
-}
-
-.gap-y-2 {
-  row-gap: 0.5rem;
 }
 
 .overflow-hidden {
@@ -798,10 +761,6 @@ video {
   border-radius: 0.5rem;
 }
 
-.rounded-xl {
-  border-radius: 0.75rem;
-}
-
 .border {
   border-width: 1px;
 }
@@ -824,23 +783,9 @@ video {
   background-color: rgb(var(--rgb-surface), var(--tw-bg-opacity));
 }
 
-.bg-surface-variant {
-  --tw-bg-opacity: 1;
-  background-color: rgb(var(--rgb-surface-variant), var(--tw-bg-opacity));
-}
-
 .bg-tertiary-container {
   --tw-bg-opacity: 1;
   background-color: rgb(var(--rgb-tertiary-container), var(--tw-bg-opacity));
-}
-
-.object-fill {
-  -o-object-fit: fill;
-     object-fit: fill;
-}
-
-.p-2 {
-  padding: 0.5rem;
 }
 
 .p-4 {
@@ -897,10 +842,6 @@ video {
   line-height: 1rem;
 }
 
-.font-medium {
-  font-weight: 500;
-}
-
 .font-semibold {
   font-weight: 600;
 }
@@ -930,11 +871,6 @@ video {
 .text-on-tertiary-container {
   --tw-text-opacity: 1;
   color: rgb(var(--rgb-on-tertiary-container), var(--tw-text-opacity));
-}
-
-.text-primary {
-  --tw-text-opacity: 1;
-  color: rgb(var(--rgb-primary), var(--tw-text-opacity));
 }
 
 .text-red-500 {
@@ -972,10 +908,6 @@ video {
 
   .\@2xl\:col-span-4 {
     grid-column: span 4 / span 4;
-  }
-
-  .\@2xl\:col-span-5 {
-    grid-column: span 5 / span 5;
   }
 
   .\@2xl\:col-span-6 {

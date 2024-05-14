@@ -22,4 +22,9 @@ export class ContractPenaltyCreatePageComponent {
     fields: DEFAULT_DISPLAY_FIELDS_FORM_CONTRACT_PENALTY,
     server: { url: 'contract-penalty' },
   };
+
+  ngOnInit(){
+    console.log(this.activatedRoute.parent?.parent?.snapshot.paramMap.get('id'));
+    
+  }
 }
