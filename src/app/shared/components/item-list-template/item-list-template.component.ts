@@ -1012,8 +1012,12 @@ export const defaultListFilterInputs = (): FormInput[] => [
     formControlNameTo: 'updated_at_to',
   }),
   switchFormInput({
-    textLabel: 'Registros inactivos',
+    textLabel: 'Incluir registros inactivos',
     formControlName: 'inactive',
+  }),
+  switchFormInput({
+    textLabel: 'Solo registros inactivos',
+    formControlName: 'only_inactive',
   }),
 ];
 
