@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild, inject, signal } from '@angular/core';
-import { ItemListTemplateComponent, ListColumn, ListItemExtended, dateColumn, defaultListFilterInputs, itemCreatedAtColumn, itemStatusColumn, numberColumn, restoreItemActionButton, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ListColumn, ListItemExtended, dateColumn, defaultListFilterInputs, itemCreatedAtColumn, itemStatusColumn, numberColumn, restoreItemActionButton, selectableActionButton, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
@@ -177,7 +177,18 @@ export class DocumentListPageComponent {
           fn: (item, _, { deleteItemFn }) => deleteItemFn(item.id),
         }),
         restoreItemActionButton(),
-      ]
+      ],
+      selectable: {
+        actions: [
+          selectableActionButton({
+            icon: 'delete',
+            title: 'Eliminar ítems',
+            fn: (selectedItems) => {
+              console.log(selectedItems);
+            }
+          })
+        ]
+      }
     },
     columns: signal(this.generateColumns()),
     filters: signal([
