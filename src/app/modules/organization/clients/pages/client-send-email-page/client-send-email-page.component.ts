@@ -12,7 +12,7 @@ import { Document } from '@interface/document';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
 import { format, parseISO } from 'date-fns';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-client-send-email-page',
@@ -42,7 +42,7 @@ export class ClientSendEmailPageComponent {
       url: 'document',
       queryParams: {
         client_id: this.activatedRoute.snapshot.parent?.paramMap.get('id'),
-        // not_send_email: 'false',
+        not_send_email: 'true',
       },
     },
     columns: signal([
@@ -116,24 +116,19 @@ export class ClientSendEmailPageComponent {
   removeKeyword(reference: string) {
     const index = this.emails.indexOf(reference);
     if (index >= 0) {
-        this.emails.splice(index, 1);
+      this.emails.splice(index, 1);
 
-        this.announcer.announce(`removed ${reference}`);
+      this.announcer.announce(`removed ${reference}`);
     }
-}
+  }
 
-add(event: MatChipInputEvent): void {
-
+  add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-
-    // Add our keyword
     if (value) {
-        this.emails.push(value);
+      this.emails.push(value);
     }
-
-    // Clear the input value
     event.chipInput!.clear();
-}
+  }
 
 
 
@@ -173,13 +168,11 @@ add(event: MatChipInputEvent): void {
     const request: RequestInitFetch = {
       confirmDialog: false,
       toast: {
-        loading: 'Enviando...',
-        success: 'Datos enviados',
-        error: (error) => error.error.message ?? 'Error al ejecutar acción',
+        loading: 'Enviando email...',
+        success: 'Email enviado',
+        error: (error) => error.error.message ?? 'Error al enviar Email',
       }
     };
-    console.log(this.data);
-    
-    return await this.fetch.put<Document>(url, this.data, request);
+    return await this.fetch.post<Document>(url, this.data, request);
   }
 }
