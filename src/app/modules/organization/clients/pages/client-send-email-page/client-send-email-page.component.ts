@@ -78,25 +78,7 @@ export class ClientSendEmailPageComponent {
           icon: 'send',
           text: 'Enviar email',
           hidden: (item) => item.send_email,
-          fn: async (item, index, { updateChangesItemFn }) => {
-            const response = await this.sendEmail([item], true);
-            if (response) {
-              updateChangesItemFn(index, { ...item, ...response });
-              this.matDialog.open(ConfirmDialogTemplateComponent, {
-                data: <ConfirmDialogData>{
-                  icon: 'check_circle',
-                  title: 'Email enviado',
-                  description: '',
-                  data: response,
-                  templateRef: this.emailFormTemplate,
-                  cancelButton: false,
-                  confirmButton: {
-                    text: 'Cerrar',
-                  }
-                }
-              });
-            }
-          },
+          fn: (item) => this.sendEmail([item]),
         }),
       ],
       selectable: {
@@ -104,9 +86,7 @@ export class ClientSendEmailPageComponent {
           selectableActionButton({
             icon: 'send',
             title: 'Enviar por email',
-            fn: (selectedItems) => {
-              this.sendEmail(selectedItems, false);
-            }
+            fn: (selectedItems) => this.sendEmail(selectedItems),
           })
         ]
       }
@@ -124,19 +104,20 @@ export class ClientSendEmailPageComponent {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    if (value) {
-      this.emails.push(value);
-    }
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if(value && regex.test(value)) this.emails.push(value);
+    else return;
     event.chipInput!.clear();
   }
 
 
 
   public emailForm = new FormGroup({
-    cc_emails: new FormControl([]),
+    cc_email: new FormControl([]),
   });
 
-  get ccEmailCtrl(): FormControl { return this.emailForm.get('cc_emails')! as FormControl; }
+  get ccEmailCtrl(): FormControl { return this.emailForm.get('cc_email')! as FormControl; }
+  
   private confirmDialog(data: ConfirmDialogData): Promise<boolean> {
     return new Promise((resolve) => {
       const dialogRef = this.matDialog.open(ConfirmDialogTemplateComponent, { data });
@@ -144,27 +125,26 @@ export class ClientSendEmailPageComponent {
     });
   }
 
-  private data?: any;
-
-  private async sendEmail(items: Document[], whithEmails: boolean) {
-    if (whithEmails) {
-      this.emailForm.reset();
-      const dialogData: ConfirmDialogData = {
-        icon: 'info',
-        title: '¿Está seguro de enviar emails?',
-        description: '',
-        templateRef: this.emailFormTemplate,
-        confirmButton: { disabled: false },
-      };
-      const subscribe = this.emailForm.valueChanges.subscribe(() => dialogData.confirmButton!.disabled = this.emailForm.invalid);
-      const confirm = await this.confirmDialog(dialogData);
-      subscribe.unsubscribe();
-      if (!confirm) return null;
-      this.data = [...items, this.emailForm.value];
-    } else {
-      this.data = items;
-    }
+  private async sendEmail(items: Document[]): Promise<void> {
+    this.emailForm.reset();
+    const dialogData: ConfirmDialogData = {
+      icon: 'info',
+      title: '¿Está seguro de enviar emails?',
+      description: '',
+      data: items,
+      templateRef: this.emailFormTemplate,
+      confirmButton: { disabled: false },
+    };
+    const subscribe = this.emailForm.valueChanges.subscribe(() => dialogData.confirmButton!.disabled = this.emailForm.invalid);
+    const confirm = await this.confirmDialog(dialogData);
+    subscribe.unsubscribe();
+    if (!confirm) return;
     const url = `document/send-email`;
+    const body = {
+      document_ids: items.map((item) => item.id),
+      cc_email: this.emailForm.value.cc_email,
+      client_id: this.activatedRoute.snapshot.parent?.paramMap.get('id'),
+    };
     const request: RequestInitFetch = {
       confirmDialog: false,
       toast: {
@@ -173,6 +153,7 @@ export class ClientSendEmailPageComponent {
         error: (error) => error.error.message ?? 'Error al enviar Email',
       }
     };
-    return await this.fetch.post<Document>(url, this.data, request);
+    await this.fetch.post<Document>(url, body, request);
+    this.configList.updateListEvent?.emit();
   }
 }

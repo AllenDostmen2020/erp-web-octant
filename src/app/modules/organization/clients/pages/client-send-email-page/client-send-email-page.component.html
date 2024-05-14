@@ -1,21 +1,26 @@
 <app-item-list-template [configuration]="configList">
 
-  <ng-template #emailFormTemplate>
+  <ng-template #emailFormTemplate let-documents>
     <div class="__form">
-        <mat-form-field class="!grid col-span-full">
-            <mat-label>Emails</mat-label>
+      <p>Se enviarán al cliente los siguientes comprobantes:
+        @for (document of documents; track $index) {
+        <b>{{document.serie}}-{{document.correlative}}</b>
+        @if ($index < documents.length - 1) {, } } </p>
+          <br>
+          <mat-form-field style="display:block;">
+            <mat-label>Ajuntar copia Emails</mat-label>
             <mat-chip-grid #chipGrid aria-label="Enter keywords" [formControl]="ccEmailCtrl">
-                @for (email of emails; track email) {
-                <mat-chip-row (removed)="removeKeyword(email)">
-                    {{email}}
-                    <button matChipRemove aria-label="'remove ' + email">
-                      <span class="material-icons">cancel</span>
-                    </button>
-                </mat-chip-row>
-                }
+              @for (email of emails; track email) {
+              <mat-chip-row (removed)="removeKeyword(email)">
+                {{email}}
+                <button matChipRemove aria-label="'remove ' + email">
+                  <span class="material-icons">cancel</span>
+                </button>
+              </mat-chip-row>
+              }
             </mat-chip-grid>
             <input placeholder="Nuevo email..." [matChipInputFor]="chipGrid" (matChipInputTokenEnd)="add($event)" />
-        </mat-form-field>
+          </mat-form-field>
     </div>
   </ng-template>
 </app-item-list-template>
