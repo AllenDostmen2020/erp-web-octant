@@ -37,12 +37,13 @@ export class ClientSendEmailPageComponent {
   public emails: string[] = [];
   announcer = inject(LiveAnnouncer);
   public configList: ItemListConfiguration<Document> = {
-    title: 'Documentos',
+    title: 'Envío de documentos',
     server: {
       url: 'document',
       queryParams: {
         client_id: this.activatedRoute.snapshot.parent?.paramMap.get('id'),
         not_send_email: 'true',
+        relations: 'documentItems',
       },
     },
     columns: signal([
