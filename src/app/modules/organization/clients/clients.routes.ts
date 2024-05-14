@@ -7,6 +7,8 @@ import { clientContractsRoutes } from "./client-contracts/client-contracts.route
 import { clientDocumentRoutes } from "./client-documents/client-document.routes";
 import { clientPaymentRoutes } from "./client-payments/client-payments.routes";
 import { clientVehiclesRoutes } from "./client-vehicles/client-vehicles.routes";
+import { isEnableRolesGuard } from "@guard/auth.guard";
+import { UserRoleEnum } from "@interface/user";
 
 export const clientRoutes: Routes = [
     {
@@ -16,10 +18,14 @@ export const clientRoutes: Routes = [
     {
         path: 'create',
         loadComponent: () => import('./pages/client-create-page/client-create-page.component').then(m => m.ClientCreatePageComponent),
+        canActivate: [isEnableRolesGuard],
+        data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.ADMINISTRACIÓN] }
     },
     {
         path: 'edit/:id',
         loadComponent: () => import('./pages/client-edit-page/client-edit-page.component').then(m => m.ClientEditPageComponent),
+        canActivate: [isEnableRolesGuard],
+        data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.ADMINISTRACIÓN] }
     },
     {
         path: 'view/:id',
@@ -32,42 +38,62 @@ export const clientRoutes: Routes = [
             {
                 path: 'send-email',
                 loadComponent: () => import('./pages/client-send-email-page/client-send-email-page.component').then(m => m.ClientSendEmailPageComponent),
+                canActivate: [isEnableRolesGuard],
+                data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.KAM] }
             },
             {
                 path: 'account',
                 children: clientAccountRoutes,
+                canActivate: [isEnableRolesGuard],
+                data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.KAM] }
             },
             {
                 path: 'contact',
                 children: clientContactRoutes,
+                canActivate: [isEnableRolesGuard],
+                data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.KAM, UserRoleEnum.SOPORTE] }
             },
             {
                 path: 'business-unit',
                 children: clientBusinessUnitRoutes,
+                canActivate: [isEnableRolesGuard],
+                data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.KAM] }
             },
             {
                 path: 'billing-option',
                 children: clientBillingOptionsRoutes,
+                canActivate: [isEnableRolesGuard],
+                data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.KAM] }
             },
             {
                 path: 'contract',
                 children: clientContractsRoutes,
+                canActivate: [isEnableRolesGuard],
+                data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.KAM] }
             },
             {
                 path: 'document',
                 children: clientDocumentRoutes,
+                canActivate: [isEnableRolesGuard],
+                data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.KAM, UserRoleEnum.TESORERÍA] }
             },
             {
                 path: 'box-movements',
                 children: clientPaymentRoutes,
+                canActivate: [isEnableRolesGuard],
+                data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.KAM, UserRoleEnum.TESORERÍA] }
             },
             {
                 path: 'vehicle',
                 children: clientVehiclesRoutes,
+                canActivate: [isEnableRolesGuard],
+                data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.KAM, UserRoleEnum.SOPORTE] }
             },
             {
                 path: 'comprobant-payments',
-                loadComponent: () => import('./client-documents/pages/client-document-payment-create/client-document-payment-create.component').then(m => m.ClientDocumentPaymentCreateComponent)
+                loadComponent: () => import('./client-documents/pages/client-document-payment-create/client-document-payment-create.component').then(m => m.ClientDocumentPaymentCreateComponent),
+                canActivate: [isEnableRolesGuard],
+                data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.KAM, UserRoleEnum.TESORERÍA] }
             },
             {
                 path: '**',

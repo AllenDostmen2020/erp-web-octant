@@ -47,6 +47,7 @@ export enum UserRoleEnum {
     CONTABILIDAD = 'contabilidad',
     ADMINISTRACIÓN = 'administración',
     GESTIÓN = 'gestión',
+    SOPORTE = 'soporte',
 }
 
 export enum UserlevelEnum {

@@ -1,5 +1,5 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { USER_ROLES } from "@interface/baseModel";
+import { DOCUMENT_TYPES, USER_ROLES } from "@interface/baseModel";
 import { FormInput, dateFormInput, selectFormInput, selectLocalFormInput, textFormInput, textareaFormInput } from "@component/item-form-template/item-form-template.component";
 import { signal } from "@angular/core";
 import { NameModuleDatabase } from "@service/database-storage.service";
@@ -23,10 +23,10 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_USER: FormInput[] = [
         data: signal(USER_ROLES.map((item) => ({ name: item.toUpperCase(), id: item }))),
         cssClass: 'col-span-6 @2xl:col-span-2',
     }),
-    selectLocalFormInput({
+    selectFormInput({
         formControlName: 'document_type',
         textLabel: 'Tipo de documento',
-        local: {nameModuleDatabase: NameModuleDatabase.DocumentTypes},
+        data: signal(DOCUMENT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item }))),
         cssClass: 'col-span-6 @2xl:col-span-2',
     }),
     textFormInput({
