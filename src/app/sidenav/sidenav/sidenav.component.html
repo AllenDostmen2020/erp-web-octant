@@ -19,14 +19,18 @@
 
     </div>
 
-    <div class="sidenav__backdrop" (click)="showDrawer.set(false)" [class.visible]="showDrawer()"></div>
+    <div class="sidenav__backdrop" (click)="showDrawer.set(false)"></div>
 
     <div class="sidenav__content">
         <header class="sidenav__content__header">
 
             <a class="sidenav__content__header__logo">
-                <img src="/assets/images/angular.png" alt="">
+                <img src="/assets/images/logo-blue.webp" alt="">
             </a>
+
+            <button class="icon-button sidenav__content__mobile-menu-button" (click)="showDrawer.set(true)">
+                <span class="material-icons">menu</span>
+            </button>
 
             <div class="sidenav__content__header__search">
                 <input #inputSearch class="sidenav__content__header__search__input body-medium"
@@ -39,11 +43,11 @@
                     </span>
                 </button>
                 <!-- <mat-select [formControl]="optionsSearchCtrl" class="sidenav__content__header__search__select" value="" placeholder="Modo de busqueda">
-                    <mat-option value="">Todos</mat-option>
-                    <mat-option value="menu">Menu</mat-option>
-                    <mat-option value="list">Lista</mat-option>
-                    
-                </mat-select> -->
+                        <mat-option value="">Todos</mat-option>
+                        <mat-option value="menu">Menu</mat-option>
+                        <mat-option value="list">Lista</mat-option>
+                        
+                    </mat-select> -->
 
             </div>
 
@@ -83,7 +87,7 @@
 <ng-template #groupLinks let-groupLink>
     <div class="sidenav__drawer__nav__group">
         @if (groupLink.label; as label) {
-        <div class="sidenav__drawer__nav__group__label label-medium">
+        <div class="sidenav__drawer__nav__group__label">
             <span [title]="label">{{label}}</span>
         </div>
         }
