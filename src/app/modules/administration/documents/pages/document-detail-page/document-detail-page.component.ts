@@ -21,6 +21,8 @@ export class DocumentDetailPageComponent {
                 relations: 'client,documentItems'
             },
         },
+        editButton: false,
+        deleteButton: false,
         groups: [
             {
                 title: 'Datos generales',

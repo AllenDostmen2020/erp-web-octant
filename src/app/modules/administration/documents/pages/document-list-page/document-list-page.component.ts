@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild, inject, signal } from '@angular/core';
-import { ItemListTemplateComponent, ListColumn, ListItemExtended, dateColumn, defaultListFilterInputs, itemCreatedAtColumn, itemStatusColumn, numberColumn, restoreItemActionButton, selectableActionButton, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ListColumn, ListItemExtended, dateColumn, defaultListFilterInputs, itemCreatedAtColumn, itemStatusColumn, numberColumn, restoreItemActionButton, routerLinkActionButton, selectableActionButton, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
@@ -62,7 +62,13 @@ export class DocumentListPageComponent {
     createButton: false,
     rows: {
       options: [
-        viewItemActionButton(),
+        // viewItemActionButton(),
+        // routerLinkActionButton({
+        //   icon: 'visibility',
+        //   text: 'Ver',
+        //   routerLink: { url: (item) => `../view/${item.id}` },
+        //   hidden: this.router.url.includes('/organization/client/view')
+        // }),
         clickEventActionButton({
           icon: 'post_add',
           text: 'Detalles',
