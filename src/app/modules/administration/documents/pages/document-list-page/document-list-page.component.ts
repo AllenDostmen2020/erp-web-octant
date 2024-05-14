@@ -178,17 +178,6 @@ export class DocumentListPageComponent {
         }),
         restoreItemActionButton(),
       ],
-      selectable: {
-        actions: [
-          selectableActionButton({
-            icon: 'delete',
-            title: 'Eliminar ítems',
-            fn: (selectedItems) => {
-              console.log(selectedItems);
-            }
-          })
-        ]
-      }
     },
     columns: signal(this.generateColumns()),
     filters: signal([
