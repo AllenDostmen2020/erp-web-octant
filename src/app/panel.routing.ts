@@ -5,23 +5,33 @@ import { configurationRoutes } from './modules/configuration/configuration.route
 import { settingsRoutes } from './modules/settings/settings.routes';
 import { trackingRoutes } from './modules/tracking/tracking.routes';
 import { lateralPanelRouting } from './lateral-panel.routing';
+import { isEnableRolesGuard } from '@guard/auth.guard';
+import { UserRoleEnum } from '@interface/user';
 
 export const panelRoutes: Routes = [
     {
         path: 'organization',
         children: organizationRoutes,
+        canActivate: [isEnableRolesGuard],
+        data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.KAM, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.SOPORTE, UserRoleEnum.TESORERÍA] }
     },
     {
         path: 'administration',
         children: administrationRoutes,
+        canActivate: [isEnableRolesGuard],
+        data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.KAM, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.SOPORTE, UserRoleEnum.TESORERÍA] }
     },
     {
         path: 'configuration',
         children: configurationRoutes,
+        canActivate: [isEnableRolesGuard],
+        data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.KAM, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.SOPORTE, UserRoleEnum.TESORERÍA] }
     },
     {
         path: 'tracking',
         children: trackingRoutes,
+        canActivate: [isEnableRolesGuard],
+        data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.KAM, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.SOPORTE, UserRoleEnum.TESORERÍA] }
     },
     {
         path: 'settings',

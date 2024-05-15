@@ -16,6 +16,8 @@ export class ClientDetailPageComponent {
         subtitle: false,
         server: { url: 'client' },
         backButton: false,
+        editButton: false,
+        deleteButton: false,
         groups: [
             {
                 title: 'Datos generales',
