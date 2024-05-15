@@ -182,19 +182,16 @@ export class BoxDetailPageComponent {
                 icon: 'info',
                 title: 'Caja abierta',
                 description: `<div class="item-detail__group">
-                                    <div class="item-detail__group__row body-small">
-                                        <span>Usuario de apertura</span>
-                                        <span>:</span>
+                                    <div class="item-detail__group__row">
+                                        <span class="label-large">Usuario de apertura</span>
                                         <span>${lastBoxOpening.open_user?.name}</span>
                                     </div>
-                                    <div class="item-detail__group__row body-small">
-                                        <span>Fecha de apertura</span>
-                                        <span>:</span>
+                                    <div class="item-detail__group__row">
+                                        <span class="label-large">Fecha de apertura</span>
                                         <span>${this.datePipe.transform(lastBoxOpening.date_open, 'longDate')}</span>
                                     </div>
-                                    <div class="item-detail__group__row body-small">
-                                        <span>Monto de apertura</span>
-                                        <span>:</span>
+                                    <div class="item-detail__group__row">
+                                        <span class="label-large">Monto de apertura</span>
                                         <span>${simbolCoin}${lastBoxOpening.amount_init}</span>
                                     </div>
                                 </div>`,
@@ -210,19 +207,16 @@ export class BoxDetailPageComponent {
                 icon: 'info',
                 title: 'Caja cerrada',
                 description: `<div class="item-detail__group">
-                                    <div class="item-detail__group__row body-small">
-                                        <span>Usuario de cierre</span>
-                                        <span>:</span>
+                                    <div class="item-detail__group__row">
+                                        <span class="label-large">Usuario de cierre</span>
                                         <span>${lastBoxOpening.close_user?.name}</span>
                                     </div>
-                                    <div class="item-detail__group__row body-small">
-                                        <span>Fecha de cierre</span>
-                                        <span>:</span>
+                                    <div class="item-detail__group__row">
+                                        <span class="label-large">Fecha de cierre</span>
                                         <span>${this.datePipe.transform(lastBoxOpening.date_close, 'longDate')}</span>
                                     </div>
-                                    <div class="item-detail__group__row body-small">
-                                        <span>Monto de cierre</span>
-                                        <span>:</span>
+                                    <div class="item-detail__group__row">
+                                        <span class="label-large">Monto de cierre</span>
                                         <span>${simbolCoin}${lastBoxOpening.amount_exit}</span>
                                     </div>
                                 </div>`,
