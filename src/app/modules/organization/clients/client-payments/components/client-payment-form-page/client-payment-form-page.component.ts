@@ -74,24 +74,29 @@ export class ClientPaymentFormPageComponent {
     }
 
     public readonly bankAutocompleteLocalConfiguration: InputAutocompleteLocalConfiguration = {
-        textLabel: 'Banco',
+        textLabel: 'Banco de origen',
         local: { nameModuleDatabase: NameModuleDatabase.Banks }
     }
-    public readonly boxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
+    public readonly boxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration<BoxOpening> = {
         textLabel: 'Caja de la empresa',
         local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
-        displayTextFn: (item: BoxOpening) => item.box?.name ?? '--',
-        // displayTextFn: (box_opening: BoxOpening) => box_opening.box ? `<div class="grid">
-        //     <div class="label-large">
-        //         ${box_opening?.box?.name}
-        //         <span class="label-medium">(${box_opening?.box?.type})</span>
-        //     </div>
-        //     <div class="body-small flex gap-2">
-        //         <span class="py-px px-2 rounded-full bg-tertiary-container text-on-tertiary-container">
-        //              ${(box_opening?.box?.account?.coin ?? box_opening?.box?.coin)}
-        //         </span>
-        //     </div>
-        //     </div>` : '--',
+        conditionFilterFn: (box_opening, value) => {
+            console.log(box_opening);
+            return box_opening.box?.name.toLowerCase().includes((value ?? '').toLocaleLowerCase()) ?? false;
+        },
+        displayTextFn: (box_opening) => box_opening instanceof Object ? (box_opening.box?.name ?? '') : '',
+        optionDisplayTextFn: (box_opening: BoxOpening) => box_opening.box ? `<div class="grid">
+            <div class="label-large">
+                ${box_opening?.box?.name}
+                <span class="py-px px-2 rounded-full bg-tertiary-container text-on-tertiary-container">
+                     ${(box_opening?.box?.account?.coin ?? box_opening?.box?.coin)}
+                </span>
+            </div>
+            <div class="body-small flex gap-2">
+                ${box_opening?.box?.account?.name} | ${box_opening?.box?.account?.bank?.name}
+            </div>
+            </div>` : '--',
+            
     }
     public readonly paymentTypeSelectConfiguration: InputSelectConfiguration = {
         textLabel: 'Tipo de pago',

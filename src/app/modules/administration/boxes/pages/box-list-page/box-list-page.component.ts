@@ -29,7 +29,7 @@ export class BoxListPageComponent {
         server: {
             url: 'box',
             queryParams: {
-                relations: 'account,lastBoxOpening'
+                relations: 'account.bank,lastBoxOpening'
             }
         },
         title: 'Cajas',
@@ -59,6 +59,11 @@ export class BoxListPageComponent {
                 title: 'Cuenta',
                 gridColumn: 'fit-content(160px)',
                 displayValueFn: (item) => item.account?.name ?? '--',
+            }),
+            textColumn({
+                title: 'Banco',
+                gridColumn: 'fit-content(160px)',
+                displayValueFn: (item) => item.account?.bank?.name ?? '--',
             }),
             numberColumn({
                 title: 'Monto disponible',

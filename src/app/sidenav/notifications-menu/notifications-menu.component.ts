@@ -25,7 +25,7 @@ export class NotificationsMenuComponent {
   public notifications: WritableSignal<Notification[]> = signal([]);
 
   ngOnInit() {
-    this.fetchNotifications();
+    // this.fetchNotifications();
   }
 
   private async fetchNotifications() {

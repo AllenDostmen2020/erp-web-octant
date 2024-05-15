@@ -2,6 +2,8 @@ import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { FetchService } from '@service/fetch.service';
+import { DatabaseStorageService } from '@service/database-storage.service';
+import { ToastService } from '@service/toast.service';
 
 @Component({
   selector: 'app-apps-menu',
@@ -15,6 +17,8 @@ import { FetchService } from '@service/fetch.service';
 })
 export class AppsMenuComponent {
   private fetch = inject(FetchService);
+  private databaseStorage = inject(DatabaseStorageService);
+  private toast = inject(ToastService);
 
   public async runBoot(): Promise<void> {
     await this.fetch.put('boot/execute', {}, {
@@ -31,5 +35,10 @@ export class AppsMenuComponent {
         error: 'No se ha podido ejecutar el Boot.'
       }
     });
+  }
+
+  public async deleteLocalData(): Promise<void> {
+    await this.databaseStorage.deleteDatabase();
+    this.toast.open('Se ha eliminado la información local.');
   }
 }

@@ -239,4 +239,10 @@ export class DatabaseStorageService {
         })
     }
 
+    public async deleteDatabase(): Promise<void> {
+        for await (const module of this.modules) {
+            await this.clearData(module.key);
+        }
+    }
+
 }
