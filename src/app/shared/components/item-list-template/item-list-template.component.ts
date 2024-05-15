@@ -41,6 +41,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DateFnsAdapter } from '@angular/material-date-fns-adapter';
 import { NameModuleDatabase } from '@service/database-storage.service';
 import { LocalItemPipe } from '@pipe/local-item.pipe';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-item-list-template',
@@ -112,6 +113,7 @@ export class ItemListTemplateComponent {
   private renderer = inject(Renderer2);
   private eventsService = inject(EventsService);
   public location = inject(Location);
+  public sanitizer = inject(DomSanitizer);
 
   // private datePipe = inject(DatePipe);
   public firstLetterUppercasePipe = inject(FirstLetterUppercasePipe);

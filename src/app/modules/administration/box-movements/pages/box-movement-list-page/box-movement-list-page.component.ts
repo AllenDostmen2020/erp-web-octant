@@ -1,7 +1,8 @@
+import { DecimalPipe } from '@angular/common';
 import { Component, ViewEncapsulation, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormInput, autocompleteLocalFormInput } from '@component/item-form-template/item-form-template.component';
-import { ItemListConfiguration, ItemListTemplateComponent, ListColumn, defaultListFilterInputs, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, titlecaseColumn, uppercaseColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, ListColumn, defaultListFilterInputs, htmlColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, titlecaseColumn, uppercaseColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Box } from '@interface/box';
 import { BoxMovement, BoxMovementTypeEnum } from '@interface/boxMovement';
 import { NameModuleDatabase } from '@service/database-storage.service';
@@ -10,6 +11,7 @@ import { NameModuleDatabase } from '@service/database-storage.service';
   selector: 'app-box-movement-list-page',
   standalone: true,
   imports: [ItemListTemplateComponent],
+  providers: [DecimalPipe],
   templateUrl: './box-movement-list-page.component.html',
   styleUrl: './box-movement-list-page.component.scss',
   encapsulation: ViewEncapsulation.None
@@ -17,6 +19,7 @@ import { NameModuleDatabase } from '@service/database-storage.service';
 export class BoxMovementListPageComponent {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
+  private decimalPipe = inject(DecimalPipe);
 
   public configuration: ItemListConfiguration<BoxMovement> = {
     title: 'Movimientos',
@@ -29,11 +32,7 @@ export class BoxMovementListPageComponent {
     },
     columns: signal(this.generateColumns()),
     filters: signal(this.getFilters()),
-    rows: {
-      options: [
-        viewItemActionButton(),
-      ]
-    }
+    rows: { options: [viewItemActionButton()] },
   }
 
   private getFilters(): FormInput[] {
@@ -90,10 +89,13 @@ export class BoxMovementListPageComponent {
         gridColumn: 'fit-content(280px)',
         displayValueFn: (item) => item.client_box_movement?.client ? item.client_box_movement?.client?.name : (item.type == BoxMovementTypeEnum.EGRESO ? item.addressee : item.business),
       }),
-      numberColumn({
+      htmlColumn({
         title: 'Monto',
-        displayValueFn: (item) => item.amount,
-        cssClass: (item) => item.type == BoxMovementTypeEnum.INGRESO ? 'ingreso' : 'egreso',
+        align: 'right',
+        displayValueFn: (item) => `<p class="label-medium" style="display: flex; align-items: center; color: var(--color-${item.type == 'ingreso' ? 'primary' : 'error'});">
+          <span class="material-icons">${item.type == 'ingreso' ? 'arrow_upward_alt' : 'arrow_downward_alt'}</span>
+          ${item.coin == 'soles' ? 'S/' : '$'} ${this.decimalPipe.transform(item.amount, '1.2-2')}
+        </p>`,
       }),
       itemCreatedAtColumn(),
       itemUpdatedAtColumn(),

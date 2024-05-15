@@ -204,7 +204,7 @@
       @if(column.displayValueFn; as displayValueFn){
       @if(displayValueFn | executeFunctionList:[item, index]; as value) {
       <div class="list__items__row__cell__value {{(column.cssClassDisplayValue | executeFunctionList:[item, index]) ?? ''}}"
-        [ngStyle]="column.cssStyleDisplayValue | executeFunctionList:[item, index]" [title]="value"
+        [ngStyle]="column.cssStyleDisplayValue | executeFunctionList:[item, index]"
         data-type="value-row"
         [matTooltip]="column.tooltip | executeFunctionList:[item, index]">
         <ng-container [ngTemplateOutlet]="renderColumn"
@@ -360,15 +360,15 @@
   @if (rLink.outlet == 'route-lateral') { <div [matTooltip]="tooltip | executeFunctionList:[item, index]"
     class="list__items__row__cell__value__hovered" appNavigateLateralPanelOutlet
     [navigateUrl]="rLink.url | executeFunctionList:[item, index]"
-    [routeState]="rLink.state | executeFunctionList:[item, index]" [innerHTML]="value"></div> }
+    [routeState]="rLink.state | executeFunctionList:[item, index]" [innerHTML]="sanitizer.bypassSecurityTrustHtml(value)"></div> }
   @else { <div [matTooltip]="tooltip | executeFunctionList:[item, index]" class="list__items__row__cell__value__hovered"
-    [routerLink]="rLink.url | executeFunctionList:[item, index]" [innerHTML]="value"
+    [routerLink]="rLink.url | executeFunctionList:[item, index]" [innerHTML]="sanitizer.bypassSecurityTrustHtml(value)"
     [state]="rLink.state | executeFunctionList:[item, index]"></div> }
   } @else if(clickEvent) {
   <div [matTooltip]="tooltip | executeFunctionList:[item, index]" class="list__items__row__cell__value__hovered"
-    (click)="clickEvent(item)" [innerHTML]="value"></div>
+    (click)="clickEvent(item)" [innerHTML]="sanitizer.bypassSecurityTrustHtml(value)"></div>
   } @else {
-  <div [matTooltip]="tooltip | executeFunctionList:[item, index]" [innerHTML]="value"></div>
+  <div [matTooltip]="tooltip | executeFunctionList:[item, index]" [innerHTML]="sanitizer.bypassSecurityTrustHtml(value)"></div>
   }
 </ng-template>
 

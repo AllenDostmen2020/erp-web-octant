@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
-import { ItemListConfiguration, ItemListTemplateComponent, clickEventActionButton, htmlColumn, itemCreatedAtColumn, itemStatusColumn, numberColumn, selectableActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, clickEventActionButton, dateColumn, htmlColumn, itemCreatedAtColumn, itemStatusColumn, numberColumn, selectableActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
 import { format, parseISO } from 'date-fns';
@@ -71,8 +71,12 @@ export class ClientSendEmailPageComponent {
       htmlColumn({
         title: 'Enviado',
         align: 'center',
-        displayValueFn: (item) => item.send_email ? '<i class="material-icons color-primary">done_all</i>' : '',
+        displayValueFn: (item) => item.send_email ? '<i class="material-icons" style="color: var(--color-primary);">done_all</i>' : '',
       }),
+      // dateColumn({
+      //   title: 'F. Env.',
+      //   displayValueFn: (item) => item.emai,
+      // }),
       itemStatusColumn(),
     ]),
     createButton: false,
