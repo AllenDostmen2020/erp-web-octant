@@ -80,7 +80,19 @@ export class BoxMovementFormComponent {
     public readonly boxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
         textLabel: 'Caja',
         local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
-        displayTextFn: (item: BoxOpening) => item instanceof Object ? (item.box?.name ?? '') : '',
+        conditionFilterFn: (box_opening, value) => box_opening.box?.name.toLowerCase().includes((value ?? '').toLocaleLowerCase()) ?? false,
+        displayTextFn: (box_opening) => box_opening instanceof Object ? (box_opening.box?.name ?? '') : '',
+        optionDisplayTextFn: (box_opening: BoxOpening) => box_opening.box ? `<div class="grid">
+            <div class="label-large">
+                ${box_opening?.box?.name}
+                <span class="py-px px-2 rounded-full bg-tertiary-container text-on-tertiary-container">
+                     ${(box_opening?.box?.account?.coin ?? box_opening?.box?.coin)}
+                </span>
+            </div>
+            <div class="body-small flex gap-2">
+                ${box_opening?.box?.account?.name} | ${box_opening?.box?.account?.bank?.name}
+            </div>
+            </div>` : '--',
     }
 
     public readonly toBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
@@ -91,7 +103,19 @@ export class BoxMovementFormComponent {
             if (toBoxOpeningId) return item.id != toBoxOpeningId
             return true;
         }),
-        displayTextFn: (item: BoxOpening) => item instanceof Object ? (item.box?.name ?? '') : '',
+        conditionFilterFn: (box_opening, value) => box_opening.box?.name.toLowerCase().includes((value ?? '').toLocaleLowerCase()) ?? false,
+        displayTextFn: (box_opening) => box_opening instanceof Object ? (box_opening.box?.name ?? '') : '',
+        optionDisplayTextFn: (box_opening: BoxOpening) => box_opening.box ? `<div class="grid">
+            <div class="label-large">
+                ${box_opening?.box?.name}
+                <span class="py-px px-2 rounded-full bg-tertiary-container text-on-tertiary-container">
+                     ${(box_opening?.box?.account?.coin ?? box_opening?.box?.coin)}
+                </span>
+            </div>
+            <div class="body-small flex gap-2">
+                ${box_opening?.box?.account?.name} | ${box_opening?.box?.account?.bank?.name}
+            </div>
+            </div>` : '--',
     }
     get typeCtrl(): FormControl {
         return this.form.get('type') as FormControl;
