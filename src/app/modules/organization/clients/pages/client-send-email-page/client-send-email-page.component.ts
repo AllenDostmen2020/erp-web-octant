@@ -1,7 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, TemplateRef, ViewChild, inject, signal } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -12,7 +11,7 @@ import { Document } from '@interface/document';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
 import { format, parseISO } from 'date-fns';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-client-send-email-page',
@@ -29,13 +28,12 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
   styleUrl: './client-send-email-page.component.scss'
 })
 export class ClientSendEmailPageComponent {
-  separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('emailFormTemplate', { static: true }) emailFormTemplate!: TemplateRef<any>;
+  readonly separatorKeysCodes = [ENTER, COMMA, SPACE] as const;
   private fetch = inject(FetchService);
   private matDialog = inject(MatDialog);
   private activatedRoute = inject(ActivatedRoute);
   public emails: string[] = [];
-  announcer = inject(LiveAnnouncer);
   public configList: ItemListConfiguration<Document> = {
     title: 'Envío de documentos',
     server: {
@@ -98,8 +96,6 @@ export class ClientSendEmailPageComponent {
     const index = this.emails.indexOf(reference);
     if (index >= 0) {
       this.emails.splice(index, 1);
-
-      this.announcer.announce(`removed ${reference}`);
     }
   }
 
