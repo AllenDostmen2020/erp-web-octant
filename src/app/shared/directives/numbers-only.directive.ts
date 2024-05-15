@@ -6,25 +6,18 @@ import { Directive, ElementRef, HostListener, Renderer2, inject } from '@angular
 })
 export class NumbersOnlyDirective {
   private renderer = inject(Renderer2);
-  constructor(private el: ElementRef) {}
-
-  @HostListener('keydown', ['$event']) onKeyDown(event: KeyboardEvent) {
-    return this.validateCharacter(event);
+  constructor(private el: ElementRef) {
+    this.renderer.setAttribute(this.el.nativeElement, 'inputmode', 'numeric');
   }
 
-  private validateCharacter(event: KeyboardEvent): boolean {
-    const allowedChars = /[0-9]/;
-    const key = event.key;    
-
-    if (event.ctrlKey || event.metaKey || key === 'Backspace' || key === 'Tab') {
-      return true;
-    }
-
-    if (!allowedChars.test(key)) {
-      event.preventDefault();
-      return false;
-    }
-
+  @HostListener('input', ['$event']) onInput(event: InputEvent) {
+    return this.validateInput(event);
+  }
+  
+  private validateInput(event: InputEvent): boolean {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement.value;
+    inputElement.value = inputValue.replace(/[^0-9]/g, '');
     return true;
   }
 

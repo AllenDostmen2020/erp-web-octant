@@ -8,23 +8,14 @@ export class CharactersOnlyDirective {
   private renderer = inject(Renderer2);
   constructor(private el: ElementRef) {}
 
-  @HostListener('keydown', ['$event']) onKeyDown(event: KeyboardEvent) {
-    return this.validateCharacter(event);
+  @HostListener('input', ['$event']) onInput(event: InputEvent) {
+    return this.validateInput(event);
   }
-
-  public validateCharacter(event: KeyboardEvent): boolean {
-    const allowedChars = /[a-zA-Z]/;
-    const key = event.key;
-
-    if (event.ctrlKey || event.metaKey || key === 'Backspace' || key == 'Tab' || key == ' ') {
-      return true;
-    }
-
-    if (!allowedChars.test(key)) {
-      event.preventDefault();
-      return false;
-    }
-
+  
+  private validateInput(event: InputEvent): boolean {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement.value;
+    inputElement.value = inputValue.replace(/[^a-zA-Z\s]/g, '');
     return true;
   }
 

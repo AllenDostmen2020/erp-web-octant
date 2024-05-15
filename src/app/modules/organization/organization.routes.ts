@@ -14,5 +14,7 @@ export const organizationRoutes: Routes = [
     {
         path: 'user',
         children: userRoutes,
+        canActivate: [isEnableRolesGuard],
+        data: { authRoles: [UserRoleEnum.MASTER] }
     },
 ];

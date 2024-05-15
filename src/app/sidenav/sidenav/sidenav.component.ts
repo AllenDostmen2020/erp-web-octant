@@ -200,6 +200,7 @@ export class SidenavComponent {
 const DRAWER_LINKS: GroupDrawerLink[] = [
     {
         label: 'Organización',
+
         links: [
             {
                 label: 'Clientes',
@@ -208,6 +209,7 @@ const DRAWER_LINKS: GroupDrawerLink[] = [
             },
             {
                 label: 'Usuarios',
+                authRoles: [UserRoleEnum.MASTER],
                 icon: 'person',
                 route: '/organization/user',
             },
@@ -215,6 +217,7 @@ const DRAWER_LINKS: GroupDrawerLink[] = [
     },
     {
         label: 'Administración',
+        authRoles: [UserRoleEnum.MASTER],
         links: [
             {
                 label: 'Cuentas',
@@ -240,6 +243,7 @@ const DRAWER_LINKS: GroupDrawerLink[] = [
     },
     {
         label: 'Tracking',
+        authRoles: [UserRoleEnum.MASTER],
         links: [
             {
                 label: 'Contratos',
@@ -255,6 +259,7 @@ const DRAWER_LINKS: GroupDrawerLink[] = [
     },
     {
         label: 'Configuration',
+        authRoles: [UserRoleEnum.MASTER],
         links: [
             {
                 label: 'Bancos',
@@ -280,6 +285,7 @@ const DRAWER_LINKS: GroupDrawerLink[] = [
     },
     {
         label: 'Opciones de la APP',
+        authRoles: [UserRoleEnum.MASTER],
         links: [
             {
                 label: 'Settings',

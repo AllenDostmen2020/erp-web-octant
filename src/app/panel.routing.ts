@@ -19,23 +19,25 @@ export const panelRoutes: Routes = [
         path: 'administration',
         children: administrationRoutes,
         canActivate: [isEnableRolesGuard],
-        data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.KAM, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.SOPORTE, UserRoleEnum.TESORERÍA] }
+        data: { authRoles: [UserRoleEnum.MASTER] }
     },
     {
         path: 'configuration',
         children: configurationRoutes,
         canActivate: [isEnableRolesGuard],
-        data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.KAM, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.SOPORTE, UserRoleEnum.TESORERÍA] }
+        data: { authRoles: [UserRoleEnum.MASTER] }
     },
     {
         path: 'tracking',
         children: trackingRoutes,
         canActivate: [isEnableRolesGuard],
-        data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.KAM, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.SOPORTE, UserRoleEnum.TESORERÍA] }
+        data: { authRoles: [UserRoleEnum.MASTER] }
     },
     {
         path: 'settings',
         children: settingsRoutes,
+        canActivate: [isEnableRolesGuard],
+        data: { authRoles: [UserRoleEnum.MASTER] }
     },
 
     /* LATERAL ROUTING */
