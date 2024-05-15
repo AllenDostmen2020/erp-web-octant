@@ -198,6 +198,12 @@ export interface ItemDetailGroup<T = any> {
     actions?: ActionButton<T>[]
 }
 
+interface ListFormatOptions {
+    lang?: string;
+    type?: 'conjunction' | 'disjunction' | 'unit';
+    style?: 'long' | 'short' | 'narrow';
+}
+
 export interface ItemDetail<T> {
     clickEvent?: (item: T) => void;
     cssClass?: ((item: T) => string) | string;
@@ -207,6 +213,7 @@ export interface ItemDetail<T> {
     key?: string;
     title: string;
     numberFormat?: string;
+    listOptions?: ListFormatOptions;
     routerLink?: RouterLinkItem<T>
     tooltip?: ((item: T) => string) | string;
     type?: TypeValueKeyItem | 'image' | 'image-server' | 'private-image-server' | 'html';
@@ -284,9 +291,10 @@ export const registerDataGroupDetail = (): ItemDetailGroup<any> => {
     };
 };
 
-interface SimpleDetail<T> extends Omit<ItemDetail<T>, 'numberFormat' | 'dateFormat' | 'type' | 'localItem'> { }
+interface SimpleDetail<T> extends Omit<ItemDetail<T>, 'numberFormat' | 'dateFormat' | 'type' | 'localItem' | 'listOptions'> { }
 interface NumberDetail<T> extends SimpleDetail<T> { numberFormat?: string; }
 interface DateDetail<T> extends SimpleDetail<T> { dateFormat?: string; }
+interface listDetail<T> extends SimpleDetail<T> { listOptions?: ListFormatOptions; }
 interface LocalItemDetail<T> extends SimpleDetail<T> {
     localItem: {
         displayTextValue: (item: any) => string | null;
@@ -307,3 +315,4 @@ export const phoneDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ..
 export const userDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'user' });
 export const localItemDetail = <T>(options: LocalItemDetail<T>): ItemDetail<T> => ({ ...options, type: 'local-item' });
 export const imageColumnDetail = <T>(options: SimpleDetail<T>): ItemDetail<T> => ({ ...options, type: 'image' });
+export const listDetail = <T>(options: listDetail<T>): ItemDetail<T> => ({ ...options, type: 'list-format' });
