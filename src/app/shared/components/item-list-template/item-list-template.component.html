@@ -368,7 +368,7 @@
   <div [matTooltip]="tooltip | executeFunctionList:[item, index]" class="list__items__row__cell__value__hovered"
     (click)="clickEvent(item)" [innerHTML]="value"></div>
   } @else {
-  <div [title]="value" [matTooltip]="tooltip | executeFunctionList:[item, index]" [innerHTML]="value"></div>
+  <div [matTooltip]="tooltip | executeFunctionList:[item, index]" [innerHTML]="value"></div>
   }
 </ng-template>
 

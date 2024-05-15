@@ -6,12 +6,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
-import { ItemListConfiguration, ItemListTemplateComponent, clickEventActionButton, itemCreatedAtColumn, itemStatusColumn, numberColumn, selectableActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, clickEventActionButton, htmlColumn, itemCreatedAtColumn, itemStatusColumn, numberColumn, selectableActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { Document } from '@interface/document';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
 import { format, parseISO } from 'date-fns';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
+import { dateRangeFormInput, switchFormInput } from '@component/item-form-template/item-form-template.component';
 
 @Component({
   selector: 'app-client-send-email-page',
@@ -40,7 +41,7 @@ export class ClientSendEmailPageComponent {
       url: 'document',
       queryParams: {
         client_id: this.activatedRoute.snapshot.parent?.paramMap.get('id'),
-        not_send_email: 'true',
+        enable_send_email: 'true',
         relations: 'documentItems',
       },
     },
@@ -67,7 +68,11 @@ export class ClientSendEmailPageComponent {
         title: 'Total',
         displayValueFn: (item) => item.total,
       }),
-      itemCreatedAtColumn(),
+      htmlColumn({
+        title: 'Enviado',
+        align: 'center',
+        displayValueFn: (item) => item.send_email ? '<i class="material-icons color-primary">done_all</i>' : '',
+      }),
       itemStatusColumn(),
     ]),
     createButton: false,
@@ -76,7 +81,7 @@ export class ClientSendEmailPageComponent {
         clickEventActionButton({
           icon: 'send',
           text: 'Enviar email',
-          hidden: (item) => item.send_email,
+          // hidden: (item) => item.send_email,
           fn: (item) => this.sendEmail([item]),
         }),
       ],
@@ -90,6 +95,17 @@ export class ClientSendEmailPageComponent {
         ]
       }
     },
+    filters: signal([
+      dateRangeFormInput({
+        textLabel: 'Fecha de emisión',
+        formControlNameFrom: 'emit_date_from',
+        formControlNameTo: 'emit_date_to',
+      }),
+      switchFormInput({
+        textLabel: 'Pendientes de enviar',
+        formControlName: 'not_send_email',
+      }),
+    ])
   }
 
   removeKeyword(reference: string) {
