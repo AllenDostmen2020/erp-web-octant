@@ -143,9 +143,9 @@ export class ItemListTemplateComponent {
   }
 
   private initializeSignalFilters(): void {
-    if(this.configuration.filters !== false) {
-      if(!this.configuration.filters) this.configuration.filters = signal(defaultListFilterInputs());
-      const filters: WritableSignal<FormInput[]> = this.configuration.filters; 
+    if (this.configuration.filters !== false) {
+      if (!this.configuration.filters) this.configuration.filters = signal(defaultListFilterInputs());
+      const filters: WritableSignal<FormInput[]> = this.configuration.filters;
       this.generateFormControlsFromFilterInputs(filters());
       // effect(() => {
       //   const filterValues = filters();
@@ -233,6 +233,11 @@ export class ItemListTemplateComponent {
         if (type == 'enter') {
           this.searchCtrl.setValue(data.value, { emitEvent: false });
           this.callGetData(this.getQueryParams());
+        } else {
+          if (data.value == '' && this.searchCtrl.value) {
+            this.searchCtrl.setValue('', { emitEvent: false });
+            this.callGetData(this.getQueryParams());
+          }
         }
       });
 
@@ -434,7 +439,7 @@ export class ItemListTemplateComponent {
         formFilters.setControl(filter.switch.formControlName, new FormControl(filter.switch.defaultValue));
       }
     }
-    if(!formFilters.get('search')) formFilters.setControl('search', new FormControl());
+    if (!formFilters.get('search')) formFilters.setControl('search', new FormControl());
     this.formFilters = formFilters;
   }
 
@@ -856,7 +861,7 @@ export interface ListColumn<T> {
   }
 
   localItem?: {
-    displayTextValue: <D=any>(item: D) => string | null;
+    displayTextValue: <D = any>(item: D) => string | null;
     nameModuleDatabase: NameModuleDatabase,
   }
 
