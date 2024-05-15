@@ -42,18 +42,18 @@ export class BoxMovementListPageComponent {
         formControlName: 'box_id',
         textLabel: 'Caja',
         local: { nameModuleDatabase: NameModuleDatabase.Boxes },
-        displayValueFn: (item) => item instanceof Object ? item.name : '',
-        displayTextFn: (item) => `<div class="autocomplete-option__box">
-          <div class="autocomplete-option__box__name">
-            ${item.name.toUpperCase()} [${item.coin.toUpperCase()}]
-          </div>
-          <div class="autocomplete-option__box__details">
-            <span class="autocomplete-option__box__details__type">${item.type.toUpperCase()}</span>
-            ${
-              item.account ? ('<span class="autocomplete-option__box__details__separator"></span> <span>' + item.account.bank?.name  + '</span> <span class="autocomplete-option__box__details__separator"></span> <span>' + item.account.bank?.name  + '</span>') : ''
-            }
-          </div>
-        </div>`,
+        displayTextFn: (box) => box instanceof Object ? (box?.name ?? '') : '',
+        optionDisplayTextFn: (box) => box ? `<div class="grid">
+            <div class="label-large">
+                ${box?.name}
+                <span class="py-px px-2 rounded-full bg-tertiary-container text-on-tertiary-container">
+                     ${(box?.account?.coin ?? box?.coin)}
+                </span>
+            </div>
+            <div class="body-small flex gap-2">
+                ${box?.account?.name} | ${box?.account?.bank?.name}
+            </div>
+            </div>` : '--',
       }))
     }
     return [...filters, ...defaultListFilterInputs()];
