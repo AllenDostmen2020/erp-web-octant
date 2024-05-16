@@ -1,5 +1,4 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { FetchService } from '@service/fetch.service';
 import { DatabaseStorageService } from '@service/database-storage.service';
@@ -20,8 +19,25 @@ export class AppsMenuComponent {
   private databaseStorage = inject(DatabaseStorageService);
   private toast = inject(ToastService);
 
-  public async runBoot(): Promise<void> {
-    await this.fetch.put('boot/execute', {}, {
+  public async runBootDocuments(): Promise<void> {
+    await this.fetch.put('boot/documents', {}, {
+      confirmDialog: {
+        title: '¿Está seguro de ejecutar el Boot?',
+        description: 'El Boot es un proceso que se ejecuta una vez al día y actualiza la información de la aplicación.',
+        confirmButton: {
+          text: 'Ejecutar Boot',
+        }
+      },
+      toast: {
+        loading: 'Ejecutando Boot...',
+        success: 'El Boot se ha ejecutado correctamente.',
+        error: 'No se ha podido ejecutar el Boot.'
+      }
+    });
+  }
+
+  public async runBootContracts(): Promise<void> {
+    await this.fetch.put('boot/contracts', {}, {
       confirmDialog: {
         title: '¿Está seguro de ejecutar el Boot?',
         description: 'El Boot es un proceso que se ejecuta una vez al día y actualiza la información de la aplicación.',

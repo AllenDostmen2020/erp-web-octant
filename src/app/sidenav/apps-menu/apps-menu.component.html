@@ -7,9 +7,21 @@
     <div class="apps__menu__container" (click)="$event.stopPropagation()">
         <div class="apps__menu__content">
             <div class="apps__menu__content__item">
-                <button class="apps__menu__content__item__button icon-button" (click)="runBoot()">
+                <button class="apps__menu__content__item__button icon-button" (click)="runBootDocuments()">
                     <span class="apps__menu__content__item__button__icon material-icons">run_circle</span>
                     <p class="apps__menu__content__item__button__text body-small">Run BOOT</p>
+                </button>
+            </div>
+            <div class="apps__menu__content__item">
+                <button class="apps__menu__content__item__button icon-button" (click)="runBootContracts()">
+                    <span class="apps__menu__content__item__button__icon material-icons">contract_edit</span>
+                    <p class="apps__menu__content__item__button__text body-small">Verificar contratos</p>
+                </button>
+            </div>
+            <div class="apps__menu__content__item">
+                <button class="apps__menu__content__item__button icon-button" (click)="deleteLocalData()">
+                    <span class="apps__menu__content__item__button__icon material-icons">auto_delete</span>
+                    <p class="apps__menu__content__item__button__text body-small">Borrar almacenamiento local</p>
                 </button>
             </div>
             <div class="apps__menu__content__item">
@@ -28,18 +40,6 @@
                 <button class="apps__menu__content__item__button icon-button">
                     <span class="apps__menu__content__item__button__icon material-icons">apps</span>
                     <p class="apps__menu__content__item__button__text body-small">Aplicaciones</p>
-                </button>
-            </div>
-            <div class="apps__menu__content__item">
-                <button class="apps__menu__content__item__button icon-button" (click)="deleteLocalData()">
-                    <span class="apps__menu__content__item__button__icon material-icons">auto_delete</span>
-                    <p class="apps__menu__content__item__button__text body-small">Borrar almacenamiento local</p>
-                </button>
-            </div>
-            <div class="apps__menu__content__item">
-                <button class="apps__menu__content__item__button icon-button">
-                    <span class="apps__menu__content__item__button__icon material-icons">apps</span>
-                    <p class="apps__menu__content__item__button__text body-small">Aplicaciones de escritorio</p>
                 </button>
             </div>
         </div>
