@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild, inject, signal } from '@angular/core';
-import { ItemListTemplateComponent, ListColumn, ListItemExtended, dateColumn, defaultListFilterInputs, itemCreatedAtColumn, itemStatusColumn, numberColumn, restoreItemActionButton, routerLinkActionButton, selectableActionButton, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ListColumn, ListItemExtended, dateColumn, defaultListFilterInputs, htmlColumn, itemCreatedAtColumn, itemStatusColumn, numberColumn, restoreItemActionButton, routerLinkActionButton, selectableActionButton, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { DOCUMENT_STATUS, Document } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
@@ -13,8 +13,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { addDays, format, parseISO } from 'date-fns';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatusModel } from '@interface/baseModel';
-import { autocompleteServerFormInput, selectFormInput } from '@component/item-form-template/item-form-template.component';
+import { autocompleteServerFormInput, selectFormInput, switchFormInput } from '@component/item-form-template/item-form-template.component';
 import { DatePipe } from '@angular/common';
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
 
 interface ExtDocument extends Document, ListItemExtended { }
 
@@ -29,11 +31,13 @@ interface ExtDocument extends Document, ListItemExtended { }
     MatDatepickerModule,
     MatSlideToggleModule,
     DatePipe,
+    MatChipsModule
   ],
   templateUrl: './document-list-page.component.html',
   styleUrl: './document-list-page.component.scss',
 })
 export class DocumentListPageComponent {
+  @ViewChild('emailFormTemplate', { static: true }) emailFormTemplate!: TemplateRef<any>;
   @ViewChild('anulateFormTemplate', { static: true }) anulateFormTemplate!: TemplateRef<any>;
   @ViewChild('emitFormTemplate', { static: true }) emitFormTemplate!: TemplateRef<any>;
   @ViewChild('previewEmitTemplate', { static: true }) previewEmitTemplate!: TemplateRef<any>;
@@ -48,7 +52,8 @@ export class DocumentListPageComponent {
     credit: new FormControl(false),
   });
   public minDate = addDays(new Date(), 1);
-
+  public emails: string[] = [];
+  readonly separatorKeysCodes = [ENTER, COMMA, SPACE] as const;
   public configuration: ItemListConfiguration<ExtDocument> = {
     title: 'Documentos',
     server: {
@@ -61,14 +66,16 @@ export class DocumentListPageComponent {
     },
     createButton: false,
     rows: {
+      selectable: {
+        actions: [
+          selectableActionButton({
+            icon: 'send',
+            title: 'Enviar por email',
+            fn: (selectedItems) => this.sendEmail(selectedItems),
+          })
+        ]
+      },
       options: [
-        // viewItemActionButton(),
-        // routerLinkActionButton({
-        //   icon: 'visibility',
-        //   text: 'Ver',
-        //   routerLink: { url: (item) => `../view/${item.id}` },
-        //   hidden: this.router.url.includes('/organization/client/view')
-        // }),
         clickEventActionButton({
           icon: 'post_add',
           text: 'Detalles',
@@ -157,6 +164,11 @@ export class DocumentListPageComponent {
         //   }
         // }),
         clickEventActionButton({
+          icon: 'send',
+          text: 'Enviar email',
+          fn: (item) => this.sendEmail([item]),
+        }),
+        clickEventActionButton({
           text: 'Descargar XML',
           icon: 'cloud_download',
           hidden: (item) => !item.link_file,
@@ -195,6 +207,10 @@ export class DocumentListPageComponent {
         textLabel: 'Estado',
         data: signal(DOCUMENT_STATUS.map((item) => ({ name: item.toUpperCase(), id: item }))),
       }),
+      switchFormInput({
+        textLabel: 'Pendientes de enviar email',
+        formControlName: 'not_send_email',
+      }),
       ...defaultListFilterInputs(),
     ])
   }
@@ -227,6 +243,11 @@ export class DocumentListPageComponent {
       numberColumn<Document>({
         title: 'Total',
         displayValueFn: (item) => item.total,
+      }),
+      htmlColumn({
+        title: 'Enviado',
+        align: 'center',
+        displayValueFn: (item) => item.send_email ? '<i class="material-icons" style="color: var(--color-primary);">done_all</i>' : '',
       }),
       itemCreatedAtColumn(),
       itemStatusColumn(),
@@ -379,6 +400,61 @@ export class DocumentListPageComponent {
       }
     };
     return await this.fetch.get<Document>(url, request);
+  }
+
+  removeKeyword(reference: string) {
+    const index = this.emails.indexOf(reference);
+    if (index >= 0) {
+      this.emails.splice(index, 1);
+    }
+  }
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (value && regex.test(value)) this.emails.push(value);
+    else return;
+    event.chipInput!.clear();
+  }
+
+
+
+  public emailForm = new FormGroup({
+    cc_email: new FormControl([]),
+  });
+
+  get ccEmailCtrl(): FormControl { return this.emailForm.get('cc_email')! as FormControl; }
+
+  private async sendEmail(items: Document[]): Promise<void> {
+    this.emailForm.reset();
+    const dialogData: ConfirmDialogData = {
+      icon: 'info',
+      title: '¿Está seguro de enviar emails?',
+      description: '',
+      data: items,
+      templateRef: this.emailFormTemplate,
+      confirmButton: { disabled: false },
+    };
+    const subscribe = this.emailForm.valueChanges.subscribe(() => dialogData.confirmButton!.disabled = this.emailForm.invalid);
+    const confirm = await this.confirmDialog(dialogData);
+    subscribe.unsubscribe();
+    if (!confirm) return;
+    const url = `document/send-email`;
+    const body = {
+      document_ids: items.map((item) => item.id),
+      cc_email: this.emailForm.value.cc_email,
+      client_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id'),
+    };
+    const request: RequestInitFetch = {
+      confirmDialog: false,
+      toast: {
+        loading: 'Enviando email...',
+        success: 'Email enviado',
+        error: (error) => error.error.message ?? 'Error al enviar Email',
+      }
+    };
+    await this.fetch.post<Document>(url, body, request);
+    this.configuration.updateListEvent?.emit();
   }
 
 }

@@ -1,3 +1,12 @@
-@if (configuration) {
-  <app-item-list-template [configuration]="configuration"/>
-}
+<app-item-list-template [configuration]="configuration">
+  <ng-template #deleteBoxMovementTemplate>
+    <div class="__form">
+        <mat-form-field style="display: block;">
+            <mat-label>Motivo</mat-label>
+            <textarea matInput placeholder="Comment" rows="2" [formControl]="deleteCommentCtrl"></textarea>
+        </mat-form-field>
+        <p>Una vez eliminado el pago no se podrá revertir el proceso</p>
+    </div>
+</ng-template>
+</app-item-list-template>
+

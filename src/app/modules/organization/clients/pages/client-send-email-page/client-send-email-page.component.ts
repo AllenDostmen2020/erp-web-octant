@@ -85,7 +85,6 @@ export class ClientSendEmailPageComponent {
         clickEventActionButton({
           icon: 'send',
           text: 'Enviar email',
-          // hidden: (item) => item.send_email,
           fn: (item) => this.sendEmail([item]),
         }),
       ],

@@ -49,12 +49,6 @@ export const clientRoutes: Routes = [
                 ]
             },
             {
-                path: 'send-email',
-                loadComponent: () => import('./pages/client-send-email-page/client-send-email-page.component').then(m => m.ClientSendEmailPageComponent),
-                canActivate: [isEnableRolesGuard],
-                data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.KAM] }
-            },
-            {
                 path: 'account',
                 children: clientAccountRoutes,
                 canActivate: [isEnableRolesGuard],
@@ -69,12 +63,6 @@ export const clientRoutes: Routes = [
             {
                 path: 'business-unit',
                 children: clientBusinessUnitRoutes,
-                canActivate: [isEnableRolesGuard],
-                data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.KAM] }
-            },
-            {
-                path: 'billing-option',
-                children: clientBillingOptionsRoutes,
                 canActivate: [isEnableRolesGuard],
                 data: { authRoles: [UserRoleEnum.MASTER, UserRoleEnum.ADMINISTRACIÓN, UserRoleEnum.KAM] }
             },

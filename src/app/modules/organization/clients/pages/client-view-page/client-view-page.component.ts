@@ -18,10 +18,6 @@ export class ClientViewPageComponent {
                 text: 'Detalle',
             },
             {
-                routerLink: './billing-option',
-                text: 'Opciones de facturación',
-            },
-            {
                 routerLink: './business-unit',
                 text: 'Unidades de negocio',
             },
@@ -48,10 +44,6 @@ export class ClientViewPageComponent {
             {
                 routerLink: './comprobant-payments',
                 text: 'Pagar comprobantes',
-            },
-            {
-                routerLink: './send-email',
-                text: 'Emails',
             },
         ]
     }
