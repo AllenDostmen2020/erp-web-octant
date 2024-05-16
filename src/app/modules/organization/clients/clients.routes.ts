@@ -33,7 +33,20 @@ export const clientRoutes: Routes = [
         children: [
             {
                 path: 'detail',
-                loadComponent: () => import('./pages/client-detail-page/client-detail-page.component').then(m => m.ClientDetailPageComponent),
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () => import('./pages/client-detail-page/client-detail-page.component').then(m => m.ClientDetailPageComponent),
+                    },
+                    {
+                        path: 'edit',
+                        loadComponent: () => import('./pages/client-edit-page/client-edit-page.component').then(m => m.ClientEditPageComponent),
+                    },
+                    {
+                        path: 'billing-option/edit',
+                        loadComponent: () => import('./client-billing-options/pages/client-billing-option-edit-page/client-billing-option-edit-page.component').then(m => m.ClientBillingOptionEditPageComponent),
+                    }
+                ]
             },
             {
                 path: 'send-email',
