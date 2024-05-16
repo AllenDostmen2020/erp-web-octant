@@ -25,11 +25,16 @@ export class BoxEditPageComponent extends BoxCreatePageComponent {
     get typeCrtl(): FormControl {
         return this.configuration.formGroup.get('type') as FormControl;
     }
+    get accountIdCrtl(): FormControl {
+        return this.configuration.formGroup.get('account_id') as FormControl;
+    }
 
     ngOnInit(){
         this.coinCrtl.disable();
         this.coinCrtl.clearValidators();
         this.typeCrtl.disable();
         this.typeCrtl.clearValidators();
+        this.accountIdCrtl.disable();
+        this.accountIdCrtl.clearValidators();
     }
 }

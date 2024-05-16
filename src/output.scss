@@ -636,16 +636,16 @@ video {
   margin-top: 0.5rem;
 }
 
+.block {
+  display: block;
+}
+
 .flex {
   display: flex;
 }
 
 .grid {
   display: grid;
-}
-
-.\!grid {
-  display: grid !important;
 }
 
 .contents {

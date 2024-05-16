@@ -40,6 +40,11 @@ const administrationLateralPanelRouting: Routes = [
         loadComponent: () => import('./modules/administration/documents/pages/document-detail-page/document-detail-page.component').then(m => m.DocumentDetailPageComponent),
         outlet: 'route-lateral',
     },
+    {
+        path: 'administration/box-movement/detail/:id',
+        loadComponent: () => import('./modules/administration/box-movements/pages/box-movement-detail-page/box-movement-detail-page.component').then(m => m.BoxMovementDetailPageComponent),
+        outlet: 'route-lateral',
+    },
 ]
 
 
