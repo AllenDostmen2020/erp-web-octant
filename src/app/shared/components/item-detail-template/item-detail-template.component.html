@@ -125,6 +125,16 @@
         <!-- ---------------------------------------------- -->
         <!-- ---------------------------------------------- -->
         <!-- ---------------------------------------------- -->
+        @if (group.actions) {
+        <div class="item-detail__group__actions">
+            @for (action of group.actions; track action) {
+            <ng-container [ngTemplateOutlet]="switchActionButton" [ngTemplateOutletContext]="{ $implicit: item, actionButton: action }" />
+            }
+        </div>
+        }
+        <!-- ---------------------------------------------- -->
+        <!-- ---------------------------------------------- -->
+        <!-- ---------------------------------------------- -->
     </div>
     }
     }
