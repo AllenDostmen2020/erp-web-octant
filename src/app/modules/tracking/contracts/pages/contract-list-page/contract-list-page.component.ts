@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, WritableSignal, inject, signal } from '@angular/core';
-import { ItemListTemplateComponent, ItemListConfiguration, viewItemActionButton, routerLinkActionButton, defaultListFilterInputs } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, viewItemActionButton, routerLinkActionButton, defaultListFilterInputs, clickEventActionButton } from '@component/item-list-template/item-list-template.component';
 import { Contract } from '@interface/contract';
 import { contractColumnsList } from '../../helpers';
 import { addMonths, parseISO } from 'date-fns';
@@ -40,7 +40,14 @@ export class ContractListPageComponent {
           icon: 'event_repeat',
           text: 'Renovar',
           hidden: (item)=> item.status != StatusModel.Expirado,
-        })
+        }),
+        // clickEventActionButton({
+        //   icon: 'task_alt',
+        //   text: 'Actualizar código de contrato',
+        //   fn: async (item) => {
+        //     this.updateCode(item);
+        //   }
+        // }),
       ]
     },
     filters: signal(this.getFilters()),
@@ -95,4 +102,14 @@ export class ContractListPageComponent {
     }
     this.configurationList!.updateListEvent?.emit();
   }
+
+  // private async updateCode(contract: Contract) {
+  //   const code = prompt(`Ingresa el nuevo código de contrato ${contract.code}`);
+  //   if(code) await this.fetch.put(`contract/${contract.id}/update-code`, { code }, {
+  //     confirmDialog: {
+  //       title: 'Actualizar código de contrato',
+  //       description: `Se actualizará el código de contrato del código ${contract.code} al código ${code} del cliente ${contract.client?.name}. ¿Estás seguro?`,
+  //     }
+  //   })
+  // }
 }
