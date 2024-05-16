@@ -158,3 +158,13 @@ export enum ComprobantPaymentTypeEnum {
     Credito = 'crédito',
     Otros = 'otros',
 }
+
+export enum DocumentStatusEnum {
+    Pagada = 'pagada',
+    Anulada = 'anulada',
+    Emitida = 'emitida',
+    PorEmitir = 'por emitir',
+    PendienteAnular= 'pendiente de anular',
+}
+
+export const DOCUMENT_STATUS = Object.values(DocumentStatusEnum);

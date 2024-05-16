@@ -1,6 +1,6 @@
 import { Component, TemplateRef, ViewChild, inject, signal } from '@angular/core';
 import { ItemListTemplateComponent, ListColumn, ListItemExtended, dateColumn, defaultListFilterInputs, itemCreatedAtColumn, itemStatusColumn, numberColumn, restoreItemActionButton, routerLinkActionButton, selectableActionButton, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
-import { Document } from '@interface/document';
+import { DOCUMENT_STATUS, Document } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -13,7 +13,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { addDays, format, parseISO } from 'date-fns';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatusModel } from '@interface/baseModel';
-import { autocompleteServerFormInput } from '@component/item-form-template/item-form-template.component';
+import { autocompleteServerFormInput, selectFormInput } from '@component/item-form-template/item-form-template.component';
 import { DatePipe } from '@angular/common';
 
 interface ExtDocument extends Document, ListItemExtended { }
@@ -193,6 +193,11 @@ export class DocumentListPageComponent {
         server: {
           url: 'client',
         }
+      }),
+      selectFormInput({
+        formControlName: 'status',
+        textLabel: 'Estado',
+        data: signal(DOCUMENT_STATUS.map((item) => ({ name: item.toUpperCase(), id: item }))),
       }),
       ...defaultListFilterInputs(),
     ])

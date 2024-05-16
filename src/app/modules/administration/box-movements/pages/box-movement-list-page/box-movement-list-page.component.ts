@@ -2,7 +2,7 @@ import { DecimalPipe } from '@angular/common';
 import { Component, ViewEncapsulation, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormInput, autocompleteLocalFormInput } from '@component/item-form-template/item-form-template.component';
-import { ItemListConfiguration, ItemListTemplateComponent, ListColumn, defaultListFilterInputs, htmlColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, titlecaseColumn, uppercaseColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, ListColumn, clickEventActionButton, defaultListFilterInputs, htmlColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, titlecaseColumn, uppercaseColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Box } from '@interface/box';
 import { BoxMovement, BoxMovementTypeEnum } from '@interface/boxMovement';
 import { NameModuleDatabase } from '@service/database-storage.service';
@@ -32,7 +32,15 @@ export class BoxMovementListPageComponent {
     },
     columns: signal(this.generateColumns()),
     filters: signal(this.getFilters()),
-    rows: { options: [viewItemActionButton()] },
+    rows: { 
+      options: [
+        clickEventActionButton({
+          icon: 'post_add',
+          text: 'Detalles',
+          fn: (item) => this.router.navigate([{ outlets: { 'route-lateral': `administration/box-movement/detail/${item.id}` } }]),
+        }),
+      ] 
+    },
   }
 
   private getFilters(): FormInput[] {

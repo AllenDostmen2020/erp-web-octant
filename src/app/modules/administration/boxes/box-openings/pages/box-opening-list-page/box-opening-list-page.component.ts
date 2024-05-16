@@ -68,7 +68,7 @@ export class BoxOpeningListPageComponent {
         ]),
         rows: {
             options: [
-              viewItemActionButton()
+            //   viewItemActionButton()
             ]
           }
     }
