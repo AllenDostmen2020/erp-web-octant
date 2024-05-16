@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { Component, TemplateRef, ViewChild, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,6 +19,7 @@ import { FetchService, RequestInitFetch } from '@service/fetch.service';
         MatFormFieldModule,
         MatInputModule,
     ],
+    providers: [DecimalPipe],
     templateUrl: './box-list-page.component.html',
     styleUrl: './box-list-page.component.scss'
 })
@@ -25,6 +27,7 @@ export class BoxListPageComponent {
     @ViewChild('deleteFormTemplate', { static: true }) deleteFormTemplate!: TemplateRef<any>;
     private fetch = inject(FetchService);
     private matDialog = inject(MatDialog);
+    private decimalPipe = inject(DecimalPipe);
     public configList: ItemListConfiguration<Box> = {
         server: {
             url: 'box',
@@ -51,10 +54,6 @@ export class BoxListPageComponent {
                 sort: { key: 'type' },
                 displayValueFn: (item) => item.type,
             }),
-            firstLetterUppercaseColumn({
-                title: 'Moneda',
-                displayValueFn: (item) => item.account ? item.account.coin : item.coin,
-            }),
             textColumn({
                 title: 'Cuenta',
                 gridColumn: 'fit-content(160px)',
@@ -65,9 +64,14 @@ export class BoxListPageComponent {
                 gridColumn: 'fit-content(160px)',
                 displayValueFn: (item) => item.account?.bank?.name ?? '--',
             }),
-            numberColumn({
+            firstLetterUppercaseColumn({
+                title: 'Moneda',
+                displayValueFn: (item) => item.account ? item.account.coin : item.coin,
+            }),
+            textColumn({
                 title: 'Monto disponible',
-                displayValueFn: (item) => item.amount,
+                align: 'right',
+                displayValueFn: (item) => this.decimalPipe.transform(item.amount, '1.2-2'),
             }),
             itemCreatedAtColumn(),
             itemUpdatedAtColumn(),

@@ -197,6 +197,13 @@
   opacity: 0 !important;
 }
 
+.item-detail__group__actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  grid-column: 1 / -1;
+}
+
 @keyframes detailHeaderAnimation {
   to {
     font-weight: var(--title-small-font-weight);

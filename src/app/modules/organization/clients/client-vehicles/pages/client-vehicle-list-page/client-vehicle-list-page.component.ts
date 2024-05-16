@@ -17,7 +17,7 @@ export class ClientVehicleListPageComponent {
         server: {
             url: 'vehicle',
             queryParams: {
-                relations: 'client,vehicleType',
+                relations: 'vehicleType',
                 client_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')
             },
         },
@@ -27,11 +27,6 @@ export class ClientVehicleListPageComponent {
                 sort: { key: 'plate' },
                 displayValueFn: (item) => `${item.plate} / ${item.vehicle_type?.name.toUpperCase()}`,
                 gridColumn: '1fr',
-            }),
-            textColumn({
-                title: 'Cliente',
-                gridColumn: 'fit-content(250px)',
-                displayValueFn: (item) => item?.client?.name ? item.client?.name : '--',
             }),
             textColumn({
                 title: 'Color',

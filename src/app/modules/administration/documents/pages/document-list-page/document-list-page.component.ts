@@ -110,9 +110,7 @@ export class DocumentListPageComponent {
         clickEventActionButton({
           text: 'Anular',
           icon: 'scan_delete',
-          hidden: (item) => {
-            return item.status !== StatusModel.Emitida;
-          },
+          hidden: (item) => item.status !== StatusModel.Emitida,
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.cancelDocument(item);
             if (response) updateChangesItemFn(index, { ...item, ...response });
@@ -121,9 +119,7 @@ export class DocumentListPageComponent {
         clickEventActionButton({
           text: 'Nota de crédito',
           icon: 'scan_delete',
-          hidden: (item) => {
-            return item.status !== StatusModel.Emitida;
-          },
+          hidden: (item) => item.status !== StatusModel.Emitida,
           fn: async (item, index, { updateChangesItemFn }) => {
             const response = await this.anulateWithNote(item, 'crédito');
             if (response) updateChangesItemFn(index, { ...item, ...response });
@@ -213,6 +209,7 @@ export class DocumentListPageComponent {
       textColumn<Document>({
         title: 'Cliente',
         displayValueFn: (item) => item.client?.name,
+        routerLinkValue: { url: (item) => `/organization/client/view/${item.client_id}` },
         gridColumn: 'fit-content(200px)',
       }),
       textColumn<Document>({
