@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ItemListConfiguration, ItemListTemplateComponent, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, listFormatColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { Vehicle } from '@interface/vehicle';
 
 @Component({
@@ -17,7 +17,7 @@ export class ClientVehicleListPageComponent {
         server: {
             url: 'vehicle',
             queryParams: {
-                relations: 'vehicleType',
+                relations: 'vehicleType,contractPlanVehicles.contractPlan.contract',
                 client_id: this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id')
             },
         },
@@ -27,6 +27,10 @@ export class ClientVehicleListPageComponent {
                 sort: { key: 'plate' },
                 displayValueFn: (item) => `${item.plate} / ${item.vehicle_type?.name.toUpperCase()}`,
                 gridColumn: '1fr',
+            }),
+            listFormatColumn({
+                title: 'Contrato',
+                displayValueFn: (item)=> item.contract_plan_vehicles!.map(item=> item.contract_plan!.contract!.code),
             }),
             textColumn({
                 title: 'Color',
