@@ -1017,24 +1017,11 @@ export const simpleListColumns = (): ListColumn<any>[] => ([
 
 
 export const defaultListFilterInputs = (): FormInput[] => [
-  // dateRangeFormInput({
-  //   textLabel: 'Fecha de creación',
-  //   formControlNameFrom: 'created_at_from',
-  //   formControlNameTo: 'created_at_to',
-  // }),
   dateRangeFormInput({
-    textLabel: 'Fecha de actualización',
+    textLabel: 'Fechas',
     formControlNameFrom: 'updated_at_from',
     formControlNameTo: 'updated_at_to',
   }),
-  // switchFormInput({
-  //   textLabel: 'Incluir registros inactivos',
-  //   formControlName: 'inactive',
-  // }),
-  // switchFormInput({
-  //   textLabel: 'Solo registros inactivos',
-  //   formControlName: 'only_inactive',
-  // }),
 ];
 
 export const deleteItemActionButton = () => clickEventActionButton({
