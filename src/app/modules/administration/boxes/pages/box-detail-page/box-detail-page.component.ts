@@ -99,13 +99,13 @@ export class BoxDetailPageComponent {
         ],
         deleteButton: false,
         actionButtons: [
-            {
-                icon: 'delete',
-                text: 'Eliminar',
-                type: 'clickEvent',
-                clickEvent: (item) => this.deleteBox(item),
-                style: 'filled-button'
-            }
+            // {
+            //     icon: 'delete',
+            //     text: 'Eliminar',
+            //     type: 'clickEvent',
+            //     clickEvent: (item) => this.deleteBox(item),
+            //     style: 'filled-button'
+            // }
         ]
     }
     get dataItem() {

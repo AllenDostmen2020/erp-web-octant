@@ -5,7 +5,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
-import { ItemListConfiguration, ItemListTemplateComponent, clickEventActionButton, dateColumn, editItemActionButton, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, textColumn, titlecaseColumn, userColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, clickEventActionButton, dateColumn, datesFilterFormInput, editItemActionButton, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, statusFilterFormInput, textColumn, titlecaseColumn, userColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { StatusModel } from '@interface/baseModel';
 import { BoxMovementTypeEnum } from '@interface/boxMovement';
 import { ClientBoxMovement } from '@interface/clientBoxMovement';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
@@ -14,7 +15,7 @@ import { FetchService, RequestInitFetch } from '@service/fetch.service';
   selector: 'app-client-payment-list-page',
   standalone: true,
   imports: [
-    ItemListTemplateComponent, 
+    ItemListTemplateComponent,
     RouterLink,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -80,6 +81,12 @@ export class ClientPaymentListPageComponent {
           fn: (item) => this.deletePayment(item),
         })
       ]
+    },
+    filter: {
+      inputs: signal([
+        statusFilterFormInput([StatusModel.Inactivo]),
+        datesFilterFormInput(),
+      ])
     }
   }
 

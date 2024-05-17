@@ -81,16 +81,16 @@ export class BoxListPageComponent {
             options: [
                 viewItemActionButton(),
                 editItemActionButton(),
-                clickEventActionButton({
-                    text: 'Eliminar',
-                    icon: 'delete',
-                    fn: async (item, index, { updateChangesItemFn }) => {
-                        const response = await this.deleteBox(item);
-                        if (response) updateChangesItemFn(index, { ...item, ...response });
-                        this.configList.updateListEvent?.emit();
-                    },
-                    // hidden: (item)=> item.amount > 0 || item.last_box_opening?.status == StatusModel.Abierto || item.status == StatusModel.Eliminado
-                }),
+                // clickEventActionButton({
+                //     text: 'Eliminar',
+                //     icon: 'delete',
+                //     fn: async (item, index, { updateChangesItemFn }) => {
+                //         const response = await this.deleteBox(item);
+                //         if (response) updateChangesItemFn(index, { ...item, ...response });
+                //         this.configList.updateListEvent?.emit();
+                //     },
+                //     // hidden: (item)=> item.amount > 0 || item.last_box_opening?.status == StatusModel.Abierto || item.status == StatusModel.Eliminado
+                // }),
                 restoreItemActionButton(),
             ]
         }
