@@ -21,6 +21,8 @@
   --text-color-chip: var(--color-on-primary-container);
 }
 
+.status-chip[title="anulado"],
+.status-chip[title="expirado"],
 .status-chip[title="eliminado"],
 .status-chip[title="anulado"],
 .status-chip[title="anulada"],

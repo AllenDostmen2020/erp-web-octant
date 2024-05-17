@@ -977,12 +977,11 @@ export const itemNameAndDescriptionColumn = <T = any>(config?: Partial<Omit<Stri
   ...config,
 });
 export const itemStatusColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'title' | 'displayValueFn' | 'cssClassDisplayValue' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({
-  type: 'first-letter-uppercase',
+  type: 'html',
   title: 'Estado',
   sort: { key: 'status' },
   align: 'center',
-  displayValueFn: (item: any) => item.status,
-  cssClassDisplayValue: 'status-chip',
+  displayValueFn: (item: any) => `<span title="${item.status}" class="status-chip">${item.status}</span>`,
   ...config,
 });
 export const itemCreatedAtColumn = <T = any>(config?: Partial<Omit<StringListColumn<T>, 'type' | 'title' | 'displayValueFn' | 'displayAdditionalValueFn'>>): ListColumn<T> => ({
