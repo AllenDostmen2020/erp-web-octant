@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { dateRangeFormInput, switchFormInput } from '@component/item-form-template/item-form-template.component';
 import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, emailColumn, phoneColumn, textColumn, clickEventActionButton } from '@component/item-list-template/item-list-template.component';
 import { Client } from '@interface/client';
 
@@ -54,5 +55,22 @@ export class ClientListPageComponent {
             itemUpdatedAtColumn(),
             itemStatusColumn(),
         ]),
+        filter: {
+            inputs: signal([
+                dateRangeFormInput({
+                    textLabel: 'Fechas',
+                    formControlNameFrom: 'updated_at_from',
+                    formControlNameTo: 'updated_at_to',
+                }),
+                switchFormInput({
+                    textLabel: 'Incluir registros inactivos',
+                    formControlName: 'inactive',
+                }),
+                switchFormInput({
+                    textLabel: 'Solo registros inactivos',
+                    formControlName: 'only_inactive',
+                }),
+            ])
+        }
     }
 }

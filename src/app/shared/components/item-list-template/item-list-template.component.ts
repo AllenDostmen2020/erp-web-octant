@@ -35,13 +35,14 @@ import { InputAutocompleteTemplateComponent } from '@component/input-autocomplet
 import { InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 import { EventGlobalSearch, NAME_EVENT_GLOBAL_SEARCH } from 'src/app/sidenav/sidenav/sidenav.component';
 import { ExecuteFunctionListPipe } from './execute-function-list.pipe';
-import { FormInput, dateRangeFormInput, switchFormInput } from '@component/item-form-template/item-form-template.component';
+import { FormInput, dateRangeFormInput, selectFormInput, switchFormInput } from '@component/item-form-template/item-form-template.component';
 import { RenameTitleColumnListPipe } from './rename-title-column-list.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DateFnsAdapter } from '@angular/material-date-fns-adapter';
 import { NameModuleDatabase } from '@service/database-storage.service';
 import { LocalItemPipe } from '@pipe/local-item.pipe';
 import { DomSanitizer } from '@angular/platform-browser';
+import { StatusModel } from '@interface/baseModel';
 
 @Component({
   selector: 'app-item-list-template',
@@ -270,10 +271,10 @@ export class ItemListTemplateComponent {
   private async generateColumnsCss(): Promise<void> {
     const grid_cols: string[] = [];
     const grid_areas: string[] = []
-    if (this.configuration.rows?.selectable) {
-      grid_cols.push('auto');
-      grid_areas.push('selected');
-    }
+    // if (this.configuration.rows?.selectable) {
+    //   grid_cols.push('auto');
+    //   grid_areas.push('selected');
+    // }
     if (this.configuration.rows?.index != false) {
       grid_cols.push('auto');
       grid_areas.push('index');
@@ -541,6 +542,7 @@ export interface ItemListConfiguration<T = any> {
   // filters?: WritableSignal<FormInput[]> | false;
 
   filter?: {
+    search?: boolean;
     form?: FormGroup<any> | null;
     inputs: WritableSignal<FormInput[]>;
   } | false
@@ -1015,6 +1017,18 @@ export const simpleListColumns = (): ListColumn<any>[] => ([
   itemStatusColumn(),
 ]);
 
+export const statusFilterFormInput = (status: string[] | StatusModel[], defaultValue?: StatusModel): FormInput => selectFormInput({
+  formControlName: 'status',
+  textLabel: 'Estado',
+  defaultValue: defaultValue,
+  data: signal(status.map((item) => ({ name: item.toUpperCase(), id: item }))),
+});
+
+export const datesFilterFormInput = (): FormInput => dateRangeFormInput({
+  textLabel: 'Fechas',
+  formControlNameFrom: 'updated_at_from',
+  formControlNameTo: 'updated_at_to',
+})
 
 export const defaultListFilterInputs = (): FormInput[] => [
   dateRangeFormInput({
@@ -1022,6 +1036,14 @@ export const defaultListFilterInputs = (): FormInput[] => [
     formControlNameFrom: 'updated_at_from',
     formControlNameTo: 'updated_at_to',
   }),
+  // switchFormInput({
+  //   textLabel: 'Incluir registros inactivos',
+  //   formControlName: 'inactive',
+  // }),
+  // switchFormInput({
+  //   textLabel: 'Solo registros inactivos',
+  //   formControlName: 'only_inactive',
+  // }),
 ];
 
 export const deleteItemActionButton = () => clickEventActionButton({

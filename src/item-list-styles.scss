@@ -265,8 +265,12 @@
 }
 
 .list__items__row__cell[data-column-name="selected"] {
-    margin-left: calc((var(--padding-left-item-row) / 2) * -1);
-    margin-right: calc((var(--padding-left-item-row) / 2) * -1);
+    position: absolute;
+    left: 12px;
+    height: 100%;
+}
+.list__items__row__cell[data-column-name="selected"] + .list__items__row__cell {
+    margin-left: 24px !important;
 }
 
 .list__not-results,

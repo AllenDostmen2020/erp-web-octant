@@ -435,13 +435,15 @@
   @if(configuration.filter !== false) {
     @if (configuration.filter?.form; as formFilters) {
       <div class="filter__form" [formGroup]="formFilters" (click)="$event.stopPropagation()">
-        <mat-form-field>
-          <mat-label>Búsqueda</mat-label>
-          <input type="text" matInput formControlName="search" placeholder="Buscar...">
-          <button matSuffix class="icon-button" aria-label="Clear" (click)="searchCtrl.setValue('')">
-            <span class="material-icons">close</span>
-          </button>
-        </mat-form-field>
+        @if(configuration.filter?.search){
+          <mat-form-field>
+            <mat-label>Búsqueda</mat-label>
+            <input type="text" matInput formControlName="search" placeholder="Buscar...">
+            <button matSuffix class="icon-button" aria-label="Clear" (click)="searchCtrl.setValue('')">
+              <span class="material-icons">close</span>
+            </button>
+          </mat-form-field>
+        }
         @if (configuration.filter?.inputs; as fields) {
         @for (field of fields(); track field) {
         @switch (field.type) {

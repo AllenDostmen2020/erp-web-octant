@@ -1,6 +1,6 @@
 import { Component, TemplateRef, ViewChild, inject, signal } from '@angular/core';
-import { ItemListTemplateComponent, ListColumn, ListItemExtended, dateColumn, defaultListFilterInputs, htmlColumn, itemCreatedAtColumn, itemStatusColumn, numberColumn, restoreItemActionButton, routerLinkActionButton, selectableActionButton, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
-import { DOCUMENT_STATUS, Document } from '@interface/document';
+import { ItemListTemplateComponent, ListColumn, ListItemExtended, datesFilterFormInput, htmlColumn, itemCreatedAtColumn, itemStatusColumn, numberColumn, restoreItemActionButton, selectableActionButton, statusFilterFormInput, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { Document, DocumentStatusEnum } from '@interface/document';
 import { ItemListConfiguration, clickEventActionButton, textColumn } from '@component/item-list-template/item-list-template.component';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -13,7 +13,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { addDays, format, parseISO } from 'date-fns';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatusModel } from '@interface/baseModel';
-import { autocompleteServerFormInput, selectFormInput, switchFormInput } from '@component/item-form-template/item-form-template.component';
+import { switchFormInput } from '@component/item-form-template/item-form-template.component';
 import { DatePipe } from '@angular/common';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
@@ -64,17 +64,17 @@ export class DocumentListPageComponent {
         contract_id: this.router.url.includes('/tracking/contract/view') ? this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id') : null,
       },
     },
+    parseDataFn: (data) => {
+      if(data.length) {
+        const clientId = data[0].client_id;
+        const status = data.every(e => e.client_id === clientId);
+        this.changeSelectable(status);
+      }
+      return data;
+    },
     createButton: false,
     rows: {
-      selectable: {
-        actions: [
-          selectableActionButton({
-            icon: 'send',
-            title: 'Enviar por email',
-            fn: (selectedItems) => this.sendEmail(selectedItems),
-          })
-        ]
-      },
+      selectable: undefined,
       options: [
         clickEventActionButton({
           icon: 'post_add',
@@ -196,25 +196,27 @@ export class DocumentListPageComponent {
     columns: signal(this.generateColumns()),
     filter: {
       inputs: signal([
-        autocompleteServerFormInput({
-          formControlName: 'client_id',
-          textLabel: 'Cliente',
-          server: {
-            url: 'client',
-          }
-        }),
-        selectFormInput({
-          formControlName: 'status',
-          textLabel: 'Estado',
-          data: signal(DOCUMENT_STATUS.map((item) => ({ name: item.toUpperCase(), id: item }))),
-        }),
+        statusFilterFormInput(Object.values(DocumentStatusEnum)),
+        datesFilterFormInput(),
         switchFormInput({
           textLabel: 'Pendientes de enviar email',
           formControlName: 'not_send_email',
         }),
-        ...defaultListFilterInputs(),
       ])
     }
+  }
+
+  private changeSelectable(status: boolean): void {
+    if (status) this.configuration.rows!.selectable = {
+      actions: [
+        selectableActionButton({
+          icon: 'send',
+          title: 'Enviar por email',
+          fn: (selectedItems) => this.sendEmail(selectedItems),
+        })
+      ]
+    }
+    else this.configuration.rows!.selectable = undefined;
   }
 
   private generateColumns(): ListColumn<Document>[] {
@@ -418,8 +420,6 @@ export class DocumentListPageComponent {
     else return;
     event.chipInput!.clear();
   }
-
-
 
   public emailForm = new FormGroup({
     cc_email: new FormControl([]),
