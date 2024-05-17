@@ -164,7 +164,7 @@ export class DocumentListPageComponent {
         //   }
         // }),
         clickEventActionButton({
-          icon: 'send',
+          icon: 'outgoing_mail',
           text: 'Enviar email',
           fn: (item) => this.sendEmail([item]),
         }),
