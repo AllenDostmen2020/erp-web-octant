@@ -48,6 +48,7 @@ export enum StatusModel {
   Facturado = 'facturado',
   Vigente = 'vigente',
   Habilitado = 'habilitado',
+  Deshabilitado = 'deshabilitado',
 
   Anulado = 'anulado',
   Rechazado = 'rechazado',

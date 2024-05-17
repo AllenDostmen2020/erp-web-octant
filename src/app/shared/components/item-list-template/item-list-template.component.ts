@@ -122,7 +122,7 @@ export class ItemListTemplateComponent {
 
   public lengthData = computed(() => this.data().length)
 
-  public formFilters: FormGroup<any> | null = null;
+  
   public lengthSelectedFilters = signal(0);
 
   public loading = signal(true);
@@ -177,10 +177,11 @@ export class ItemListTemplateComponent {
   }
 
   get searchCtrl(): FormControl {
-    return this.formFilters?.get('search') as FormControl;
+    return this.configuration.formFilters?.get('search') as FormControl;
   }
 
   ngOnInit(): void {
+    this.configuration.formFilters = null;
     this.initializeSignalFilters();
     this.configuration.data = signal([]);
     this.configuration.updateListEvent = new EventEmitter();
@@ -296,7 +297,7 @@ export class ItemListTemplateComponent {
   /* ---------------------------------------------------------------- */
   /* ---------------------------------------------------------------- */
   public getQueryParams(): { [key: string]: any } {
-    const formFilters = this.formFilters?.value ?? {};
+    const formFilters = this.configuration.formFilters?.value ?? {};
     let index = 0;
     for (const key in formFilters) if (formFilters[key]) index++;
     this.lengthSelectedFilters.set(index)
@@ -442,11 +443,11 @@ export class ItemListTemplateComponent {
       }
     }
     if (!formFilters.get('search')) formFilters.setControl('search', new FormControl());
-    this.formFilters = formFilters;
+    this.configuration.formFilters = formFilters;
   }
 
   public getControlFormFilter(name: string): FormControl {
-    return this.formFilters!.get(name) as FormControl;
+    return this.configuration.formFilters!.get(name) as FormControl;
   }
 
   public applyFilters(filterMenu: MatMenu) {
@@ -455,7 +456,7 @@ export class ItemListTemplateComponent {
   }
 
   public clearFilters() {
-    this.formFilters?.reset({ emitEvent: false });
+    this.configuration.formFilters?.reset({ emitEvent: false });
   }
 
   /* ---------------------------------------------------------------- */
@@ -532,7 +533,7 @@ export interface ItemListConfiguration<T = any> {
     text?: string,
     routerLink: RouterLinkCreateButton
   } | false;
-
+  formFilters?: FormGroup<any> | null;
   filters?: WritableSignal<FormInput[]> | false;
 
   rows?: {
@@ -631,7 +632,7 @@ export interface ListColumn<T> {
    * @param item como parámetro pasa el item de cada elemento de la lista
    * @returns void
    */
-  clickEventValue?: (item: T, index: number) => void;
+  clickEventValue?: (item: T, index: number, event?:any) => void;
 
   /**
    * @description

@@ -8,7 +8,7 @@ import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-tem
 import { FetchService } from '@service/fetch.service';
 import { StatusModel } from '@interface/baseModel';
 import { Router } from '@angular/router';
-import { FormInput, autocompleteServerFormInput, selectFormInput } from '@component/item-form-template/item-form-template.component';
+import { FormInput, autocompleteServerFormInput, dateRangeFormInput, selectFormInput, switchFormInput } from '@component/item-form-template/item-form-template.component';
 
 @Component({
   selector: 'app-contract-list-page',
@@ -41,13 +41,6 @@ export class ContractListPageComponent {
           text: 'Renovar',
           hidden: (item)=> item.status != StatusModel.Expirado,
         }),
-        // clickEventActionButton({
-        //   icon: 'task_alt',
-        //   text: 'Actualizar código de contrato',
-        //   fn: async (item) => {
-        //     this.updateCode(item);
-        //   }
-        // }),
       ]
     },
     filters: signal(this.getFilters()),
@@ -69,7 +62,35 @@ export class ContractListPageComponent {
         }
       }))
     }
-    return [...filters, ...defaultListFilterInputs()]
+    return [
+      ...filters,
+      dateRangeFormInput({
+        textLabel: 'Fecha de creación',
+        formControlNameFrom: 'created_at_from',
+        formControlNameTo: 'created_at_to',
+      }),
+      dateRangeFormInput({
+        textLabel: 'Fecha de actualización',
+        formControlNameFrom: 'updated_at_from',
+        formControlNameTo: 'updated_at_to',
+      }),
+      switchFormInput({
+        formControlName: 'next_expired',
+        textLabel: 'Mostrar solo por expirar',
+      }),
+      switchFormInput({
+        formControlName: 'expired',
+        textLabel: 'Mostrar solo expirados',
+      }),
+      switchFormInput({
+        textLabel: 'Incluir registros inactivos',
+        formControlName: 'inactive',
+      }),
+      switchFormInput({
+        textLabel: 'Solo registros inactivos',
+        formControlName: 'only_inactive',
+      }),
+    ]
   }
 
   private async getNextExpiredContracts() {
@@ -82,34 +103,13 @@ export class ContractListPageComponent {
       actionButton: {
         icon: 'eye',
         text: 'Ver contratos',
-        fn: () => this.changeFilterContracts('por expirar')
+        fn: () => this.viewNextExpired()
       }
     });
   }
-
-  public changeFilterContracts(type: 'todos' | 'por expirar' | 'expirados') {
-    if (type == this.type()) return;
-    this.type.set(type);
-    if (type === 'por expirar') {
-      this.configurationList!.server!.queryParams!['next_expired'] = 'true';
-      this.configurationList!.server!.queryParams!['expired'] = null;
-    } else if (type === 'expirados') {
-      this.configurationList!.server!.queryParams!['expired'] = 'true';
-      this.configurationList!.server!.queryParams!['next_expired'] = null;
-    } else {
-      this.configurationList!.server!.queryParams!['next_expired'] = null;
-      this.configurationList!.server!.queryParams!['expired'] = null;
-    }
+  
+  public viewNextExpired(): void {
+    this.configurationList.formFilters?.get('next_expired')?.setValue(true);
     this.configurationList!.updateListEvent?.emit();
   }
-
-  // private async updateCode(contract: Contract) {
-  //   const code = prompt(`Ingresa el nuevo código de contrato ${contract.code}`);
-  //   if(code) await this.fetch.put(`contract/${contract.id}/update-code`, { code }, {
-  //     confirmDialog: {
-  //       title: 'Actualizar código de contrato',
-  //       description: `Se actualizará el código de contrato del código ${contract.code} al código ${code} del cliente ${contract.client?.name}. ¿Estás seguro?`,
-  //     }
-  //   })
-  // }
 }

@@ -366,7 +366,7 @@
     [state]="rLink.state | executeFunctionList:[item, index]"></div> }
   } @else if(clickEvent) {
   <div [matTooltip]="tooltip | executeFunctionList:[item, index]" class="list__items__row__cell__value__hovered"
-    (click)="clickEvent(item)" [innerHTML]="sanitizer.bypassSecurityTrustHtml(value)"></div>
+    (click)="clickEvent(item, index, $event)" [innerHTML]="sanitizer.bypassSecurityTrustHtml(value)"></div>
   } @else {
   <div [matTooltip]="tooltip | executeFunctionList:[item, index]" [innerHTML]="sanitizer.bypassSecurityTrustHtml(value)"></div>
   }
@@ -432,7 +432,7 @@
 <mat-menu class="filter-list-menu" #filterMenu="matMenu" xPosition="before" [hasBackdrop]="false">
   <div class="filter__title" (click)="$event.stopPropagation()">Filtros</div>
 
-  @if (formFilters) {
+  @if (configuration.formFilters; as formFilters) {
   <div class="filter__form" [formGroup]="formFilters" (click)="$event.stopPropagation()">
     <mat-form-field>
       <mat-label>Búsqueda</mat-label>

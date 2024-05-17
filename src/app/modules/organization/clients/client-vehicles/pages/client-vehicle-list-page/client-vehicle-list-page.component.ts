@@ -1,17 +1,19 @@
 import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ItemListConfiguration, ItemListTemplateComponent, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, listFormatColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ItemListConfiguration, ItemListTemplateComponent, htmlColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, listFormatColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { StatusModel } from '@interface/baseModel';
 import { Vehicle } from '@interface/vehicle';
 
 @Component({
-  selector: 'app-client-vehicle-list-page',
-  standalone: true,
-  imports: [ItemListTemplateComponent],
-  templateUrl: './client-vehicle-list-page.component.html',
-  styleUrl: './client-vehicle-list-page.component.scss'
+    selector: 'app-client-vehicle-list-page',
+    standalone: true,
+    imports: [ItemListTemplateComponent],
+    templateUrl: './client-vehicle-list-page.component.html',
+    styleUrl: './client-vehicle-list-page.component.scss'
 })
 export class ClientVehicleListPageComponent {
     private activatedRoute = inject(ActivatedRoute);
+    private router = inject(Router);
     public configList: ItemListConfiguration<Vehicle> = {
         title: 'Vehículos',
         server: {
@@ -28,9 +30,13 @@ export class ClientVehicleListPageComponent {
                 displayValueFn: (item) => `${item.plate} / ${item.vehicle_type?.name.toUpperCase()}`,
                 gridColumn: '1fr',
             }),
-            listFormatColumn({
+            htmlColumn({
                 title: 'Contrato',
-                displayValueFn: (item)=> item.contract_plan_vehicles!.map(item=> item.contract_plan!.contract!.code),
+                displayValueFn: (item) => `${item.contract_plan_vehicles!.map(e => `<span data-contract-id="${e.contract_plan?.contract?.id ?? '-'}" style="${e.status == StatusModel.Deshabilitado ? 'color: var(--color-error);' : ''}">${e.contract_plan!.contract!.code}</span>`).join(', ')}`,
+                clickEventValue: (_, __, { target }) => {
+                    const contractId = (target as HTMLElement).getAttribute('data-contract-id') ?? null;
+                    if(contractId) this.router.navigate(['/tracking/contract/view/' + contractId]);
+                },
             }),
             textColumn({
                 title: 'Color',
