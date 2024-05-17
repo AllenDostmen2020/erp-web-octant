@@ -1,67 +1,66 @@
 <div [formGroup]="form" class="form__content__inputs">
 
-    <app-input-autocomplete-template data-input-name="client_id" [idControl]="clientIdCtrl" [autocompleteControl]="clientCtrl" [configuration]="clientAutocompleteConfiguration" />
+    <app-input-autocomplete-template class="form__input" data-column="4" [idControl]="clientIdCtrl" [autocompleteControl]="clientCtrl" [configuration]="clientAutocompleteConfiguration" />
 
-    <app-input-select-template data-input-name="client_business_id" [control]="clientBusinessUnitIdCtrl" [configuration]="clientBusinessUnitAutocompleteConfiguration" />
+    <app-input-select-template class="form__input" data-column="2" [control]="clientBusinessUnitIdCtrl" [configuration]="clientBusinessUnitAutocompleteConfiguration" />
 
-    <app-input-select-template data-input-name="recurrent_type" [control]="recurrentTypeCtrl" [configuration]="recurrentTypeSelectConfiguration" />
+    <app-input-select-template class="form__input" data-column="2" [control]="recurrentTypeCtrl" [configuration]="recurrentTypeSelectConfiguration" />
 
-    <app-input-select-template data-input-name="period" [control]="periodCtrl" [configuration]="periodSelectConfiguration" />
+    <app-input-select-template class="form__input" data-column="2" [control]="periodCtrl" [configuration]="periodSelectConfiguration" />
 
-    <app-datepicker-template data-input-name="installation_date" [configuration]="{ label: 'Fecha de instalación' }" formControlName="installation_date" />
+    <app-datepicker-template class="form__input" data-column="2" [configuration]="{ label: 'Fecha instalación' }" formControlName="installation_date" />
 
-    <mat-form-field data-input-name="start_date">
-        <mat-label>Fecha de inicio</mat-label>
+    <mat-form-field class="form__input" data-column="2">
+        <mat-label>Fecha inicio</mat-label>
         <input matInput type="text" formControlName="start_date" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
-    <mat-form-field data-input-name="end_date">
-        <mat-label>Fecha de fin</mat-label>
+    <mat-form-field class="form__input" data-column="2">
+        <mat-label>Fecha fin</mat-label>
         <input matInput type="text" formControlName="end_date" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
-    <app-input-select-template data-input-name="client_responsible_document_type" [control]="documentTypeCtrl"
-    [configuration]="documentTypeSelectConfiguration" />
+    <app-input-select-template class="form__input" data-column="2" [control]="documentTypeCtrl" [configuration]="documentTypeSelectConfiguration" />
 
-    <mat-form-field data-input-name="client_responsible_document_number">
+    <mat-form-field class="form__input" data-column="2">
         <mat-label>N° Doc. del contacto</mat-label>
         <input matInput appNumbersOnly type="text" [maxlength]="maxLengthDocumentNumber()" formControlName="client_responsible_document_number" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
-    <mat-form-field data-input-name="client_responsible_name">
+    <mat-form-field class="form__input" data-column="2">
         <mat-label>Nombre del contacto</mat-label>
         <input matInput appCharactersOnly type="text" formControlName="client_responsible_name" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
-    <mat-form-field data-input-name="client_responsible_paternal_name">
+    <mat-form-field class="form__input" data-column="2">
         <mat-label>Apellido paterno</mat-label>
         <input matInput appCharactersOnly type="text" formControlName="client_responsible_paternal_name" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
-    <mat-form-field data-input-name="client_responsible_maternal_name">
+    <mat-form-field class="form__input" data-column="2">
         <mat-label>Apellido materno</mat-label>
         <input matInput appCharactersOnly type="text" formControlName="client_responsible_maternal_name" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
-    <mat-form-field data-input-name="client_responsible_phone">
+    <mat-form-field class="form__input" data-column="2">
         <mat-label>Teléfono del contacto</mat-label>
         <input matInput appNumbersOnly type="text" formControlName="client_responsible_phone" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
-    <mat-form-field data-input-name="client_responsible_email">
+    <mat-form-field class="form__input" data-column="4">
         <mat-label>Email del contacto</mat-label>
         <input matInput type="text" formControlName="client_responsible_email" />
         <mat-error>*Requerido</mat-error>
     </mat-form-field>
 
-    <app-input-autocomplete-template data-input-name="sale_user_id" [idControl]="saleUserIdCtrl" [configuration]="saleUserAutocompleteConfiguration" />
+    <app-input-autocomplete-template class="form__input" data-column="4" [idControl]="saleUserIdCtrl" [configuration]="saleUserAutocompleteConfiguration" />
 
 
     <div class="form__content__inputs__subtitle">Planes</div>

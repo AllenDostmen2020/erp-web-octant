@@ -70,7 +70,7 @@ export class ContractFormComponent {
   }
 
   public readonly documentTypeSelectConfiguration: InputSelectConfiguration = {
-    textLabel: 'Tipo de documento',
+    textLabel: 'T. Doc. Contacto',
     placeholder: 'Seleccione un tipo de documento',
     data: signal(DOCUMENT_TYPES.filter((item) => item != DocumentTypeEnum.RUC).map((item) => ({ name: item.toUpperCase(), id: item })).sort((a, b) => a.name.localeCompare(b.name)))
   }
