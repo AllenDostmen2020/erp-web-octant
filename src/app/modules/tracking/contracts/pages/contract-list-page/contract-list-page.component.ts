@@ -9,6 +9,7 @@ import { FetchService } from '@service/fetch.service';
 import { StatusModel } from '@interface/baseModel';
 import { Router } from '@angular/router';
 import { FormInput, autocompleteServerFormInput, dateRangeFormInput, selectFormInput, switchFormInput } from '@component/item-form-template/item-form-template.component';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-contract-list-page',
@@ -43,9 +44,15 @@ export class ContractListPageComponent {
         }),
       ]
     },
-    filters: signal(this.getFilters()),
+    filter: {
+      inputs: signal(this.getFilters())
+    },
   };
   public alertConfiguration: WritableSignal<null | AlertConfiguration> = signal(null);
+
+  get filterFormGroup(): FormGroup {
+    return (this.configurationList.filter as any).form as FormGroup;
+  }
 
   ngOnInit(): void {
     this.getNextExpiredContracts();
@@ -109,7 +116,7 @@ export class ContractListPageComponent {
   }
   
   public viewNextExpired(): void {
-    this.configurationList.formFilters?.get('next_expired')?.setValue(true);
+    this.filterFormGroup.get('next_expired')?.setValue(true);
     this.configurationList!.updateListEvent?.emit();
   }
 }

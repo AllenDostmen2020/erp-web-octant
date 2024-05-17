@@ -45,7 +45,9 @@ export class BoxMovementListPageComponent {
       },
     },
     columns: signal(this.generateColumns()),
-    filters: signal(this.getFilters()),
+    filter: {
+      inputs: signal(this.getFilters()),
+    },
     rows: { 
       options: [
         clickEventActionButton({
@@ -141,6 +143,7 @@ export class BoxMovementListPageComponent {
   public form = new FormGroup({
     delete_comment: new FormControl(''),
   });
+  
   get deleteCommentCtrl(): FormControl { return this.form.get('delete_comment')! as FormControl; }
 
   private confirmDialog(data: ConfirmDialogData): Promise<boolean> {

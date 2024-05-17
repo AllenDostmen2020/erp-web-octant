@@ -194,25 +194,27 @@ export class DocumentListPageComponent {
       ],
     },
     columns: signal(this.generateColumns()),
-    filters: signal([
-      autocompleteServerFormInput({
-        formControlName: 'client_id',
-        textLabel: 'Cliente',
-        server: {
-          url: 'client',
-        }
-      }),
-      selectFormInput({
-        formControlName: 'status',
-        textLabel: 'Estado',
-        data: signal(DOCUMENT_STATUS.map((item) => ({ name: item.toUpperCase(), id: item }))),
-      }),
-      switchFormInput({
-        textLabel: 'Pendientes de enviar email',
-        formControlName: 'not_send_email',
-      }),
-      ...defaultListFilterInputs(),
-    ])
+    filter: {
+      inputs: signal([
+        autocompleteServerFormInput({
+          formControlName: 'client_id',
+          textLabel: 'Cliente',
+          server: {
+            url: 'client',
+          }
+        }),
+        selectFormInput({
+          formControlName: 'status',
+          textLabel: 'Estado',
+          data: signal(DOCUMENT_STATUS.map((item) => ({ name: item.toUpperCase(), id: item }))),
+        }),
+        switchFormInput({
+          textLabel: 'Pendientes de enviar email',
+          formControlName: 'not_send_email',
+        }),
+        ...defaultListFilterInputs(),
+      ])
+    }
   }
 
   private generateColumns(): ListColumn<Document>[] {

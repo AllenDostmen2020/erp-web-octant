@@ -69,23 +69,25 @@ export class VehicleListPageComponent {
                 viewItemActionButton()
             ]
         },
-        filters: signal([
-            autocompleteServerFormInput({
-                formControlName: 'contract_id',
-                textLabel: 'Contrato',
-                server: {
-                    url: 'contract',
-                },
-                displayTextFn: (item: Contract) => item instanceof  Object ? item.code : '',
-            }),
-            autocompleteServerFormInput({
-                formControlName: 'client_id',
-                textLabel: 'Cliente',
-                server: {
-                    url: 'client',
-                }
-            }),
-            ...defaultListFilterInputs(),
-        ])
+        filter: {
+            inputs: signal([
+                autocompleteServerFormInput({
+                    formControlName: 'contract_id',
+                    textLabel: 'Contrato',
+                    server: {
+                        url: 'contract',
+                    },
+                    displayTextFn: (item: Contract) => item instanceof  Object ? item.code : '',
+                }),
+                autocompleteServerFormInput({
+                    formControlName: 'client_id',
+                    textLabel: 'Cliente',
+                    server: {
+                        url: 'client',
+                    }
+                }),
+                ...defaultListFilterInputs(),
+            ])
+        }
     }
 }

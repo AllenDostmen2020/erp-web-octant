@@ -36,7 +36,7 @@
       </button>
       }
 
-      @if (configuration.filters != false) {
+      @if (configuration.filter != false) {
       <button class="outlined-icon-button" title="Filtros" [matMenuTriggerFor]="filterMenu">
         @if (lengthSelectedFilters(); as lengthFilters) {
         <span class="material-icons" [matBadge]="lengthFilters">tune</span>
@@ -432,165 +432,167 @@
 <mat-menu class="filter-list-menu" #filterMenu="matMenu" xPosition="before" [hasBackdrop]="false">
   <div class="filter__title" (click)="$event.stopPropagation()">Filtros</div>
 
-  @if (configuration.formFilters; as formFilters) {
-  <div class="filter__form" [formGroup]="formFilters" (click)="$event.stopPropagation()">
-    <mat-form-field>
-      <mat-label>Búsqueda</mat-label>
-      <input type="text" matInput formControlName="search" placeholder="Buscar...">
-      <button matSuffix class="icon-button" aria-label="Clear" (click)="searchCtrl.setValue('')">
-        <span class="material-icons">close</span>
-      </button>
-    </mat-form-field>
-    @if (configuration.filters; as fields) {
-    @for (field of fields(); track field) {
-    @switch (field.type) {
-    @case ('date-range') {
-    @if (field.dateRange; as input) {
-    <mat-form-field [attr.data-form-input-name]="input.formControlNameFrom">
-      <mat-label>{{ input.textLabel }}</mat-label>
-      <mat-date-range-input [rangePicker]="pickerRange1">
-        <input matStartDate [formControlName]="input.formControlNameFrom">
-        <input matEndDate [formControlName]="input.formControlNameTo">
-      </mat-date-range-input>
-      <button class="icon-button" matSuffix type="button" (click)="pickerRange1.open()"
-        [disabled]="getControlFormFilter(input.formControlNameFrom).disabled">
-        <span class="material-icons">calendar_month</span>
-      </button>
-      <mat-date-range-picker #pickerRange1></mat-date-range-picker>
-    </mat-form-field>
-    }
-    }
-    @case ('date') {
-    @if (field.date; as input) {
-    <mat-form-field [attr.data-form-input-name]="input.formControlName">
-      <mat-label>{{ input.textLabel }}</mat-label>
-      <input matInput [matDatepicker]="pickerDate" [formControlName]="input.formControlName">
-      <button class="icon-button" type="button" matSuffix (click)="pickerDate.open()"
-        [disabled]="getControlFormFilter(input.formControlName).disabled">
-        <span class="material-icons">calendar_month</span>
-      </button>
-      <mat-datepicker #pickerDate></mat-datepicker>
-      @if (getControlFormFilter(input.formControlName).hasError('required')) {
-      <mat-error>Campo requerido</mat-error>
-      } @else if (getControlFormFilter(input.formControlName).hasError('min')) {
-      <mat-error>Error fecha mínima</mat-error>
-      } @else if (getControlFormFilter(input.formControlName).hasError('max')) {
-      <mat-error>Error fecha máxima</mat-error>
-      } @else {
-      <mat-error>Inválido</mat-error>
+  @if(configuration.filter !== false) {
+    @if (configuration.filter?.form; as formFilters) {
+      <div class="filter__form" [formGroup]="formFilters" (click)="$event.stopPropagation()">
+        <mat-form-field>
+          <mat-label>Búsqueda</mat-label>
+          <input type="text" matInput formControlName="search" placeholder="Buscar...">
+          <button matSuffix class="icon-button" aria-label="Clear" (click)="searchCtrl.setValue('')">
+            <span class="material-icons">close</span>
+          </button>
+        </mat-form-field>
+        @if (configuration.filter?.inputs; as fields) {
+        @for (field of fields(); track field) {
+        @switch (field.type) {
+        @case ('date-range') {
+        @if (field.dateRange; as input) {
+        <mat-form-field [attr.data-form-input-name]="input.formControlNameFrom">
+          <mat-label>{{ input.textLabel }}</mat-label>
+          <mat-date-range-input [rangePicker]="pickerRange1">
+            <input matStartDate [formControlName]="input.formControlNameFrom">
+            <input matEndDate [formControlName]="input.formControlNameTo">
+          </mat-date-range-input>
+          <button class="icon-button" matSuffix type="button" (click)="pickerRange1.open()"
+            [disabled]="getControlFormFilter(input.formControlNameFrom).disabled">
+            <span class="material-icons">calendar_month</span>
+          </button>
+          <mat-date-range-picker #pickerRange1></mat-date-range-picker>
+        </mat-form-field>
+        }
+        }
+        @case ('date') {
+        @if (field.date; as input) {
+        <mat-form-field [attr.data-form-input-name]="input.formControlName">
+          <mat-label>{{ input.textLabel }}</mat-label>
+          <input matInput [matDatepicker]="pickerDate" [formControlName]="input.formControlName">
+          <button class="icon-button" type="button" matSuffix (click)="pickerDate.open()"
+            [disabled]="getControlFormFilter(input.formControlName).disabled">
+            <span class="material-icons">calendar_month</span>
+          </button>
+          <mat-datepicker #pickerDate></mat-datepicker>
+          @if (getControlFormFilter(input.formControlName).hasError('required')) {
+          <mat-error>Campo requerido</mat-error>
+          } @else if (getControlFormFilter(input.formControlName).hasError('min')) {
+          <mat-error>Error fecha mínima</mat-error>
+          } @else if (getControlFormFilter(input.formControlName).hasError('max')) {
+          <mat-error>Error fecha máxima</mat-error>
+          } @else {
+          <mat-error>Inválido</mat-error>
+          }
+        </mat-form-field>
+        }
+    
+        }
+        @case ('number') {
+        @if (field.number; as input) {
+        <mat-form-field [attr.data-form-input-name]="input.formControlName">
+          <mat-label>{{ input.textLabel}}</mat-label>
+          <input type="number" matInput [formControlName]="input.formControlName" [min]="input.min ? +input.min : 0"
+            [max]="input.max ? +input.max : null">
+          @if (getControlFormFilter(input.formControlName).hasError('required')) {
+          <mat-error>Campo requerido</mat-error>
+          } @else if (getControlFormFilter(input.formControlName).hasError('min')) {
+          <mat-error>Mínimo {{input.min ? +input.min : 0}}</mat-error>
+          } @else if (getControlFormFilter(input.formControlName).hasError('max')) {
+          <mat-error>Máximo {{input.max ? +input.max : 'superado'}}</mat-error>
+          } @else {
+          <mat-error>Inválido</mat-error>
+          }
+        </mat-form-field>
+        }
+        }
+        @case ('text') {
+        @if (field.text; as input) {
+        <mat-form-field [attr.data-form-input-name]="input.formControlName">
+          <mat-label>{{ input.textLabel}}</mat-label>
+          <input type="text" matInput [formControlName]="input.formControlName"
+            [placeholder]="input.placeholder ?? input.textLabel" [maxlength]="input.maxLength ?? 255">
+          @if (getControlFormFilter(input.formControlName).hasError('required')) {
+          <mat-error>Campo requerido</mat-error>
+          } @else if (getControlFormFilter(input.formControlName).hasError('email')) {
+          <mat-error>Email no válido</mat-error>
+          } @else if (getControlFormFilter(input.formControlName).hasError('pattern')) {
+          <mat-error>Contenido no válido</mat-error>
+          } @else {
+          <mat-error>Inválido</mat-error>
+          }
+        </mat-form-field>
+        }
+        }
+        @case ('textarea') {
+        @if (field.textarea; as input) {
+        <mat-form-field [attr.data-form-input-name]="input.formControlName">
+          <mat-label>{{ input.textLabel}}</mat-label>
+          <textarea matInput [formControlName]="input.formControlName" [placeholder]="input.placeholder ?? input.textLabel"
+            [maxlength]="input.maxLength ?? 2500"></textarea>
+          @if (getControlFormFilter(input.formControlName).hasError('required')) {
+          <mat-error>Campo requerido</mat-error>
+          } @else if (getControlFormFilter(input.formControlName).hasError('email')) {
+          <mat-error>Email no válido</mat-error>
+          } @else if (getControlFormFilter(input.formControlName).hasError('pattern')) {
+          <mat-error>Contenido no válido</mat-error>
+          } @else {
+          <mat-error>Inválido</mat-error>
+          }
+        </mat-form-field>
+        }
+        }
+        @case ('select') {
+        @if (field.select; as input) {
+        <app-input-select-template [attr.data-form-input-name]="input.formControlName"
+          [control]="getControlFormFilter(input.formControlName)" [configuration]="input" />
+        }
+        }
+        @case ('select-local') {
+        @if (field.selectLocal; as input) {
+        <app-input-select-template [attr.data-form-input-name]="input.formControlName"
+          [control]="getControlFormFilter(input.formControlName)" [configuration]="input" />
+        }
+        }
+        @case ('select-server') {
+        @if (field.selectServer; as input) {
+        <app-input-select-template [attr.data-form-input-name]="input.formControlName"
+          [control]="getControlFormFilter(input.formControlName)" [configuration]="input" />
+        }
+        }
+        @case ('autocomplete') {
+        @if (field.autocomplete; as input) {
+        <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
+          [idControl]="getControlFormFilter(input.formControlName)" [configuration]="input" />
+        }
+        }
+        @case ('autocomplete-local') {
+        @if (field.autocompleteLocal; as input) {
+        <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
+          [idControl]="getControlFormFilter(input.formControlName)" [configuration]="input" />
+        }
+        }
+        @case ('autocomplete-server') {
+        @if (field.autocompleteServer; as input) {
+        <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
+          [idControl]="getControlFormFilter(input.formControlName)" [configuration]="input" />
+        }
+        }
+        @case ('checkbox') {
+        @if (field.checkbox; as input) {
+        <div [attr.data-form-input-name]="input.formControlName">
+          <mat-checkbox [formControlName]="input.formControlName">{{ input.textLabel }}</mat-checkbox>
+        </div>
+        }
+        }
+        @case ('switch') {
+        @if (field.switch; as input) {
+        <div [attr.data-form-input-name]="input.formControlName">
+          <mat-slide-toggle [formControlName]="input.formControlName">{{ input.textLabel }}</mat-slide-toggle>
+        </div>
+        }
+        }
+        }
+        }
+        }
+      </div>
       }
-    </mat-form-field>
-    }
-
-    }
-    @case ('number') {
-    @if (field.number; as input) {
-    <mat-form-field [attr.data-form-input-name]="input.formControlName">
-      <mat-label>{{ input.textLabel}}</mat-label>
-      <input type="number" matInput [formControlName]="input.formControlName" [min]="input.min ? +input.min : 0"
-        [max]="input.max ? +input.max : null">
-      @if (getControlFormFilter(input.formControlName).hasError('required')) {
-      <mat-error>Campo requerido</mat-error>
-      } @else if (getControlFormFilter(input.formControlName).hasError('min')) {
-      <mat-error>Mínimo {{input.min ? +input.min : 0}}</mat-error>
-      } @else if (getControlFormFilter(input.formControlName).hasError('max')) {
-      <mat-error>Máximo {{input.max ? +input.max : 'superado'}}</mat-error>
-      } @else {
-      <mat-error>Inválido</mat-error>
-      }
-    </mat-form-field>
-    }
-    }
-    @case ('text') {
-    @if (field.text; as input) {
-    <mat-form-field [attr.data-form-input-name]="input.formControlName">
-      <mat-label>{{ input.textLabel}}</mat-label>
-      <input type="text" matInput [formControlName]="input.formControlName"
-        [placeholder]="input.placeholder ?? input.textLabel" [maxlength]="input.maxLength ?? 255">
-      @if (getControlFormFilter(input.formControlName).hasError('required')) {
-      <mat-error>Campo requerido</mat-error>
-      } @else if (getControlFormFilter(input.formControlName).hasError('email')) {
-      <mat-error>Email no válido</mat-error>
-      } @else if (getControlFormFilter(input.formControlName).hasError('pattern')) {
-      <mat-error>Contenido no válido</mat-error>
-      } @else {
-      <mat-error>Inválido</mat-error>
-      }
-    </mat-form-field>
-    }
-    }
-    @case ('textarea') {
-    @if (field.textarea; as input) {
-    <mat-form-field [attr.data-form-input-name]="input.formControlName">
-      <mat-label>{{ input.textLabel}}</mat-label>
-      <textarea matInput [formControlName]="input.formControlName" [placeholder]="input.placeholder ?? input.textLabel"
-        [maxlength]="input.maxLength ?? 2500"></textarea>
-      @if (getControlFormFilter(input.formControlName).hasError('required')) {
-      <mat-error>Campo requerido</mat-error>
-      } @else if (getControlFormFilter(input.formControlName).hasError('email')) {
-      <mat-error>Email no válido</mat-error>
-      } @else if (getControlFormFilter(input.formControlName).hasError('pattern')) {
-      <mat-error>Contenido no válido</mat-error>
-      } @else {
-      <mat-error>Inválido</mat-error>
-      }
-    </mat-form-field>
-    }
-    }
-    @case ('select') {
-    @if (field.select; as input) {
-    <app-input-select-template [attr.data-form-input-name]="input.formControlName"
-      [control]="getControlFormFilter(input.formControlName)" [configuration]="input" />
-    }
-    }
-    @case ('select-local') {
-    @if (field.selectLocal; as input) {
-    <app-input-select-template [attr.data-form-input-name]="input.formControlName"
-      [control]="getControlFormFilter(input.formControlName)" [configuration]="input" />
-    }
-    }
-    @case ('select-server') {
-    @if (field.selectServer; as input) {
-    <app-input-select-template [attr.data-form-input-name]="input.formControlName"
-      [control]="getControlFormFilter(input.formControlName)" [configuration]="input" />
-    }
-    }
-    @case ('autocomplete') {
-    @if (field.autocomplete; as input) {
-    <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
-      [idControl]="getControlFormFilter(input.formControlName)" [configuration]="input" />
-    }
-    }
-    @case ('autocomplete-local') {
-    @if (field.autocompleteLocal; as input) {
-    <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
-      [idControl]="getControlFormFilter(input.formControlName)" [configuration]="input" />
-    }
-    }
-    @case ('autocomplete-server') {
-    @if (field.autocompleteServer; as input) {
-    <app-input-autocomplete-template [attr.data-form-input-name]="input.formControlName"
-      [idControl]="getControlFormFilter(input.formControlName)" [configuration]="input" />
-    }
-    }
-    @case ('checkbox') {
-    @if (field.checkbox; as input) {
-    <div [attr.data-form-input-name]="input.formControlName">
-      <mat-checkbox [formControlName]="input.formControlName">{{ input.textLabel }}</mat-checkbox>
-    </div>
-    }
-    }
-    @case ('switch') {
-    @if (field.switch; as input) {
-    <div [attr.data-form-input-name]="input.formControlName">
-      <mat-slide-toggle [formControlName]="input.formControlName">{{ input.textLabel }}</mat-slide-toggle>
-    </div>
-    }
-    }
-    }
-    }
-    }
-  </div>
   }
 
   <div class="filter__actions" (click)="$event.stopPropagation()">

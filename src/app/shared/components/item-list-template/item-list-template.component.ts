@@ -145,14 +145,17 @@ export class ItemListTemplateComponent {
   }
 
   private initializeSignalFilters(): void {
-    if (this.configuration.filters !== false) {
-      if (!this.configuration.filters) this.configuration.filters = signal(defaultListFilterInputs());
-      const filters: WritableSignal<FormInput[]> = this.configuration.filters;
+    if (this.configuration.filter != false) {
+      if (!this.configuration.filter?.inputs) {
+        this.configuration.filter = {
+          form: null,
+          inputs: signal(defaultListFilterInputs())
+        };
+      } else {
+        this.configuration.filter!.form = null
+      }
+      const filters: WritableSignal<FormInput[]> = this.configuration.filter!.inputs;
       this.generateFormControlsFromFilterInputs(filters());
-      // effect(() => {
-      //   const filterValues = filters();
-      //   this.generateFormControlsFromFilterInputs(filterValues);
-      // }, { injector: this.injector});
     }
   }
 
@@ -177,11 +180,10 @@ export class ItemListTemplateComponent {
   }
 
   get searchCtrl(): FormControl {
-    return this.configuration.formFilters?.get('search') as FormControl;
+    return (this.configuration.filter as any)!.form.get('search') as FormControl;
   }
 
   ngOnInit(): void {
-    this.configuration.formFilters = null;
     this.initializeSignalFilters();
     this.configuration.data = signal([]);
     this.configuration.updateListEvent = new EventEmitter();
@@ -297,7 +299,8 @@ export class ItemListTemplateComponent {
   /* ---------------------------------------------------------------- */
   /* ---------------------------------------------------------------- */
   public getQueryParams(): { [key: string]: any } {
-    const formFilters = this.configuration.formFilters?.value ?? {};
+    let formFilters: any = {};
+    if(this.configuration.filter !== false) formFilters = this.configuration.filter!.form?.value ?? {};
     let index = 0;
     for (const key in formFilters) if (formFilters[key]) index++;
     this.lengthSelectedFilters.set(index)
@@ -443,11 +446,11 @@ export class ItemListTemplateComponent {
       }
     }
     if (!formFilters.get('search')) formFilters.setControl('search', new FormControl());
-    this.configuration.formFilters = formFilters;
+    (this.configuration.filter as any).form = formFilters;
   }
 
   public getControlFormFilter(name: string): FormControl {
-    return this.configuration.formFilters!.get(name) as FormControl;
+    return (this.configuration.filter as any).form!.get(name) as FormControl;
   }
 
   public applyFilters(filterMenu: MatMenu) {
@@ -456,7 +459,7 @@ export class ItemListTemplateComponent {
   }
 
   public clearFilters() {
-    this.configuration.formFilters?.reset({ emitEvent: false });
+    (this.configuration.filter as any).form?.reset({ emitEvent: false });
   }
 
   /* ---------------------------------------------------------------- */
@@ -533,8 +536,14 @@ export interface ItemListConfiguration<T = any> {
     text?: string,
     routerLink: RouterLinkCreateButton
   } | false;
-  formFilters?: FormGroup<any> | null;
-  filters?: WritableSignal<FormInput[]> | false;
+
+  // formFilters?: FormGroup<any> | null;
+  // filters?: WritableSignal<FormInput[]> | false;
+
+  filter?: {
+    form?: FormGroup<any> | null;
+    inputs: WritableSignal<FormInput[]>;
+  } | false
 
   rows?: {
     selectable?: {
@@ -1008,24 +1017,24 @@ export const simpleListColumns = (): ListColumn<any>[] => ([
 
 
 export const defaultListFilterInputs = (): FormInput[] => [
-  dateRangeFormInput({
-    textLabel: 'Fecha de creación',
-    formControlNameFrom: 'created_at_from',
-    formControlNameTo: 'created_at_to',
-  }),
+  // dateRangeFormInput({
+  //   textLabel: 'Fecha de creación',
+  //   formControlNameFrom: 'created_at_from',
+  //   formControlNameTo: 'created_at_to',
+  // }),
   dateRangeFormInput({
     textLabel: 'Fecha de actualización',
     formControlNameFrom: 'updated_at_from',
     formControlNameTo: 'updated_at_to',
   }),
-  switchFormInput({
-    textLabel: 'Incluir registros inactivos',
-    formControlName: 'inactive',
-  }),
-  switchFormInput({
-    textLabel: 'Solo registros inactivos',
-    formControlName: 'only_inactive',
-  }),
+  // switchFormInput({
+  //   textLabel: 'Incluir registros inactivos',
+  //   formControlName: 'inactive',
+  // }),
+  // switchFormInput({
+  //   textLabel: 'Solo registros inactivos',
+  //   formControlName: 'only_inactive',
+  // }),
 ];
 
 export const deleteItemActionButton = () => clickEventActionButton({
