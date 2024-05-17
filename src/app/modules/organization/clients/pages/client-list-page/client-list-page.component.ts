@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { dateRangeFormInput, switchFormInput } from '@component/item-form-template/item-form-template.component';
-import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, emailColumn, phoneColumn, textColumn, clickEventActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, emailColumn, phoneColumn, textColumn, clickEventActionButton, viewItemActionButton, editItemActionButton, deleteItemActionButton, restoreItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { Client } from '@interface/client';
 
 @Component({
@@ -71,6 +71,24 @@ export class ClientListPageComponent {
                     formControlName: 'only_inactive',
                 }),
             ])
+        },
+        rows: {
+            options: [
+                viewItemActionButton(),
+                editItemActionButton(),
+                deleteItemActionButton(),
+                clickEventActionButton({
+                    icon: 'home',
+                    text: 'Habilitar',
+                    fn: () => {}
+                }),
+                clickEventActionButton({
+                    icon: 'home',
+                    text: 'Inhabilitar',
+                    fn: () => {}
+                }),
+                restoreItemActionButton(),
+            ]
         }
     }
 }

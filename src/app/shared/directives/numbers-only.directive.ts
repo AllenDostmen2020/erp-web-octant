@@ -13,7 +13,7 @@ export class NumbersOnlyDirective {
   @HostListener('input', ['$event']) onInput(event: InputEvent) {
     return this.validateInput(event);
   }
-  
+
   private validateInput(event: InputEvent): boolean {
     const inputElement = event.target as HTMLInputElement;
     const inputValue = inputElement.value;
@@ -27,6 +27,5 @@ export class NumbersOnlyDirective {
 
   private validateFields(event: KeyboardEvent) {
     this.renderer.setProperty(this.el.nativeElement, 'value', this.el.nativeElement.value.replace(/[^0-9]/g, '').replace(/\s/g, ''));
-    event.preventDefault();
   }
 }

@@ -285,8 +285,8 @@
     min-height: var(--height-row-body-table-list);
 }
 
-.list__items__row-header .list__items__row__cell:hover,
-.list__items__row-header:has(.list__items__row__cell:nth-child(1):hover)~.list__items__row .list__items__row__cell:nth-child(1),
+.list__items__row-header .list__items__row__cell:not([data-column-name="selected"]):hover,
+.list__items__row-header:not([data-column-name="selected"])~.list__items__row .list__items__row__cell:not([data-column-name="selected"]):nth-child(1),
 .list__items__row-header:has(.list__items__row__cell:nth-child(2):hover)~.list__items__row .list__items__row__cell:nth-child(2),
 .list__items__row-header:has(.list__items__row__cell:nth-child(3):hover)~.list__items__row .list__items__row__cell:nth-child(3),
 .list__items__row-header:has(.list__items__row__cell:nth-child(4):hover)~.list__items__row .list__items__row__cell:nth-child(4),

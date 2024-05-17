@@ -6,12 +6,12 @@ import { Directive, ElementRef, HostListener, Renderer2, inject } from '@angular
 })
 export class CharactersOnlyDirective {
   private renderer = inject(Renderer2);
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) { }
 
   @HostListener('input', ['$event']) onInput(event: InputEvent) {
     return this.validateInput(event);
   }
-  
+
   private validateInput(event: InputEvent): boolean {
     const inputElement = event.target as HTMLInputElement;
     const inputValue = inputElement.value;
@@ -25,6 +25,5 @@ export class CharactersOnlyDirective {
 
   public validateFields(event: KeyboardEvent) {
     this.renderer.setProperty(this.el.nativeElement, 'value', this.el.nativeElement.value.replace(/[^a-zA-Z ]/g, '').replace(/\s/g, ''));
-    event.preventDefault();
   }
 }
