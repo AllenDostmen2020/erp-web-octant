@@ -489,12 +489,28 @@ export class ItemListTemplateComponent {
     if (index == -1) return;
     this.updateLoadingStatusItem(index, true);
     const url = `${this.configuration.server.url}/${id}/restore`;
-    const config = { afterAlert: { description: 'Restaurando ítem de la lista' } }
     try {
-      await this.fetch.put(url, config);
+      await this.fetch.put(url, {});
       this.callGetData(this.getQueryParams());
     } catch (error) { }
     this.updateLoadingStatusItem(index, false);
+  }
+
+  public changeStatusItem = async (id: string | number, status: any) => {
+    const index = this.data().findIndex((e) => e.id == id);
+    if (index == -1) return;
+    this.updateLoadingStatusItem(index, true);
+    const url = `${this.configuration.server.url}/${id}/change-status`;
+    try {
+      const response = await this.fetch.put<any>(url, {status});
+      this.updateChangesItem(index, { 
+        ...this.data()[index],
+        ...response,
+        __loading_status__: false,
+      });
+    } catch (error) {
+      this.updateLoadingStatusItem(index, false);
+    }
   }
 
   public updateChangesItem = (index: number, item: any) => {
@@ -577,7 +593,7 @@ export type StyleButton = 'filled-button' | 'tonal-button' | 'text-button' | 'ou
 interface ActionButton<T> {
   type: 'clickEvent' | 'routerLink';
   icon?: string;
-  text?: string;
+  text?: string | ((item: T, index: number) => string);
   title?: string;
   style?: StyleButton;
   hidden?: boolean | ((item: T, index: number) => boolean);
@@ -587,7 +603,8 @@ interface ActionButton<T> {
   fn?: (item: T, index: number, fns: {
     deleteItemFn: (id: number | string) => Promise<void>,
     restoreItemFn: (id: number | string) => Promise<void>,
-    updateChangesItemFn: (index: number, item: T) => void,
+    changeStatusItemFn: (id: number | string, status: any) => Promise<void>,
+    updateChangesItemFn: (id: number, item: T) => void,
   }) => void;
   routerLink?: RouterLinkItem<T>;
 }

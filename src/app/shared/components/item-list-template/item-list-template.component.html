@@ -248,7 +248,7 @@
       } @else if (bAction.fn) {
       <button
         class="{{bAction.style ?? 'text-button'}} {{(bAction.cssClass | executeFunctionList:[item, index]) ?? ''}}"
-        (click)="bAction.fn(item, index, {deleteItemFn: deleteItem, restoreItemFn: restoreItem, updateChangesItemFn: updateChangesItem})"
+        (click)="bAction.fn(item, index, {deleteItemFn: deleteItem, restoreItemFn: restoreItem, changeStatusItemFn: changeStatusItem, updateChangesItemFn: updateChangesItem})"
         [disabled]="bAction.disabled | executeFunctionList:[item, index]" [title]="bAction.title??''">
         @if (bAction.icon; as icon) { <span class="material-icons">{{icon}}</span> }
         @if (bAction.text; as text) { <span>{{text}}</span> }
@@ -385,22 +385,22 @@
       [navigateUrl]="rLink.url | executeFunctionList:[item, index]"
       [routeState]="rLink.state | executeFunctionList:[item, index]">
       @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
-      @if (bOption.text; as text) { <span>{{text}}</span> }
+      @if (bOption.text; as text) { <span>{{text | executeFunctionList:[item, index]}}</span> }
     </a>
     } @else {
     <a mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]"
       [routerLink]="rLink.url | executeFunctionList:[item, index]"
       [state]="rLink.state | executeFunctionList:[item, index]">
       @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
-      @if (bOption.text; as text) { <span>{{text}}</span> }
+      @if (bOption.text; as text) { <span>{{text | executeFunctionList:[item, index]}}</span> }
     </a>
     }
     } @else if (bOption.fn) {
     <button mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]"
-      (click)="bOption.fn(item, index, {deleteItemFn: deleteItem, restoreItemFn: restoreItem, updateChangesItemFn: updateChangesItem})"
+      (click)="bOption.fn(item, index, {deleteItemFn: deleteItem, restoreItemFn: restoreItem, changeStatusItemFn: changeStatusItem, updateChangesItemFn: updateChangesItem})"
       [disabled]="bOption.disabled | executeFunctionList:[item, index]" [title]="bOption.title??''">
       @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
-      @if (bOption.text; as text) { <span>{{text}}</span> }
+      @if (bOption.text; as text) { <span>{{text | executeFunctionList:[item, index]}}</span> }
     </button>
     }
     }
