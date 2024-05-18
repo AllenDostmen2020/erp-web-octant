@@ -79,7 +79,7 @@ export class ClientPaymentListPageComponent {
         changeStatusItemActionButton(
           {
             icon: (item) => item.status == StatusModel.Activo ? 'do_not_disturb_on' : 'check_circle',
-            text: (item) => item.status == StatusModel.Activo ? 'Desactivar' : 'Activar',
+            text: (item) => item.status == StatusModel.Activo ? 'Anular' : 'Activar',
             comment: {
               required: true,
             }
