@@ -1,11 +1,11 @@
 import { NgClass, UpperCasePipe } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { InputSelectLocalConfiguration, InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
+import { InputSelectConfiguration, InputSelectLocalConfiguration, InputSelectTemplateComponent } from '@component/input-select-template/input-select-template.component';
 import { TelCodeFormFieldTemplateComponent } from '@component/tel-code-form-field-template/tel-code-form-field-template.component';
 import { CharactersOnlyDirective } from '@directive/characters-only.directive';
 import { NumbersOnlyDirective } from '@directive/numbers-only.directive';
@@ -69,10 +69,10 @@ export class ClientFormComponent {
     return this.form.get('address') as FormControl;
   }
 
-  public readonly documentTypeSelectConfiguration: InputSelectLocalConfiguration = {
+  public readonly documentTypeSelectConfiguration: InputSelectConfiguration = {
     textLabel: 'Tipo de documento',
     placeholder: 'Seleccione un tipo de documento',
-    local: { nameModuleDatabase: NameModuleDatabase.DocumentTypes },
+    data: signal(DOCUMENT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item })).sort((a, b) => a.name.localeCompare(b.name))),
   }
 
   ngOnInit(): void {

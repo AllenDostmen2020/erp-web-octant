@@ -1,33 +1,33 @@
-<div [formGroup]="form" class="grid grid-cols-12 gap-2 items-start">
+<div [formGroup]="form" class="form__content__inputs">
 
-  <app-input-select-template class="col-span-6 @2xl:col-span-2" [control]="documentTypeCtrl"
-    [configuration]="documentTypeSelectConfiguration" />
+  <app-input-select-template class="form__input" data-column="2" data-md-column="3" data-sm-column="6"
+  [control]="documentTypeCtrl" [configuration]="documentTypeSelectConfiguration" />
 
-  <mat-form-field class="col-span-6 @2xl:col-span-2">
+  <mat-form-field class="form__input" data-column="2" data-md-column="3" data-sm-column="6">
     <mat-label>Número Documento</mat-label>
     <input matInput appNumbersOnly type="text" placeholder="Numero de documento..." [maxlength]="minMaxlengthDocumentNumber" formControlName="document_number" />
     <mat-error>Campo requerido</mat-error>
   </mat-form-field>
 
-  <mat-form-field class="col-span-full @2xl:col-span-8">
+  <mat-form-field class="form__input" data-column="8" data-md-column="6" data-sm-column="12">
     <mat-label>Nombre o razón social</mat-label>
     <input matInput appCharactersOnly type="text" placeholder="Nombre o razón social..." formControlName="name" />
     <mat-error>Campo requerido</mat-error>
   </mat-form-field>
 
-  <app-tel-code-form-field-template class="grid col-span-full @2xl:col-span-2" [codeCtrl]="codePhoneCtrl"
-    [phoneCtrl]="phoneCtrl" />
+  <app-tel-code-form-field-template class="form__input" data-column="2" data-md-column="3" data-sm-column="6" 
+  [codeCtrl]="codePhoneCtrl" [phoneCtrl]="phoneCtrl" />
 
-  <app-tel-code-form-field-template class="grid col-span-full @2xl:col-span-2" [label]="'Celular'" [codeCtrl]="codeCellphoneCtrl"
-    [phoneCtrl]="cellphoneCtrl" />
+  <app-tel-code-form-field-template class="form__input" data-column="2" data-md-column="3" data-sm-column="6"
+  [label]="'Celular'" [codeCtrl]="codeCellphoneCtrl" [phoneCtrl]="cellphoneCtrl" />
 
-  <mat-form-field class="col-span-full @2xl:col-span-8">
+  <mat-form-field class="form__input" data-column="8" data-md-column="6" data-sm-column="12">
     <mat-label>Email</mat-label>
     <input matInput type="email" placeholder="Email..." formControlName="email"/>
     <mat-error>Campo requerido</mat-error>
   </mat-form-field>
 
-  <mat-form-field class="col-span-full">
+  <mat-form-field class="form__input" data-column="12">
     <mat-label>Dirección</mat-label>
     <input matInput type="text" placeholder="Dirección..." formControlName="address" />
     <mat-error>Campo requerido</mat-error>

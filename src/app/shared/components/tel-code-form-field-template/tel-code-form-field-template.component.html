@@ -1,7 +1,8 @@
-<mat-form-field class="col-span-full @2xl:col-span-2">
+<mat-form-field class="col-span-full @2xl:col-span-2" floatLabel="always">
     <mat-label>{{label}}</mat-label>
     <div role="group" class="flex gap-2">
-        <mat-select [formControl]="codeCtrl" class="select-code">
+        <input (click)="$event.stopPropagation()" style="margin-left: 60px; z-index: 0;" matInput minlength="6" maxlength="9" type="tel" placeholder="Teléfono..." appNumbersOnly [formControl]="phoneCtrl" />
+        <mat-select [formControl]="codeCtrl" style="position: absolute; left: 0; width: 44px; z-index: 1; top: 14px;">
             <mat-select-trigger>
                 {{codeCtrl.value?.split('-')[0]}}
             </mat-select-trigger>
@@ -11,8 +12,14 @@
             </mat-option>
             }
         </mat-select>
-        <input (click)="$event.stopPropagation()" matInput maxlength="9" type="tel" placeholder="Teléfono..."
-            [formControl]="phoneCtrl" />
     </div>
-    <mat-error>Campo requerido</mat-error>
+    @if (phoneCtrl.hasError('required')) {
+        <mat-error>Campo requerido</mat-error>
+    } 
+    @if (phoneCtrl.hasError('minlength')) {
+        <mat-error>Debe tener al menos 6 caracteres</mat-error>
+    } 
+    @if (phoneCtrl.hasError('maxlength')) {
+        <mat-error>Debe tener máximo 9 caracteres</mat-error>
+    }
 </mat-form-field>
