@@ -123,6 +123,38 @@ export class ClientBoxTransferFormComponent {
     },
     displayTextFn: (item) => item instanceof Object ? ((item.type).toUpperCase() ?? '') : ''
   }
+  // public readonly toBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
+  //   textLabel: 'Caja destino',
+  //   local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
+  //   parseDataFn: (data) => data.filter(item => {
+  //     const toBoxOpeningId = this.fromBoxOpeningIdCtrl.value;
+  //     if (toBoxOpeningId) return item.id != toBoxOpeningId
+  //     return true;
+  //   }),
+  //   displayTextFn: (item: BoxOpening) => item instanceof Object ? (item.box?.name ?? '') : '',
+  // }
+  // public readonly fromBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
+  //   textLabel: 'Caja origen',
+  //   local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
+  //   displayTextFn: (item: BoxOpening) => item instanceof Object ? (item.box?.name ?? '') : '',
+  // }
+  public readonly fromBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
+    textLabel: 'Caja origen',
+    local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
+    conditionFilterFn: (box_opening, value) => box_opening.box?.name.toLowerCase().includes((value ?? '').toLocaleLowerCase()) ?? false,
+    displayTextFn: (box_opening) => box_opening instanceof Object ? (box_opening.box?.name ?? '') : '',
+    optionDisplayTextFn: (box_opening: BoxOpening) => box_opening.box ? `<div class="grid">
+        <div class="label-large">
+            ${box_opening?.box?.name}
+            <span class="py-px px-2 rounded-full bg-tertiary-container text-on-tertiary-container">
+                 ${(box_opening?.box?.account?.coin ?? box_opening?.box?.coin)}
+            </span>
+        </div>
+        <div class="body-small flex gap-2">
+            ${box_opening?.box?.account?.name} | ${box_opening?.box?.account?.bank?.name}
+        </div>
+        </div>` : '--',
+  }
   public readonly toBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
     textLabel: 'Caja destino',
     local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
@@ -131,13 +163,21 @@ export class ClientBoxTransferFormComponent {
       if (toBoxOpeningId) return item.id != toBoxOpeningId
       return true;
     }),
-    displayTextFn: (item: BoxOpening) => item instanceof Object ? (item.box?.name ?? '') : '',
+    conditionFilterFn: (box_opening, value) => box_opening.box?.name.toLowerCase().includes((value ?? '').toLocaleLowerCase()) ?? false,
+    displayTextFn: (box_opening) => box_opening instanceof Object ? (box_opening.box?.name ?? '') : '',
+    optionDisplayTextFn: (box_opening: BoxOpening) => box_opening.box ? `<div class="grid">
+        <div class="label-large">
+            ${box_opening?.box?.name}
+            <span class="py-px px-2 rounded-full bg-tertiary-container text-on-tertiary-container">
+                 ${(box_opening?.box?.account?.coin ?? box_opening?.box?.coin)}
+            </span>
+        </div>
+        <div class="body-small flex gap-2">
+            ${box_opening?.box?.account?.name} | ${box_opening?.box?.account?.bank?.name}
+        </div>
+        </div>` : '--',
   }
-  public readonly fromBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
-    textLabel: 'Caja origen',
-    local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
-    displayTextFn: (item: BoxOpening) => item instanceof Object ? (item.box?.name ?? '') : '',
-  }
+
   public readonly paymentTypeSelectConfiguration: InputSelectConfiguration = {
     textLabel: 'Tipo de pago',
     data: signal([
