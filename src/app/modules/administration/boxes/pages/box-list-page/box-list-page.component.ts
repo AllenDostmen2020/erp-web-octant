@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
-import { ItemListConfiguration, ItemListTemplateComponent, clickEventActionButton, editItemActionButton, firstLetterUppercaseColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, restoreItemActionButton, textColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, changeStatusItemActionButton, clickEventActionButton, editItemActionButton, firstLetterUppercaseColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, restoreItemActionButton, textColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { StatusModel } from '@interface/baseModel';
 import { Box } from '@interface/box';
 import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
@@ -88,6 +88,20 @@ export class BoxListPageComponent {
             options: [
                 viewItemActionButton(),
                 editItemActionButton(),
+                changeStatusItemActionButton(
+                    {
+                      icon: (item) => item.status == StatusModel.Activa ? 'do_not_disturb_on' : 'check_circle',
+                      text: (item) => item.status == StatusModel.Activa ? 'Desactivar' : 'Activar',
+                      comment: {
+                        required: true,
+                      }
+                    },
+                    {
+                      'activa': 'inactiva',
+                      'inactiva': 'activa',
+                      'activo': 'activa',
+                    }
+                  ),
             ]
         }
     }

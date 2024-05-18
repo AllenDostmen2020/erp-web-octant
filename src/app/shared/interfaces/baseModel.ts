@@ -84,5 +84,8 @@ export enum StatusModel {
   Aplicada= 'aplicada',
   Emitida= 'emitida',
   PorEmitir= 'por emitir',
+
+  Activa= 'activa',
+  Inactiva= 'inactiva',
 }
 

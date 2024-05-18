@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
-import { ItemListConfiguration, ItemListTemplateComponent, clickEventActionButton, dateColumn, datesFilterFormInput, editItemActionButton, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, statusFilterFormInput, textColumn, titlecaseColumn, userColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, changeStatusItemActionButton, clickEventActionButton, dateColumn, datesFilterFormInput, editItemActionButton, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, statusFilterFormInput, textColumn, titlecaseColumn, userColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { StatusModel } from '@interface/baseModel';
 import { BoxMovementTypeEnum } from '@interface/boxMovement';
 import { ClientBoxMovement } from '@interface/clientBoxMovement';
@@ -70,11 +70,26 @@ export class ClientPaymentListPageComponent {
       }),
       itemCreatedAtColumn(),
       itemUpdatedAtColumn(),
+      itemStatusColumn(),
     ]),
     rows: {
       options: [
         viewItemActionButton(),
         editItemActionButton(),
+        changeStatusItemActionButton(
+          {
+            icon: (item) => item.status == StatusModel.Activo ? 'do_not_disturb_on' : 'check_circle',
+            text: (item) => item.status == StatusModel.Activo ? 'Desactivar' : 'Activar',
+            comment: {
+              required: true,
+            }
+          },
+          {
+            'activo': 'anulado',
+            'anulado': 'activo',
+            'disponible': 'activo',
+          }
+        ),
         clickEventActionButton({
           icon: 'delete',
           text: 'Eliminar',
