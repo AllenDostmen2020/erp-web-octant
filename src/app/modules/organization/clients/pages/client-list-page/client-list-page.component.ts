@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { dateRangeFormInput, switchFormInput } from '@component/item-form-template/item-form-template.component';
-import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, emailColumn, phoneColumn, textColumn, clickEventActionButton, viewItemActionButton, editItemActionButton, deleteItemActionButton, restoreItemActionButton, changeStatusItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, emailColumn, phoneColumn, textColumn, clickEventActionButton, viewItemActionButton, editItemActionButton, deleteItemActionButton, restoreItemActionButton, changeStatusItemActionButton, statusFilterFormInput } from '@component/item-list-template/item-list-template.component';
 import { StatusModel } from '@interface/baseModel';
 import { Client } from '@interface/client';
 
@@ -58,6 +58,7 @@ export class ClientListPageComponent {
         ]),
         filter: {
             inputs: signal([
+                statusFilterFormInput([StatusModel.Activo, StatusModel.Inactivo]),
                 dateRangeFormInput({
                     textLabel: 'Fechas',
                     formControlNameFrom: 'updated_at_from',
@@ -81,6 +82,9 @@ export class ClientListPageComponent {
                     {
                         icon: (item) => item.status == StatusModel.Activo ? 'do_not_disturb_on' : 'check_circle',
                         text: (item) => item.status == StatusModel.Activo ? 'Desactivar' : 'Activar',
+                        comment: {
+                            required:true,
+                        }
                     },
                     {
                         'activo': 'inactivo',

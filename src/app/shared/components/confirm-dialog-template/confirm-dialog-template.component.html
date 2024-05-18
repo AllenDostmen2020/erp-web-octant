@@ -9,7 +9,7 @@
     <div class="dialog__title dialog__title-center">{{ data.title }}</div>
 
     <div class="dialog__content">
-        <p class="text-on-surface-variant body-medium">{{ data.description }}</p>
+        <div class="text-on-surface-variant body-medium" [innerHTML]="data.description"></div>
         @if (data.templateRef) {
             <ng-container [ngTemplateOutlet]="data.templateRef" [ngTemplateOutletContext]="{$implicit: data.data}" />
         }
@@ -19,7 +19,7 @@
         @if (data.cancelButton !== false) {
             <button class="text-button" mat-dialog-close>{{data.cancelButton?.text ?? 'Cancelar'}}</button>
         }
-        <button class="text-button" [disabled]="data.confirmButton?.disabled" [mat-dialog-close]="true">
+        <button class="text-button" [disabled]="data.confirmButton?.disabled" [mat-dialog-close]="true" cdkFocusInitial>
             {{data.confirmButton?.text ?? 'Aceptar'}}
         </button>
     </div>

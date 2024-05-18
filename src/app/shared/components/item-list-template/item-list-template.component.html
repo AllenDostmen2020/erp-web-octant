@@ -603,3 +603,13 @@
     <button class="text-button" (click)="applyFilters(filterMenu)">Aplicar</button>
   </div>
 </mat-menu>
+
+<ng-template #commentTemplate>
+  <br>
+  <mat-form-field>
+    <mat-label>Descripción</mat-label>
+    <textarea matInput [formControl]="commentCtrl"></textarea>
+    <mat-hint>Especifique el motivo</mat-hint>
+    <mat-error>Requerido</mat-error>
+  </mat-form-field>
+</ng-template>
