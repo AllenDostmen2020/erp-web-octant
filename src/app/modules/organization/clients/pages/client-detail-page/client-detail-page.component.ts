@@ -148,10 +148,10 @@ export class ClientDetailPageComponent {
                 ],
                 actions: [
                     actionButton({
-                        icon: 'edit',
-                        text: 'Editar opciones de facturación',
+                        icon: 'add',
+                        text: 'Agregar unidad de negocio',
                         style: 'text-button',
-                        clickEvent: (item) => this.router.navigate(['./billing-option/edit'], { relativeTo: this.activatedRoute }),
+                        clickEvent: (item) => this.router.navigate(['./business-unit/create'], { relativeTo: this.activatedRoute }),
 
                     })
                 ]

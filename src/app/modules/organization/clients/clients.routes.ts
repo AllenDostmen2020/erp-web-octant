@@ -45,6 +45,10 @@ export const clientRoutes: Routes = [
                     {
                         path: 'billing-option/edit',
                         loadComponent: () => import('./client-billing-options/pages/client-billing-option-edit-page/client-billing-option-edit-page.component').then(m => m.ClientBillingOptionEditPageComponent),
+                    },
+                    {
+                        path: 'business-unit/create',
+                        loadComponent: () => import('./client-business-units/pages/client-business-unit-create-page/client-business-unit-create-page.component').then(m => m.ClientBusinessUnitCreatePageComponent),
                     }
                 ]
             },
