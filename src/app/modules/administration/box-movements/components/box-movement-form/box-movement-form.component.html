@@ -1,4 +1,8 @@
-<div class="grid grid-cols-12 gap-2 items-start" [formGroup]="form">
+<div class="form__content__inputs" [formGroup]="form">
+
+  @if (alertConfiguration(); as alert) {
+    <app-alert-template class="form__input" data-column="12" [configuration]="alert"/>
+  }
 
   <app-input-select-template class="col-span-6 @2xl:col-span-2" [control]="typeCtrl"
     [configuration]="typeSelectConfiguration" />
@@ -6,10 +10,16 @@
   <app-input-select-template class="col-span-6 @2xl:col-span-2" [control]="businessCtrl"
     [configuration]="businessSelectConfiguration" />
 
-  <app-input-autocomplete-template class="col-span-6 @2xl:col-span-2" [idControl]="boxOpeningIdCtrl" [autocompleteControl]="boxOpeningCtrl"
-    [configuration]="boxOpeningLocalConfiguration" />
+  @defer (on timer(500ms)) {
+    @if (boxOpeningIdCtrl.enabled) {
+      <app-input-autocomplete-template class="col-span-6 @2xl:col-span-2"
+        [idControl]="boxOpeningIdCtrl"
+        [autocompleteControl]="boxOpeningCtrl"
+        [configuration]="boxOpeningLocalConfiguration" />
+    }
+  }
     
-  @if(typeCtrl.value == 'movimiento entre cajas' && typeCtrl.value){
+  @if(typeCtrl.value && typeCtrl.value == 'movimiento entre cajas'){
   <app-input-autocomplete-template class="col-span-6 @2xl:col-span-2" [idControl]="toBoxOpeningIdCtrl"
     [configuration]="toBoxOpeningLocalConfiguration" />
   }

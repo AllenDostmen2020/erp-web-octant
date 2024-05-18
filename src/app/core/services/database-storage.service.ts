@@ -51,7 +51,7 @@ export enum NameModuleDatabase {
     Banks = 'banks',
     Users = 'users',
     Taxes = 'taxes',
-    DocumentTypes = 'documentTypes',
+    // DocumentTypes = 'documentTypes',
     Plans = 'plans',
     VehicleTypes = 'vehicleTypes',
     CodeCountries = 'codeCountries'
@@ -130,14 +130,14 @@ export class DatabaseStorageService {
                 url: 'database-storage/taxes'
             },
         },
-        {
-            name: 'Tipos de documento',
-            key: NameModuleDatabase.DocumentTypes,
-            recurrent: Recurrent.Daily,
-            config: {
-                url: 'database-storage/document-types'
-            },
-        },
+        // {
+        //     name: 'Tipos de documento',
+        //     key: NameModuleDatabase.DocumentTypes,
+        //     recurrent: Recurrent.Daily,
+        //     config: {
+        //         url: 'database-storage/document-types'
+        //     },
+        // },
         {
             name: 'Planes',
             key: NameModuleDatabase.Plans,

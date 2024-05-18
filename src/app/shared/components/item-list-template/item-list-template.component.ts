@@ -7,11 +7,11 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FetchService } from '@service/fetch.service';
 import { objectToURLSearchParams } from 'src/app/shared/utilities/queryParams';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { IndexListPipe } from '@pipe/index-list.pipe';
 import { SpinnerDefaultComponent } from '@component/spinner-default/spinner-default.component';
 import { GetKeyItemPipe } from '@pipe/get-key-item.pipe';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DiffDatePipe } from '@pipe/diff-date.pipe';
 import { PaginatorData } from '@interface/paginator';
 import { EventsService } from '@service/events.service';
@@ -43,6 +43,8 @@ import { NameModuleDatabase } from '@service/database-storage.service';
 import { LocalItemPipe } from '@pipe/local-item.pipe';
 import { DomSanitizer } from '@angular/platform-browser';
 import { StatusModel } from '@interface/baseModel';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
 
 @Component({
   selector: 'app-item-list-template',
@@ -115,6 +117,7 @@ export class ItemListTemplateComponent {
   private eventsService = inject(EventsService);
   public location = inject(Location);
   public sanitizer = inject(DomSanitizer);
+  public dialog = inject(MatDialog);
 
   // private datePipe = inject(DatePipe);
   public firstLetterUppercasePipe = inject(FirstLetterUppercasePipe);
@@ -465,6 +468,42 @@ export class ItemListTemplateComponent {
 
   /* ---------------------------------------------------------------- */
   /* ---------------------------------------------------------------- */
+  @ViewChild('commentTemplate', { static: true }) commentTemplate!: TemplateRef<any>;
+  public commentCtrl = new FormControl('');
+  private confirmDialog(data: ConfirmDialogData, TemplateRef?: any): Promise<boolean> {
+    return new Promise((resolve) => {
+      const dialogRef = this.dialog.open(ConfirmDialogTemplateComponent, {
+        data: <ConfirmDialogData>{
+          templateRef: TemplateRef ? TemplateRef : undefined,
+          ...data,
+        }
+      });
+      dialogRef.afterClosed().subscribe((result) => resolve(result));
+    });
+  }
+
+  private async confirmDialogWithComment(data: ConfirmDialogData, required?: boolean): Promise<null | { comment: string }> {
+    this.commentCtrl.setValue('');
+    this.commentCtrl.clearValidators();
+    let subscribe:Subscription|null = null;
+    if(required) {
+      this.commentCtrl.setValidators([Validators.required]);
+      data.confirmButton = {
+        ...data.confirmButton ?? {},
+        disabled: true,
+      }
+      subscribe = this.commentCtrl.valueChanges.subscribe(() => {
+        data.confirmButton!.disabled = !(this.commentCtrl.valid);
+      })
+    }
+    const confirm = await this.confirmDialog(data, this.commentTemplate);
+    if(subscribe) subscribe.unsubscribe();
+    if(!confirm) return null;
+    return {
+      comment: this.commentCtrl.value as string,
+    };
+  }
+
   private updateLoadingStatusItem(index: number, status: boolean): void {
     this.data.update((data) => data.map((item: ListItemExtended, i) => {
       if (i == index) item.__loading_status__ = status;
@@ -496,15 +535,32 @@ export class ItemListTemplateComponent {
     this.updateLoadingStatusItem(index, false);
   }
 
-  public changeStatusItem = async (id: string | number, status: any) => {
+  public changeStatusItem = async (id: string | number, status: any, withComment?: boolean, requireComment?: boolean) => {
     const index = this.data().findIndex((e) => e.id == id);
     if (index == -1) return;
     this.updateLoadingStatusItem(index, true);
+    const item:any = this.data()[index];
     const url = `${this.configuration.server.url}/${id}/change-status`;
+    const dialogData: ConfirmDialogData = {
+      icon: 'info',
+      title: '¿Está seguro de cambiar estado?',
+      description: `El registro seleccionado pasará del estado <b>${item.status.toUpperCase()}</b> a <b>${status.toUpperCase()}</b>, tenga en cuenta que el cambio de estado puede afectar a otros registros`
+    };
+    let data:any = { comment: '' };
+    if(withComment) {
+      data = await this.confirmDialogWithComment(dialogData, requireComment??false);
+      if(!data) return;
+    } else {
+      const confirm = await this.confirmDialog(dialogData);
+      if(!confirm) return;
+    }
     try {
-      const response = await this.fetch.put<any>(url, { status });
+      const response = await this.fetch.put<any>(url, { 
+        status,
+        status_update_comment: data.comment,
+      });
       this.updateChangesItem(index, {
-        ...this.data()[index],
+        ...item,
         ...response,
         __loading_status__: false,
       });
@@ -603,7 +659,7 @@ interface ActionButton<T> {
   fn?: (item: T, index: number, fns: {
     deleteItemFn: (id: number | string) => Promise<void>,
     restoreItemFn: (id: number | string) => Promise<void>,
-    changeStatusItemFn: (id: number | string, status: any) => Promise<void>,
+    changeStatusItemFn: (id: number | string, status: any, withComment?:boolean, requireComment?:boolean) => Promise<void>,
     updateChangesItemFn: (id: number, item: T) => void,
   }) => void;
   routerLink?: RouterLinkItem<T>;
@@ -1082,15 +1138,20 @@ export const changeStatusItemActionButton = <T = any>(
     icon: string | ((item: T, index: number) => string);
     text: string | ((item: T, index: number) => string);
     hidden?: boolean | ((item: T, index: number) => boolean);
+    comment?: {
+      required?: boolean;
+      textLabelInput?: string;
+      textError?: string;
+    }
   },
-  statusValue: { [key: string]: any }
+  statusValues: { [key: string]: any }
 ) => clickEventActionButton({
   icon: options.icon,
   text: options.text,
-  hidden: options.hidden ?? ((item:any) => item.deleted_at ? true : false),
+  hidden: options.hidden ?? ((item: any) => item.deleted_at ? true : false),
   fn: (item: any, index, { changeStatusItemFn }) => {
-    const newStatus = statusValue[item.status];
-    changeStatusItemFn(item.id, newStatus);
+    const newStatus = statusValues[item.status];
+    changeStatusItemFn(item.id, newStatus, options instanceof Object ? true : false, options.comment?.required ?? false);
   }
 });
 

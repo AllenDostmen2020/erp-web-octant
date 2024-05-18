@@ -8,6 +8,7 @@ import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/co
 import { ItemListConfiguration, ItemListTemplateComponent, clickEventActionButton, editItemActionButton, firstLetterUppercaseColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, numberColumn, restoreItemActionButton, textColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { StatusModel } from '@interface/baseModel';
 import { Box } from '@interface/box';
+import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
 import { FetchService, RequestInitFetch } from '@service/fetch.service';
 
 @Component({
@@ -28,14 +29,20 @@ export class BoxListPageComponent {
     private fetch = inject(FetchService);
     private matDialog = inject(MatDialog);
     private decimalPipe = inject(DecimalPipe);
+    private databaseStorage = inject(DatabaseStorageService);
     public configList: ItemListConfiguration<Box> = {
+        title: 'Cajas',
         server: {
             url: 'box',
             queryParams: {
                 relations: 'account.bank,lastBoxOpening'
             }
         },
-        title: 'Cajas',
+        parseDataFn: (data) => {
+            this.databaseStorage.clearData(NameModuleDatabase.BoxOpenings);
+            this.databaseStorage.clearData(NameModuleDatabase.Boxes);
+            return data;
+        },
         columns: signal([
             textColumn({
                 title: 'Código',
@@ -81,17 +88,6 @@ export class BoxListPageComponent {
             options: [
                 viewItemActionButton(),
                 editItemActionButton(),
-                // clickEventActionButton({
-                //     text: 'Eliminar',
-                //     icon: 'delete',
-                //     fn: async (item, index, { updateChangesItemFn }) => {
-                //         const response = await this.deleteBox(item);
-                //         if (response) updateChangesItemFn(index, { ...item, ...response });
-                //         this.configList.updateListEvent?.emit();
-                //     },
-                //     // hidden: (item)=> item.amount > 0 || item.last_box_opening?.status == StatusModel.Abierto || item.status == StatusModel.Eliminado
-                // }),
-                restoreItemActionButton(),
             ]
         }
     }

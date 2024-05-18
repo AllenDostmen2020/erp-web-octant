@@ -1,10 +1,11 @@
 import { DecimalPipe, NgClass } from '@angular/common';
-import { Component, Input, inject, signal } from '@angular/core';
+import { Component, Input, WritableSignal, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-template/alert-template.component';
 import { AutocompleteBoxOpeningComponent } from '@component/autocomplete-box-opening/autocomplete-box-opening.component';
 import { DatepickerTemplateComponent } from '@component/datepicker-template/datepicker-template.component';
 import { InputAutocompleteLocalConfiguration, InputAutocompleteTemplateComponent } from '@component/input-autocomplete-template/input-autocomplete-template.component';
@@ -15,7 +16,7 @@ import { NumbersOnlyDirective } from '@directive/numbers-only.directive';
 import { BoxBusinessEnum, BoxMovementTypeEnum, ComprobantTypeEnum } from '@interface/boxMovement';
 import { BoxOpening } from '@interface/boxOpening';
 import { PathFilesServerPipe } from '@pipe/path-files-server.pipe';
-import { NameModuleDatabase } from '@service/database-storage.service';
+import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
 import { debounceTime } from 'rxjs';
 import { ContractPlanFormComponent } from 'src/app/modules/tracking/contracts/components/contract-plan-form/contract-plan-form.component';
 
@@ -37,7 +38,8 @@ import { ContractPlanFormComponent } from 'src/app/modules/tracking/contracts/co
         ContractPlanFormComponent,
         CharactersOnlyDirective,
         NumbersOnlyDirective,
-        AutocompleteBoxOpeningComponent
+        AutocompleteBoxOpeningComponent,
+        AlertTemplateComponent,
     ],
     templateUrl: './box-movement-form.component.html',
     styleUrl: './box-movement-form.component.scss'
@@ -45,9 +47,12 @@ import { ContractPlanFormComponent } from 'src/app/modules/tracking/contracts/co
 export class BoxMovementFormComponent {
     private activatedRoute = inject(ActivatedRoute);
     private router = inject(Router);
+    private databaseStorage = inject(DatabaseStorageService);
     @Input({ required: true }) form!: FormGroup;
     @Input() minAmount: number = 0;
     @Input() maxAmount: number = 1000000;
+
+    public alertConfiguration: WritableSignal<AlertConfiguration|null> = signal(null);
 
     public readonly bankAutocompleteLocalConfiguration: InputAutocompleteLocalConfiguration = {
         textLabel: 'Banco',
@@ -55,7 +60,6 @@ export class BoxMovementFormComponent {
             nameModuleDatabase: NameModuleDatabase.Banks
         }
     }
-
     public readonly typeSelectConfiguration: InputSelectConfiguration = {
         textLabel: 'Tipo',
         data: signal(Object.values(BoxMovementTypeEnum).map((item) => ({ name: item.toUpperCase(), id: item })))
@@ -94,7 +98,6 @@ export class BoxMovementFormComponent {
             </div>
             </div>` : '--',
     }
-
     public readonly toBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
         textLabel: 'Caja destino',
         local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
@@ -150,11 +153,7 @@ export class BoxMovementFormComponent {
 
 
     ngOnInit(): void {
-
-        if (this.router.url.includes('/box/view/')) {
-            this.boxOpeningIdCtrl.setValue(this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id'));
-            this.boxOpeningIdCtrl.disable();
-        }
+        this.verifyBox();
         this.typeCtrl.valueChanges.subscribe(value => {
             if (value) {
                 if (value == BoxMovementTypeEnum.MOVIMIENTO_ENTRE_CAJAS) {
@@ -184,5 +183,26 @@ export class BoxMovementFormComponent {
             });
 
         })
+    }
+
+    private async verifyBox(): Promise<void> {
+        if (this.router.url.includes('/box/view/')) {
+            const boxOpenings = await this.databaseStorage.getData<BoxOpening>(NameModuleDatabase.BoxOpenings);
+            const boxId = Number(this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id'));
+            const boxOpening = boxOpenings.find(e => e.box?.id == boxId);
+            this.boxOpeningIdCtrl.setValue(boxOpening?.id);
+            this.boxOpeningIdCtrl.disable();
+            if(!boxOpening) {
+                this.alertConfiguration.set({
+                    icon: 'info',
+                    title: 'Caja cerrada',
+                    description: 'Esta caja no está aperturada, primero se debe aperturar para poder hacer movimientos',
+                    actionButton: {
+                        text: 'Ir a aperturar caja',
+                        fn: () => this.router.navigate(['../../detail'], {relativeTo: this.activatedRoute}),
+                    }
+                })
+            }
+        }
     }
 }
