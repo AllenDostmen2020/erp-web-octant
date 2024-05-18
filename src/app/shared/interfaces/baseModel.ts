@@ -3,6 +3,8 @@ import { User, UserRoleEnum } from "./user";
 export interface BaseModel {
   id: number;
 
+  status_update_date: string;
+  status_update_comment: string;
   delete_comment: string;
   created_at: string;
   updated_at: string | null;
