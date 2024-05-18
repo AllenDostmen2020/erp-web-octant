@@ -259,6 +259,18 @@ export const registerDataGroupDetail = (): ItemDetailGroup<any> => {
                         ${(item.status as string).replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase())}
                     </span>`,
             }),
+            textDetail({
+                title: 'Comentario de cambio',
+                displayValueFn: (item) => item.status_update_comment,
+            }),
+            dateDetail({
+                title: 'F. Act. Estado',
+                displayValueFn: (item) => item.status_update_date,
+            }),
+            userDetail({
+                title: 'Us. Act. Estado',
+                displayValueFn: (item) => item.delete_user_id,
+            }),
             diffDateDetail({
                 title: 'Creado',
                 displayValueFn: (item) => item.created_at,
