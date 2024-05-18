@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { dateRangeFormInput, switchFormInput } from '@component/item-form-template/item-form-template.component';
-import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, emailColumn, phoneColumn, textColumn, clickEventActionButton, viewItemActionButton, editItemActionButton, deleteItemActionButton, restoreItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, emailColumn, phoneColumn, textColumn, clickEventActionButton, viewItemActionButton, editItemActionButton, deleteItemActionButton, restoreItemActionButton, changeStatusItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { StatusModel } from '@interface/baseModel';
 import { Client } from '@interface/client';
 
 @Component({
@@ -76,17 +77,18 @@ export class ClientListPageComponent {
             options: [
                 viewItemActionButton(),
                 editItemActionButton(),
+                changeStatusItemActionButton(
+                    {
+                        icon: (item) => item.status == StatusModel.Activo ? 'do_not_disturb_on' : 'check_circle',
+                        text: (item) => item.status == StatusModel.Activo ? 'Desactivar' : 'Activar',
+                    },
+                    {
+                        'activo': 'inactivo',
+                        'inactivo': 'activo',
+                        'habilitado': 'activo',
+                    }
+                ),
                 deleteItemActionButton(),
-                clickEventActionButton({
-                    icon: 'home',
-                    text: 'Habilitar',
-                    fn: () => {}
-                }),
-                clickEventActionButton({
-                    icon: 'home',
-                    text: 'Inhabilitar',
-                    fn: () => {}
-                }),
                 restoreItemActionButton(),
             ]
         }

@@ -123,7 +123,7 @@ export class ItemListTemplateComponent {
 
   public lengthData = computed(() => this.data().length)
 
-  
+
   public lengthSelectedFilters = signal(0);
 
   public loading = signal(true);
@@ -301,7 +301,7 @@ export class ItemListTemplateComponent {
   /* ---------------------------------------------------------------- */
   public getQueryParams(): { [key: string]: any } {
     let formFilters: any = {};
-    if(this.configuration.filter !== false) formFilters = this.configuration.filter!.form?.value ?? {};
+    if (this.configuration.filter !== false) formFilters = this.configuration.filter!.form?.value ?? {};
     let index = 0;
     for (const key in formFilters) if (formFilters[key]) index++;
     this.lengthSelectedFilters.set(index)
@@ -502,8 +502,8 @@ export class ItemListTemplateComponent {
     this.updateLoadingStatusItem(index, true);
     const url = `${this.configuration.server.url}/${id}/change-status`;
     try {
-      const response = await this.fetch.put<any>(url, {status});
-      this.updateChangesItem(index, { 
+      const response = await this.fetch.put<any>(url, { status });
+      this.updateChangesItem(index, {
         ...this.data()[index],
         ...response,
         __loading_status__: false,
@@ -592,7 +592,7 @@ export type StyleButton = 'filled-button' | 'tonal-button' | 'text-button' | 'ou
 
 interface ActionButton<T> {
   type: 'clickEvent' | 'routerLink';
-  icon?: string;
+  icon?: string | ((item: T, index: number) => string);
   text?: string | ((item: T, index: number) => string);
   title?: string;
   style?: StyleButton;
@@ -660,7 +660,7 @@ export interface ListColumn<T> {
    * @param item como parámetro pasa el item de cada elemento de la lista
    * @returns void
    */
-  clickEventValue?: (item: T, index: number, event?:any) => void;
+  clickEventValue?: (item: T, index: number, event?: any) => void;
 
   /**
    * @description
@@ -1076,6 +1076,23 @@ export const restoreItemActionButton = () => clickEventActionButton({
   fn: async ({ id }, _, { restoreItemFn }) => restoreItemFn(id),
   hidden: (item) => !item.deleted_at,
 })
+
+export const changeStatusItemActionButton = <T = any>(
+  options: {
+    icon: string | ((item: T, index: number) => string);
+    text: string | ((item: T, index: number) => string);
+    hidden?: boolean | ((item: T, index: number) => boolean);
+  },
+  statusValue: { [key: string]: any }
+) => clickEventActionButton({
+  icon: options.icon,
+  text: options.text,
+  hidden: options.hidden ?? ((item:any) => item.deleted_at ? true : false),
+  fn: (item: any, index, { changeStatusItemFn }) => {
+    const newStatus = statusValue[item.status];
+    changeStatusItemFn(item.id, newStatus);
+  }
+});
 
 export const viewItemActionButton = () => routerLinkActionButton({
   icon: 'visibility',

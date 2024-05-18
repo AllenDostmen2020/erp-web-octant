@@ -384,14 +384,14 @@
     <a mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]" appNavigateLateralPanelOutlet
       [navigateUrl]="rLink.url | executeFunctionList:[item, index]"
       [routeState]="rLink.state | executeFunctionList:[item, index]">
-      @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+      @if (bOption.icon; as icon) { <span class="material-icons">{{icon | executeFunctionList:[item, index]}}</span> }
       @if (bOption.text; as text) { <span>{{text | executeFunctionList:[item, index]}}</span> }
     </a>
     } @else {
     <a mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]"
       [routerLink]="rLink.url | executeFunctionList:[item, index]"
       [state]="rLink.state | executeFunctionList:[item, index]">
-      @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+      @if (bOption.icon; as icon) { <span class="material-icons">{{icon | executeFunctionList:[item, index]}}</span> }
       @if (bOption.text; as text) { <span>{{text | executeFunctionList:[item, index]}}</span> }
     </a>
     }
@@ -399,7 +399,7 @@
     <button mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]"
       (click)="bOption.fn(item, index, {deleteItemFn: deleteItem, restoreItemFn: restoreItem, changeStatusItemFn: changeStatusItem, updateChangesItemFn: updateChangesItem})"
       [disabled]="bOption.disabled | executeFunctionList:[item, index]" [title]="bOption.title??''">
-      @if (bOption.icon; as icon) { <span class="material-icons">{{icon}}</span> }
+      @if (bOption.icon; as icon) { <span class="material-icons">{{icon | executeFunctionList:[item, index]}}</span> }
       @if (bOption.text; as text) { <span>{{text | executeFunctionList:[item, index]}}</span> }
     </button>
     }

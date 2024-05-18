@@ -4,6 +4,15 @@ import { Client } from '@interface/client';
 import { ItemDetailConfiguration } from '@component/item-detail-template/item-detail-template.component';
 import { ActivatedRoute, Router } from '@angular/router';
 
+interface ExtClient extends Client {
+    unidad_1: string;
+    unidad_2: string;
+    unidad_3: string;
+    unidad_4: string;
+    unidad_5: string;
+    unidad_6: string;
+}
+
 @Component({
     selector: 'app-client-detail-page',
     standalone: true,
@@ -14,16 +23,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ClientDetailPageComponent {
     private activatedRoute = inject(ActivatedRoute);
     private router = inject(Router);
-    public configuration: ItemDetailConfiguration<Client> = {
+    public configuration: ItemDetailConfiguration<ExtClient> = {
         title: 'Detalles',
         subtitle: false,
         server: {
             url: 'client',
-            queryParams: { relations: 'clientBillingOption' }
+            queryParams: { relations: 'clientBillingOption,clientBusinessUnits' }
         },
         backButton: false,
         editButton: false,
         deleteButton: false,
+        parseItemFn: async(item) => {
+            item.client_business_units?.forEach((unit, index) => {
+                (item as any)[`unidad_${index + 1}`] = unit.name;
+            });
+            return item;
+        },
         groups: [
             {
                 title: 'Datos generales',
@@ -90,6 +105,45 @@ export class ClientDetailPageComponent {
                     {
                         title: 'Aplica IGV',
                         displayValueFn: (item) => item.client_billing_option?.igv_apply ? 'SI' : 'NO',
+                    },
+                ],
+                actions: [
+                    actionButton({
+                        icon: 'edit',
+                        text: 'Editar opciones de facturación',
+                        style: 'text-button',
+                        clickEvent: (item) => this.router.navigate(['./billing-option/edit'], { relativeTo: this.activatedRoute }),
+
+                    })
+                ]
+            },
+            {
+                title: 'Unidades de negocio',
+                icon: 'quick_reference',
+                details: [
+                    {
+                        title: 'Unidad 1',
+                        displayValueFn: (item) => item.unidad_1,
+                    },
+                    {
+                        title: 'Unidad 2',
+                        displayValueFn: (item) => item.unidad_2,
+                    },
+                    {
+                        title: 'Unidad 3',
+                        displayValueFn: (item) => item.unidad_3,
+                    },
+                    {
+                        title: 'Unidad 4',
+                        displayValueFn: (item) => item.unidad_4,
+                    },
+                    {
+                        title: 'Unidad 5',
+                        displayValueFn: (item) => item.unidad_5,
+                    },
+                    {
+                        title: 'Unidad 6',
+                        displayValueFn: (item) => item.unidad_6,
                     },
                 ],
                 actions: [
