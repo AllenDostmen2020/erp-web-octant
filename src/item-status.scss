@@ -1,6 +1,6 @@
 .status-chip {
-  background: var(--bg-chip, var(--color-secondary-container));
-  color: var(--text-color-chip, var(--color-on-secondary-container));
+  background: var(--bg-chip, var(--color-surface-variant));
+  color: var(--text-color-chip, var(--color-on-surface-variant));
   padding: 3px 10px;
   border-radius: 12px;
   font-weight: 500;
@@ -17,6 +17,8 @@
   --text-color-chip: var(--color-on-tertiary-container);
 }
 
+.status-chip[title="activo"],
+.status-chip[title="activa"],
 .status-chip[title="pagada"] {
   --bg-chip: var(--color-primary-container);
   --text-color-chip: var(--color-on-primary-container);
