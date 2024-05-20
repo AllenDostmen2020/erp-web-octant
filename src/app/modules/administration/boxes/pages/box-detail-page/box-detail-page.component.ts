@@ -63,6 +63,7 @@ export class BoxDetailPageComponent {
         },
         groups: [
             {
+                title: 'Datos principales',
                 details: [
                     titlecaseDetail({
                         title: 'Tipo',
@@ -73,8 +74,8 @@ export class BoxDetailPageComponent {
                         displayValueFn: (item) => item.name,
                     }),
                     numberDetail({
-                        title: 'Monto inicial',
-                        displayValueFn: (item) => item.amount_init,
+                        title: 'Monto disponible',
+                        displayValueFn: (item) => item.amount,
                     }),
                     textDetail({
                         title: 'N° de cuenta',
