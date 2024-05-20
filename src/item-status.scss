@@ -12,28 +12,17 @@
   display: inline-block;
 }
 
-.status-chip[title="emitida"] {
-  --bg-chip: var(--color-tertiary-container);
-  --text-color-chip: var(--color-on-tertiary-container);
-}
-
-.status-chip[title="activo"],
-.status-chip[title="activa"],
-.status-chip[title="vigente"],
-.status-chip[title="pagada"] {
+.status-chip:where([title="activo"], [title="activa"], [title="vigente"], [title="pagada"]) {
   --bg-chip: var(--color-primary-container);
   --text-color-chip: var(--color-on-primary-container);
 }
 
-.status-chip[title="anulado"],
-.status-chip[title="inactivo"],
-.status-chip[title="inactiva"],
-.status-chip[title="desactivado"],
-.status-chip[title="expirado"],
-.status-chip[title="eliminado"],
-.status-chip[title="anulado"],
-.status-chip[title="anulada"],
-.status-chip[title="por emitir"] {
+.status-chip:where([title="emitida"], [title="por emitir"]) {
+  --bg-chip: var(--color-tertiary-container);
+  --text-color-chip: var(--color-on-tertiary-container);
+}
+
+.status-chip:where([title="anulado"], [title="inactivo"], [title="inactiva"], [title="desactivado"], [title="expirado"], [title="eliminado"], [title="anulada"]) {
   --bg-chip: var(--color-error-container);
   --text-color-chip: var(--color-on-error-container);
 }

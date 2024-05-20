@@ -34,14 +34,14 @@ export class ContractListPageComponent {
       cssClass: (item) => parseISO(item.end_date) < addMonths(new Date(), 2) ? 'next-expired' : '',
       options: [
         viewItemActionButton(),
-        routerLinkActionButton({
-          routerLink: {
-            url: (item)=> `../view/${item.id}/renew`
-          },
-          icon: 'event_repeat',
-          text: 'Renovar',
-          hidden: (item)=> item.status != StatusModel.Expirado,
-        }),
+        // routerLinkActionButton({
+        //   routerLink: {
+        //     url: (item)=> `../view/${item.id}/renew`
+        //   },
+        //   icon: 'event_repeat',
+        //   text: 'Renovar',
+        //   hidden: (item)=> item.status != StatusModel.Expirado,
+        // }),
       ]
     },
     filter: {
