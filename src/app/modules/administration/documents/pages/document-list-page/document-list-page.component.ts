@@ -225,6 +225,7 @@ export class DocumentListPageComponent {
         title: 'Código/Descripción',
         displayValueFn: (item) => item.serie ? `${item.serie}-${item.correlative}` : '--',
         displayAdditionalValueFn: (item) => item.document_items?.map((item) => item.description).join(', '),
+        principal: true,
       }),
       textColumn<Document>({
         title: 'Cliente',
