@@ -28,20 +28,26 @@ export class ClientAccountCreatePageComponent {
                 formControlName: 'type',
                 textLabel: 'Tipo de cuenta',
                 data: signal(Object.values(ClientAccountTypeEnum).map((item) => ({ name: item.toUpperCase(), id: item }))),
-                cssClass: 'col-span-6 @2xl:col-span-3',
+                columns: {
+                    default: 12,
+                    md: 6
+                }
             }),
             selectFormInput({
                 formControlName: 'coin',
                 textLabel: 'Tipo de moneda',
                 data: signal(COIN.map((item) => ({ name: item.toUpperCase(), id: item }))),
-                cssClass: 'col-span-6 @2xl:col-span-3',
+                columns: {
+                    default: 12,
+                    md: 6
+                }
             }),
             textFormInput({
                 formControlName: 'name',
                 textLabel: 'Nombre de la cuenta',
-                cssClass: 'col-span-full @2xl:col-span-6',
+                columns: { default: 12 }
             })
         ],
-        server: { url: 'client-box' },        
+        server: { url: 'client-box' },
     }
 }

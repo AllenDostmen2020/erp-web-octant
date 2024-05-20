@@ -12,11 +12,11 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_BUSINESS_UNIT: FormInput[] = [
     textFormInput({
         formControlName: 'name',
         textLabel: 'Nombre',
-        cssClass: 'col-span-full',
+        columns: { default: 12 }
     }),
     textareaFormInput({
         formControlName: 'description',
         textLabel: 'Descripción',
-        cssClass: 'col-span-full',
+        columns: { default: 12 }
     })
 ]

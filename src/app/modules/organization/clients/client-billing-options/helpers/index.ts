@@ -19,16 +19,19 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_BILLING_OPTION: FormInput[] = [
         formControlName: 'comprobant_type',
         textLabel: 'Tipo de comprobante',
         data: signal(COMPROBANT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item }))),
+        columns: { default: 12 }
     }),
     switchFormInput({
         formControlName: 'group_notes_single_voucher',
         textLabel: '¿Agrupar todas la notas de pedido en un solo comprobante?',
         defaultValue: false,
+        columns: { default: 12 }
     }),
     switchFormInput({
         formControlName: 'retention',
         textLabel: '¿Tiene retención?',
         defaultValue: false,
+        columns: { default: 12 }
     }),
     selectFormInput({
         formControlName: 'retention_percent',
@@ -37,10 +40,12 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_BILLING_OPTION: FormInput[] = [
             { name: '3%', id: '3.00' },
             { name: '6%', id: '6.00' },
         ]),
+        columns: { default: 12 }
     }),
     switchFormInput({
         formControlName: 'igv_apply',
         textLabel: '¿Aplica IGV?',
         defaultValue: false,
+        columns: { default: 12 }
     }),
 ]
