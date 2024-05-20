@@ -40,7 +40,7 @@ export class BoxMovementListPageComponent {
     server: {
       url: 'box-movement',
       queryParams: {
-        relations: 'boxOpening.box,ClientBoxMovement.client',
+        relations: 'boxOpening.box.account.bank,ClientBoxMovement.client',
         box_id: this.router.url.includes('/administration/box/view') ? this.activatedRoute.snapshot.parent?.parent?.paramMap.get('id') : null,
       },
     },
@@ -99,6 +99,7 @@ export class BoxMovementListPageComponent {
       textColumn({
         title: 'Caja',
         displayValueFn: (item) => item.box_opening?.box?.name ?? '--',
+        displayAdditionalValueFn: (item) => `${item.box_opening?.box?.account?.bank?.name.toUpperCase() ?? ''} - ${item.box_opening?.box?.account?.name ?? ''}`,
         cssClass: (item) => item.box_opening?.box?.deleted_at ? 'item-deleted' : '',
       }),
       textColumn({

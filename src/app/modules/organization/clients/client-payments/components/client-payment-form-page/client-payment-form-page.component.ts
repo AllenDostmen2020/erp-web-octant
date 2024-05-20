@@ -81,7 +81,6 @@ export class ClientPaymentFormPageComponent {
         textLabel: 'Caja de la empresa',
         local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
         conditionFilterFn: (box_opening, value) => {
-            console.log(box_opening);
             return box_opening.box?.name.toLowerCase().includes((value ?? '').toLocaleLowerCase()) ?? false;
         },
         displayTextFn: (box_opening) => box_opening instanceof Object ? (box_opening.box?.name ?? '') : '',
