@@ -1,14 +1,15 @@
 .status-chip {
   background: var(--bg-chip, var(--color-secondary-container));
   color: var(--text-color-chip, var(--color-on-secondary-container));
-  padding: 3px 8px;
-  border-radius: 6px;
+  padding: 3px 10px;
+  border-radius: 12px;
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0.5px;
   text-align: center;
   text-transform: capitalize;
+  display: inline-block;
 }
 
 .status-chip[title="emitida"] {
@@ -22,6 +23,9 @@
 }
 
 .status-chip[title="anulado"],
+.status-chip[title="inactivo"],
+.status-chip[title="inactiva"],
+.status-chip[title="desactivado"],
 .status-chip[title="expirado"],
 .status-chip[title="eliminado"],
 .status-chip[title="anulado"],

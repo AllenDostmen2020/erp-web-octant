@@ -76,20 +76,15 @@ export class ClientPaymentListPageComponent {
       options: [
         viewItemActionButton(),
         editItemActionButton(),
-        changeStatusItemActionButton(
-          {
-            icon: (item) => item.status == StatusModel.Activo ? 'do_not_disturb_on' : 'check_circle',
-            text: (item) => item.status == StatusModel.Activo ? 'Anular' : 'Activar',
-            comment: {
-              required: true,
-            }
-          },
-          {
+        changeStatusItemActionButton({
+          icon: (item) => item.status == StatusModel.Activo ? 'do_not_disturb_on' : 'check_circle',
+          text: (item) => item.status == StatusModel.Activo ? 'Anular' : 'Activar',
+          statusValues: {
             'activo': 'anulado',
             'anulado': 'activo',
             'disponible': 'activo',
           }
-        ),
+        }),
         clickEventActionButton({
           icon: 'delete',
           text: 'Eliminar',

@@ -378,7 +378,7 @@
   <ng-template matMenuContent let-item="item" let-index="index">
     @if (configuration.rows?.options; as options) {
     @for (bOption of options; track bOption) {
-      @if ((bOption.authRoles ?? [])| authRoles) {
+      @if (((bOption.authRoles ?? [])| authRoles) == true) {
         @if (!((bOption.hidden ?? false) | executeFunctionList:[item, index])) {
           @if (bOption.routerLink; as rLink) {
           @if (rLink.outlet == 'route-lateral') {
@@ -612,6 +612,10 @@
     <mat-label>Motivo</mat-label>
     <textarea matInput [formControl]="commentCtrl"></textarea>
     <mat-hint>Especifique el motivo del cambio</mat-hint>
-    <mat-error>Requerido</mat-error>
+    @if (commentCtrl.hasError('required')) {
+      <mat-error>Requerido</mat-error>
+    } @else {
+      <mat-error>Mínimo 12 caracteres</mat-error>
+    }
   </mat-form-field>
 </ng-template>

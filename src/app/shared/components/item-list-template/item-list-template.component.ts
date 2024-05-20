@@ -472,7 +472,7 @@ export class ItemListTemplateComponent {
   /* ---------------------------------------------------------------- */
   /* ---------------------------------------------------------------- */
   @ViewChild('commentTemplate', { static: true }) commentTemplate!: TemplateRef<any>;
-  public commentCtrl = new FormControl('');
+  public commentCtrl = new FormControl('', [Validators.minLength(12)]);
   private confirmDialog(data: ConfirmDialogData, TemplateRef?: any): Promise<boolean> {
     return new Promise((resolve) => {
       const dialogRef = this.dialog.open(ConfirmDialogTemplateComponent, {
@@ -487,10 +487,10 @@ export class ItemListTemplateComponent {
 
   private async confirmDialogWithComment(data: ConfirmDialogData, required?: boolean): Promise<null | { comment: string }> {
     this.commentCtrl.setValue('');
-    this.commentCtrl.clearValidators();
-    let subscribe:Subscription|null = null;
-    if(required) {
-      this.commentCtrl.setValidators([Validators.required]);
+    this.commentCtrl.setValidators([Validators.minLength(12)]);
+    let subscribe: Subscription | null = null;
+    if (required) {
+      this.commentCtrl.setValidators([Validators.required, Validators.minLength(12)]);
       data.confirmButton = {
         ...data.confirmButton ?? {},
         disabled: true,
@@ -500,8 +500,8 @@ export class ItemListTemplateComponent {
       })
     }
     const confirm = await this.confirmDialog(data, this.commentTemplate);
-    if(subscribe) subscribe.unsubscribe();
-    if(!confirm) return null;
+    if (subscribe) subscribe.unsubscribe();
+    if (!confirm) return null;
     return {
       comment: this.commentCtrl.value as string,
     };
@@ -542,25 +542,27 @@ export class ItemListTemplateComponent {
     const index = this.data().findIndex((e) => e.id == id);
     if (index == -1) return;
     this.updateLoadingStatusItem(index, true);
-    const item:any = this.data()[index];
+    const item: any = this.data()[index];
     const url = `${this.configuration.server.url}/${id}/change-status`;
     const dialogData: ConfirmDialogData = {
       icon: 'info',
       title: '¿Está seguro de cambiar estado?',
-      description: `El registro seleccionado pasará del estado <b>${item.status.toUpperCase()}</b> a <b>${status.toUpperCase()}</b>, tenga en cuenta que el cambio de estado puede afectar a otros registros`
+      description: `El registro seleccionado pasará del estado <b>${item.status.toUpperCase()}</b> a <b>${status.toUpperCase()}</b>, tenga cuidado porque que el cambio de estado puede afectar a otros registros asociados al mismo`
     };
-    let data:any = { comment: '' };
-    if(withComment) {
-      data = await this.confirmDialogWithComment(dialogData, requireComment??false);
-      if(!data) return;
+    let data: any = { comment: '' };
+    if (withComment) {
+      data = await this.confirmDialogWithComment(dialogData, requireComment ?? false);
+      if (!data) return;
     } else {
       const confirm = await this.confirmDialog(dialogData);
-      if(!confirm) return;
+      if (!confirm) return;
     }
     try {
-      const response = await this.fetch.put<any>(url, { 
+      const response = await this.fetch.put<any>(url, {
         status,
         status_update_comment: data.comment,
+      }, {
+        confirmDialog: false,
       });
       this.updateChangesItem(index, {
         ...item,
@@ -663,7 +665,7 @@ interface ActionButton<T> {
   fn?: (item: T, index: number, fns: {
     deleteItemFn: (id: number | string) => Promise<void>,
     restoreItemFn: (id: number | string) => Promise<void>,
-    changeStatusItemFn: (id: number | string, status: any, withComment?:boolean, requireComment?:boolean) => Promise<void>,
+    changeStatusItemFn: (id: number | string, status: any, withComment?: boolean, requireComment?: boolean) => Promise<void>,
     updateChangesItemFn: (id: number, item: T) => void,
   }) => void;
   routerLink?: RouterLinkItem<T>;
@@ -1139,6 +1141,7 @@ export const restoreItemActionButton = () => clickEventActionButton({
 
 export const changeStatusItemActionButton = <T = any>(
   options: {
+    statusValues: { [key: string]: any }
     icon: string | ((item: T, index: number) => string);
     text: string | ((item: T, index: number) => string);
     hidden?: boolean | ((item: T, index: number) => boolean);
@@ -1148,16 +1151,20 @@ export const changeStatusItemActionButton = <T = any>(
       textLabelInput?: string;
       textError?: string;
     } | false
-  },
-  statusValues: { [key: string]: any }
+  }
 ) => clickEventActionButton({
   icon: options.icon,
   text: options.text,
   authRoles: options.authRoles,
   hidden: options.hidden ?? ((item: any) => item.deleted_at ? true : false),
   fn: (item: any, index, { changeStatusItemFn }) => {
-    const newStatus = statusValues[item.status];
-    changeStatusItemFn(item.id, newStatus, !(options.comment instanceof Object) ? true : false, (options.comment !== false && !options.comment?.required) ? true : false);
+    const newStatus = options.statusValues[item.status];
+    changeStatusItemFn(
+      item.id,
+      newStatus,
+      options.comment == false ? false : true,
+      (options.comment !== false && options.comment?.required == false) ? false : true
+    );
   }
 });
 
