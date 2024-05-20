@@ -193,18 +193,24 @@ export class ClientBoxTransferFormComponent {
     this.paymentTypeCtrl.setValue('transferencia');
     this.paymentTypeCtrl.disable();
     this.fromClientBoxCtrl.valueChanges.subscribe((item: ClientBox) => {
-      if (item.id) {
+      if (item && item.id) {
         this.maxAmount = item.amount_available;
         if (item.type == ClientAccountTypeEnum.Detraccion) {
           this.getBoxOpenings(this.fromBoxOpeningCtrl);
         }
+      } else {
+        this.fromBoxOpeningCtrl.reset();
+        this.fromBoxOpeningCtrl.enable();
       }
     });
     this.toClientBoxCtrl.valueChanges.subscribe((item: ClientBox) => {
-      if (item.id) {
+      if (item && item.id) {
         if (item.type == ClientAccountTypeEnum.Detraccion) {
           this.getBoxOpenings(this.toBoxOpeningCtrl);
         }
+      } else {
+        this.toBoxOpeningCtrl.reset();
+        this.toBoxOpeningCtrl.enable();
       }
     });
   }
@@ -212,11 +218,20 @@ export class ClientBoxTransferFormComponent {
   public async getBoxOpenings(boxOpeningSelectedCtrl: FormControl) {
     this.boxOpenings = await this.databaseStorage.getData<BoxOpening>(NameModuleDatabase.BoxOpenings);
     if (this.boxOpenings.length) {
-      const boxDetraction = (this.boxOpenings.filter((boxOpening) =>
-      (boxOpening.box?.account?.name.toLowerCase().includes('detraccion') &&
-        boxOpening.box?.account.bank?.name.toLowerCase().includes('banco de la nación'))))[0];
-      boxOpeningSelectedCtrl.setValue(boxDetraction);
-      boxOpeningSelectedCtrl.disable();
+      const boxDetraction = this.boxOpenings.find((boxOpening) =>
+        boxOpening.box?.account?.name.toLowerCase().includes('detraccion') &&
+        boxOpening.box?.account.bank?.name.toLowerCase().includes('banco de la nación')
+      );
+      if (boxDetraction) {
+        boxOpeningSelectedCtrl.setValue(boxDetraction);
+        boxOpeningSelectedCtrl.disable();
+      } else {
+        boxOpeningSelectedCtrl.reset();
+        boxOpeningSelectedCtrl.enable();
+      }
+    } else {
+      boxOpeningSelectedCtrl.reset();
+      boxOpeningSelectedCtrl.enable();
     }
 
   }
