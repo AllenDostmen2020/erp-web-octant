@@ -26,8 +26,6 @@ import { FetchService, RequestInitFetch } from '@service/fetch.service';
 })
 export class BoxListPageComponent {
     @ViewChild('deleteFormTemplate', { static: true }) deleteFormTemplate!: TemplateRef<any>;
-    private fetch = inject(FetchService);
-    private matDialog = inject(MatDialog);
     private decimalPipe = inject(DecimalPipe);
     private databaseStorage = inject(DatabaseStorageService);
     public configList: ItemListConfiguration<Box> = {
@@ -100,8 +98,4 @@ export class BoxListPageComponent {
             ]
         }
     }
-
-    public deleteForm = new FormGroup({
-        comment: new FormControl('', [Validators.required]),
-    });
 }
