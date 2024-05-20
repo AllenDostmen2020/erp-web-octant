@@ -378,32 +378,34 @@
   <ng-template matMenuContent let-item="item" let-index="index">
     @if (configuration.rows?.options; as options) {
     @for (bOption of options; track bOption) {
-    @if (!((bOption.hidden ?? false) | executeFunctionList:[item, index])) {
-    @if (bOption.routerLink; as rLink) {
-    @if (rLink.outlet == 'route-lateral') {
-    <a mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]" appNavigateLateralPanelOutlet
-      [navigateUrl]="rLink.url | executeFunctionList:[item, index]"
-      [routeState]="rLink.state | executeFunctionList:[item, index]">
-      @if (bOption.icon; as icon) { <span class="material-icons">{{icon | executeFunctionList:[item, index]}}</span> }
-      @if (bOption.text; as text) { <span>{{text | executeFunctionList:[item, index]}}</span> }
-    </a>
-    } @else {
-    <a mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]"
-      [routerLink]="rLink.url | executeFunctionList:[item, index]"
-      [state]="rLink.state | executeFunctionList:[item, index]">
-      @if (bOption.icon; as icon) { <span class="material-icons">{{icon | executeFunctionList:[item, index]}}</span> }
-      @if (bOption.text; as text) { <span>{{text | executeFunctionList:[item, index]}}</span> }
-    </a>
-    }
-    } @else if (bOption.fn) {
-    <button mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]"
-      (click)="bOption.fn(item, index, {deleteItemFn: deleteItem, restoreItemFn: restoreItem, changeStatusItemFn: changeStatusItem, updateChangesItemFn: updateChangesItem})"
-      [disabled]="bOption.disabled | executeFunctionList:[item, index]" [title]="bOption.title??''">
-      @if (bOption.icon; as icon) { <span class="material-icons">{{icon | executeFunctionList:[item, index]}}</span> }
-      @if (bOption.text; as text) { <span>{{text | executeFunctionList:[item, index]}}</span> }
-    </button>
-    }
-    }
+      @if ((bOption.authRoles ?? [])| authRoles) {
+        @if (!((bOption.hidden ?? false) | executeFunctionList:[item, index])) {
+          @if (bOption.routerLink; as rLink) {
+          @if (rLink.outlet == 'route-lateral') {
+          <a mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]" appNavigateLateralPanelOutlet
+            [navigateUrl]="rLink.url | executeFunctionList:[item, index]"
+            [routeState]="rLink.state | executeFunctionList:[item, index]">
+            @if (bOption.icon; as icon) { <span class="material-icons">{{icon | executeFunctionList:[item, index]}}</span> }
+            @if (bOption.text; as text) { <span>{{text | executeFunctionList:[item, index]}}</span> }
+          </a>
+          } @else {
+          <a mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]"
+            [routerLink]="rLink.url | executeFunctionList:[item, index]"
+            [state]="rLink.state | executeFunctionList:[item, index]">
+            @if (bOption.icon; as icon) { <span class="material-icons">{{icon | executeFunctionList:[item, index]}}</span> }
+            @if (bOption.text; as text) { <span>{{text | executeFunctionList:[item, index]}}</span> }
+          </a>
+          }
+          } @else if (bOption.fn) {
+          <button mat-menu-item [class]="bOption.cssClass | executeFunctionList:[item, index]"
+            (click)="bOption.fn(item, index, {deleteItemFn: deleteItem, restoreItemFn: restoreItem, changeStatusItemFn: changeStatusItem, updateChangesItemFn: updateChangesItem})"
+            [disabled]="bOption.disabled | executeFunctionList:[item, index]" [title]="bOption.title??''">
+            @if (bOption.icon; as icon) { <span class="material-icons">{{icon | executeFunctionList:[item, index]}}</span> }
+            @if (bOption.text; as text) { <span>{{text | executeFunctionList:[item, index]}}</span> }
+          </button>
+          }
+          }
+      }
     }
     }
   </ng-template>
@@ -607,9 +609,9 @@
 <ng-template #commentTemplate>
   <br>
   <mat-form-field>
-    <mat-label>Descripción</mat-label>
+    <mat-label>Motivo</mat-label>
     <textarea matInput [formControl]="commentCtrl"></textarea>
-    <mat-hint>Especifique el motivo</mat-hint>
+    <mat-hint>Especifique el motivo del cambio</mat-hint>
     <mat-error>Requerido</mat-error>
   </mat-form-field>
 </ng-template>

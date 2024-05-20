@@ -45,6 +45,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { StatusModel } from '@interface/baseModel';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/confirm-dialog-template/confirm-dialog-template.component';
+import { UserRoleEnum } from '@interface/user';
+import { AuthRolesPipe } from '@pipe/auth-roles.pipe';
 
 @Component({
   selector: 'app-item-list-template',
@@ -85,6 +87,7 @@ import { ConfirmDialogData, ConfirmDialogTemplateComponent } from '@component/co
     RenameTitleColumnListPipe,
     DecimalPipe,
     LocalItemPipe,
+    AuthRolesPipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -656,6 +659,7 @@ interface ActionButton<T> {
   disabled?: boolean | ((item: T, index: number) => boolean);
   cssClass?: string | ((item: T, index: number) => string);
   cssStyle?: ({ [key: string]: any }) | ((item: T, index: number) => ({ [key: string]: any }));
+  authRoles?: UserRoleEnum[],
   fn?: (item: T, index: number, fns: {
     deleteItemFn: (id: number | string) => Promise<void>,
     restoreItemFn: (id: number | string) => Promise<void>,
@@ -1138,20 +1142,22 @@ export const changeStatusItemActionButton = <T = any>(
     icon: string | ((item: T, index: number) => string);
     text: string | ((item: T, index: number) => string);
     hidden?: boolean | ((item: T, index: number) => boolean);
+    authRoles?: UserRoleEnum[],
     comment?: {
       required?: boolean;
       textLabelInput?: string;
       textError?: string;
-    }
+    } | false
   },
   statusValues: { [key: string]: any }
 ) => clickEventActionButton({
   icon: options.icon,
   text: options.text,
+  authRoles: options.authRoles,
   hidden: options.hidden ?? ((item: any) => item.deleted_at ? true : false),
   fn: (item: any, index, { changeStatusItemFn }) => {
     const newStatus = statusValues[item.status];
-    changeStatusItemFn(item.id, newStatus, options instanceof Object ? true : false, options.comment?.required ?? false);
+    changeStatusItemFn(item.id, newStatus, !(options.comment instanceof Object) ? true : false, (options.comment !== false && !options.comment?.required) ? true : false);
   }
 });
 
