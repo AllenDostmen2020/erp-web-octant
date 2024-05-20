@@ -260,15 +260,15 @@ export const registerDataGroupDetail = (): ItemDetailGroup<any> => {
                     </span>`,
             }),
             textDetail({
-                title: 'Comentario de cambio',
+                title: (item) =>`Comentario de estado ${item.status}`,
                 displayValueFn: (item) => item.status_update_comment,
             }),
             dateDetail({
-                title: 'F. Act. Estado',
+                title: (item) =>`Fecha de estado ${item.status}`,
                 displayValueFn: (item) => item.status_update_date,
             }),
             userDetail({
-                title: 'Us. Act. Estado',
+                title: (item) =>`Usuario de estado ${item.status}`,
                 displayValueFn: (item) => item.delete_user_id,
             }),
             diffDateDetail({
