@@ -1157,7 +1157,12 @@ export const changeStatusItemActionButton = <T = any>(
   hidden: options.hidden ?? ((item: any) => item.deleted_at ? true : false),
   fn: (item: any, index, { changeStatusItemFn }) => {
     const newStatus = statusValues[item.status];
-    changeStatusItemFn(item.id, newStatus, !(options.comment instanceof Object) ? true : false, (options.comment !== false && !options.comment?.required) ? true : false);
+    changeStatusItemFn(
+      item.id,
+      newStatus,
+      options.comment == false ? false : true,
+      (options.comment !== false && options.comment?.required == false) ? false : true
+    );
   }
 });
 
