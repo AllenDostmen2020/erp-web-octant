@@ -143,7 +143,7 @@
 
 <ng-template #renderNormalFields let-itemDetail let-item="item" let-value="value" let-routerLink="routerLink"
     let-clickEvent="clickEvent">
-    <div class="item-detail__group__row__label">{{itemDetail.title}}</div>
+    <div class="item-detail__group__row__label">{{itemDetail.title | getMixedValue:item}}</div>
     <div class="item-detail__group__row__value">
         @switch (itemDetail.type ?? '') {
         <!-- --------------------------------- -->

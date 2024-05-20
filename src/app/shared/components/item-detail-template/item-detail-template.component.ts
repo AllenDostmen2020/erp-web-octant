@@ -211,7 +211,7 @@ export interface ItemDetail<T> {
     dateFormat?: string;
     displayValueFn: (item: T) => string | number | null | undefined | string[];
     key?: string;
-    title: string;
+    title: ((item: T) => string) | string;
     numberFormat?: string;
     listOptions?: ListFormatOptions;
     routerLink?: RouterLinkItem<T>
