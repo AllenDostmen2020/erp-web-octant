@@ -481,7 +481,6 @@
 
     [data-column-principal="true"] {
         grid-column: 1 / -1 !important;
-        margin-bottom: 8px;
     }
 
     .list__items__row__cell[data-column-principal="true"]>.list__items__row__cell__value:not([data-type="additional-value-row"]) {
@@ -492,11 +491,18 @@
         line-height: 1.15;
     }
 
+    [data-column-principal="true"] + [data-column-principal="false"] {
+        margin-top: 8px;
+    }
+
     .list__items__row__cell[data-column-principal="false"] {
         grid-column: 1 / -1 !important;
         display: grid;
         grid-template-columns: subgrid;
         grid-template-rows: max-content max-content;
+    }
+    .list__items__row__cell__value {
+        justify-self: start;
     }
 
     .list__items__row__cell[data-column-principal="false"]:not([data-column-key="estado"]):before {
@@ -510,6 +516,7 @@
         font-weight: var(--label-large-font-weight);
         font-size: var(--label-large-font-size);
         letter-spacing: var(--label-large-letter-spacing);
+        justify-self: start;
     }
 
     .list__items__row__cell {

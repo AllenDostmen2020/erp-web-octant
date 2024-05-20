@@ -61,6 +61,7 @@ export const contractColumnsList = () => [
         sort: { key: 'code' },
         displayValueFn: (item) => item.code,
         routerLinkValue: { url: (item) => `/tracking/contract/view/${item.id}` },
+        principal: true,
     }),
     uppercaseColumn<Contract>({
         title: 'Cliente/Unidad de negocio',
@@ -68,6 +69,7 @@ export const contractColumnsList = () => [
         displayAdditionalValueFn: (item) => item.client_business_unit?.name,
         gridColumn: '1fr',
         routerLinkValue: { url: (item) => `/organization/client/view/${item.client?.id}` },
+        principal: true,
     }),
     uppercaseColumn<Contract>({
         title: 'Recurrente',

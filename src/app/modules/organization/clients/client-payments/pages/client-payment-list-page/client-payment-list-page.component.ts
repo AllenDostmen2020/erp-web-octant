@@ -47,8 +47,7 @@ export class ClientPaymentListPageComponent {
       }),
       textColumn({
         title: 'Concepto',
-        displayValueFn: (item) => item.box_movement?.concept,
-        routerLinkValue: { url: (item) => `../detail/${item.id}` },
+        displayValueFn: (item) => item.concept,
         gridColumn: '1fr',
       }),
       dateColumn({
