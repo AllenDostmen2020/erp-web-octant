@@ -11,8 +11,8 @@ import { InputSelectConfiguration, InputSelectServerConfiguration, InputSelectTe
 import { ItemFormConfiguration, ItemFormTemplateComponent } from '@component/item-form-template/item-form-template.component';
 import { SelectFileComponent } from '@component/select-file/select-file.component';
 import { BoxOpening } from '@interface/boxOpening';
-import { ClientBox } from '@interface/clientBox';
-import { NameModuleDatabase } from '@service/database-storage.service';
+import { ClientAccountTypeEnum, ClientBox } from '@interface/clientBox';
+import { DatabaseStorageService, NameModuleDatabase } from '@service/database-storage.service';
 
 @Component({
   selector: 'app-client-box-transfer-form',
@@ -33,8 +33,10 @@ import { NameModuleDatabase } from '@service/database-storage.service';
   styleUrl: './client-box-transfer-form.component.scss'
 })
 export class ClientBoxTransferFormComponent {
+  private databaseStorage = inject(DatabaseStorageService);
   private activatedRoute = inject(ActivatedRoute);
   public maxAmount: number = 100000;
+  public boxOpenings: BoxOpening[] = [];
   public configuration: ItemFormConfiguration = {
     type: 'create',
     titleModule: 'transferencia',
@@ -44,7 +46,9 @@ export class ClientBoxTransferFormComponent {
       to_client_box_id: new FormControl('', [Validators.required]),
       to_client_box: new FormControl(''),
       box_movement: new FormGroup({
+        to_box_opening: new FormControl(''),
         to_box_opening_id: new FormControl('', [Validators.required]),
+        from_box_opening: new FormControl(''),
         from_box_opening_id: new FormControl('', [Validators.required]),
         payment_date: new FormControl(new Date(), [Validators.required]),
         payment_type: new FormControl('', [Validators.required]),
@@ -77,23 +81,24 @@ export class ClientBoxTransferFormComponent {
   get bankIdCtrl(): FormControl {
     return this.boxMovementFormGroup.get('bank_id') as FormControl;
   }
-
+  get toBoxOpeningCtrl(): FormControl {
+    return this.boxMovementFormGroup.get('to_box_opening') as FormControl;
+  }
   get toBoxOpeningIdCtrl(): FormControl {
     return this.boxMovementFormGroup.get('to_box_opening_id') as FormControl;
   }
-
+  get fromBoxOpeningCtrl(): FormControl {
+    return this.boxMovementFormGroup.get('from_box_opening') as FormControl;
+  }
   get fromBoxOpeningIdCtrl(): FormControl {
     return this.boxMovementFormGroup.get('from_box_opening_id') as FormControl;
   }
-
   get amountCtrl(): FormControl {
     return this.boxMovementFormGroup.get('amount') as FormControl;
   }
-
   get paymentTypeCtrl(): FormControl {
     return this.boxMovementFormGroup.get('payment_type') as FormControl;
   }
-
   get voucherFileCtrl(): FormControl {
     return this.boxMovementFormGroup.get('voucher_file') as FormControl;
   }
@@ -123,21 +128,7 @@ export class ClientBoxTransferFormComponent {
     },
     displayTextFn: (item) => item instanceof Object ? ((item.type).toUpperCase() ?? '') : ''
   }
-  // public readonly toBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
-  //   textLabel: 'Caja destino',
-  //   local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
-  //   parseDataFn: (data) => data.filter(item => {
-  //     const toBoxOpeningId = this.fromBoxOpeningIdCtrl.value;
-  //     if (toBoxOpeningId) return item.id != toBoxOpeningId
-  //     return true;
-  //   }),
-  //   displayTextFn: (item: BoxOpening) => item instanceof Object ? (item.box?.name ?? '') : '',
-  // }
-  // public readonly fromBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
-  //   textLabel: 'Caja origen',
-  //   local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
-  //   displayTextFn: (item: BoxOpening) => item instanceof Object ? (item.box?.name ?? '') : '',
-  // }
+
   public readonly toBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
     textLabel: 'Caja destino',
     local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
@@ -162,9 +153,15 @@ export class ClientBoxTransferFormComponent {
             </div>
             </div>` : '--',
   }
+
   public readonly fromBoxOpeningLocalConfiguration: InputAutocompleteLocalConfiguration = {
     textLabel: 'Caja origen',
     local: { nameModuleDatabase: NameModuleDatabase.BoxOpenings },
+    parseDataFn: (data) => data.filter(item => {
+      const fromBoxOpeningId = this.toBoxOpeningIdCtrl.value;
+      if (fromBoxOpeningId) return item.id != fromBoxOpeningId
+      return true;
+    }),
     conditionFilterFn: (box_opening, value) => {
       return box_opening.box?.name.toLowerCase().includes((value ?? '').toLocaleLowerCase()) ?? false;
     },
@@ -195,11 +192,32 @@ export class ClientBoxTransferFormComponent {
   ngOnInit() {
     this.paymentTypeCtrl.setValue('transferencia');
     this.paymentTypeCtrl.disable();
-    this.fromBoxOpeningIdCtrl.valueChanges.subscribe((fromIdSelected) => {
-      this.fromClientBoxSelectServerConfiguration.data!.set((this.fromClientBoxSelectServerConfiguration.data!() ?? []).filter((item) => item.id !== fromIdSelected));
+    this.fromClientBoxCtrl.valueChanges.subscribe((item: ClientBox) => {
+      if (item.id) {
+        this.maxAmount = item.amount_available;
+        if (item.type == ClientAccountTypeEnum.Detraccion) {
+          this.getBoxOpenings(this.fromBoxOpeningCtrl);
+        }
+      }
     });
-    this.fromClientBoxCtrl.valueChanges.subscribe(item => {
-      this.maxAmount = item.amount_available
-    })
+    this.toClientBoxCtrl.valueChanges.subscribe((item: ClientBox) => {
+      if (item.id) {
+        if (item.type == ClientAccountTypeEnum.Detraccion) {
+          this.getBoxOpenings(this.toBoxOpeningCtrl);
+        }
+      }
+    });
+  }
+
+  public async getBoxOpenings(boxOpeningSelectedCtrl: FormControl) {
+    this.boxOpenings = await this.databaseStorage.getData<BoxOpening>(NameModuleDatabase.BoxOpenings);
+    if (this.boxOpenings.length) {
+      const boxDetraction = (this.boxOpenings.filter((boxOpening) =>
+      (boxOpening.box?.account?.name.toLowerCase().includes('detraccion') &&
+        boxOpening.box?.account.bank?.name.toLowerCase().includes('banco de la nación'))))[0];
+      boxOpeningSelectedCtrl.setValue(boxDetraction);
+      boxOpeningSelectedCtrl.disable();
+    }
+
   }
 }

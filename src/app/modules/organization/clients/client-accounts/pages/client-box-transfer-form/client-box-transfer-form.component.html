@@ -9,11 +9,11 @@
         [configuration]="toClientBoxSelectServerConfiguration" [idControl]="toClientBoxIdCtrl"
         [autocompleteControl]="toClientBoxCtrl" />
 
-      <app-input-autocomplete-template class="col-span-6 @2xl:col-span-3" [idControl]="fromBoxOpeningIdCtrl"
-        [configuration]="fromBoxOpeningLocalConfiguration" />
+      <app-input-autocomplete-template class="col-span-6 @2xl:col-span-3" 
+      [idControl]="fromBoxOpeningIdCtrl" [autocompleteControl]="fromBoxOpeningCtrl" [configuration]="fromBoxOpeningLocalConfiguration" />
 
-      <app-input-autocomplete-template class="col-span-6 @2xl:col-span-3" [idControl]="toBoxOpeningIdCtrl"
-        [configuration]="toBoxOpeningLocalConfiguration" />
+      <app-input-autocomplete-template class="col-span-6 @2xl:col-span-3" 
+      [idControl]="toBoxOpeningIdCtrl" [autocompleteControl]="toBoxOpeningCtrl" [configuration]="toBoxOpeningLocalConfiguration" />
 
       <mat-form-field class="col-span-3 @2xl:col-span-2">
         <mat-label>Monto</mat-label>
