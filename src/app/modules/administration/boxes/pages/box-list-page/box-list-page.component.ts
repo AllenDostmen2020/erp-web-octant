@@ -88,20 +88,15 @@ export class BoxListPageComponent {
             options: [
                 viewItemActionButton(),
                 editItemActionButton(),
-                changeStatusItemActionButton(
-                    {
-                      icon: (item) => item.status == StatusModel.Activa ? 'do_not_disturb_on' : 'check_circle',
-                      text: (item) => item.status == StatusModel.Activa ? 'Desactivar' : 'Activar',
-                      comment: {
-                        required: true,
-                      }
-                    },
-                    {
-                      'activa': 'inactiva',
-                      'inactiva': 'activa',
-                      'activo': 'activa',
+                changeStatusItemActionButton({
+                    icon: (item) => item.status == StatusModel.Activa ? 'do_not_disturb_on' : 'check_circle',
+                    text: (item) => item.status == StatusModel.Activa ? 'Desactivar' : 'Activar',
+                    statusValues: {
+                        'activa': 'inactiva',
+                        'inactiva': 'activa',
+                        'activo': 'activa',
                     }
-                  ),
+                }),
             ]
         }
     }

@@ -1141,6 +1141,7 @@ export const restoreItemActionButton = () => clickEventActionButton({
 
 export const changeStatusItemActionButton = <T = any>(
   options: {
+    statusValues: { [key: string]: any }
     icon: string | ((item: T, index: number) => string);
     text: string | ((item: T, index: number) => string);
     hidden?: boolean | ((item: T, index: number) => boolean);
@@ -1150,15 +1151,14 @@ export const changeStatusItemActionButton = <T = any>(
       textLabelInput?: string;
       textError?: string;
     } | false
-  },
-  statusValues: { [key: string]: any }
+  }
 ) => clickEventActionButton({
   icon: options.icon,
   text: options.text,
   authRoles: options.authRoles,
   hidden: options.hidden ?? ((item: any) => item.deleted_at ? true : false),
   fn: (item: any, index, { changeStatusItemFn }) => {
-    const newStatus = statusValues[item.status];
+    const newStatus = options.statusValues[item.status];
     changeStatusItemFn(
       item.id,
       newStatus,
