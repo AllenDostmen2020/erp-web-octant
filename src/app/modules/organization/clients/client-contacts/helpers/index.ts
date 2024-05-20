@@ -22,68 +22,101 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_CLIENT_CONTACT: FormInput[] = [
     selectFormInput({
         formControlName: 'document_type',
         textLabel: 'Tipo de documento',
-        data: signal(DOCUMENT_TYPES.filter((item)=> item != DocumentTypeEnum.RUC).map((item) => ({ name: item.toUpperCase(), id: item }))),
-        cssClass: 'col-span-6 @2xl:col-span-2',
+        data: signal(DOCUMENT_TYPES.filter((item) => item != DocumentTypeEnum.RUC).map((item) => ({ name: item.toUpperCase(), id: item }))),
+        columns: {
+            default: 2,
+            md: 3,
+            sm: 6
+        }
     }),
     textFormInput({
         formControlName: 'document_number',
         textLabel: 'Número de documento',
         placeholder: 'Ingrese el número de documento',
-        cssClass: 'col-span-6 @2xl:col-span-2',
         maxLength: 12,
         validationOnly: "numbers",
+        columns: {
+            default: 2,
+            md: 3,
+            sm: 6
+        }
     }),
     textFormInput({
         formControlName: 'name',
         textLabel: 'Nombre',
         placeholder: 'Ingrese el nombre',
-        cssClass: 'col-span-full @2xl:col-span-4',
-        validationOnly: 'letters'
+        validationOnly: 'letters',
+        columns: {
+            default: 4,
+            md: 6,
+            sm: 12
+        }
     }),
     textFormInput({
         formControlName: 'paternal_name',
         textLabel: 'Apellido paterno',
         placeholder: 'Ingrese el apellido',
-        cssClass: 'col-span-full @2xl:col-span-2',
-        validationOnly: 'letters'
+        validationOnly: 'letters',
+        columns: {
+            default: 2,
+            md: 6,
+        }
     }),
     textFormInput({
         formControlName: 'maternal_name',
         textLabel: 'Apellido materno',
         placeholder: 'Ingrese el apellido',
-        cssClass: 'col-span-full @2xl:col-span-2',
-        validationOnly: 'letters'
+        validationOnly: 'letters',
+        columns: {
+            default: 2,
+            md: 6,
+        }
     }),
     textFormInput({
         formControlName: 'phone',
         textLabel: 'Teléfono',
         placeholder: 'Ingrese el teléfono',
-        cssClass: 'col-span-full @2xl:col-span-4',
-        validationOnly: 'numbers'
+        validationOnly: 'numbers',
+        columns: {
+            default: 3,
+            md: 4,
+            sm: 6
+        }
     }),
     textFormInput({
         formControlName: 'cellphone',
         textLabel: 'Celular',
         placeholder: 'Ingrese el celular',
-        cssClass: 'col-span-full @2xl:col-span-4',
-        validationOnly: 'letters'
+        validationOnly: 'letters',
+        columns: {
+            default: 3,
+            md: 4,
+            sm: 6
+        }
     }),
     textFormInput({
         formControlName: 'email',
         textLabel: 'Correo electrónico',
         placeholder: 'Ingrese el correo electrónico',
-        cssClass: 'col-span-full @2xl:col-span-4',
+        columns: {
+            default: 6,
+            md: 4,
+            sm: 12
+        }
     }),
     textareaFormInput({
         formControlName: 'address',
         textLabel: 'Dirección',
         placeholder: 'Ingrese la dirección',
-        cssClass: 'col-span-full',
+        columns: {
+            default: 6,
+            md: 12,
+        }
     }),
     switchFormInput({
         formControlName: 'principal',
         textLabel: '¿Es contacto principal?',
         defaultValue: false,
-        cssClass: 'col-span-full',
+        columns: { default: 12 }
     }),
 ]
