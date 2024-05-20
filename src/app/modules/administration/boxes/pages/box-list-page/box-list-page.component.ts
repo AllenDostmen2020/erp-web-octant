@@ -104,43 +104,4 @@ export class BoxListPageComponent {
     public deleteForm = new FormGroup({
         comment: new FormControl('', [Validators.required]),
     });
-
-    get commentCtrl(): FormControl { return this.deleteForm.get('comment')! as FormControl; }
-    private confirmDialog(data: ConfirmDialogData): Promise<boolean> {
-        return new Promise((resolve) => {
-            const dialogRef = this.matDialog.open(ConfirmDialogTemplateComponent, { data });
-            dialogRef.afterClosed().subscribe((result) => resolve(result));
-        });
-    }
-
-    private async deleteBox(item: Box): Promise<Box | null> {
-        this.commentCtrl.reset('');
-        const dialogData: ConfirmDialogData = {
-            icon: 'error',
-            title: '¿Está seguro de eliminar la caja?',
-            description: '',
-            templateRef: this.deleteFormTemplate,
-            confirmButton: { disabled: true },
-        };
-        const subscribe = this.commentCtrl.valueChanges.subscribe(() => dialogData.confirmButton!.disabled = this.commentCtrl.invalid);
-        const confirm = await this.confirmDialog(dialogData);
-        subscribe.unsubscribe();
-        if (!confirm) return null;
-        const url = `delete-box/${item.id}`;
-        const body = {
-            delete_comment: this.commentCtrl.value
-        };
-        const request: RequestInitFetch = {
-            confirmDialog: false,
-            toast: {
-                loading: 'Eliminando...',
-                success: 'Caja eliminada',
-                error: (error) => error.error?.message ?? 'Error al eliminar caja',
-            }
-        };
-        const response = await this.fetch.put<Box>(url, body, request);
-        console.log(response);
-
-        return response;
-    }
 }
