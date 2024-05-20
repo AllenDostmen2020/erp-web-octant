@@ -378,7 +378,7 @@
   <ng-template matMenuContent let-item="item" let-index="index">
     @if (configuration.rows?.options; as options) {
     @for (bOption of options; track bOption) {
-      @if ((bOption.authRoles ?? [])| authRoles) {
+      @if (((bOption.authRoles ?? [])| authRoles) == true) {
         @if (!((bOption.hidden ?? false) | executeFunctionList:[item, index])) {
           @if (bOption.routerLink; as rLink) {
           @if (rLink.outlet == 'route-lateral') {

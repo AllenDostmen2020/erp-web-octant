@@ -8,7 +8,8 @@ import { AuthService } from '@service/auth.service';
 })
 export class AuthRolesPipe implements PipeTransform {
   private authService = inject(AuthService);
-  transform(roles: UserRoleEnum[], ...args: unknown[]): boolean {
+  transform(roles: UserRoleEnum[]): boolean {
+    if(!roles.length) return true;
     const userRole = this.authService.user()!.role!;
     return roles.includes(userRole);
   }
