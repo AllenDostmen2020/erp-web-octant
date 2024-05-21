@@ -17,7 +17,7 @@
   --text-color-chip: var(--color-on-primary-container);
 }
 
-.status-chip:where([title="emitida"], [title="por emitir"]) {
+.status-chip:where([title="emitida"]) {
   --bg-chip: var(--color-tertiary-container);
   --text-color-chip: var(--color-on-tertiary-container);
 }
