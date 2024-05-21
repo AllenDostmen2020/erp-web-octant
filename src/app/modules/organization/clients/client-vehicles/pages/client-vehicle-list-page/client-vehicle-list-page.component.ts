@@ -29,6 +29,7 @@ export class ClientVehicleListPageComponent {
                 sort: { key: 'plate' },
                 displayValueFn: (item) => `${item.plate} / ${item.vehicle_type?.name.toUpperCase()}`,
                 gridColumn: '1fr',
+                principal: true,
             }),
             htmlColumn({
                 title: 'Contrato',

@@ -99,7 +99,7 @@
 
 <ng-template #templateLink let-link>
     <div class="sidenav__drawer__nav__group__link">
-        <a class="text-button" [title]="link.label" [routerLink]="[link.route]" routerLinkActive="router-link-active"
+        <a class="text-button" (click)="showDrawer.set(false)" [title]="link.label" [routerLink]="[link.route]" routerLinkActive="router-link-active"
             [routerLinkActiveOptions]="{exact: link.exact ?? false}">
             <span class="material-icons">{{link.icon}}</span>
             <span class="label-large">{{link.label}}</span>

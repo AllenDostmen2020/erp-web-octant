@@ -44,11 +44,13 @@ export class ClientPaymentListPageComponent {
       textColumn({
         title: 'Cuenta',
         displayValueFn: (item) => item.client_box?.name,
+        principal: true,
       }),
       textColumn({
         title: 'Concepto',
         displayValueFn: (item) => item.concept,
         gridColumn: '1fr',
+        principal: true,
       }),
       dateColumn({
         title: 'F. Operación',

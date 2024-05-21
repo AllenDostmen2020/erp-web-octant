@@ -23,12 +23,13 @@ export class ClientContactListPageComponent {
         },
         columns: signal([
             textColumn({
-                title: 'Cliente / N° Documento',
+                title: 'Nombre / T. Documento',
                 sort: { key: 'name' },
                 routerLinkValue: { url: (item) => `../detail/${item.id}` },
                 gridColumn: '1fr',
                 displayValueFn: (item) => item?.name ? item.name : '--',
                 displayAdditionalValueFn: (item) => item?.document_number.length >= 11 ? 'RUC: ' + item?.document_number : item?.document_number.length == 8 ? 'DNI: ' + item?.document_number : 'OTRO: ' + item?.document_number,
+                principal: true,
             }),
             emailColumn({
                 title: 'Email',

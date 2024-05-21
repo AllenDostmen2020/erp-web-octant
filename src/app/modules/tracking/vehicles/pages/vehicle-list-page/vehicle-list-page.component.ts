@@ -27,6 +27,7 @@ export class VehicleListPageComponent {
                 routerLinkValue: { url: (item) => `../view/${item.id}` },
                 displayValueFn: (item) => `${item.plate} / ${item.vehicle_type?.name.toUpperCase()}`,
                 gridColumn: 'fit-content(250px)',
+                principal: true,
             }),
             textColumn({
                 title: 'Cliente',

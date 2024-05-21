@@ -46,13 +46,15 @@ export class BoxListPageComponent {
                 title: 'Código',
                 sort: { key: 'code' },
                 displayValueFn: (item) => item.code,
+                principal: true,
             }),
             textColumn({
                 title: 'Nombre',
                 sort: { key: 'name' },
                 routerLinkValue: { url: (item) => `../view/${item.id}` },
                 gridColumn: '1fr',
-                displayValueFn: (item) => item?.name ? item.name : '--',
+                displayValueFn: (item) => item.name,
+                principal: true
             }),
             firstLetterUppercaseColumn({
                 title: 'Tipo',

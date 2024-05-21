@@ -38,6 +38,7 @@ export class BoxOpeningListPageComponent {
                 title: 'Código',
                 sort: { key: 'code' },
                 displayValueFn: (item) => item.code,
+                principal: true,
             }),
             userColumn({
                 title: 'Usuario de apertura',

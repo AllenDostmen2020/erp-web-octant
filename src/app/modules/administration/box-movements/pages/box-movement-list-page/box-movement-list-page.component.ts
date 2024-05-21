@@ -95,12 +95,14 @@ export class BoxMovementListPageComponent {
         title: 'Código',
         sort: { key: 'code' },
         displayValueFn: (item) => item.code,
+        principal: true,
       }),
       textColumn({
         title: 'Caja',
         displayValueFn: (item) => item.box_opening?.box?.name ?? '--',
         displayAdditionalValueFn: (item) => `${item.box_opening?.box?.account?.bank?.name.toUpperCase() ?? ''} - ${item.box_opening?.box?.account?.name ?? ''}`,
         cssClass: (item) => item.box_opening?.box?.deleted_at ? 'item-deleted' : '',
+        principal: true,
       }),
       textColumn({
         title: 'Concepto',
