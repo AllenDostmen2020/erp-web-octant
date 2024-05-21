@@ -19,28 +19,42 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_ACCOUNT: FormInput[] = [
         autocompleteFormControlName: 'bank',
         textLabel: 'Banco',
         local: { nameModuleDatabase: NameModuleDatabase.Banks },
-        cssClass: 'col-span-6 @2xl:col-span-2',
+        columns: {
+            default: 2,
+            md: 4,
+            sm: 6
+        }
     }),
     textFormInput({
         formControlName: 'name',
         textLabel: 'Nombre',
-        cssClass: 'col-span-full @2xl:col-span-6',
+        columns: {
+            default: 6,
+            md: 8,
+            sm: 6
+        }
     }),
     textFormInput({
         formControlName: 'number',
         textLabel: 'N° de cuenta',
-        cssClass: 'col-span-6 @2xl:col-span-2',
-        validationOnly: 'numbers'
+        validationOnly: 'numbers',
+        columns: {
+            default: 2,
+            md: 6
+        }
     }),
     selectFormInput({
         formControlName: 'coin',
         textLabel: 'Moneda',
         data: signal(COIN.map((item) => ({ name: item.toUpperCase(), id: item }))),
-        cssClass: 'col-span-full @2xl:col-span-2',
+        columns: {
+            default: 2,
+            md: 6
+        }
     }),
     textareaFormInput({
         formControlName: 'description',
         textLabel: 'Descripción',
-        cssClass: 'col-span-full'
+        columns: { default: 12 }
     })
 ];
