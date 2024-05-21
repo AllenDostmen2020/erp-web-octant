@@ -198,7 +198,7 @@
   transform: translateX(4px);
   z-index: 1 !important;
   position: absolute !important;
-  left: 16px;
+  left: 12px;
 }
 
 .sidenav__content__header__logo {
@@ -437,9 +437,9 @@
     display: none !important;
   }
 
-  .sidenav__content__header__nav {
-    padding-right: 4px;
-  }
+  // .sidenav__content__header__nav {
+  //   padding-right: 4px;
+  // }
 
   .sidenav__content__mobile-menu-button {
     display: flex !important;
@@ -447,7 +447,7 @@
 
   .sidenav__content__header__nav {
     position: absolute;
-    right: 16px;
+    right: 12px;
     gap: 0 !important;
   }
 
