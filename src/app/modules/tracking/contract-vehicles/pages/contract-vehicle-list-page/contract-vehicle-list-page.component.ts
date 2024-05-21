@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, WritableSignal, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ItemListConfiguration, ItemListTemplateComponent, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, routerLinkActionButton, textColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ItemListConfiguration, ItemListTemplateComponent, clickEventActionButton, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, routerLinkActionButton, textColumn, viewItemActionButton } from '@component/item-list-template/item-list-template.component';
 import { SpinnerDefaultComponent } from '@component/spinner-default/spinner-default.component';
 import { ContractPlan } from '@interface/contractPlan';
 import { ContractPlanVehicle } from '@interface/contractPlanVehicle';
@@ -19,6 +19,7 @@ import { FetchService } from '@service/fetch.service';
 export class ContractVehicleListPageComponent {
     private fetch = inject(FetchService);
     private activatedRoute = inject(ActivatedRoute);
+    private router = inject(Router);
     public contractPlans = signal<ContractPlan[]>([]);
     public contractPlanIdActive = signal<null | number>(null)
     public configurationList: ItemListConfiguration<ContractPlanVehicle> = {
@@ -67,11 +68,11 @@ export class ContractVehicleListPageComponent {
         ]),
         rows: {
             options: [
-                routerLinkActionButton({
-                    icon: 'visibility',
-                    text: 'Ver',
-                    routerLink: { url: (item) => `../view/${item.vehicle?.id}` },
-                })
+                clickEventActionButton({
+                    icon: 'post_add',
+                    text: 'Detalles',
+                    fn: (item) => this.router.navigate([{ outlets: { 'route-lateral': `tracking/vehicle/detail/${item.vehicle_id}` } }]),
+                  }),
             ]
         }
     };

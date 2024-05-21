@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ItemListConfiguration, ItemListTemplateComponent, htmlColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, listFormatColumn, textColumn } from '@component/item-list-template/item-list-template.component';
+import { ItemListConfiguration, ItemListTemplateComponent, clickEventActionButton, htmlColumn, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, listFormatColumn, textColumn } from '@component/item-list-template/item-list-template.component';
 import { StatusModel } from '@interface/baseModel';
 import { Vehicle } from '@interface/vehicle';
 
@@ -54,5 +54,16 @@ export class ClientVehicleListPageComponent {
             itemStatusColumn(),
         ]),
         createButton: false,
+        rows:{
+            options: [
+                clickEventActionButton({
+                    icon: 'visibility',
+                    text: 'ver',
+                    style: 'outlined-icon-button',
+                    fn: (item) => this.router.navigate([`./tracking/vehicle/view/${item.id}`]),
+
+                })
+            ]
+        }
     }
 }

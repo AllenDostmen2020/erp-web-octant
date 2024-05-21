@@ -47,9 +47,18 @@ const administrationLateralPanelRouting: Routes = [
     },
 ]
 
+const trackingLateralPanelRouting: Routes = [
+    {
+        path: 'tracking/vehicle/detail/:id',
+        loadComponent: () => import('./modules/tracking/contract-vehicles/pages/contract-vehicle-detail-page/contract-vehicle-detail-page.component').then(m => m.ContractVehicleDetailPageComponent),
+        outlet: 'route-lateral',
+    },
+]
+
 
 export const lateralPanelRouting: Routes = [
     ...clientLateralPanelRouting,
     ...movementLateralPanelRouting,
-    ...administrationLateralPanelRouting
+    ...administrationLateralPanelRouting,
+    ...trackingLateralPanelRouting,
 ]

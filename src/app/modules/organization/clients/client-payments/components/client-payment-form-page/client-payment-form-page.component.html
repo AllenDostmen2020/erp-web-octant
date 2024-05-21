@@ -1,18 +1,18 @@
 <div [formGroup]="form" class="form__content__inputs">
     <div [formGroup]="boxMovementFormGroup" class="contents">
-        <app-input-select-template class="col-span-full @2xl:col-span-3"
+        <app-input-select-template class="form__input" data-column="4" data-md-column="4" data-sm-column="6"
             [configuration]="clientBoxSelectServerConfiguration" [control]="clientBoxIdCtrl" />
 
-        <app-input-autocomplete-template class="col-span-6 @2xl:col-span-3" [idControl]="boxOpeningIdCtrl"
-            [configuration]="boxOpeningLocalConfiguration" />
+        <app-input-autocomplete-template class="form__input" data-column="4" data-md-column="4" data-sm-column="6"
+        [idControl]="boxOpeningIdCtrl" [configuration]="boxOpeningLocalConfiguration" />
 
-        <mat-form-field class="col-span-3 @2xl:col-span-2">
+        <mat-form-field class="form__input" data-column="2" data-md-column="4" data-sm-column="6">
             <mat-label>Monto</mat-label>
             <input matInput type="number" formControlName="amount" [min]="0" placeholder="Monto">
             <mat-error>Campo requerido</mat-error>
         </mat-form-field>
 
-        <mat-form-field class="col-span-6 @2xl:col-span-2">
+        <mat-form-field class="form__input" data-column="2" data-md-column="3" data-sm-column="6">
             <mat-label>F. de la operación</mat-label>
             <input matInput placeholder="Fecha de la operación" formControlName="payment_date" required
                 [matDatepicker]="picker">
@@ -21,18 +21,19 @@
             <mat-error>Campo requerido</mat-error>
         </mat-form-field>
 
-        <app-input-select-template class="relative col-span-6 @2xl:col-span-2" [control]="paymentTypeCtrl"
-            [configuration]="paymentTypeSelectConfiguration" />
+        <app-input-select-template class="form__input" data-column="2" data-md-column="3" data-sm-column="12"
+        [control]="paymentTypeCtrl" [configuration]="paymentTypeSelectConfiguration" />
 
         @if (paymentTypeCtrl.value =='transferencia' || paymentTypeCtrl.value =='depósito') {
-        <app-input-select-template class="col-span-6 @2xl:col-span-3" [control]="bankIdCtrl"
-            [configuration]="bankAutocompleteLocalConfiguration" />
+        <app-input-select-template class="form__input" data-column="2" data-md-column="3" data-sm-column="6"
+        [control]="bankIdCtrl" [configuration]="bankAutocompleteLocalConfiguration" />
         }
 
         @if (paymentTypeCtrl.value !='efectivo' && paymentTypeCtrl.value) {
-        <mat-form-field class="col-span-3 @2xl:col-span-3">
+        <mat-form-field class="form__input" data-column="2" data-md-column="3" data-sm-column="6">
             <mat-label>Código de la operación</mat-label>
-            <input matInput appNumbersOnly type="text" formControlName="operation_code" placeholder="Código de la operación">
+            <input matInput appNumbersOnly type="text" formControlName="operation_code"
+                placeholder="Código de la operación">
             <mat-error>Campo requerido</mat-error>
         </mat-form-field>
         }
@@ -44,7 +45,7 @@
             <mat-error>Campo requerido</mat-error>
         </mat-form-field>
         } -->
-        <mat-form-field class="col-span-full">
+        <mat-form-field class="form__input" data-column="12">
             <mat-label>Observación</mat-label>
             <textarea matInput type="text" formControlName="observation" rows="1"></textarea>
             <mat-error>Campo requerido</mat-error>

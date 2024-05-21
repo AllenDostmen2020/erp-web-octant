@@ -21,52 +21,82 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_USER: FormInput[] = [
         formControlName: 'role',
         textLabel: 'Tipo de rol',
         data: signal(USER_ROLES.map((item) => ({ name: item.toUpperCase(), id: item }))),
-        cssClass: 'col-span-6 @2xl:col-span-2',
+        columns: {
+            default: 2,
+            md: 4,
+            sm: 6
+        }
     }),
     selectFormInput({
         formControlName: 'document_type',
         textLabel: 'Tipo de documento',
         data: signal(DOCUMENT_TYPES.map((item) => ({ name: item.toUpperCase(), id: item }))),
-        cssClass: 'col-span-6 @2xl:col-span-2',
+        columns: {
+            default: 2,
+            md: 4,
+            sm: 6
+        }
     }),
     textFormInput({
         formControlName: 'document_number',
         textLabel: 'Número de documento',
-        cssClass: 'col-span-6 @2xl:col-span-2',
         validationOnly: "numbers",
-        maxLength: 12
+        maxLength: 12,
+        columns: {
+            default: 2,
+            md: 4,
+            sm: 6
+        }
     }),
     textFormInput({
         formControlName: 'name',
         textLabel: 'Nombre',
-        cssClass: 'col-span-full @2xl:col-span-6',
-        validationOnly: 'letters'
+        validationOnly: 'letters',
+        columns: {
+            default: 6,
+        }
     }),
     textFormInput({
         formControlName: 'phone',
         textLabel: 'Teléfono',
-        cssClass: 'col-span-full @2xl:col-span-2',
-        validationOnly: 'numbers'
+        validationOnly: 'numbers',
+        columns: {
+            default: 2,
+            md: 3,
+            sm: 6
+        }
     }),
     textFormInput({
         formControlName: 'cellphone',
         textLabel: 'Celular',
-        cssClass: 'col-span-full @2xl:col-span-2',
-        validationOnly: 'numbers'
+        validationOnly: 'numbers',
+        columns: {
+            default: 2,
+            md: 3,
+            sm: 6
+        }
     }),
     dateFormInput({
         formControlName: 'birth_date',
         textLabel: 'Fecha de nacimiento',
-        cssClass: 'col-span-full @2xl:col-span-2',
+        columns: {
+            default: 2,
+            md: 4,
+            sm: 6
+        }
     }),
     textFormInput({
         formControlName: 'email',
         textLabel: 'Correo electrónico',
-        cssClass: 'col-span-full @2xl:col-span-6',
+        columns: {
+            default: 6,
+            md: 8,
+            sm: 6
+        }
     }),
     textareaFormInput({
         formControlName: 'address',
         textLabel: 'Dirección',
-        cssClass: 'col-span-full'
+        columns: { default: 12 }
     })
 ];
