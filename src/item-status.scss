@@ -22,7 +22,7 @@
   --text-color-chip: var(--color-on-tertiary-container);
 }
 
-.status-chip:where([title="anulado"], [title="inactivo"], [title="inactiva"], [title="desactivado"], [title="expirado"], [title="eliminado"], [title="anulada"]) {
+.status-chip:where([title="anulado"], [title="inactivo"], [title="deshabilitado"], [title="inactiva"], [title="desactivado"], [title="expirado"], [title="eliminado"], [title="anulada"]) {
   --bg-chip: var(--color-error-container);
   --text-color-chip: var(--color-on-error-container);
 }
