@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { autocompleteServerFormInput } from '@component/item-form-template/item-form-template.component';
-import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn, viewItemActionButton, defaultListFilterInputs } from '@component/item-list-template/item-list-template.component';
+import { ItemListTemplateComponent, ItemListConfiguration, itemCreatedAtColumn, itemStatusColumn, itemUpdatedAtColumn, textColumn, viewItemActionButton, defaultListFilterInputs, routerLinkActionButton } from '@component/item-list-template/item-list-template.component';
 import { Contract } from '@interface/contract';
 import { Vehicle } from '@interface/vehicle';
 
@@ -66,7 +66,11 @@ export class VehicleListPageComponent {
         createButton: false,
         rows: {
             options: [
-                viewItemActionButton()
+                routerLinkActionButton({
+                    text: 'Ver detalle',
+                    icon: 'visibility',
+                    routerLink: { url: (item) => `../view/${item.id}` },
+                }),
             ]
         },
         filter: {
