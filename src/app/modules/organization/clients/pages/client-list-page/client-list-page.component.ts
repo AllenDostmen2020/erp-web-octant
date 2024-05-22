@@ -65,12 +65,12 @@ export class ClientListPageComponent {
                     formControlNameTo: 'updated_at_to',
                 }),
                 switchFormInput({
-                    textLabel: 'Incluir registros inactivos',
-                    formControlName: 'inactive',
+                    textLabel: 'Incluir registros eliminados',
+                    formControlName: 'trashed',
                 }),
                 switchFormInput({
-                    textLabel: 'Solo registros inactivos',
-                    formControlName: 'only_inactive',
+                    textLabel: 'Solo registros eliminados',
+                    formControlName: 'only_trashed',
                 }),
             ])
         },
