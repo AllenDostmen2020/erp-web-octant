@@ -60,7 +60,7 @@ export class ClientVehicleListPageComponent {
                     icon: 'visibility',
                     text: 'ver',
                     style: 'outlined-icon-button',
-                    fn: (item) => this.router.navigate([`./tracking/vehicle/view/${item.id}`]),
+                    fn: (item) => this.router.navigate([`/tracking/vehicle/view/${item.id}`]),
 
                 })
             ]
