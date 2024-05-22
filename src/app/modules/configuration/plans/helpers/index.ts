@@ -14,22 +14,31 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_PLAN: FormInput[] = [
     textFormInput({
         formControlName: 'name',
         textLabel: 'Nombre',
-        cssClass: 'col-span-full @2xl:col-span-6',
+        columns: {
+            default: 6,
+            sm: 12
+        }
     }),
     selectFormInput({
         formControlName: 'coin',
         textLabel: 'Moneda',
         data: signal(COIN.map((item) => ({ name: item.toUpperCase(), id: item }))),
-        cssClass: 'col-span-6 @2xl:col-span-3',
+        columns: {
+            default: 3,
+            sm: 6
+        }
     }),
     numberFormInput({
         formControlName: 'price',
         textLabel: 'Precio',
-        cssClass: 'col-span-6 @2xl:col-span-3',
+        columns: {
+            default: 3,
+            sm: 6
+        }
     }),
     textareaFormInput({
         formControlName: 'description',
         textLabel: 'Descripción',
-        cssClass: 'col-span-full'
+        columns: { default: 3 }
     })
 ];

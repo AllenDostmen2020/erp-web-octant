@@ -11,17 +11,17 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_VEHICLE_TYPE: FormInput[] = [
     textFormInput({
         formControlName: 'name',
         textLabel: 'Nombre',
-        cssClass: 'col-span-full',
+        columns: { default: 12 }
     }),
     textareaFormInput({
         formControlName: 'description',
         textLabel: 'Descripción',
-        cssClass: 'col-span-full'
+        columns: { default: 12 }
     }),
     fileFormInput({
         formControlName: 'image',
         textLabel: 'Imagen',
-        cssClass: 'col-span-full',
+        columns: { default: 12 },
         acceptFiles: 'image/*',
     }),
 ];

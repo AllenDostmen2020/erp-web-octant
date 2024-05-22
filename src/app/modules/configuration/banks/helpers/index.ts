@@ -11,16 +11,22 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_BANK: FormInput[] = [
     textFormInput({
         formControlName: 'code',
         textLabel: 'Código',
-        cssClass: 'col-span-6 @2xl:col-span-3',
+        columns: {
+            default: 3,
+            sm: 6
+        }
     }),
     textFormInput({
         formControlName: 'name',
         textLabel: 'Nombre',
-        cssClass: 'col-span-full @2xl:col-span-9',
+        columns: {
+            default: 9,
+            sm: 6
+        }
     }),
     textareaFormInput({
         formControlName: 'description',
         textLabel: 'Descripción',
-        cssClass: 'col-span-full'
+        columns: { default: 12 }
     })
 ];

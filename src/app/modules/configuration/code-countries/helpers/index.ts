@@ -10,11 +10,17 @@ export const DEFAULT_DISPLAY_FIELDS_FORM_CODE_COUNTRY: FormInput[] = [
     textFormInput({
         formControlName: 'code',
         textLabel: 'Código',
-        cssClass: 'col-span-6 @2xl:col-span-3',
+        columns: {
+            default: 3,
+            sm: 6
+        }
     }),
     textFormInput({
         formControlName: 'country',
-        textLabel: 'País',
-        cssClass: 'col-span-full @2xl:col-span-9',
+        textLabel: 'País',        
+        columns: {
+            default: 9,
+            sm: 6
+        }
     }),
 ];
