@@ -1115,14 +1115,6 @@ export const defaultListFilterInputs = (): FormInput[] => [
     formControlNameFrom: 'updated_at_from',
     formControlNameTo: 'updated_at_to',
   }),
-  // switchFormInput({
-  //   textLabel: 'Incluir registros inactivos',
-  //   formControlName: 'inactive',
-  // }),
-  // switchFormInput({
-  //   textLabel: 'Solo registros inactivos',
-  //   formControlName: 'only_inactive',
-  // }),
 ];
 
 export const deleteItemActionButton = () => clickEventActionButton({
@@ -1137,7 +1129,7 @@ export const restoreItemActionButton = () => clickEventActionButton({
   text: 'Restaurar',
   fn: async ({ id }, _, { restoreItemFn }) => restoreItemFn(id),
   hidden: (item) => !item.deleted_at,
-})
+});
 
 export const changeStatusItemActionButton = <T = any>(
   options: {
