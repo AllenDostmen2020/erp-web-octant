@@ -1,0 +1,42 @@
+.container-comparation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.formulario {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 8px;
+    align-content: flex-start;
+}
+
+.container-comparation>section .item {
+    font-weight: 500;
+}
+
+.container-comparation>section .item.equal {
+    color: var(--color-primary);
+}
+
+.container-comparation>section .item.diferent {
+    color: var(--color-error);
+}
+
+
+.container-comparation>section:first-of-type {
+    text-align: right;
+}
+
+.container-comparation>section:last-of-type {
+    text-align: left;
+}
+
+
+.container-comparation>section:first-of-type .item.diferent {
+    padding-right: 20px;
+}
+.container-comparation>section:last-of-type .item.diferent {
+    padding-left: 20px;
+}

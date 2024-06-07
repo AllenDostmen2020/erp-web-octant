@@ -7,6 +7,10 @@ export const vehicleRoutes: Routes = [
         loadComponent: () => import('./pages/vehicle-list-page/vehicle-list-page.component').then(m => m.VehicleListPageComponent),
     },
     {
+        path: 'comparator',
+        loadComponent: () => import('./pages/vehicle-comparation-page/vehicle-comparation-page.component').then(m => m.VehicleComparationPageComponent),
+    },
+    {
         path: 'create',
         loadComponent: () => import('./pages/vehicle-create-page/vehicle-create-page.component').then(m => m.VehicleCreatePageComponent),
     },

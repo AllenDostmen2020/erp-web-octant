@@ -1,0 +1,49 @@
+<app-item-detail-template [configuration]="configuration">
+
+    
+    <div class="container-comparation" ngProjectAs="beforeContent">
+
+        <form class="formulario" [formGroup]="form" (ngSubmit)="comparator()">
+            <mat-form-field>
+                <mat-label>Placas</mat-label>
+                <textarea matInput formControlName="plates_compare" placeholder='Ej: KTM-001,KTM-002,KTM-003'></textarea>
+                <mat-error>Campo requerido</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>ID de factura</mat-label>
+                <input matInput formControlName="document_id" />
+                <mat-error>Campo requerido</mat-error>
+            </mat-form-field>
+
+            <button class="filled-button" type="submit">Iniciar comparación</button>
+        </form>
+
+        <section>
+            @for (item of listEquals1(); track $index) {
+                <div class="item equal">
+                    {{item}}
+                </div>
+            }
+            @for (item of listDifferences1(); track $index) {
+                <div class="item diferent">
+                    {{item}}
+                </div>
+            }
+        </section>
+
+        <section>
+            @for (item of listEquals2(); track $index) {
+                <div class="item equal">
+                    {{item}}
+                </div>
+            }
+            @for (item of listDifferences2(); track $index) {
+                <div class="item diferent">
+                    {{item}}
+                </div>
+            }
+        </section>
+
+    </div>
+</app-item-detail-template>
