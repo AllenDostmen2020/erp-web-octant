@@ -1,23 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, WritableSignal, inject, signal } from '@angular/core';
 import { ItemDetailTemplateComponent, registerDataGroupDetail } from '@component/item-detail-template/item-detail-template.component';
 import { Contract } from '@interface/contract';
 import { ItemDetailConfiguration } from '@component/item-detail-template/item-detail-template.component';
+import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-template/alert-template.component';
+import { StatusModel } from '@interface/baseModel';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-client-contract-detail-page',
     standalone: true,
-    imports: [ItemDetailTemplateComponent],
+    imports: [ItemDetailTemplateComponent, AlertTemplateComponent],
     templateUrl: './client-contract-detail-page.component.html',
     styleUrl: './client-contract-detail-page.component.scss'
 })
 export class ClientContractDetailPageComponent {
+    private activatedRoute = inject(ActivatedRoute);
+    private router = inject(Router);
+    public alertConfiguration: WritableSignal<null | AlertConfiguration> = signal(null);
     public configuration: ItemDetailConfiguration<Contract> = {
         title: 'Detalles',
         subtitle: false,
+        editButton: false,
+        deleteButton: false,
         server: {
             url: 'contract',
             queryParams: {
-                relations: 'plan,clientBusinessUnit'
+                relations: 'clientBusinessUnit,contractPlans.plan'
             },
         },
         backButton: false,
@@ -33,10 +41,6 @@ export class ClientContractDetailPageComponent {
                     {
                         title: 'Unidad de negocio',
                         displayValueFn: (item) => item.client_business_unit?.name
-                    },
-                    {
-                        title: 'Plan',
-                        displayValueFn: (item) => item.plan?.name
                     },
                     {
                         title: 'Fecha de instalación',
@@ -55,11 +59,15 @@ export class ClientContractDetailPageComponent {
                     },
                     {
                         title: 'Periodo',
-                        displayValueFn: (item) => item.period
+                        displayValueFn: (item) => `${item.period} Meses`
                     },
                     {
                         title: 'Cantidad',
                         displayValueFn: (item) => item.quantity,
+                    },
+                    {
+                        title: 'Recurrente',
+                        displayValueFn: (item) => item.recurrent_type.toUpperCase(),
                     },
                     {
                         title: 'Precio de compra',
@@ -77,12 +85,35 @@ export class ClientContractDetailPageComponent {
                         type: 'currency',
                     },
                     {
-                        title: 'Recurrente de pago',
-                        displayValueFn: (item) => item.recurrent_type.toUpperCase(),
+                        title: 'N° de vehículos',
+                        displayValueFn: (item) => item.contract_plans?.reduce((previousValue, item) => previousValue + Number(item.quantity), 0),
+                    },
+                    {
+                        title: 'Planes',
+                        type: 'html',
+                        displayValueFn: (item) => item.contract_plans?.map((contractPlan) => `${contractPlan.plan?.name} (${contractPlan.quantity})`).join(', ')
                     },
                 ]
             },
             registerDataGroupDetail(),
-        ]
+        ],
+        afterSetItemFn: (item) => {
+            if (item.status == StatusModel.Expirado) {
+                this.alertConfigurationMessage();
+            }
+        }
+    }
+
+    private async alertConfigurationMessage() {
+        this.alertConfiguration!.set({
+            icon: 'warning',
+            title: 'Este contrato ya expiró',
+            description: `¿Desea renovar el contrato?`,
+            actionButton: {
+                icon: 'event_repeat',
+                text: 'Renovar',
+                fn: () => this.router.navigate([`../renew`], { relativeTo: this.activatedRoute })
+            }
+        });
     }
 }
