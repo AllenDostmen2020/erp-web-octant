@@ -100,7 +100,7 @@ export class SidenavComponent {
     ngOnInit(): void {
         this.getValidatedLinks(DRAWER_LINKS, this.user()!.role);
         this.watchSearchCtrl();
-        this.loadConfigurations();
+        this.databaseStorageService.deleteDatabase();
     }
 
     private async getValidatedLinks(links: GroupDrawerLink[], role: UserRoleEnum): Promise<void> {
@@ -180,18 +180,6 @@ export class SidenavComponent {
 
     public enterSearch(): void {
         this.eventService.emitEvent<EventGlobalSearch>(NAME_EVENT_GLOBAL_SEARCH, { type: 'enter', value: this.searchCtrl.value });
-    }
-
-
-    private async loadConfigurations() {
-        await Promise.allSettled([
-            this.databaseStorageService.getData(NameModuleDatabase.Users),
-            this.databaseStorageService.getData(NameModuleDatabase.Banks),
-            // this.databaseStorageService.getData(NameModuleDatabase.Taxes),
-            // this.databaseStorageService.getData(NameModuleDatabase.DocumentTypes),
-            this.databaseStorageService.getData(NameModuleDatabase.Plans),
-            this.databaseStorageService.getData(NameModuleDatabase.VehicleTypes),
-        ])
     }
 
 }
