@@ -5,17 +5,20 @@ import { ItemDetailConfiguration } from '@component/item-detail-template/item-de
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertConfiguration, AlertTemplateComponent } from '@component/alert-template/alert-template.component';
 import { StatusModel } from '@interface/baseModel';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
     selector: 'app-contract-detail-page',
     standalone: true,
     imports: [ItemDetailTemplateComponent, AlertTemplateComponent],
     templateUrl: './contract-detail-page.component.html',
-    styleUrl: './contract-detail-page.component.scss'
+    styleUrl: './contract-detail-page.component.scss',
+    providers: [DecimalPipe],
 })
 export class ContractDetailPageComponent {
     private activatedRoute = inject(ActivatedRoute);
     private router = inject(Router);
+    private decimalPipe = inject(DecimalPipe);
     public alertConfiguration: WritableSignal<null | AlertConfiguration> = signal(null);
     public configuration: ItemDetailConfiguration<Contract> = {
         title: 'Detalles',
@@ -91,11 +94,15 @@ export class ContractDetailPageComponent {
                     {
                         title: 'N° de vehículos',
                         displayValueFn: (item) => item.contract_plans?.reduce((previousValue, item) => previousValue + Number(item.quantity), 0),
+                        type: 'number',
+                        numberFormat: '2.0-0',
                     },
                     {
                         title: 'Planes',
                         type: 'html',
-                        displayValueFn: (item) => item.contract_plans?.map((contractPlan) => `${contractPlan.plan?.name} (${contractPlan.quantity})`).join(', ')
+                        displayValueFn: (item) => item.contract_plans?.map(
+                            (contractPlan) => `${contractPlan.plan?.name} - ${this.decimalPipe.transform(contractPlan.quantity, '2.0-0')} unidades [S/${this.decimalPipe.transform(contractPlan.sale_price, '.2-2')}]`
+                        ).join(', ')
                     },
                 ]
             },

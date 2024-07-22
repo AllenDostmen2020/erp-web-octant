@@ -68,7 +68,7 @@ export const contractColumnsList = () => [
         displayValueFn: (item) => item.client?.name,
         displayAdditionalValueFn: (item) => item.client_business_unit?.name,
         gridColumn: '1fr',
-        routerLinkValue: { url: (item) => `/organization/client/view/${item.client?.id}` },
+        // routerLinkValue: { url: (item) => `/organization/client/view/${item.client?.id}` },
         principal: true,
     }),
     uppercaseColumn<Contract>({
